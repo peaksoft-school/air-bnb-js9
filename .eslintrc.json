@@ -23,6 +23,7 @@
       "react-hooks/exhaustive-deps": "off",
       "react-hooks/rules-of-hooks": "error",
       "react/function-component-definition": "off",
+      "import/no-extraneous-dependencies": "off",
       "max-len": [
          "error",
          {
@@ -40,6 +41,7 @@
                "some": ["nesting", "id"]
             }
          }
-      ]
+      ],
+      "react/prop-types": "off"
    }
 }
