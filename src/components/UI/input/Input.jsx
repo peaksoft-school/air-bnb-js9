@@ -1,10 +1,11 @@
 import { OutlinedInput, styled } from '@mui/material'
 import React, { forwardRef } from 'react'
 
-export const Input = forwardRef(({ placeholder, width, height, type }) => {
+export const Input = forwardRef(({ placeholder, width, height, type }, ref) => {
    return (
       <div>
          <StyledInput
+            ref={ref}
             placeholder={placeholder || 'введите что-нибудь'}
             width={width}
             height={height}
