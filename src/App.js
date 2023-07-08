@@ -1,5 +1,11 @@
+import { Snackbar } from './components/UI/snackbar/Snackbar'
+
 function App() {
-   return <div>AirBnB</div>
+   return (
+      <div>
+         <Snackbar />
+      </div>
+   )
 }
 
 export default App

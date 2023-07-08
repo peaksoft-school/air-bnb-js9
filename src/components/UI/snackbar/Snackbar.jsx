@@ -1,10 +1,10 @@
+import { styled } from '@mui/material'
 import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import styled from 'styled-components'
 
 export const Snackbar = () => {
-   const [state, setState] = useState(true)
+   const [state, setState] = useState(false)
 
    const addNotification = () => {
       if (state) {
@@ -12,7 +12,7 @@ export const Snackbar = () => {
             <Toast>
                <h3>Booked :)</h3>
                <p>
-                  The house was successfully booked{' '}
+                  The house was successfully booked
                   {/* Бул жакка children келет */}
                </p>
             </Toast>
@@ -30,7 +30,7 @@ export const Snackbar = () => {
             </Toast>
          )
       }
-      setState(true)
+      setState(false)
    }
 
    return (
@@ -66,24 +66,24 @@ export const Snackbar = () => {
    )
 }
 
-const Toast = styled.div`
-   display: flex;
-   flex-direction: column;
-   gap: 8px;
-   h3 {
-      color: #000;
-      font-family: Inter;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: normal;
-   }
-   p {
-      color: #646464;
-      font-family: Inter;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-   }
-`
+const Toast = styled('div')(() => ({
+   display: 'flex',
+   flexDirection: 'column',
+   gap: '8px',
+   h3: {
+      color: '#000',
+      fontFamily: 'Inter',
+      fontSize: '16px',
+      fontStyle: 'normal',
+      fontWeight: '500',
+      lineHeight: 'normal',
+   },
+   p: {
+      color: '#646464',
+      fontFamily: 'Inter',
+      fontSize: '14px',
+      fontStyle: 'normal',
+      fontWeight: '400',
+      lineHeight: 'normal',
+   },
+}))
