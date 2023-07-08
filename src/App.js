@@ -1,5 +1,5 @@
 function App() {
-   return <div>Airbnb</div>
+   return <div>AirBnB</div>
 }
 
 export default App

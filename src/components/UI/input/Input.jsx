@@ -1,7 +1,7 @@
 import { OutlinedInput, styled } from '@mui/material'
-import React from 'react'
+import React, { forwardRef } from 'react'
 
-export const Input = ({ placeholder, width, height, type }) => {
+export const Input = forwardRef(({ placeholder, width, height, type }) => {
    return (
       <div>
          <StyledInput
@@ -12,7 +12,7 @@ export const Input = ({ placeholder, width, height, type }) => {
          />
       </div>
    )
-}
+})
 
 const StyledInput = styled(OutlinedInput)((props) => ({
    width: props.width || '40%',
