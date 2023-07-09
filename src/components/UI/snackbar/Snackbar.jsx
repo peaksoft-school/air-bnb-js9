@@ -1,75 +1,29 @@
+import React from 'react'
 import { styled } from '@mui/material'
-import React, { useState } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-export const Snackbar = () => {
-   const [state, setState] = useState(false)
-
-   const addNotification = () => {
-      if (state) {
-         toast.success(
-            <Toast>
-               <h3>Booked :)</h3>
-               <p>
-                  The house was successfully booked
-                  {/* Бул жакка children келет */}
-               </p>
-            </Toast>
-         )
-      } else {
-         toast.error(
-            <Toast>
-               <h3>Uh oh! Something went wrong :( </h3>
-               <p>
-                  We either find anything matching your search or have
-                  encountered an error. If searching for a unique location, try
-                  searching again with more common keywords.
-                  {/* Бул жакка children келет */}
-               </p>
-            </Toast>
-         )
-      }
-      setState(false)
-   }
-
-   return (
-      <>
-         <button onClick={addNotification} type="submit">
-            Add notificaiton
-         </button>
-
-         {state ? (
-            <ToastContainer
-               position="top-right"
-               autoClose={1500}
-               toastStyle={{
-                  width: '550px',
-                  borderRadius: '10px',
-                  backgroundColor: '#F0FFF1',
-                  right: '240px',
-               }}
-            />
-         ) : (
-            <ToastContainer
-               position="top-right"
-               autoClose={1500}
-               toastStyle={{
-                  width: '550px',
-                  borderRadius: '10px',
-                  backgroundColor: '#FFF1F0',
-                  right: '240px',
-               }}
-            />
-         )}
-      </>
+export const ShowSnackbar = ({ message, additionalMessage, severity }) => {
+   toast[severity](
+      <StyledCustomToast severity={severity}>
+         <h3>{message}</h3>
+         <p>{additionalMessage}</p>
+      </StyledCustomToast>
    )
+
+   return <StyledToastContainer severity={severity} />
 }
 
-const Toast = styled('div')(() => ({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '8px',
+const StyledToastContainer = styled(ToastContainer)(({ severity }) => ({
+   paddingRight: '510px',
+   '& .Toastify__toast': {
+      backgroundColor: severity === 'success' ? '#F0FFF1' : '#FFF1F0',
+      width: '500px',
+      height: '100px',
+   },
+}))
+
+const StyledCustomToast = styled('div')(() => ({
    h3: {
       color: '#000',
       fontFamily: 'Inter',
@@ -79,7 +33,7 @@ const Toast = styled('div')(() => ({
       lineHeight: 'normal',
    },
    p: {
-      color: '#646464',
+      color: ' var(--tertiary-dark-gray, #646464)',
       fontFamily: 'Inter',
       fontSize: '14px',
       fontStyle: 'normal',

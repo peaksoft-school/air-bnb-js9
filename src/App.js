@@ -1,11 +1,7 @@
-import { Snackbar } from './components/UI/snackbar/Snackbar'
+import React from 'react'
 
-function App() {
-   return (
-      <div>
-         <Snackbar />
-      </div>
-   )
+const App = () => {
+   return <div />
 }
 
 export default App
