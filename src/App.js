@@ -1,5 +1,11 @@
+import { Header } from './layout/Header/Header'
+
 function App() {
-   return <div>AirBnB</div>
+   return (
+      <div>
+         <Header />
+      </div>
+   )
 }
 
 export default App
