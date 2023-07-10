@@ -36,12 +36,6 @@ const CardEditAndDelete = styled('div')(() => ({
    background: '#FFF',
    padding: '16px 0px',
 
-   button: {
-      bordr: '1px solid #fff',
-      borderColor: '#fff',
-      backgroundColor: '#fff',
-   },
-
    h3: {
       color: '#5D5D5D',
       fontFamily: 'Inter',
