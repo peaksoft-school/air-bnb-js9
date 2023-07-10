@@ -1,7 +1,7 @@
 import React from 'react'
 
-const App = () => {
-   return <div />
+function App() {
+   return <div>AirBnB</div>
 }
 
 export default App

@@ -3,7 +3,7 @@ import { styled } from '@mui/material'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-export const ShowSnackbar = ({ message, additionalMessage, severity }) => {
+export function ShowSnackbar({ message, additionalMessage, severity }) {
    toast[severity](
       <StyledCustomToast severity={severity}>
          <h3>{message}</h3>
