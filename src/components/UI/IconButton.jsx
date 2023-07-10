@@ -27,7 +27,7 @@ export const ButtonIcon = ({ variant, ...props }) => {
 const IconButtonStyle = styled(IconButton)(() => ({
    '&.MuiButtonBase-root': {
       display: 'flex',
-      width: '40px',
+      width: '3%',
       height: '27px',
       padding: '6px 8px',
       justifyContent: 'center',
