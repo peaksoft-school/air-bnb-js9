@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 export function ShowSnackbar({ message, additionalMessage, severity }) {
    toast[severity](
-      <StyledCustomToast severity={severity}>
+      <StyledCustomToast>
          <h3>{message}</h3>
          <p>{additionalMessage}</p>
       </StyledCustomToast>
@@ -15,11 +15,11 @@ export function ShowSnackbar({ message, additionalMessage, severity }) {
 }
 
 const StyledToastContainer = styled(ToastContainer)(({ severity }) => ({
-   paddingRight: '510px',
+   paddingRight: '31.25rem',
    '& .Toastify__toast': {
       backgroundColor: severity === 'success' ? '#F0FFF1' : '#FFF1F0',
-      width: '500px',
-      height: '100px',
+      width: '31.25rem',
+      height: '6.25rem',
    },
 }))
 
@@ -27,7 +27,7 @@ const StyledCustomToast = styled('div')(() => ({
    h3: {
       color: '#000',
       fontFamily: 'Inter',
-      fontSize: '16px',
+      fontSize: '1rem',
       fontStyle: 'normal',
       fontWeight: '500',
       lineHeight: 'normal',
@@ -35,7 +35,7 @@ const StyledCustomToast = styled('div')(() => ({
    p: {
       color: ' var(--tertiary-dark-gray, #646464)',
       fontFamily: 'Inter',
-      fontSize: '14px',
+      fontSize: '0.875rem',
       fontStyle: 'normal',
       fontWeight: '400',
       lineHeight: 'normal',
