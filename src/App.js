@@ -1,12 +1,5 @@
-import { ButtonIcon } from './components/UI/IconButton'
-
 function App() {
-   return (
-      <div>
-         {/* AirBnB */}
-         <ButtonIcon variant="outlined">ss</ButtonIcon>
-      </div>
-   )
+   return <div>AirBnB</div>
 }
 
 export default App
