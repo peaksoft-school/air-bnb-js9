@@ -1,11 +1,7 @@
-import { MenuEditAndDelete } from './components/UI/menu/MenuEditAndDelete'
+import React from 'react'
 
 function App() {
-   return (
-      <div>
-         <MenuEditAndDelete />
-      </div>
-   )
+   return <div>AirBnB</div>
 }
 
 export default App
