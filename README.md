@@ -55,7 +55,7 @@ This folder contains reusable stateless and stateful components. It has followin
 
      This folder containes common presentational components(eg. Button, Input, etc.)
 
-#### |---`src/components/Company/Form/CreateCompanyForm.jsx`
+#### |---`src/components`
 
      Inside `src/components` we may have also other domain specific components like `src/components/Post/PostCard.jsx`
 
@@ -115,3 +115,4 @@ After finishing your bugfix, merge your current branch into the `development` br
 If you are fixing a urgent bug on a production, you should chekout from `master` branch and name the branch as `hotfix/branch-name`\
 After finishing your hotfix, merge your current branch into the `staging` branche by creating `pull request`.\
 Then test your changes on the `staging` environment, if it's OK, then you must merge changes with `development` and `master` branches.
+
