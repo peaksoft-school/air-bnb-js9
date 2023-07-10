@@ -1,7 +1,6 @@
-import { Button as ReusableButton } from '@mui/material'
-import { styled } from '@mui/material'
+import { Button as ReusableButton, styled } from '@mui/material'
 
-export const Button = ({ children, variant, disabled, onClick, ...props }) => {
+export function Button({ children, variant, disabled, onClick, ...props }) {
    return (
       <ButtonStyled
          disabled={disabled}
@@ -43,7 +42,6 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
       return {
          '&.MuiButtonBase-root': {
             display: 'inline-flex',
-            padding: '10px 158px',
             justifyContent: 'center',
             alignItems: 'center',
             gap: '16px',
