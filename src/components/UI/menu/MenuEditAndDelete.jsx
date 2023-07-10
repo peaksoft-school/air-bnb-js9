@@ -29,21 +29,21 @@ const Card = styled('div')({
 })
 
 const CardEditAndDelete = styled('div')(() => ({
-   width: '180px',
-   height: '88px',
-   borderRadius: '2px',
+   width: '11.25rem',
+   height: ' 5.5rem',
+   borderRadius: '0.125rem',
    border: ' 1px solid var(--tertiary-light-gray, #C4C4C4)',
    background: '#FFF',
-   padding: '16px 0px',
+   padding: '1rem 0rem',
 
    h3: {
       color: '#5D5D5D',
       fontFamily: 'Inter',
-      fontSize: '16px',
+      fontSize: '1rem',
       fontStyle: 'normal',
       fontWeight: '400',
       lineHeight: 'normal',
-      padding: '4px 0px 4px 20px',
+      padding: '0.25rem 0rem 0.25rem 1.25rem',
       '&:hover': {
          background: 'var(--tertiary-the-lightest-gray, #F3F3F3)',
       },
