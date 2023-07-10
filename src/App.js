@@ -1,11 +1,7 @@
 import React from 'react'
 
 function App() {
-   return (
-      <div>
-         <h2>AirBnB</h2>
-      </div>
-   )
+   return <div>AirBnB</div>
 }
 
 export default App
