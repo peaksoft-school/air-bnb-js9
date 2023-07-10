@@ -1,5 +1,5 @@
 function App() {
-   return <div>dsd</div>
+   return <div></div>
 }
 
 export default App

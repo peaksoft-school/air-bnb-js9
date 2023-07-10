@@ -19,7 +19,7 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
       return {
          '&.MuiButtonBase-root': {
             display: 'flex',
-            width: `${props.width || '196px'}`,
+            width: `${props.width || '24.5%'}`,
             padding: '10px 16px',
             justifyContent: 'center',
             alignItems: 'center',
@@ -34,7 +34,7 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
                background: '#F2B75B',
             },
             '&:disabled': {
-               background: 'var(--tertiary-light-gray, #C4C4C4)',
+               background: 'red',
             },
          },
       }
