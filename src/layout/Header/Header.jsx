@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, styled } from '@mui/material'
+import { Button, InputAdornment, styled } from '@mui/material'
 import BlackEmblema from '../../assets/icons/BlackEmblema.svg'
 import Search from '../../assets/icons/Search.svg'
 import Group from '../../assets/icons/Group.svg'
@@ -17,17 +17,20 @@ export function Header() {
          <InputDiv>
             <ChecboxStyled type="checkbox" id="search" />
             <StyledLabel htmlFor="search">Search nearby</StyledLabel>
-            <SearchDiv login={login}>
-               <img
-                  style={{
-                     position: 'absolute',
-                     top: login ? '92px' : '92px',
-                     left: login ? '610px' : '815px',
+            <SearchDiv>
+               <Input
+                  type="search"
+                  width="25rem"
+                  size="small"
+                  placeholder="Search"
+                  InputProps={{
+                     startAdornment: (
+                        <InputAdornment position="start">
+                           <img src={Search} alt="" />
+                        </InputAdornment>
+                     ),
                   }}
-                  src={Search}
-                  alt="#"
                />
-               <Input width="25rem" size="small" placeholder="Search" />
             </SearchDiv>
             <StyledButton variant="contained" onClick={() => loginHandler()}>
                {login ? 'SUBMIT AN AD' : 'JOIN US'}
@@ -48,7 +51,6 @@ const Container = styled('div')(() => ({
    width: '100%',
    border: '1px solid black',
    justifyContent: 'space-between',
-   marginTop: '50px',
    padding: '1.5rem 6rem 1.5rem 5rem',
 }))
 
