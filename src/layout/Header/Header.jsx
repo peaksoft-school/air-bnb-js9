@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { Button, InputAdornment, styled } from '@mui/material'
-import BlackEmblema from '../../assets/icons/BlackEmblema.svg'
-import Search from '../../assets/icons/Search.svg'
-import Group from '../../assets/icons/Group.svg'
 import { Input } from '../../components/UI/input/Input'
+import { BlackAirBNBIcon, GroupIcon, SearchIcon } from '../../assets/icons'
 
 export function Header() {
    const [login, setLogin] = useState(false)
@@ -13,7 +11,7 @@ export function Header() {
    }
    return (
       <Container>
-         <img src={BlackEmblema} alt="" />
+         <BlackAirBNBIcon />
          <InputDiv>
             <ChecboxStyled type="checkbox" id="search" />
             <StyledLabel htmlFor="search">Search nearby</StyledLabel>
@@ -26,7 +24,7 @@ export function Header() {
                   InputProps={{
                      startAdornment: (
                         <InputAdornment position="start">
-                           <img src={Search} alt="" />
+                           <SearchIcon />
                         </InputAdornment>
                      ),
                   }}
@@ -38,7 +36,7 @@ export function Header() {
             {login ? (
                <FavoriteDiv>
                   <p style={{ fontWeight: '500' }}>FAVORITE(4)</p>
-                  <img src={Group} alt="" />
+                  <GroupIcon />
                </FavoriteDiv>
             ) : null}
          </InputDiv>
