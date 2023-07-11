@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { IconButton, styled } from '@mui/material'
 import { ClickHeart2, Heart1 } from '../../assets/icons'
 
-export const ButtonIcon = ({ variant, ...props }) => {
+export function ButtonIcon({ variant, ...props }) {
    const [icon, setIcon] = useState(false)
    const clikIconHandler = () => {
       setIcon(!icon)
