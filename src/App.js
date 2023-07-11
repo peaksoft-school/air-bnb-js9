@@ -1,10 +1,4 @@
-import { TextArea } from './components/UI/textarea/TextArea'
-
 function App() {
-   return (
-      <div>
-         <TextArea />
-      </div>
-   )
+   return <div>AirBnB</div>
 }
 export default App
