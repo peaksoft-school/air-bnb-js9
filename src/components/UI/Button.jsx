@@ -1,6 +1,12 @@
 import { Button as ReusableButton, styled } from '@mui/material'
 
-export function Button({ children, variant, disabled, onClick, ...props }) {
+export function Button({
+   children,
+   variant = 'contained',
+   disabled,
+   onClick,
+   ...props
+}) {
    return (
       <ButtonStyled
          disabled={disabled}
