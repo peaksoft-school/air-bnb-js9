@@ -10,32 +10,31 @@ import {
 export function Select({ data, onChange, labelName, ...props }) {
    const [selectedValue, setSelectedValue] = useState('')
 
-   const handleFilterChange = (event) => {
-      setSelectedValue(event.target.value)
-      onChange(event.target.value)
+   const handleFilterChange = (e) => {
+      setSelectedValue(e.target.value)
+      onChange(
+         e.target.value === 'all' ? data.map((item) => item.id) : e.target.value
+      )
    }
 
    return (
-      <div>
-         <StyledFormControl sx={{ m: 1, minWidth: 271 }} {...props}>
-            <InputLabel id="filter-label" style={{ color: 'black' }}>
-               {labelName}:
-            </InputLabel>
-            <MuiSelect
-               labelId="filter-label"
-               value={selectedValue}
-               onChange={handleFilterChange}
-               label="hello"
-            >
-               <MenuItem value="">All</MenuItem>
-               {data?.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
-                     {item.name}
-                  </MenuItem>
-               ))}
-            </MuiSelect>
-         </StyledFormControl>
-      </div>
+      <StyledFormControl sx={{ m: 1, minWidth: 271 }} {...props}>
+         <InputLabel id="filter-label" style={{ color: 'black' }}>
+            {labelName}:
+         </InputLabel>
+         <MuiSelect
+            labelId="filter-label"
+            value={selectedValue}
+            onChange={handleFilterChange}
+         >
+            <MenuItem value="all">All</MenuItem>
+            {data?.map((item) => (
+               <MenuItem key={item.id} value={item.id}>
+                  {item.name}
+               </MenuItem>
+            ))}
+         </MuiSelect>
+      </StyledFormControl>
    )
 }
 
