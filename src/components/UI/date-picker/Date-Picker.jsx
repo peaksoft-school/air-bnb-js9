@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useState } from 'react'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
@@ -8,14 +7,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { styled } from '@mui/material'
 
-dayjs.locale('Ru')
+dayjs.locale('ru')
 
-export default function DatePickerValue() {
-   const [value, setValue] = useState(dayjs('2022-04-10'))
-
+export default function DateePicker({ value, setValue }) {
    return (
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-         <DemoContainer components={['DatePicker']}>
+         <DemoContainer components={['DatePickers']}>
             <StyledDate
                value={value}
                onChange={(newValue) => setValue(newValue)}
