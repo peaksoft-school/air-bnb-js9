@@ -1,24 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { styled } from '@mui/material'
 import { ReactComponent as IconMenu } from '../../../assets/icons/IconMenu.svg'
 
 export const MenuEditAndDelete = (props) => {
-   const { children } = props
-
-   const [open, setOpen] = useState(false)
-
-   function openHandler() {
-      setOpen((prev) => !prev)
-   }
+   const { children, open, openHandler } = props
 
    return (
-      <div>
+      <>
          <Backdrop onClick={() => openHandler()} />
          <Card>
             <IconMenu type="submit" onClick={() => openHandler()} />
             {open && <CardEditAndDelete>{children}</CardEditAndDelete>}
          </Card>
-      </div>
+      </>
    )
 }
 const Card = styled('div')({
@@ -27,15 +21,15 @@ const Card = styled('div')({
 })
 
 const CardEditAndDelete = styled('div')(() => ({
-   width: '11.25rem',
-   height: ' 5.5rem',
+   minWidth: '18%',
+   minHeight: '9%',
    borderRadius: '0.125rem',
    border: ' 1px solid var(--tertiary-light-gray, #C4C4C4)',
    background: '#FFF',
    padding: '1rem 0rem',
    zIndex: 999,
 
-   h3: {
+   'h2,h3,h4,h5,h6,p': {
       color: '#5D5D5D',
       fontFamily: 'Inter',
       fontSize: '1rem',
