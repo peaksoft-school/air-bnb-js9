@@ -1,12 +1,5 @@
-import ReusableTable from './components/UI/Table'
-
 function App() {
-   return (
-      <div>
-         AirBnB
-         <ReusableTable />
-      </div>
-   )
+   return <div>AirBnB</div>
 }
 
 export default App
