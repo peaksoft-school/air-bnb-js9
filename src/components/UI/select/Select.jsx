@@ -7,7 +7,7 @@ import {
    styled,
 } from '@mui/material'
 
-export function Select({ data, onChange, labelName, ...props }) {
+export function Select({ data, onChange, size, labelName, ...props }) {
    const [selectedValue, setSelectedValue] = useState('')
 
    const handleFilterChange = (e) => {
@@ -18,14 +18,16 @@ export function Select({ data, onChange, labelName, ...props }) {
    }
 
    return (
-      <StyledFormControl sx={{ m: 1, minWidth: 271 }} {...props}>
+      <StyledFormControl size={size} sx={{ m: 1, minWidth: 271 }} {...props}>
          <InputLabel id="filter-label" style={{ color: 'black' }}>
-            {labelName}:
+            {labelName}
          </InputLabel>
          <MuiSelect
             labelId="filter-label"
             value={selectedValue}
             onChange={handleFilterChange}
+            displayEmpty
+            label={labelName}
          >
             <MenuItem value="all">All</MenuItem>
             {data?.map((item) => (
@@ -39,7 +41,7 @@ export function Select({ data, onChange, labelName, ...props }) {
 }
 
 const StyledFormControl = styled(FormControl)((props) => ({
-   width: props.width || '16.9375rem',
+   width: props.width || '18rem',
    height: props.height || '3.5625rem',
 
    '&  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
