@@ -1,4 +1,11 @@
+import { MainPage } from './components/main/MainPage'
+
 function App() {
-   return <div>AirBnb </div>
+   return (
+      <div>
+         AirBnB
+         <MainPage />
+      </div>
+   )
 }
 export default App
