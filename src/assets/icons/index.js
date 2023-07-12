@@ -16,7 +16,7 @@ import { ReactComponent as SelectionIcon } from './selectIcon.svg'
 import { ReactComponent as Start1 } from './star1.svg'
 import { ReactComponent as Star2 } from './start2.svg'
 import { ReactComponent as TelegramIcon } from './telegram.svg'
-import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
+
 import { ReactComponent as AirBNBIcon } from './airbnb.svg'
 
 export {
@@ -38,6 +38,5 @@ export {
    Start1,
    Star2,
    TelegramIcon,
-   WhatsAppIcon,
    AirBNBIcon,
 }

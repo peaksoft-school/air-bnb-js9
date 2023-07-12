@@ -3,7 +3,7 @@ import { styled } from '@mui/material'
 import Emblema from '../../assets/icons/Emblema.svg'
 import Insta from '../../assets/icons/Insta.svg'
 import Telega from '../../assets/icons/Telega.svg'
-
+import Whatsapp from '../../assets/icons/Whatsapp.svg'
 export function Footer() {
    return (
       <Container>
