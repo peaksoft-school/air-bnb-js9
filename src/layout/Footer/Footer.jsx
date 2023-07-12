@@ -1,9 +1,12 @@
 import React from 'react'
 import { styled } from '@mui/material'
-import Emblema from '../../assets/icons/Emblema.svg'
-import Insta from '../../assets/icons/Insta.svg'
-import Telega from '../../assets/icons/Telega.svg'
-import Whatsapp from '../../assets/icons/Whatsapp.svg'
+import {
+   AirBNBIcon,
+   InstagramIcon,
+   TelegramIcon,
+   WhatsAppIcon,
+} from '../../assets/icons'
+
 export function Footer() {
    return (
       <Container>
@@ -14,13 +17,13 @@ export function Footer() {
             </SsylkaDiv>
 
             <div>
-               <img src={Emblema} alt="emblema" />
+               <AirBNBIcon />
             </div>
 
             <SocialDiv>
-               <img src={Insta} alt="" />
-               <img src={Telega} alt="" />
-               <img src={Whatsapp} alt="" />
+               <InstagramIcon />
+               <WhatsAppIcon />
+               <TelegramIcon />
             </SocialDiv>
          </StyledDiv>
 
