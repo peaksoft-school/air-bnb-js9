@@ -3,22 +3,21 @@ import { styled } from '@mui/material'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-export function ShowSnackbar({ message, additionalMessage, severity }) {
+export function ShowSnackbar({ message, description, severity }) {
    toast[severity](
       <StyledCustomToast>
          <h3>{message}</h3>
-         <p>{additionalMessage}</p>
+         <p>{description}</p>
       </StyledCustomToast>
    )
-
-   return <StyledToastContainer severity={severity} />
+   return <StyledToastContainer autoClose={false} severity={severity} />
 }
 
 const StyledToastContainer = styled(ToastContainer)(({ severity }) => ({
    paddingRight: '31.25rem',
    '& .Toastify__toast': {
       backgroundColor: severity === 'success' ? '#F0FFF1' : '#FFF1F0',
-      width: '31.25rem',
+      width: '32vw',
       height: '6.25rem',
    },
 }))
