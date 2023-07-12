@@ -2,18 +2,18 @@ import { TextField, styled } from '@mui/material'
 import React, { forwardRef } from 'react'
 
 export const Input = forwardRef(
-   ({ type, placeholder, helperText, ...props }, ref) => {
+   ({ type, size, label, placeholder, helperText, ...props }, ref) => {
       return (
-         <div>
-            <StyledInput
-               type={type}
-               placeholder={placeholder || 'введите что-нибудь'}
-               ref={ref}
-               {...props}
-               error
-               helperText={helperText || 'Incorrect entry.'}
-            />
-         </div>
+         <StyledInput
+            type={type}
+            placeholder={placeholder || 'введите что-нибудь'}
+            ref={ref}
+            {...props}
+            size={size}
+            error
+            helperText={helperText || ''}
+            label={label}
+         />
       )
    }
 )
@@ -21,8 +21,10 @@ export const Input = forwardRef(
 const StyledInput = styled(TextField)((props) => ({
    width: props.width || '100%',
    height: props.height || '37px',
-   padding: props.padding || '10px, 8px, 10px, 16px',
-
+   padding: props.padding || ' 0px 0px 0px 0px;',
+   '& .MuiOutlinedInput-input': {
+      borderRadius: '2px',
+   },
    '& .MuiOutlinedInput-root': {
       '& fieldset': {
          borderColor: 'gray',
