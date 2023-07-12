@@ -22,6 +22,8 @@ const StyledInput = styled(TextField)((props) => ({
    width: props.width || '100%',
    height: props.height || '37px',
    padding: props.padding || ' 0px 0px 0px 0px;',
+   backgroundColor: '#fff',
+
    '& .MuiOutlinedInput-input': {
       borderRadius: '2px',
    },
