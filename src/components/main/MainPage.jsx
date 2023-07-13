@@ -1,11 +1,18 @@
-import { InputAdornment, styled } from '@mui/material'
-import React from 'react'
+import { Checkbox, InputAdornment, styled } from '@mui/material'
+import React, { useState } from 'react'
 import mainBackground from '../../assets/images/MainBackground.png'
 import { ReactComponent as SearchIcon } from '../../assets/icons/Search.svg'
-import { Button } from '../UI/Button'
+import { Header } from '../../layout/Header/Header'
 import { Input } from '../UI/input/Input'
+import { MainRegion } from './MainRegion'
 
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 export function MainPage() {
+   const [userLogin, setUserLogin] = useState(false)
+
+   const loginHandler = () => {
+      setUserLogin((prev) => !prev)
+   }
    return (
       <StyleMain
          style={{
@@ -13,51 +20,54 @@ export function MainPage() {
             backgroundSize: 'cover',
          }}
       >
-         <Header>
-            <h2>Icon </h2>
-            <div>
-               <a href="hello">leave an ad</a>
-               <Button>join us</Button>
-            </div>
-         </Header>
+         <Header userLogin={userLogin} loginHandler={loginHandler} />
          <Block>
             <h1>Find a place you ll love to stay at</h1>
-            <div>
+            <BlockInput>
                <Input
-                  type="text"
-                  padding=" 0.625rem 1.5rem 0.625rem 1.125rem "
-                  height="2rem"
-                  width="50rem"
+                  type="search"
+                  width="100%"
+                  size="small"
                   placeholder="Region, city, apartment, house..."
                   InputProps={{
                      startAdornment: (
                         <InputAdornment position="start">
-                           <StyleSearchIcon />
+                           <SearchIcon />
                         </InputAdornment>
                      ),
                   }}
+                  barsbek="nekrash"
                />
-            </div>
+               <div>
+                  {userLogin ? null : (
+                     <>
+                        <StyleCheckbox
+                           {...label}
+                           id="id"
+                           sx={{
+                              color: '#fff',
+                              '&.Mui-checked': {
+                                 color: '#6495ED',
+                              },
+                           }}
+                        />
+                        <label htmlFor="id">Искать поблизости</label>
+                     </>
+                  )}
+               </div>
+            </BlockInput>
          </Block>
+         <MainRegion />
       </StyleMain>
    )
 }
 
-const Header = styled('header')(() => ({
-   width: '100%',
-   height: '100px',
-   display: 'flex',
-   alignItems: 'center',
-   justifyContent: 'space-between',
-
-   div: {
-      display: 'flex',
-      alignItems: 'center',
-   },
-}))
 const StyleMain = styled('div')(() => ({
    width: '100%',
-   height: '51.25rem',
+   height: '100vh',
+   display: 'flex',
+   flexDirection: 'column',
+   gap: '17.69rem',
 }))
 
 const Block = styled('div')(() => ({
@@ -65,6 +75,7 @@ const Block = styled('div')(() => ({
    minHeight: '10vh',
    display: 'flex',
    flexDirection: 'column',
+   gap: '3.12rem',
    alignItems: 'center',
    h1: {
       color: '#FFF',
@@ -76,7 +87,24 @@ const Block = styled('div')(() => ({
       textTransform: 'uppercase',
    },
 }))
-
-const StyleSearchIcon = styled(SearchIcon)(() => ({
-   position: 'absolute',
+const BlockInput = styled('div')(() => ({
+   width: '60%',
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'flex-end',
+   div: {
+      label: {
+         color: '#EDEDED',
+         fontFamily: 'Inter',
+         fontSize: '1rem',
+         fontStyle: 'normal',
+         fontWeight: '400',
+         lineHeight: 'normal',
+      },
+   },
+}))
+const StyleCheckbox = styled(Checkbox)(() => ({
+   '&.MuiCheckbox-root': {
+      borderColor: '#fff',
+   },
 }))

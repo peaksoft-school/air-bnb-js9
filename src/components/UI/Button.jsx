@@ -2,7 +2,7 @@ import { Button as ReusableButton, styled } from '@mui/material'
 
 export function Button({
    children,
-   variant = 'contained',
+   variant = 'outlined',
    disabled,
    onClick,
    ...props
