@@ -20,7 +20,6 @@ export function RatingStars() {
                   setValue(newValue)
                }}
             />
-            <div>{`(${value})`}</div>
          </Box>
          <RatingChart value={value} />
       </div>

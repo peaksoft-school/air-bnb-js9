@@ -7,12 +7,15 @@ export function RatingChartBar({ maximumRating, currentRating, label }) {
    return (
       <Container>
          <div>
-            <h2>{label}</h2>
+            <h3>{label}</h3>
          </div>
          <ChartBar>
             <ChartBarInner>
                <ChartBarFill style={{ width: `${fillWidth}%` }}>.</ChartBarFill>
             </ChartBarInner>
+            <div>
+               <h4> {`${fillWidth}%`}</h4>
+            </div>
          </ChartBar>
       </Container>
    )
@@ -20,7 +23,7 @@ export function RatingChartBar({ maximumRating, currentRating, label }) {
 
 const Container = styled('div')(() => ({
    display: 'flex',
-   gap: '20px',
+   gap: '30px',
    alignItems: 'center',
 }))
 
@@ -32,9 +35,9 @@ const ChartBarFill = styled('div')(() => ({
 
 const ChartBar = styled('div')(() => ({
    display: 'flex',
-   flexDirection: 'column',
    alignItems: 'center',
    width: '100%',
+   gap: '20px',
 }))
 
 const ChartBarInner = styled('div')(() => ({
