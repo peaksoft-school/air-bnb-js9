@@ -1,9 +1,15 @@
 import { Avatar, Rating, styled } from '@mui/material'
 import React, { useState } from 'react'
-import { Dislike, Like1, SearchIcon } from '../../../assets/icons'
+import { Dislike, Like1 } from '../../../assets/icons'
+import { MenuEditAndDelete } from '../menu/MenuEditAndDelete'
 
 export default function Feedback({ data }) {
    const [value, setValue] = useState(2)
+   const [open, setOpen] = useState(false)
+
+   const toggle = () => {
+      setOpen((prev) => !prev)
+   }
    return (
       <Container>
          <Block>
@@ -32,7 +38,10 @@ export default function Feedback({ data }) {
             </UserInfoBlock>
 
             <div>
-               <SearchIcon />
+               <MenuEditAndDelete open={open} openHandler={toggle}>
+                  <h3>Edit</h3>
+                  <h3>Delete</h3>
+               </MenuEditAndDelete>
             </div>
          </Block>
 
@@ -55,11 +64,13 @@ export default function Feedback({ data }) {
 
 const Container = styled('div')(() => ({
    width: '39.375rem',
-   height: ' 12.6875rem',
    margin: '0 auto ',
    marginTop: '1.5625rem',
    p: {
       color: '#828282',
+      a: {
+         marginLeft: '10px',
+      },
    },
 }))
 
