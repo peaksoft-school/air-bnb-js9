@@ -1,47 +1,43 @@
 import { styled } from '@mui/material'
 import { Select } from '../UI/select/Select'
-
-const regions = [
-   { id: 'option1', name: 'Batken' },
-   { id: 'option2', name: 'Osh' },
-   { id: 'option3', name: 'Jalal-abad' },
-   { id: 'option4', name: 'Chui' },
-   { id: 'option5', name: 'Naryn' },
-   { id: 'option6', name: 'Talas' },
-   { id: 'option7', name: 'Issyk-Kul' },
-]
-const popular = [
-   { id: 'option8', name: 'popular' },
-   { id: 'option9', name: 'un popular' },
-]
-const homeType = [
-   { id: 'option10', name: 'Apartment' },
-   { id: 'option11', name: 'House' },
-]
-
-const price = [
-   { id: 'option12', name: 'Low to high' },
-   { id: 'option13', name: 'High to low' },
-]
+import {
+   homeType,
+   popular,
+   price,
+   regions,
+} from '../../utils/constants/helpers'
 
 export function FilterSelect() {
-   const onChange = (selectedOption) => {
+   const onChangeRegions = (selectedOption) => {
       console.log('Selected option:', selectedOption)
    }
+
+   const onChangePopular = (selectedOption) => {
+      console.log('Selected option:', selectedOption)
+   }
+
+   const onChangeHomeType = (selectedOption) => {
+      console.log('Selected option:', selectedOption)
+   }
+
+   const onChangePrice = (selectedOption) => {
+      console.log('Selected option:', selectedOption)
+   }
+
    return (
       <Container>
          <div>
             <Select
                labelName="Sort by region:"
                data={regions}
-               onChange={onChange}
+               onChange={onChangeRegions}
             />
          </div>
          <div>
             <Select
                labelName="Sort by popularity:"
                data={popular}
-               onChange={onChange}
+               onChange={onChangePopular}
             />
          </div>
          <div>
@@ -49,14 +45,14 @@ export function FilterSelect() {
                <Select
                   labelName="Filter by home type:"
                   data={homeType}
-                  onChange={onChange}
+                  onChange={onChangeHomeType}
                />
             </div>
             <div>
                <Select
                   labelName="Filter by price:"
                   data={price}
-                  onChange={onChange}
+                  onChange={onChangePrice}
                />
             </div>
          </div>

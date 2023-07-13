@@ -13,7 +13,9 @@ export function Select({ data, onChange, size, labelName, ...props }) {
    const handleFilterChange = (e) => {
       setSelectedValue(e.target.value)
       onChange(
-         e.target.value === 'all' ? data.map((item) => item.id) : e.target.value
+         e.target.value === 'all'
+            ? data.map((item) => item.name)
+            : e.target.value
       )
    }
 
