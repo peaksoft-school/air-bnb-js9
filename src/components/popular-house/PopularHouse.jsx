@@ -1,11 +1,11 @@
+/* eslint-disable import/extensions */
 import React from 'react'
 import { styled as MUistyled } from '@mui/material'
 import { NavLink } from 'react-router-dom'
 import popularHouseImage from '../../assets/images/popular-house.png'
 import houseSlide from '../../assets/images/house-slide.png'
-import { ReactComponent as ArrowRightDots } from '../../assets/icons/arrowright.svg'
-import { ReactComponent as ArrowLefttDots } from '../../assets/icons/Group 238.svg'
 import { ReactComponent as LocationOsh } from '../../assets/icons/location.svg'
+import { MySlider } from './Slide'
 
 export const popular = [
    {
@@ -42,21 +42,8 @@ export default function PopularHouse() {
 
                         <NavLink to="/">{el.all}</NavLink>
                      </BlockText>
-                     <div>
-                        <Slideimg src={el.img1} alt="phote" />
-                        <Slideimg src={el.img1} alt="phote" />
-                        <div
-                           style={{
-                              display: 'flex',
-                              justifyContent: 'start',
-                              alignItems: 'center',
-                              margin: '5rem 2rem',
-                           }}
-                        >
-                           <ArrowLefttDots />
-                           01/07
-                           <ArrowRightDots />
-                        </div>
+                     <div className="slideBlock">
+                        <MySlider />
                      </div>
                   </BlockHouse>
                </div>
@@ -86,7 +73,7 @@ const PopularApart = MUistyled('div')({
    width: '100%',
    display: 'flex',
    justifyContent: 'space-between',
-   padding: '3.75rem 5rem',
+   padding: '3.75rem 4.5rem',
 })
 const BlockText = MUistyled('div')({
    marginTop: '6rem',
@@ -108,10 +95,6 @@ const BlockHouse = MUistyled('div')({
    display: 'flex',
    justifyContent: 'space-around',
    gap: '20px',
-   // marginTop: '60px',
-   // div: {
-   //    display: 'flex',
-   // },
 })
 const ImageHouse = MUistyled('img')({
    width: '32.8125rem',
@@ -125,9 +108,3 @@ const BlockAskaLara = MUistyled('p')(({ theme }) => ({
    width: '19.375rem',
    marginTop: '1. 5rem',
 }))
-
-const Slideimg = MUistyled('img')({
-   width: '224px',
-   height: '317px',
-   marginLeft: '30px',
-})
