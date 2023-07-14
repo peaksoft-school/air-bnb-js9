@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { RatingChart } from './RatingChart'
 
 export function RatingStars() {
-   const [value, setValue] = useState(0)
+   const [starValue, setStarValue] = useState(0)
    return (
       <div>
          <Box
@@ -15,13 +15,13 @@ export function RatingStars() {
          >
             <Rating
                name="simple-controlled"
-               value={value}
+               value={starValue}
                onChange={(event, newValue) => {
-                  setValue(newValue)
+                  setStarValue(newValue)
                }}
             />
          </Box>
-         <RatingChart value={value} />
+         <RatingChart starValue={starValue} />
       </div>
    )
 }

@@ -3,8 +3,8 @@ import { styled } from '@mui/material'
 import { RatingChartBar } from './RatingChartBar'
 import { Start1 } from '../../../assets/icons'
 
-export function RatingChart({ value }) {
-   const maximumRating = 50
+export function RatingChart({ starValue }) {
+   const maximumRating = 35
    const rating = [
       { label: '5', currentRating: 0 },
       { label: '4', currentRating: 0 },
@@ -16,16 +16,15 @@ export function RatingChart({ value }) {
    for (let i = 0; i < rating.length; i += 1) {
       const el = rating[i]
 
-      if (+el.label === value) {
-         el.currentRating = value
+      if (+el.label === starValue) {
+         el.currentRating = starValue
       }
-      console.log('currentRating: ', el.currentRating)
    }
 
    return (
       <Container>
          <StarDiv>
-            <h2>{value}</h2>
+            <StyledPtag>{starValue}</StyledPtag>
             <Star />
          </StarDiv>
          {rating.map((item) => {
@@ -43,21 +42,30 @@ export function RatingChart({ value }) {
 }
 
 const Container = styled('div')(() => ({
-   border: '2px solid gray',
+   border: '1px solid gray',
    borderRadius: '14px',
-   padding: '40px',
-   width: '30%',
+   padding: '25px 30px 30px 10px',
+   width: '27%',
 }))
 
 const StarDiv = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
    marginBottom: '10px',
-   marginLeft: '20px',
+   marginLeft: '25px',
 }))
 
 const Star = styled(Start1)(() => ({
    width: '1.5rem',
    height: '1.5rem',
    marginLeft: '0.5rem',
+}))
+
+const StyledPtag = styled('p')(() => ({
+   color: 'var(--primary-black, #363636)',
+   fontFamily: 'Inter',
+   fontSize: '24px',
+   fontStyle: 'normal',
+   fontWeight: '500',
+   texttransform: 'uppercase',
 }))
