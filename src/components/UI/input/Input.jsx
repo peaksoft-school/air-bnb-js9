@@ -2,18 +2,7 @@ import { TextField, styled } from '@mui/material'
 import React, { forwardRef } from 'react'
 
 export const Input = forwardRef(
-   (
-      {
-         type,
-         size,
-         label,
-         placeholder,
-         helperText,
-         barsbek = 'krash',
-         ...props
-      },
-      ref
-   ) => {
+   ({ type, size, label, placeholder, helperText, ...props }, ref) => {
       return (
          <StyledInput
             type={type}
@@ -22,8 +11,6 @@ export const Input = forwardRef(
             size={size}
             helperText={helperText || ''}
             label={label}
-            barsbek={barsbek}
-            props={props}
          />
       )
    }
