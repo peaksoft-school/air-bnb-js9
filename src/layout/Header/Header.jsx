@@ -1,45 +1,87 @@
 import React, { useState } from 'react'
 import { Button, InputAdornment, styled } from '@mui/material'
 import { Input } from '../../components/UI/input/Input'
-import { BlackAirBNBIcon, GroupIcon, SearchIcon } from '../../assets/icons'
+import {
+   BlackAirBNBIcon,
+   GroupIcon,
+   SearchIcon,
+   AirBNBIcon,
+} from '../../assets/icons/index'
 
-export function Header() {
-   const [login, setLogin] = useState(false)
+export function Header({ userLogin, loginHandler }) {
+   const [login, setLogin] = useState(true)
 
-   function loginHandler() {
+   function headerLoginHandler() {
       setLogin((prev) => !prev)
    }
    return (
       <Container>
-         <BlackAirBNBIcon />
-         <InputDiv>
-            <ChecboxStyled type="checkbox" id="search" />
-            <StyledLabel htmlFor="search">Search nearby</StyledLabel>
-            <SearchDiv>
-               <Input
-                  type="search"
-                  width="25rem"
-                  size="small"
-                  placeholder="Search"
-                  InputProps={{
-                     startAdornment: (
-                        <InputAdornment position="start">
-                           <SearchIcon />
-                        </InputAdornment>
-                     ),
-                  }}
-               />
-            </SearchDiv>
-            <StyledButton variant="contained" onClick={() => loginHandler()}>
-               {login ? 'SUBMIT AN AD' : 'JOIN US'}
-            </StyledButton>
-            {login ? (
-               <FavoriteDiv>
-                  <p style={{ fontWeight: '500' }}>FAVORITE(4)</p>
-                  <GroupIcon />
-               </FavoriteDiv>
-            ) : null}
-         </InputDiv>
+         {login ? (
+            <StyleHeader login={login}>
+               {' '}
+               {userLogin ? (
+                  <AirBNBIcon />
+               ) : (
+                  <StateBlock>
+                     <AirBNBIcon />
+                     <div>
+                        <StyleLink>leave an ad</StyleLink>
+                        <StyledButton
+                           variant="contained"
+                           onClick={() => loginHandler()}
+                        >
+                           {userLogin ? 'SUBMIT AN AD' : 'JOIN US'}
+                        </StyledButton>
+                     </div>
+                  </StateBlock>
+               )}
+               <InputDiv>
+                  {userLogin ? (
+                     <FavoriteDiv>
+                        <StyleLink>leave an ad</StyleLink>
+                        <GroupIcon />
+                     </FavoriteDiv>
+                  ) : null}
+               </InputDiv>
+            </StyleHeader>
+         ) : (
+            <StyleHeader background="#fff">
+               <div className="headerIcon">
+                  <BlackAirBNBIcon />
+                  <LeaveAnAd>leave an ad</LeaveAnAd>
+               </div>
+
+               <SearchDiv>
+                  <div className="blockCheckbox">
+                     <ChecboxStyled
+                        type="checkbox"
+                        id="search"
+                        onClick={() => headerLoginHandler()}
+                     />
+                     <StyledLabel htmlFor="search">Search nearby</StyledLabel>
+                  </div>
+                  <Input
+                     type="search"
+                     width="25rem"
+                     size="small"
+                     placeholder="Search"
+                     InputProps={{
+                        startAdornment: (
+                           <InputAdornment position="start">
+                              <SearchIcon />
+                           </InputAdornment>
+                        ),
+                     }}
+                  />
+                  <StyledButton
+                     variant="contained"
+                     onClick={() => loginHandler()}
+                  >
+                     {userLogin ? 'SUBMIT AN AD' : 'JOIN US'}
+                  </StyledButton>
+               </SearchDiv>
+            </StyleHeader>
+         )}
       </Container>
    )
 }
@@ -47,9 +89,7 @@ export function Header() {
 const Container = styled('div')(() => ({
    display: 'flex',
    width: '100%',
-   border: '1px solid black',
    justifyContent: 'space-between',
-   padding: '1.5rem 6rem 1.5rem 5rem',
 }))
 
 const InputDiv = styled('div')(() => ({
@@ -58,8 +98,24 @@ const InputDiv = styled('div')(() => ({
    alignItems: 'center',
 }))
 
-const SearchDiv = styled('div')(() => ({
+const StateBlock = styled('div')(() => ({
+   width: '100%',
    display: 'flex',
+   justifyContent: 'space-between',
+   div: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '3.75rem',
+   },
+}))
+const StyleLink = styled('a')(() => ({
+   textDecoration: 'none',
+   color: 'var(--primary-white, #FFF)',
+   fontFamily: 'Inter',
+   fontSize: '1.125rem',
+   fontStyle: 'normal',
+   fontWeight: '500',
+   lineHeight: 'normal',
 }))
 
 const StyledButton = styled(Button)(() => ({
@@ -70,21 +126,53 @@ const StyledButton = styled(Button)(() => ({
    fontWeight: '500',
 }))
 
+const FavoriteDiv = styled('div')(() => ({
+   display: 'flex',
+   alignItems: 'center',
+   gap: '3rem',
+}))
+
+const StyleHeader = styled('header')((props) => ({
+   width: '100%',
+   height: ' 5.5rem',
+   backgroundColor: props.background || '',
+   display: 'flex',
+   justifyContent: 'space-between',
+   alignItems: 'center',
+   padding: '1rem 6.25rem',
+
+   '.headerIcon': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '3.75rem',
+   },
+}))
+const LeaveAnAd = styled('p')(() => ({
+   color: '#FFBE58',
+   fontFamily: 'Inter',
+   fontSize: '1.125rem',
+   fontStyle: 'normal',
+   fontWeight: '500',
+   lineHeight: 'normal',
+}))
+const SearchDiv = styled('div')(() => ({
+   display: 'flex',
+   alignItems: 'center',
+   gap: '1.87rem',
+   '.blockCheckbox': {
+      width: '10vw',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+   },
+}))
 const ChecboxStyled = styled('input')(() => ({
    width: '22px',
    height: '22px',
 }))
-
 const StyledLabel = styled('label')(() => ({
    color: '#525252',
    fontFamily: 'Inter',
    fontWeight: '400',
    fontSize: '1rem',
-   marginLeft: '-1rem',
-}))
-
-const FavoriteDiv = styled('div')(() => ({
-   display: 'flex',
-   alignItems: 'center',
-   gap: '1rem',
 }))

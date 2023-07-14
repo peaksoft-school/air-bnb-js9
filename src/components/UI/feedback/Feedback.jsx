@@ -1,11 +1,24 @@
-import { Avatar, Rating, styled } from '@mui/material'
+import { Avatar, IconButton, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { Dislike, Like1 } from '../../../assets/icons'
 import { MenuEditAndDelete } from '../menu/MenuEditAndDelete'
+import { RatingStars } from '../rating/RatingStars'
 
 export default function Feedback({ data }) {
-   const [value, setValue] = useState(2)
    const [open, setOpen] = useState(false)
+   const [showFullText, setShowFullText] = useState(false)
+
+   const maxLength = 215
+
+   const toggleText = () => {
+      if (data.comment.length <= maxLength) {
+         setShowFullText(false)
+      } else if (data.comment.length >= maxLength) {
+         setShowFullText(!showFullText)
+      }
+   }
+
+   const truncatedText = data.comment.substring(0, maxLength)
 
    const toggle = () => {
       setOpen((prev) => !prev)
@@ -15,22 +28,20 @@ export default function Feedback({ data }) {
          <Block>
             <UserInfoBlock>
                <div>
-                  <Avatar style={{ marginRight: '13px' }}>
-                     {data.name[0]}
+                  <Avatar
+                     style={{ marginRight: '13px' }}
+                     src={data.avatar && data.avatar}
+                  >
+                     {data.avatar || data.name[0]}
                   </Avatar>
                </div>
 
                <div>
                   <RatingAndNameBlock>
                      <h4>{data.name}</h4>
-                     <Rating
-                        style={{ marginLeft: '9px' }}
-                        value={value}
-                        onChange={(event, newValue) => {
-                           setValue(newValue)
-                        }}
-                     />
-                     <StyledSpan>({value})</StyledSpan>
+
+                     <RatingStars starRating={data.starRating} />
+                     <StyledSpan>({data.starRating})</StyledSpan>
                   </RatingAndNameBlock>
 
                   <span style={{ color: '#828282' }}>28.04.22</span>
@@ -45,18 +56,30 @@ export default function Feedback({ data }) {
             </div>
          </Block>
 
-         <p>
-            {data.comment}
-            <a href="link">See less</a>
-         </p>
-         <GradeBlock>
-            <div>
-               <Like1 />6
-            </div>
+         <CommentBlock>
+            <p>
+               {showFullText ? (
+                  <span> {data.comment} </span>
+               ) : (
+                  <span> {truncatedText}</span>
+               )}
 
-            <div>
-               <Dislike /> 2
-            </div>
+               <a href="#!" onClick={toggleText}>
+                  {showFullText ? 'See less' : 'See more'}
+               </a>
+            </p>
+         </CommentBlock>
+
+         <GradeBlock>
+            <StyledIconButton>
+               <Like1 />
+               <p>{data.like}</p>
+            </StyledIconButton>
+
+            <StyledIconButton>
+               <Dislike />
+               <p> {data.dislike}</p>
+            </StyledIconButton>
          </GradeBlock>
       </Container>
    )
@@ -64,7 +87,6 @@ export default function Feedback({ data }) {
 
 const Container = styled('div')(() => ({
    width: '39.375rem',
-   margin: '0 auto ',
    marginTop: '1.5625rem',
    p: {
       color: '#828282',
@@ -104,10 +126,12 @@ const GradeBlock = styled('div')(() => ({
    justifyContent: 'space-between',
    alignItems: 'center',
    marginTop: '1.25rem',
+}))
 
-   div: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.3125rem',
-   },
+const StyledIconButton = styled(IconButton)(() => ({
+   p: { color: '#000', fontSize: '1rem', paddingLeft: '0.61rem' },
+}))
+
+const CommentBlock = styled('div')(() => ({
+   width: '36.4375rem',
 }))

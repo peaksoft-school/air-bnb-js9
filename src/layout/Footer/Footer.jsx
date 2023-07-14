@@ -4,7 +4,7 @@ import {
    AirBNBIcon,
    InstagramIcon,
    TelegramIcon,
-   WhatsAppIcon,
+   // WhatsAppIcon,
 } from '../../assets/icons'
 
 export function Footer() {
@@ -22,7 +22,7 @@ export function Footer() {
 
             <SocialDiv>
                <InstagramIcon />
-               <WhatsAppIcon />
+               {/* <WhatsAppIcon /> */}
                <TelegramIcon />
             </SocialDiv>
          </StyledDiv>
