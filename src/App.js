@@ -1,12 +1,7 @@
 import React from 'react'
-import { MainPage } from './components/main/MainPage'
 
 function App() {
-   return (
-      <div>
-         <MainPage />
-      </div>
-   )
+   return <div>AirBnB</div>
 }
 
 export default App
