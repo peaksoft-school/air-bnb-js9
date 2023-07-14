@@ -1,11 +1,4 @@
-import { Cards } from './components/UI/cards/Cards'
-
 function App() {
-   return (
-      <div>
-         {/* AirBnb */}
-         <Cards />
-      </div>
-   )
+   return <div>AirBnb</div>
 }
 export default App
