@@ -7,6 +7,7 @@ import { Input } from '../UI/input/Input'
 import { MainRegion } from './MainRegion'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
+
 export function MainPage() {
    const [userLogin, setUserLogin] = useState(false)
 

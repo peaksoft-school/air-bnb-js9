@@ -1,9 +1,8 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { Link } from 'react-router-dom'
-import Chui from '../../assets/images/chui.png'
+import chui from '../../assets/images/chui.png'
 import batken from '../../assets/images/batken.png'
-import Jalalabat from '../../assets/images/jalalAbad.png'
+import jalalabat from '../../assets/images/jalalAbad.png'
 import IssykKul from '../../assets/images/yssykKol.png'
 import talas from '../../assets/images/talas.png'
 import bishkek from '../../assets/images/bishkek.png'
@@ -23,50 +22,82 @@ export function MainRegion() {
             </ContainerText>
             <ContainerRegion>
                <BlockRegion1>
-                  <Link to="/">
-                     <img src={Chui} alt="#" />
+                  <ChuiAndOshCard
+                     style={{
+                        background: `url(${chui})`,
+                        backgroundSize: 'cover',
+                     }}
+                  >
                      <StyleName>CHUI</StyleName>
-                  </Link>
+                  </ChuiAndOshCard>
 
                   <div className="blockItemRegion">
                      <div>
-                        <Link to="/">
-                           <img src={batken} alt="#" />
+                        <ItemRegionCard
+                           style={{
+                              background: `url(${batken})`,
+                              backgroundSize: 'cover',
+                           }}
+                        >
                            <StyleName>batken</StyleName>
-                        </Link>
-                        <Link to="/">
-                           <img src={Jalalabat} alt="#" />
+                        </ItemRegionCard>
+                        <ItemRegionCard
+                           style={{
+                              background: `url(${jalalabat})`,
+                              backgroundSize: 'cover',
+                           }}
+                        >
                            <StyleName>Jalalabat</StyleName>
-                        </Link>
+                        </ItemRegionCard>
                      </div>
-                     <Link to="/">
-                        <img src={naryn} alt="#" />
+                     <NarynAndBihkek
+                        style={{
+                           background: `url(${naryn})`,
+                           backgroundSize: 'cover',
+                        }}
+                     >
                         <StyleName>naryn</StyleName>
-                     </Link>
+                     </NarynAndBihkek>
                   </div>
                </BlockRegion1>
 
                <BlockRegion2>
                   <div className="blockItemRegion">
                      <div>
-                        <Link to="/">
-                           <img src={IssykKul} alt="#" />
+                        <ItemRegionCard
+                           style={{
+                              background: `url(${IssykKul})`,
+                              backgroundSize: 'cover',
+                           }}
+                        >
                            <StyleName>Issyk-kul</StyleName>
-                        </Link>
-                        <Link to="/">
-                           <img src={talas} alt="#" />
+                        </ItemRegionCard>
+                        <ItemRegionCard
+                           style={{
+                              background: `url(${talas})`,
+                              backgroundSize: 'cover',
+                           }}
+                        >
                            <StyleName>talas</StyleName>
-                        </Link>
+                        </ItemRegionCard>
                      </div>
-                     <Link to="/">
-                        <img src={bishkek} alt="#" />
+                     <NarynAndBihkek
+                        style={{
+                           background: `url(${bishkek})`,
+                           backgroundSize: 'cover',
+                        }}
+                     >
                         <StyleName>bishkek</StyleName>
-                     </Link>
+                     </NarynAndBihkek>
                   </div>
-                  <Link to="/">
-                     <img src={osh} alt="#" />
+                  <ChuiAndOshCard
+                     style={{
+                        background: `url(${osh})`,
+                        backgroundSize: 'cover',
+                     }}
+                  >
                      <StyleName>osh</StyleName>
-                  </Link>
+                  </ChuiAndOshCard>
                </BlockRegion2>
             </ContainerRegion>
          </MainContainer>
@@ -82,7 +113,7 @@ const GlobalConteiner = styled('div')(() => ({
 }))
 const MainContainer = styled('div')(() => ({
    width: '100%',
-   display: 'grid',
+   display: 'flex',
    flexDirection: 'column',
    gap: '3.75rem',
 }))
@@ -121,7 +152,7 @@ const BlockRegion1 = styled('div')(() => ({
    '.blockItemRegion': {
       display: 'flex',
       flexDirection: 'column',
-
+      gap: '1.25rem',
       div: {
          display: 'flex',
          gap: '1.25rem',
@@ -132,11 +163,12 @@ const BlockRegion1 = styled('div')(() => ({
 const BlockRegion2 = styled('div')(() => ({
    display: 'flex',
    gap: '1.25rem',
+   padding: '0 0 10px 0',
 
    '.blockItemRegion': {
       display: 'flex',
       flexDirection: 'column',
-
+      gap: '1.25rem',
       div: {
          display: 'flex',
          gap: '1.25rem',
@@ -152,7 +184,26 @@ const StyleName = styled('p')(() => ({
    fontWeight: '500',
    lineHeight: 'normal',
    textTransform: 'uppercase',
-   position: 'relative',
-   top: '-40px',
-   left: '20px',
+   cursor: 'pointer',
+}))
+
+const ChuiAndOshCard = styled('div')(() => ({
+   width: '31.5625rem',
+   height: ' 38.09rem',
+   padding: '36rem 0 0 1.25rem',
+   cursor: 'pointer',
+}))
+const ItemRegionCard = styled('div')(() => ({
+   width: ' 21.6875rem',
+   height: '18.875rem',
+   padding: '16rem 0 0 1.25rem',
+   cursor: 'pointer',
+}))
+const NarynAndBihkek = styled('div')(() => ({
+   width: ' 44.6875rem',
+   height: '18rem',
+   background: `url(${bishkek})`,
+   backgroundSize: 'cover',
+   padding: '16rem 0 0 1.25rem',
+   cursor: 'pointer',
 }))

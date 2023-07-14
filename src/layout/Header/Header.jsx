@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Button, InputAdornment, styled } from '@mui/material'
-import { Link } from 'react-router-dom'
 import { Input } from '../../components/UI/input/Input'
 import {
    BlackAirBNBIcon,
@@ -10,7 +9,7 @@ import {
 } from '../../assets/icons/index'
 
 export function Header({ userLogin, loginHandler }) {
-   const [login, setLogin] = useState(false)
+   const [login, setLogin] = useState(true)
 
    function headerLoginHandler() {
       setLogin((prev) => !prev)
@@ -109,7 +108,7 @@ const StateBlock = styled('div')(() => ({
       gap: '3.75rem',
    },
 }))
-const StyleLink = styled(Link)(() => ({
+const StyleLink = styled('a')(() => ({
    textDecoration: 'none',
    color: 'var(--primary-white, #FFF)',
    fontFamily: 'Inter',
