@@ -4,7 +4,7 @@ import { RatingChartBar } from './RatingChartBar'
 import { Start1 } from '../../../assets/icons'
 
 export function RatingChart({ starValue }) {
-   const maximumRating = 35
+   const maximumRating = 8
    const rating = [
       { label: '5', currentRating: 0 },
       { label: '4', currentRating: 0 },
