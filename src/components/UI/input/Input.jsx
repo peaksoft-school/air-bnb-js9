@@ -8,9 +8,7 @@ export const Input = forwardRef(
             type={type}
             placeholder={placeholder || 'введите что-нибудь'}
             ref={ref}
-            {...props}
             size={size}
-            error
             helperText={helperText || ''}
             label={label}
          />
@@ -18,22 +16,53 @@ export const Input = forwardRef(
    }
 )
 
-const StyledInput = styled(TextField)((props) => ({
-   width: props.width || '100%',
-   height: props.height || '37px',
-   padding: props.padding || ' 0px 0px 0px 0px;',
-   '& .MuiOutlinedInput-input': {
-      borderRadius: '2px',
-   },
-   '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-         borderColor: 'gray',
-      },
-      '&:hover fieldset': {
-         border: '2px solid gray',
-      },
-   },
-   '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: 'gray',
-   },
-}))
+const StyledInput = styled(TextField)(({ props, barsbek }) => {
+   if (barsbek === 'nekrash') {
+      return {
+         width: '100%',
+         backgroundColor: '#fff',
+
+         '& .MuiOutlinedInput-input': {
+            borderRadius: '2px',
+         },
+         '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+               borderColor: 'gray',
+               border: 'none',
+            },
+            '&:hover fieldset': {
+               border: 'none',
+            },
+         },
+         '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':
+            {
+               borderColor: 'gray',
+               border: 'none',
+            },
+      }
+   }
+   if (barsbek === 'krash') {
+      return {
+         width: `${props.width}` || '100%',
+         height: `${props.height}` || '37px',
+         backgroundColor: '#fff',
+
+         '& .MuiOutlinedInput-input': {
+            borderRadius: '2px',
+         },
+         '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+               borderColor: 'gray',
+            },
+            '&:hover fieldset': {
+               border: '2px solid gray',
+            },
+         },
+         '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':
+            {
+               borderColor: 'gray',
+            },
+      }
+   }
+   return {}
+})
