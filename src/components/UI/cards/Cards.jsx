@@ -28,7 +28,6 @@ const data = [
       location: 'Kyrgyzstan, Bishkek, Cholpon-Ata',
       rating: 2.3,
       price: 220,
-      // status: 'dates',
       title: 'There is free private parking ...',
       urls: [
          'https://media.istockphoto.com/id/1406578714/photo/classic-living-room-interior-design-with-marble-floor.jpg?s=2048x2048&w=is&k=20&c=W6y9DnBiKOSmeEGk_G5unOGd5BHapCEWmuMbNt7XDg4=',
