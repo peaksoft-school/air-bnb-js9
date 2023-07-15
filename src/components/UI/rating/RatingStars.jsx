@@ -11,7 +11,7 @@ export function RatingStars({ starRating }) {
                alignItems: 'center',
             }}
          >
-            <Rating name="simple-controlled" value={starRating} />
+            <Rating name="simple-controlled" readOnly value={starRating} />
          </Box>
       </div>
    )

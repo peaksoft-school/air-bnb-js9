@@ -4,7 +4,7 @@ import { Dislike, Like1 } from '../../../assets/icons'
 import { MenuEditAndDelete } from '../menu/MenuEditAndDelete'
 import { RatingStars } from '../rating/RatingStars'
 
-export default function Feedback({ data }) {
+export default function Feedback({ data, onLike, onDislike }) {
    const [open, setOpen] = useState(false)
    const [showFullText, setShowFullText] = useState(false)
 
@@ -64,19 +64,19 @@ export default function Feedback({ data }) {
                   <span> {truncatedText}</span>
                )}
 
-               <a href="#!" onClick={toggleText}>
+               <ShowMoreAndLess onClick={toggleText}>
                   {showFullText ? 'See less' : 'See more'}
-               </a>
+               </ShowMoreAndLess>
             </p>
          </CommentBlock>
 
          <GradeBlock>
-            <StyledIconButton>
+            <StyledIconButton onClick={onLike}>
                <Like1 />
                <p>{data.like}</p>
             </StyledIconButton>
 
-            <StyledIconButton>
+            <StyledIconButton onClick={onDislike}>
                <Dislike />
                <p> {data.dislike}</p>
             </StyledIconButton>
@@ -91,7 +91,7 @@ const Container = styled('div')(() => ({
    p: {
       color: '#828282',
       a: {
-         marginLeft: '10px',
+         marginLeft: '0.625rem',
       },
    },
 }))
@@ -134,4 +134,11 @@ const StyledIconButton = styled(IconButton)(() => ({
 
 const CommentBlock = styled('div')(() => ({
    width: '36.4375rem',
+   marginTop: '-1.25rem',
+}))
+
+const ShowMoreAndLess = styled('span')(() => ({
+   color: ' var(--tertiary-blue, #266BD3)',
+   lineHeight: '130%',
+   textDecorationLine: 'underline',
 }))
