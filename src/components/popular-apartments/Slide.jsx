@@ -6,10 +6,14 @@ import { styled } from '@mui/material'
 import houseSlide from '../../assets/images/popularapartment.png'
 import houseSlides from '../../assets/images/apartments-slide.png'
 import houseSlidee from '../../assets/images/apartments-slide1.png'
-import { ReactComponent as ArrowRightDots } from '../../assets/icons/arrowright.svg'
-import { ReactComponent as ArrowLeftDots } from '../../assets/icons/Group 238.svg'
+import {
+   ArrowLeftDots,
+   ArrowRightDots,
+   ArrowrightBlack,
+   ArrowLeftBlack,
+} from '../../assets/icons'
 
-export function MySlider() {
+export function MySlider({ background, state }) {
    const sliderRef = useRef(null)
    const [currentSlide, setCurrentSlide] = useState(0)
 
@@ -60,7 +64,6 @@ export function MySlider() {
          id: 7,
       },
    ]
-
    const totalSlides = slideImages.length
 
    const goToPrevSlide = () => {
@@ -78,34 +81,54 @@ export function MySlider() {
    }
 
    return (
-      <ContainerImg>
+      <ContainerImg background={background}>
          <Slider {...settings} ref={sliderRef}>
             {slideImages.map((item) => (
-               <ImgBlock key={item.id}>
+               <ImgBlock>
                   <StyledImg src={item.image} alt={item.alt} />
                </ImgBlock>
             ))}
          </Slider>
          <Arrows>
-            <CustomArrowLeftDots
-               onClick={goToPrevSlide}
-               disabled={currentSlide === 0}
-               color={
-                  currentSlide === 0 || currentSlide === totalSlides - 1
-                     ? '#97C69E'
-                     : 'white'
-               }
-            />
-            <p style={{ color: 'white' }}>
+            {state ? (
+               <ArrowLeftBlack
+                  onClick={goToPrevSlide}
+                  disabled={currentSlide === 0}
+                  color={
+                     currentSlide === 0 || currentSlide === totalSlides - 1
+                        ? '#97C69E'
+                        : 'white'
+                  }
+               />
+            ) : (
+               <CustomArrowLeftDots
+                  onClick={goToPrevSlide}
+                  disabled={currentSlide === 0}
+                  color={
+                     currentSlide === 0 || currentSlide === totalSlides - 1
+                        ? '#97C69E'
+                        : 'white'
+                  }
+               />
+            )}
+
+            <p style={state ? { color: '#000' } : { color: 'white' }}>
                {currentSlide + 1 < 10
                   ? `0${currentSlide + 1}`
                   : currentSlide + 1}
                /{totalSlides < 10 ? `0${totalSlides}` : totalSlides}
             </p>
-            <CustomArrowRightDots
-               onClick={goToNextSlide}
-               disabled={currentSlide === totalSlides - 1}
-            />
+            {state ? (
+               <ArrowrightBlack
+                  onClick={goToNextSlide}
+                  disabled={currentSlide === totalSlides - 1}
+               />
+            ) : (
+               <CustomArrowRightDots
+                  onClick={goToNextSlide}
+                  disabled={currentSlide === totalSlides - 1}
+               />
+            )}
          </Arrows>
       </ContainerImg>
    )

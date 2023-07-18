@@ -3,7 +3,7 @@ import { styled as MUistyled } from '@mui/material'
 import { NavLink, BrowserRouter as Router } from 'react-router-dom'
 import popularHouseImage from '../../assets/images/popularapartment.png'
 import houseSlide from '../../assets/images/apartments-slide.png'
-import { ReactComponent as LocationOsh } from '../../assets/icons/location.svg'
+import { Location } from '../../assets/icons'
 import { MySlider } from './Slide'
 
 export const popular = [
@@ -14,38 +14,39 @@ export const popular = [
       img: popularHouseImage,
       img1: houseSlide,
       description:
-         'The Aska Lara Resort & Spa Hotel, which operates on an all-inclusive system, occupies 2 plots separated by a road. The hotel is located in the Lara district, 500 meters from the sea...',
+         'The Aska Lara Resort & Spa Hotel, which operates  on an all-inclusive system, occupies 2 plots separated by a road. The hotel is located in the Lara district, 500 meters from the sea...',
    },
 ]
 
-export default function PopularApartments({
-   width,
-   height,
-   background,
-   color,
-}) {
-   const Container = MUistyled('div')({
-      width: width || '100%',
-      height: height || '55rem',
-      backgroundColor: background || '#4F7755',
-      color: color || '#fffff',
+export default function PopularApartments({ state, func }) {
+   const Container = MUistyled('div')(({ state }) => ({
+      width: '100%',
+      height: '55rem',
+      backgroundColor: state ? '#fff' : '#4F7755',
+      color: state ? '#000' : '#fff',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
       padding: '170px 0px 170px 100px',
-   })
+      '@media (max-width: 768px)': {
+         padding: '100px',
+      },
+   }))
 
    const StyledNavlink = MUistyled('p')(({ theme }) => ({
       margin: '0.46rem 0rem 2.16rem 0rem',
-      color: color || theme.palette.tertiary.lightgreen,
+      color: state ? '#000' : theme.palette.tertiary.lightgreen,
       textDecoration: 'none',
    }))
 
    const StyledNavlinkView = MUistyled(NavLink)(({ theme }) => ({
       margin: '0.46rem 0rem 2.16rem 0rem',
-      color: color || theme.palette.primary.more,
-      //    textDecoration: 'none',
+      color: state ? '#000' : theme.palette.primary.more,
+      textDecoration: 'underline',
+      '&:hover': {
+         textDecoration: 'none',
+      },
    }))
 
    const PopularApart = MUistyled('div')({
@@ -62,12 +63,13 @@ export default function PopularApartments({
    })
 
    const Popular = MUistyled('p')(({ theme }) => ({
-      color: color || theme.palette.primary.white,
+      color: state ? '#000' : theme.palette.primary.white,
       fontFamily: 'Inter',
+      fontWeight: 500,
    }))
 
    const SpaOtel = MUistyled('h2')(({ theme }) => ({
-      color: color || theme.palette.primary.white,
+      color: state ? '#000' : theme.palette.primary.white,
       fontSize: '1.1rem',
       lineHeight: '1rem',
       fontWeight: '500',
@@ -78,40 +80,59 @@ export default function PopularApartments({
       display: 'flex',
       justifyContent: 'space-around',
       gap: '20px',
+      flexDirection: 'column',
+      '@media (min-width: 48rem)': {
+         flexDirection: 'row',
+         alignItems: 'center',
+      },
    })
 
    const ImageHouse = MUistyled('img')({
-      width: '32.8125rem',
-      height: '28.5rem',
+      width: '100%',
+      maxWidth: '32.8rem',
+      height: 'auto',
+      display: 'flex',
+
+      '@media (min-width:48rem)': {
+         flexDirection: 'row',
+         alignItems: 'center',
+      },
    })
 
    const BlockAskaLara = MUistyled('p')(({ theme }) => ({
-      color: color || theme.palette.primary.white,
+      color: state ? '#000' : theme.palette.primary.white,
       fontSize: '16px',
       fontWeight: '400',
-      width: '19.375rem',
-      marginTop: '1. 5rem',
+      width: '100%',
+      marginTop: '1.5rem',
+      '@media (min-width: 48rem)': {
+         width: '19.3rem',
+      },
    }))
 
    return (
       <Router>
-         <Container>
+         <Container state={state}>
             <PopularApart>
                <Popular>Popular Apartments</Popular>
-               <StyledNavlinkView style={{ marginRight: '7rem' }} to="/">
+               <StyledNavlinkView
+                  style={{ marginRight: '7rem' }}
+                  to="/"
+                  onClick={func}
+               >
                   View all
                </StyledNavlinkView>
             </PopularApart>
             <>
                {popular.map((el) => (
-                  <div key={el.id}>
+                  <div>
                      <BlockHouse>
                         <ImageHouse src={el.img} alt={el.title} />
                         <BlockText>
                            <SpaOtel>{el.title}</SpaOtel>
                            <BlockAskaLara>{el.description}</BlockAskaLara>
                            <StyledNavlink>
-                              <LocationOsh />
+                              <Location />
                               {el.location}
                            </StyledNavlink>
                            <StyledNavlinkView to="/">
@@ -119,7 +140,7 @@ export default function PopularApartments({
                            </StyledNavlinkView>
                         </BlockText>
                         <div>
-                           <MySlider />
+                           <MySlider state={state} />
                         </div>
                      </BlockHouse>
                   </div>
