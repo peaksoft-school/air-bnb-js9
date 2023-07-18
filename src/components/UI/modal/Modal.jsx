@@ -16,8 +16,9 @@ const StyledMuiModal = styled(MuiModal)(() => ({
 }))
 
 const StyledBox = styled(Box)((props) => ({
-   backgroundColor: 'white',
    padding: '1.875rem',
    borderRadius: '0.25rem',
    width: props.width || '100%',
+   display: 'flex',
+   justifyContent: 'center',
 }))
