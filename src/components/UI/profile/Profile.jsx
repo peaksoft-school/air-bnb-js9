@@ -19,14 +19,18 @@ export default function Profile({ data, logOut }) {
                textAlign="right"
                width="4.375rem"
                height="8.125rem"
+               color="var(--tertiary-dark-gray, #646464)"
             >
-               <StyledH3>Name:</StyledH3>
-               <StyledH3>Contact:</StyledH3>
+               <p>Name:</p>
+               <p>Contact:</p>
                {logOut && <LogOut>Log out</LogOut>}
             </NameAndContactBlock>
-            <NameAndContactBlock textAlign="left">
-               <StyledNameAndEmail>{data.name}</StyledNameAndEmail>
-               <StyledNameAndEmail>{data.contact}</StyledNameAndEmail>
+            <NameAndContactBlock
+               textAlign="left"
+               color="var(--primary-black, #363636)"
+            >
+               <p>{data.name}</p>
+               <p>{data.contact}</p>
             </NameAndContactBlock>
          </UserInfo>
       </Container>
@@ -34,10 +38,10 @@ export default function Profile({ data, logOut }) {
 }
 
 const Container = styled('div')(() => ({
-   width: '25.8125rem',
-   height: '15.6875rem',
+   width: '34.4167vw',
+   height: '20.9167%',
    borderRadius: '1rem',
-   border: ' 0.0625rem solid var(--tertiary-light-gray, #c4c4c4)',
+   border: '0.0625rem solid var(--tertiary-light-gray, #c4c4c4)',
    display: 'flex',
    flexDirection: 'column',
    justifyContent: 'center',
@@ -68,22 +72,13 @@ const NameAndContactBlock = styled('div')((props) => ({
    width: props.width,
    height: props.height,
    textAlign: props.textAlign,
-}))
-
-const StyledH3 = styled('h3')(() => ({
-   color: 'var(--tertiary-dark-gray, #646464)',
-   fontSize: '1rem',
-   fontStyle: 'normal',
-   fontWeight: '400',
-   lineHeight: 'normal',
-}))
-
-const StyledNameAndEmail = styled('h3')(() => ({
-   color: 'var(--primary-black, #363636)',
-   fontSize: '1rem',
-   fontStyle: 'normal',
-   fontWeight: '500',
-   lineHeight: 'normal',
+   ' & > p': {
+      color: props.color,
+      fontSize: '1rem',
+      fontStyle: 'normal',
+      fontWeight: '400',
+      lineHeight: 'normal',
+   },
 }))
 
 const LogOut = styled('button')(() => ({
