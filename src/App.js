@@ -1,10 +1,4 @@
-import { Upload } from './components/UI/Upload'
-
 function App() {
-   return (
-      <div>
-         <Upload />
-      </div>
-   )
+   return <div>AirBnB</div>
 }
 export default App
