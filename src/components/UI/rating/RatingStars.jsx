@@ -1,9 +1,7 @@
 import { Box, Rating } from '@mui/material'
-import React, { useState } from 'react'
-import { RatingChart } from './RatingChart'
+import React from 'react'
 
-export function RatingStars() {
-   const [starValue, setStarValue] = useState(0)
+export function RatingStars({ starRating }) {
    return (
       <div>
          <Box
@@ -13,15 +11,8 @@ export function RatingStars() {
                alignItems: 'center',
             }}
          >
-            <Rating
-               name="simple-controlled"
-               value={starValue}
-               onChange={(event, newValue) => {
-                  setStarValue(newValue)
-               }}
-            />
+            <Rating name="simple-controlled" readOnly value={starRating} />
          </Box>
-         <RatingChart starValue={starValue} />
       </div>
    )
 }

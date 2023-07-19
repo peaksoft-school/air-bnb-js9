@@ -2,7 +2,7 @@ import React from 'react'
 import { styled } from '@mui/material'
 import { ReactComponent as IconMenu } from '../../../assets/icons/IconMenu.svg'
 
-export const MenuEditAndDelete = (props) => {
+export function MenuEditAndDelete(props) {
    const { children, open, openHandler } = props
 
    return (
@@ -21,13 +21,14 @@ const Card = styled('div')({
 })
 
 const CardEditAndDelete = styled('div')(() => ({
-   minWidth: '18%',
+   minWidth: '10%',
    minHeight: '9%',
    borderRadius: '0.125rem',
    border: ' 1px solid var(--tertiary-light-gray, #C4C4C4)',
    background: '#FFF',
    padding: '1rem 0rem',
    zIndex: 999,
+   position: 'absolute',
 
    'h2,h3,h4,h5,h6,p': {
       color: '#5D5D5D',
@@ -48,6 +49,4 @@ const CardEditAndDelete = styled('div')(() => ({
 const Backdrop = styled('div')(() => ({
    width: '100%',
    height: '100%',
-   position: 'absolute',
-   top: '0',
 }))
