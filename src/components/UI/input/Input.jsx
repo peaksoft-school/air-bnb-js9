@@ -3,21 +3,38 @@ import { TextField, styled } from '@mui/material'
 import React, { forwardRef } from 'react'
 
 export const Input = forwardRef(
-   ({ type, size, label, placeholder, helperText, ...props }, ref) => {
+   (
+      {
+         type,
+         size,
+         label,
+         name,
+         placeholder,
+         onChange,
+         value,
+         error,
+         ...props
+      },
+      ref
+   ) => {
       return (
          <StyledInput
             type={type}
             placeholder={placeholder || 'введите что-нибудь'}
             ref={ref}
+            value={value}
             size={size}
-            helperText={helperText || ''}
             label={label}
+            onChange={onChange}
+            name={name}
+            error={error}
+            {...props}
          />
       )
    }
 )
 
-const StyledInput = styled(TextField)(({ props, barsbek }) => {
+const StyledInput = styled(TextField)(({ barsbek, width }) => {
    if (barsbek === 'nekrash') {
       return {
          width: '100%',
@@ -44,8 +61,7 @@ const StyledInput = styled(TextField)(({ props, barsbek }) => {
    }
    if (barsbek === 'krash') {
       return {
-         width: `${props.width}` || '100%',
-         height: `${props.height}` || '37px',
+         width: width || '100%',
          backgroundColor: '#fff',
 
          '& .MuiOutlinedInput-input': {
