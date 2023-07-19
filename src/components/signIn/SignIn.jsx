@@ -1,45 +1,76 @@
-import { styled } from '@mui/material'
 import React from 'react'
+import { styled } from '@mui/material'
+import { Form, Formik } from 'formik'
+import * as Yup from 'yup'
 import { Input } from '../UI/input/Input'
 import { Button } from '../UI/Button'
 
-export function SignIn({ func }) {
-   const validateLogin = (value) => {
-      if (value.includes('@')) {
-         return ''
-      }
-      return 'Login should have "@"'
-   }
+export function SignIn({ moveToSigninAndSignUp }) {
+   const validationSchema = Yup.object().shape({
+      email: Yup.string().required('Required').email('It is not an email'),
+      password: Yup.string()
+         .required('Required')
+         .min(8, 'Password must be more than 8 symbols'),
+   })
 
-   const validatePassword = (value) => {
-      if (value.length < 8) {
-         return 'Password must be more than 8 symbols'
-      }
-      return ''
+   const handleSubmit = (values) => {
+      console.log(values)
    }
 
    return (
       <Container>
          <StyledH3>SIGN IN</StyledH3>
-         <InputDiv>
-            <Input
-               validate={validateLogin}
-               barsbek="krash"
-               size="small"
-               placeholder="Login"
-            />
-            <Input
-               validate={validatePassword}
-               barsbek="krash"
-               size="small"
-               placeholder="Password"
-            />
-         </InputDiv>
+         <Formik
+            initialValues={{ email: '', password: '' }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+         >
+            {({ errors, touched, values, handleChange }) => (
+               <FormStyled>
+                  <InputDiv>
+                     <Input
+                        type="text"
+                        name="email"
+                        barsbek="krash"
+                        size="small"
+                        placeholder="Login"
+                        value={values.email}
+                        onChange={handleChange}
+                        error={touched.email && !!errors.email}
+                     />
+                     {errors.email && touched.email && (
+                        <p style={{ color: 'red' }}>{errors.email}</p>
+                     )}
 
-         <Button variant="contained" width="100%" color="white">
-            SIGN IN
-         </Button>
-         <StyledAhref onClick={func}>sign in with google</StyledAhref>
+                     <Input
+                        type="password"
+                        name="password"
+                        barsbek="krash"
+                        size="small"
+                        placeholder="Password"
+                        value={values.password}
+                        error={touched.password && !!errors.password}
+                        onChange={handleChange}
+                     />
+                     {errors.password && touched.password && (
+                        <p style={{ color: 'red' }}>{errors.password}</p>
+                     )}
+                  </InputDiv>
+
+                  <Button
+                     type="submit"
+                     variant="contained"
+                     width="100%"
+                     color="white"
+                  >
+                     SIGN IN
+                  </Button>
+               </FormStyled>
+            )}
+         </Formik>
+         <StyledAhref onClick={moveToSigninAndSignUp}>
+            sign in with google
+         </StyledAhref>
       </Container>
    )
 }
@@ -80,4 +111,8 @@ const StyledAhref = styled('a')(() => ({
    fontWeight: ' 400',
    marginTop: '1.8rem',
    textDecoration: 'underline',
+}))
+
+const FormStyled = styled(Form)(() => ({
+   width: '100%',
 }))

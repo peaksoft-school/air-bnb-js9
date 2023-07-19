@@ -24,7 +24,7 @@ export function MainPage() {
       setOpenModal((prev) => !prev)
    }
 
-   const func = () => {
+   const moveToSigninAndSignUp = () => {
       setSignIn((prev) => !prev)
    }
 
@@ -33,9 +33,12 @@ export function MainPage() {
          {openModal ? (
             <Modal open={openModal} onClose={openModalHandler}>
                {signIn ? (
-                  <SignIn func={func} />
+                  <SignIn moveToSigninAndSignUp={moveToSigninAndSignUp} />
                ) : (
-                  <JoinUs loginHandler={loginHandler} func={func} />
+                  <JoinUs
+                     loginHandler={loginHandler}
+                     moveToSigninAndSignUp={moveToSigninAndSignUp}
+                  />
                )}
             </Modal>
          ) : null}

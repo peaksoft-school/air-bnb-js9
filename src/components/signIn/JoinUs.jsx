@@ -3,7 +3,7 @@ import React from 'react'
 import { Button } from '../UI/Button'
 import { Google } from '../../assets/icons'
 
-export function JoinUs({ loginHandler, func }) {
+export function JoinUs({ loginHandler, moveToSigninAndSignUp }) {
    return (
       <Container>
          <StyledH3>JOIN US</StyledH3>
@@ -13,7 +13,9 @@ export function JoinUs({ loginHandler, func }) {
          <Button onClick={loginHandler} width="100%">
             <Google /> Google
          </Button>
-         <StyledAhref onClick={func}>log in as admin</StyledAhref>
+         <StyledAhref onClick={moveToSigninAndSignUp}>
+            log in as admin
+         </StyledAhref>
       </Container>
    )
 }

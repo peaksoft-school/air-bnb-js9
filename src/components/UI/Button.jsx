@@ -4,12 +4,14 @@ export function Button({
    children,
    variant = 'outlined',
    disabled,
+   type,
    onClick,
    ...props
 }) {
    return (
       <ButtonStyled
          disabled={disabled}
+         type={type}
          onClick={onClick}
          variant={variant}
          props={props}
