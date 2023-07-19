@@ -1,4 +1,3 @@
-import { ReactComponent as Vector } from './arrowright.svg'
 import { ReactComponent as Heart1 } from './defaultHeader.svg'
 import { ReactComponent as ClickHeart2 } from './activeHeart.svg'
 import { ReactComponent as Delete } from './delete.svg'
@@ -23,8 +22,10 @@ import { ReactComponent as GroupIcon } from './group.svg'
 import { ReactComponent as Google } from './google.svg'
 
 export {
+   ArrowrightBlack,
+   ArrowLeftBlack,
    Heart1,
-   Vector,
+   UploadImg,
    ClickHeart2,
    Delete,
    Dislike,
