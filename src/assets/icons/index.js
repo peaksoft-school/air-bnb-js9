@@ -1,4 +1,3 @@
-import { ReactComponent as Vector } from './arrowright.svg'
 import { ReactComponent as Heart1 } from './defaultHeader.svg'
 import { ReactComponent as ClickHeart2 } from './activeHeart.svg'
 import { ReactComponent as Delete } from './delete.svg'
@@ -16,15 +15,17 @@ import { ReactComponent as SelectionIcon } from './selectIcon.svg'
 import { ReactComponent as Start1 } from './star1.svg'
 import { ReactComponent as Star2 } from './start2.svg'
 import { ReactComponent as TelegramIcon } from './telegram.svg'
-
 import { ReactComponent as AirBNBIcon } from './airbnb.svg'
 import { ReactComponent as BlackAirBNBIcon } from './blackairbnb.svg'
 import { ReactComponent as SearchIcon } from './search.svg'
 import { ReactComponent as GroupIcon } from './group.svg'
+import { ReactComponent as Google } from './google.svg'
 
 export {
+   ArrowrightBlack,
+   ArrowLeftBlack,
    Heart1,
-   Vector,
+   UploadImg,
    ClickHeart2,
    Delete,
    Dislike,
@@ -45,4 +46,5 @@ export {
    BlackAirBNBIcon,
    SearchIcon,
    GroupIcon,
+   Google,
 }
