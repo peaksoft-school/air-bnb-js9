@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import mainBackground from '../../assets/images/MainBackground.png'
 import { Header } from '../../layout/Header/Header'
 import { Input } from '../UI/input/Input'
-import { MainRegion } from './MainRegion'
 import { SearchIcon } from '../../assets/icons'
 import Modal from '../UI/modal/Modal'
 import { JoinUs } from '../signIn/JoinUs'
@@ -85,7 +84,6 @@ export function MainPage() {
                   </div>
                </BlockInput>
             </Block>
-            <MainRegion />
          </StyleMain>
       </div>
    )

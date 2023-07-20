@@ -120,7 +120,7 @@ export function PopularHouse() {
 
 const Container = styled('div')(() => ({
    width: '100%',
-   padding: '5rem 9rem 5rem 9rem',
+   padding: '10.62rem 6.25rem 0 6.25rem',
    display: 'flex',
    flexDirection: 'column',
    gap: '3rem',

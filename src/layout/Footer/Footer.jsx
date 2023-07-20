@@ -4,7 +4,7 @@ import {
    AirBNBIcon,
    InstagramIcon,
    TelegramIcon,
-   // WhatsAppIcon,
+   WhatsAppIcon,
 } from '../../assets/icons'
 
 export function Footer() {
@@ -17,12 +17,12 @@ export function Footer() {
             </SsylkaDiv>
 
             <div>
-               <AirBNBIcon />
+               <AirBNBIcon style={{ width: '5rem', height: '5rem' }} />
             </div>
 
             <SocialDiv>
                <InstagramIcon />
-               {/* <WhatsAppIcon /> */}
+               <WhatsAppIcon />
                <TelegramIcon />
             </SocialDiv>
          </StyledDiv>
