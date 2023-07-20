@@ -104,6 +104,7 @@ export default function PopularApartments({ state, func }) {
       fontSize: '16px',
       fontWeight: '400',
       width: '100%',
+      maxWidth: '100%',
       marginTop: '1.5rem',
       '@media (min-width: 48rem)': {
          width: '19.3rem',
