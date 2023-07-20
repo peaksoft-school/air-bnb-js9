@@ -1,6 +1,6 @@
-import house1 from '../../assets/images/popularHouse1.png'
-import house2 from '../../assets/images/popularHouse2.png'
-import house3 from '../../assets/images/popularHouse3.png'
+import detailHouse2 from '../../assets/images/houseDeteil2.png'
+import detailHouse3 from '../../assets/images/houseDeteil3.png'
+import detailHouse4 from '../../assets/images/houseDeteil4.png'
 
 export const regions = [
    { id: 'option1', name: 'Batken' },
@@ -25,26 +25,25 @@ export const price = [
    { id: 'option13', name: 'High to low' },
 ]
 
-export const popularHouse = [
+export const house = [
    {
-      img: `${house1}`,
-      title: 'Asman guest house',
-      address: '723510 Osh Muzurbek Alimbekov 9/7',
-      price: '$26',
-      rating: '3.4',
+      id: 1,
+      original: detailHouse2,
+      thumbnail: detailHouse2,
    },
    {
-      img: `${house2}`,
-      title: 'Asman guest house',
-      address: '723510 Osh Muzurbek Alimbekov 9/7',
-      price: '$26',
-      rating: '3.4',
+      id: 2,
+      original: detailHouse4,
+      thumbnail: detailHouse4,
    },
    {
-      img: `${house3}`,
-      title: 'Asman guest house',
-      address: '723510 Osh Muzurbek Alimbekov 9/7',
-      price: '$26',
-      rating: '3.4',
+      id: 3,
+      original: detailHouse2,
+      thumbnail: detailHouse2,
+   },
+   {
+      id: 4,
+      original: detailHouse3,
+      thumbnail: detailHouse3,
    },
 ]
