@@ -8,26 +8,31 @@ import { OnModeration } from './OnModeration'
 
 const bookings = [
    {
+      id: 1,
       title: 'Beku',
    },
    {
+      id: 2,
       title: 'bookings',
    },
 ]
 const announcement = [
    {
+      id: 3,
       title: 'announcement',
    },
    {
+      id: 4,
       title: 'Beku',
    },
 ]
 const moderation = [
    {
+      id: 5,
       title: 'moderation',
    },
 ]
-export const Tabs = () => {
+export function Tabs() {
    const BookingLength = bookings.length
    const announcementLength = announcement.length
    const moderationLength = moderation.length
@@ -65,13 +70,13 @@ export const Tabs = () => {
    )
 }
 const StyleHead = styled('div')(() => ({
-   width: '51.25rem',
+   width: '90%',
    height: '4.25vh',
    borderBottom: '1px solid #C4C4C4',
    display: 'flex',
    justifyContent: 'center',
    alignItems: 'center',
-   gap: '50px',
+   gap: '3.125rem',
 }))
 
 const StyleLink = styled(NavLink)(() => ({
@@ -91,6 +96,6 @@ const StyleLink = styled(NavLink)(() => ({
       borderBottom: '2px solid #000',
    },
    h3: {
-      marginBottom: '8.25px',
+      marginBottom: '0.5156rem',
    },
 }))

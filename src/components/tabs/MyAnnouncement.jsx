@@ -1,11 +1,11 @@
 import React from 'react'
 
-export const MyAnnouncement = ({ moderation }) => {
+export function MyAnnouncement({ moderation }) {
    return (
       <div>
          {moderation.map((item) => {
             return (
-               <div>
+               <div key={item.id}>
                   <h1>{item.title}</h1>
                   <p>{item.age}</p>
                </div>

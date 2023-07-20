@@ -1,11 +1,11 @@
 import React from 'react'
 
-export const Bookings = ({ bookings }) => {
+export function Bookings({ bookings }) {
    return (
       <div>
          {bookings.map((item) => {
             return (
-               <div>
+               <div key={item.id}>
                   <h1>{item.title}</h1>
                   <p>{item.age}</p>
                </div>
