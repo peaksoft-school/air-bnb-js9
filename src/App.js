@@ -1,11 +1,4 @@
-import { Tabs } from './components/tabs/Tabs'
-
 function App() {
-   return (
-      <div>
-         AirBnB
-         <Tabs />
-      </div>
-   )
+   return <div>AirBnB</div>
 }
 export default App
