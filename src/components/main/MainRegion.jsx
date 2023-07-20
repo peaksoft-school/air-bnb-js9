@@ -109,7 +109,7 @@ const GlobalConteiner = styled('div')(() => ({
    display: 'grid',
    justifyContent: 'center',
    alignItems: 'center',
-   padding: '10.62rem  0 0 0',
+   padding: '10.62rem  0 10.62rem 0',
 }))
 const MainContainer = styled('div')(() => ({
    width: '100%',
