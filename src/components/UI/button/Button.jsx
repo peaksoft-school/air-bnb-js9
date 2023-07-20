@@ -4,12 +4,14 @@ export function Button({
    children,
    variant = 'outlined',
    disabled,
+   type,
    onClick,
    ...props
 }) {
    return (
       <ButtonStyled
          disabled={disabled}
+         type={type}
          onClick={onClick}
          variant={variant}
          props={props}
@@ -26,12 +28,12 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
             display: 'flex',
             width: ` ${props.width}`,
             height: `${props.height}`,
-            color: 'white',
+            backgroundColor: `${props.bgColor}`,
+            color: `${props.color}`,
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: `${props.borderRadius}`,
             gap: '10px',
-            background: `${props.bgColor}`,
 
             '&:hover': {
                background: '#BB7200',
@@ -56,6 +58,7 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
             color: ' #000',
             borderRadius: '8px',
             border: '1px solid var(--tertiary-light-gray, #C4C4C4)',
+            width: `${props.width}`,
          },
          '&:hover': {
             border: ' 1px solid var(--tertiary-middle-gray, #828282)',

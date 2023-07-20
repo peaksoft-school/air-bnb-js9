@@ -1,58 +1,18 @@
 import React, { useState } from 'react'
-import { styled } from '@mui/material'
+import { Tooltip, styled } from '@mui/material'
 import {
-   ArrayFight,
-   ArrayLeft,
+   ArrowRight,
+   Arrowleft,
    Location,
    Start1,
 } from '../../../assets/icons/index'
 import { Button } from '../button/Button'
 import { ButtonIcon } from '../IconButton/IconButton'
 
-const data = [
-   {
-      id: 8,
-      location: 'Kyrgyzstan, Bishkek, Cholpon-Ata',
-      rating: 2.3,
-      price: 220,
-      title: 'There is free private parking...',
-      urls: [
-         'https://images.pexels.com/photos/1457847/pexels-photo-1457847.jpeg?auto=compress&cs=tinysrgb&w=600',
-         'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=600',
-         'https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&w=600',
-         'https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      ],
-   },
-   {
-      id: 3,
-      location: 'Kyrgyzstan, Bishkek, Cholpon-Ata',
-      rating: 2.3,
-      price: 220,
-      title: 'There is free private parking ...',
-      urls: [
-         'https://media.istockphoto.com/id/1406578714/photo/classic-living-room-interior-design-with-marble-floor.jpg?s=2048x2048&w=is&k=20&c=W6y9DnBiKOSmeEGk_G5unOGd5BHapCEWmuMbNt7XDg4=',
-      ],
-   },
-   {
-      id: 2,
-      location: 'Kyrgyzstan, Bishkek, Cholpon-Ata',
-      rating: 2.3,
-      price: 220,
-      status: 'dates',
-      title: 'There is free private parking ...',
-      urls: [
-         'https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&w=600',
-         'https://images.pexels.com/photos/1457847/pexels-photo-1457847.jpeg?auto=compress&cs=tinysrgb&w=600',
-         'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=600',
-         'https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      ],
-   },
-]
-
-export function Cards() {
+export function Cards({ data, ...props }) {
    const [currentImages, setCurrentImages] = useState(data.map(() => 0))
    const [dataa, setData] = useState(
-      data.map((item) => ({ ...item, open: false }))
+      data?.map((item) => ({ ...item, open: false }))
    )
 
    const handleNextImage = (index) => {
@@ -64,6 +24,13 @@ export function Cards() {
                : newImages[index] + 1
          return newImages
       })
+   }
+   const truncateTitle = (title) => {
+      const words = title.split(' ')
+      if (words.length > 7) {
+         return `${words.slice(0, 4).join(' ')}...`
+      }
+      return title
    }
 
    const handlePrevImage = (index) => {
@@ -91,21 +58,21 @@ export function Cards() {
             <MapContainer key={item.id} status={item.status}>
                <div>
                   {item.urls.length > 1 && (
-                     <ImageNavigation>
+                     <IconsContainer className="ImageNavigation">
                         <StyledButton onClick={() => handlePrevImage(index)}>
-                           <ArrayLeft />
+                           <Arrowleft />
                         </StyledButton>
                         <StyledButton onClick={() => handleNextImage(index)}>
-                           <ArrayFight />
+                           <ArrowRight />
                         </StyledButton>
-                     </ImageNavigation>
+                     </IconsContainer>
                   )}
                   <StyleImage
                      src={item.urls[currentImages[index]]}
                      alt="home"
                   />
                </div>
-               <DayStartContainer>
+               <DayStartContainer onClick={props.dd}>
                   <DayContainer>
                      ${item.price}/ <DayStyle>day</DayStyle>{' '}
                   </DayContainer>
@@ -116,7 +83,9 @@ export function Cards() {
                   </StartContainer>
                </DayStartContainer>
                <StyleTitle>
-                  <p>{item.title}</p>
+                  <Tooltip title={item.title}>
+                     {truncateTitle(item.title)}
+                  </Tooltip>
                </StyleTitle>
                <LocationCantainerStyle>
                   <Location />
@@ -127,7 +96,13 @@ export function Cards() {
                ) : (
                   <ButtonsContainer>
                      <DayStyle>2 guests</DayStyle>
-                     <Button width="6.4375rem" bgColor="#DD8A08">
+                     <Button
+                        variant="contained"
+                        height="20%"
+                        bgColor="#DD8A08"
+                        color="white"
+                        width="6.4375rem"
+                     >
                         Book
                      </Button>
                      <ButtonIcon
@@ -152,6 +127,7 @@ const MainContainer = styled('div')`
    align-items: center;
    gap: 50px;
 `
+const IconsContainer = styled('div')``
 
 const MapContainer = styled('div')(({ status }) => ({
    width: '20.2%',
@@ -160,12 +136,28 @@ const MapContainer = styled('div')(({ status }) => ({
    outline: status === 'dates' ? '3px solid #ff0000' : 'none',
    border: status === 'dates' ? '4px solid pink' : 'none',
    display: 'flex',
+   position: 'relative',
    flexDirection: 'column',
    alignItems: 'center',
    justifyContent: 'center',
    lineHeight: '2rem',
+
+   '.ImageNavigation': {
+      display: 'none',
+   },
+
    '&:hover': {
+      opacity: 1,
       boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
+
+      '.ImageNavigation': {
+         position: 'absolute',
+         ziIdex: '9',
+         display: 'flex',
+         justifyContent: 'center',
+         gap: ' 15rem',
+         marginTop: '4.1rem',
+      },
    },
 }))
 
@@ -218,7 +210,6 @@ const ButtonsContainer = styled('section')`
    display: flex;
    justify-content: center;
    gap: 2rem;
-   margin-bottom: 1.25rem;
 `
 
 const StyledButton = styled('button')`
@@ -239,15 +230,6 @@ const StyledButton = styled('button')`
 const StyleImage = styled('img')`
    width: 19rem;
    height: 11.5rem;
-`
-
-const ImageNavigation = styled('div')`
-   position: absolute;
-   z-index: 9;
-   display: flex;
-   justify-content: center;
-   gap: 15rem;
-   margin-top: 4.1rem;
 `
 
 const StyleTitle = styled('p')`
