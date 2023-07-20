@@ -1,4 +1,3 @@
-import detailHouse1 from '../../assets/images/houseDeteil1.png'
 import detailHouse2 from '../../assets/images/houseDeteil2.png'
 import detailHouse3 from '../../assets/images/houseDeteil3.png'
 import detailHouse4 from '../../assets/images/houseDeteil4.png'
@@ -29,11 +28,22 @@ export const price = [
 export const house = [
    {
       id: 1,
-      imgHouse1: detailHouse1,
-      imgHouse2: detailHouse2,
-      imgHouse3: detailHouse3,
-      imgHouse4: detailHouse4,
-      imgHouse5: detailHouse3,
-      imgHouse6: detailHouse4,
+      original: detailHouse2,
+      thumbnail: detailHouse2,
+   },
+   {
+      id: 2,
+      original: detailHouse4,
+      thumbnail: detailHouse4,
+   },
+   {
+      id: 3,
+      original: detailHouse2,
+      thumbnail: detailHouse2,
+   },
+   {
+      id: 4,
+      original: detailHouse3,
+      thumbnail: detailHouse3,
    },
 ]
