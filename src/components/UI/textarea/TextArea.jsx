@@ -16,6 +16,8 @@ export const TextArea = forwardRef(({ type, placeholder, ...props }, ref) => {
 
 const StyledTextArea = styled(TextField)((props) => ({
    width: props.width || '100%',
+   height: props.height || '10%',
+   margin: props.marginBottom || '0',
    '& .MuiOutlinedInput-root': {
       '& fieldset': {
          borderColor: 'gray',
