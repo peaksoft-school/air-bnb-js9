@@ -26,23 +26,28 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
       return {
          '&.MuiButtonBase-root': {
             display: 'flex',
-            width: `${props.width}`,
-
             justifyContent: 'center',
             alignItems: 'center',
-            borderRadius: '2px',
             gap: '10px',
-            background: '#DD8A08',
+            width: `${props.width}`,
+            background: props.background || '#DD8A08',
+            padding: props.padding || '0',
+            border: props.border || '1px solid',
             color: `${props.color}`,
+            borderRadius: '2px',
+            fontFamily: 'Inter',
+            fontStyle: 'normal',
+            lineHeight: 'normal',
 
             '&:hover': {
-               background: '#BB7200',
+               background: props.background || '#BB7200',
             },
             '&:active': {
-               background: '#F2B75B',
+               background: props.background || '#F2B75B',
             },
             '&:disabled': {
-               background: ' var(--tertiary-light-gray, #C4C4C4)',
+               background:
+                  props.background || ' var(--tertiary-light-gray, #C4C4C4)',
             },
          },
       }

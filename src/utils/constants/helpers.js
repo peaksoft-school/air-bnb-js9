@@ -47,3 +47,15 @@ export const house = [
       thumbnail: detailHouse3,
    },
 ]
+
+export const Hotel = [
+   {
+      nameHotel: 'Name of hotel',
+      addresHotel: '12 Morris Ave, Toronto, ON, CA',
+      discriptionHotel:
+         'The hotel will provide guests with air-conditioned rooms offering a desk, a kettle, a fridge, a minibar, a safety deposit box, a flat-screen TV and a shared bathroom with a shower. At Garden Hotel & SPA the rooms have bed linen and towels.',
+      hostAvatar: 'https://img.freepik.com/free-icon/user_318-159711.jpg',
+      hostName: 'Anna Annova',
+      hostEmail: 'anna@gmail.com',
+   },
+]
