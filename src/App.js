@@ -1,12 +1,6 @@
 import React from 'react'
-import { AdminLayout } from './layout/adminLayout/AdminLayout'
 
 function App() {
-   return (
-      <div>
-         AirBnB
-         <AdminLayout />
-      </div>
-   )
+   return <div>AirBnB</div>
 }
 export default App
