@@ -11,28 +11,8 @@ export function NameOfHotel({ hotel, openModal, openModalHandler }) {
             openModalHandler={openModalHandler}
          />
          <ButtonContainerOne>
-            <Button
-               variant="contained"
-               padding="0.375rem 0.5rem"
-               border="1px solid #FFCBE0"
-               background=" #FFF0F6"
-               color=" #000"
-               font-size="  0.875rem"
-               font-weight="400"
-            >
-               Apartement
-            </Button>
-            <Button
-               variant="contained"
-               padding="0.375rem 0.5rem"
-               border="1px solid #FFCBE0"
-               background=" #FFF0F6"
-               color=" #000"
-               font-size="  0.875rem"
-               font-weight="400"
-            >
-               2 Guests
-            </Button>
+            <div>Apartement</div>
+            <div>2 Guests</div>
          </ButtonContainerOne>
          {hotel.map((item) => {
             return (
@@ -96,6 +76,20 @@ const ButtonContainerOne = styled('div')(() => ({
    alignItems: 'center',
    gap: '0.88rem',
    marginBottom: '1.25rem',
+   div: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: ' 0.375rem 0.5rem',
+      border: ' 1px solid #FFCBE0',
+      background: '#FFF0F6',
+      color: ' #000',
+      fontFamily: 'Inter',
+      fontSize: ' 0.875rem',
+      fontStyle: 'normal',
+      fontWeight: '400',
+      lineHeight: 'normal',
+   },
 }))
 const DescriptionContainer = styled('div')(() => ({
    display: 'flex',
