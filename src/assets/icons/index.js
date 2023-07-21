@@ -15,7 +15,9 @@ import { ReactComponent as SelectionIcon } from './selectIcon.svg'
 import { ReactComponent as Start1 } from './star1.svg'
 import { ReactComponent as Star2 } from './start2.svg'
 import { ReactComponent as TelegramIcon } from './telegram.svg'
-import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
+import { ReactComponent as ArrowRightDots } from './arrowright.svg'
+import { ReactComponent as ArrowLeftDots } from './Group 238.svg'
+import { ReactComponent as UploadImg } from './Camera Icon.svg'
 import { ReactComponent as AirBNBIcon } from './airbnb.svg'
 import { ReactComponent as BlackAirBNBIcon } from './blackairbnb.svg'
 import { ReactComponent as SearchIcon } from './search.svg'
@@ -32,6 +34,7 @@ export {
    ArrowLeftBlack,
    ArrowLeftDots,
    ArrowRightDots,
+   UploadImg,
    Heart1,
    ClickHeart2,
    Delete,
