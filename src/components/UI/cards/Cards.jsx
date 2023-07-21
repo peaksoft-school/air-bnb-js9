@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { Tooltip, styled } from '@mui/material'
+import { IconButton, Menu, MenuItem, Tooltip, styled } from '@mui/material'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+
 import {
    ArrowRight,
    Arrowleft,
@@ -51,6 +53,15 @@ export function Cards({ data, ...props }) {
          return newData
       })
    }
+   const [anchorEl, setAnchorEl] = useState(null)
+
+   const handleMenuOpen = (event) => {
+      setAnchorEl(event.currentTarget)
+   }
+
+   const handleMenuClose = () => {
+      setAnchorEl(null)
+   }
 
    return (
       <MainContainer>
@@ -92,7 +103,29 @@ export function Cards({ data, ...props }) {
                   <p>{item.location}</p>
                </LocationCantainerStyle>
                {item.status === 'dates' ? (
-                  <DayStyle>2 guests</DayStyle>
+                  <StyledHorizIcon>
+                     <DayStyle>2 guests</DayStyle>
+                     <div>
+                        <IconButtonStyled
+                           edge="start"
+                           color="inherit"
+                           aria-label="menu"
+                           onClick={handleMenuOpen}
+                        >
+                           <MoreHorizIconStyled />
+                        </IconButtonStyled>
+
+                        <StyledMenu
+                           anchorEl={anchorEl}
+                           open={Boolean(anchorEl)}
+                           onClose={handleMenuClose}
+                        >
+                           <MenuItem onClick={handleMenuClose}>Accept</MenuItem>
+                           <MenuItem onClick={handleMenuClose}>Reject</MenuItem>
+                           <MenuItem onClick={handleMenuClose}>Delete</MenuItem>
+                        </StyledMenu>
+                     </div>
+                  </StyledHorizIcon>
                ) : (
                   <ButtonsContainer>
                      <DayStyle>2 guests</DayStyle>
@@ -126,6 +159,7 @@ const MainContainer = styled('div')`
    justify-content: start;
    align-items: center;
    gap: 50px;
+   flex-wrap: wrap;
 `
 const IconsContainer = styled('div')``
 
@@ -191,6 +225,7 @@ const DayStyle = styled('p')`
    font-size: 1rem;
    font-style: normal;
    font-weight: 400;
+   display: flex;
    line-height: normal;
 `
 
@@ -234,4 +269,57 @@ const StyleImage = styled('img')`
 
 const StyleTitle = styled('p')`
    width: 16.4375rem;
+`
+const IconButtonStyled = styled(IconButton)(() => ({
+   padding: '0px',
+   margin: '0px',
+   '&.MuiIconButton-root:hover': {
+      boxShadow: 'none',
+      backgroundColor: '#ffff',
+   },
+   '&.MuiIconButton-root:active': {
+      boxShadow: 'none',
+      backgroundColor: '#ffff',
+   },
+}))
+
+const StyledMenu = styled(Menu)(() => ({
+   '& .MuiPaper-root': {
+      width: '22%',
+      height: '25%',
+      display: 'flex',
+      alignItems: 'center',
+      borderRadius: '0.125rem',
+      background: ' #FFF',
+      border: ' 1px solid var(--tertiary-light-gray, #C4C4C4)',
+
+      boxShadow: 'none',
+   },
+   position: 'absolute',
+   top: '8.5rem',
+   left: ' 23rem',
+   transform: 'translate(-50%, -50%) ',
+}))
+
+const MoreHorizIconStyled = styled(MoreHorizIcon)(() => ({
+   '&.MuiSvgIcon-root': {
+      width: '50%',
+      height: '50%',
+      '& path:nth-of-type(1)': {
+         fill: '#C4C4C4',
+      },
+      '& path:nth-of-type(2)': {
+         fill: '#C4C4C4',
+      },
+      '& path:nth-of-type(3)': {
+         fill: '#C4C4C4',
+      },
+   },
+}))
+const StyledHorizIcon = styled('div')`
+   display: grid;
+   grid-template-columns: auto 1fr;
+   align-items: center;
+   gap: 9rem;
+   margin-left: 5%;
 `

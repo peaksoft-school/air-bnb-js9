@@ -53,6 +53,7 @@ export const data = [
       location: 'Kyrgyzstan, Bishkek, Cholpon-Ata',
       rating: 2.3,
       price: 220,
+
       title: 'There is free private parking hhghg hggh hhh jj jh  h',
       urls: [
          'https://images.pexels.com/photos/1457847/pexels-photo-1457847.jpeg?auto=compress&cs=tinysrgb&w=600',
@@ -69,6 +70,20 @@ export const data = [
       title: 'There is free private parkradfffffffff  jdsjhcjsd kjhdjhbjSbd ',
       urls: [
          'https://media.istockphoto.com/id/1406578714/photo/classic-living-room-interior-design-with-marble-floor.jpg?s=2048x2048&w=is&k=20&c=W6y9DnBiKOSmeEGk_G5unOGd5BHapCEWmuMbNt7XDg4=',
+      ],
+   },
+   {
+      id: 2,
+      location: 'Kyrgyzstan, Bishkek, Cholpon-Ata',
+      rating: 2.3,
+      price: 220,
+      status: 'dates',
+      title: 'There is free private parking sdfsf afdafsa afsefr aefrded eadrf aearfd erf qrf',
+      urls: [
+         'https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&w=600',
+         'https://images.pexels.com/photos/1457847/pexels-photo-1457847.jpeg?auto=compress&cs=tinysrgb&w=600',
+         'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=600',
+         'https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       ],
    },
    {
