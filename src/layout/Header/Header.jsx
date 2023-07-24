@@ -8,7 +8,7 @@ import {
    AirBNBIcon,
 } from '../../assets/icons/index'
 
-export function Header({ userLogin, loginHandler }) {
+export function Header({ userLogin, openModalHandler }) {
    const [login, setLogin] = useState(true)
 
    function headerLoginHandler() {
@@ -28,7 +28,7 @@ export function Header({ userLogin, loginHandler }) {
                         <StyleLink>leave an ad</StyleLink>
                         <StyledButton
                            variant="contained"
-                           onClick={() => loginHandler()}
+                           onClick={openModalHandler}
                         >
                            {userLogin ? 'SUBMIT AN AD' : 'JOIN US'}
                         </StyledButton>
@@ -73,10 +73,7 @@ export function Header({ userLogin, loginHandler }) {
                         ),
                      }}
                   />
-                  <StyledButton
-                     variant="contained"
-                     onClick={() => loginHandler()}
-                  >
+                  <StyledButton variant="contained">
                      {userLogin ? 'SUBMIT AN AD' : 'JOIN US'}
                   </StyledButton>
                </SearchDiv>

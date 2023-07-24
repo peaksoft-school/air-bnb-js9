@@ -1,10 +1,10 @@
 import { Box, Modal as MuiModal, styled } from '@mui/material'
 import React from 'react'
 
-export default function Modal({ children, open, onClose, width }) {
+export default function Modal({ children, open, onClose, ...style }) {
    return (
       <StyledMuiModal open={open} onClose={onClose}>
-         <StyledBox width={width}>{children}</StyledBox>
+         <StyledBox {...style}>{children}</StyledBox>
       </StyledMuiModal>
    )
 }
@@ -14,10 +14,11 @@ const StyledMuiModal = styled(MuiModal)(() => ({
    justifyContent: 'center',
    alignItems: 'center',
 }))
-
 const StyledBox = styled(Box)((props) => ({
-   backgroundColor: 'white',
-   padding: '1.875rem',
-   borderRadius: '0.25rem',
-   width: props.width || '100%',
+   width: props.width || '29.625rem',
+   height: props.height || '16.1875rem',
+   padding: props.padding || '1.56rem 1.87rem',
+   borderRadius: props.borderRadius || '0.125rem',
+   border: props.border || 'none',
+   backgroundColor: '#fff',
 }))

@@ -1,16 +1,33 @@
+/* eslint-disable no-unused-vars */
 import { TextField, styled } from '@mui/material'
 import React, { forwardRef } from 'react'
 
 export const Input = forwardRef(
-   ({ type, size, label, placeholder, helperText, ...props }, ref) => {
+   (
+      {
+         type,
+         size,
+         label,
+         name,
+         placeholder,
+         onChange,
+         value,
+         error,
+         ...props
+      },
+      ref
+   ) => {
       return (
          <StyledInput
             type={type}
             placeholder={placeholder || 'введите что-нибудь'}
             ref={ref}
+            value={value}
             size={size}
-            helperText={helperText || ''}
             label={label}
+            onChange={onChange}
+            name={name}
+            error={error}
             {...props}
          />
       )
@@ -44,8 +61,8 @@ const StyledInput = styled(TextField)(({ barsbek, width, height }) => {
    }
    if (barsbek === 'krash') {
       return {
-         backgroundColor: '#fff',
          width: width || '100%',
+         backgroundColor: '#fff',
          height: height || '100px',
 
          '& .MuiOutlinedInput-input': {
