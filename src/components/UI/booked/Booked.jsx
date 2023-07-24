@@ -4,7 +4,7 @@ import React from 'react'
 export function Booked({ data }) {
    return (
       <div>
-         {data.map((item) => {
+         {data?.map((item) => {
             return (
                <StyleMapContainer>
                   <MainMapContainer>
