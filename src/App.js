@@ -1,12 +1,6 @@
 import React from 'react'
-import PopularApartments from './components/popular-apartments/PopularApartments'
 
 function App() {
-   return (
-      <div>
-         AirBnB
-         <PopularApartments />
-      </div>
-   )
+   return <div>AirBnB</div>
 }
 export default App
