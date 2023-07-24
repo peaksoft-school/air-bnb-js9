@@ -24,11 +24,22 @@ import { ReactComponent as SearchIcon } from './Search.svg'
 import { ReactComponent as GroupIcon } from './Group.svg'
 import { ReactComponent as Google } from './google.svg'
 import { ReactComponent as GeoIcon } from './geoIcon.svg'
+<<<<<<< HEAD
 import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg' // Make sure the actual file name matches here
 import { ReactComponent as ArrowLeftBlack } from './GroupBlack.svg' // Make sure the actual file name matches here
 import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
+=======
+import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg'
+import { ReactComponent as ArrowLeftBlack } from './arrowLeftBlack.svg'
+import { ReactComponent as ArrowLeftDots } from './arrowLeftDots.svg'
+import { ReactComponent as ArrowRightDots } from './arrowRightDots.svg'
+import { ReactComponent as ArrowRight } from './arrfirght.svg'
+import { ReactComponent as Arrowleft } from './arrleft.svg'
+>>>>>>> 349e4b72b305962c25820d6cd83c03098a13040f
 
 export {
+   ArrowRight,
+   Arrowleft,
    ArrowrightBlack,
    ArrowLeftBlack,
    ArrowLeftDots,
