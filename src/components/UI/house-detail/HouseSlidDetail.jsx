@@ -1,16 +1,16 @@
 import React from 'react'
-import { styled } from '@mui/material'
 import ImageGallery from 'react-image-gallery'
 import 'react-image-gallery/styles/css/image-gallery.css'
+import { styled } from '@mui/material'
 
 export function HouseSlidDetail({ images }) {
    return (
       <Container>
-         <ImageGallery
+         <StyleImageGallery
             items={images}
             showPlayButton={false}
             showNav={false}
-            showFullscreenButton={false}
+            // showFullscreenButton={false}
             originalWidth={800}
             originalHeight={400}
             thumbnailHeight={500}
@@ -21,5 +21,9 @@ export function HouseSlidDetail({ images }) {
 }
 
 const Container = styled('div')(() => ({
-   width: '26%',
+   width: '35%',
+}))
+const StyleImageGallery = styled(ImageGallery)(() => ({
+   width: '100vw',
+   height: '100vh',
 }))

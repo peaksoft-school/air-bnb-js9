@@ -36,13 +36,14 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
             gap: '10px',
 
             '&:hover': {
-               background: '#BB7200',
+               background: props.background || '#BB7200',
             },
             '&:active': {
-               background: '#F2B75B',
+               background: props.background || '#F2B75B',
             },
             '&:disabled': {
-               background: ' var(--tertiary-light-gray, #C4C4C4)',
+               background:
+                  props.background || ' var(--tertiary-light-gray, #C4C4C4)',
             },
          },
       }
