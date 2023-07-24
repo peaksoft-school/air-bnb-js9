@@ -11,12 +11,13 @@ export const Input = forwardRef(
             size={size}
             helperText={helperText || ''}
             label={label}
+            {...props}
          />
       )
    }
 )
 
-const StyledInput = styled(TextField)(({ props, barsbek }) => {
+const StyledInput = styled(TextField)(({ barsbek, width, height }) => {
    if (barsbek === 'nekrash') {
       return {
          width: '100%',
@@ -43,9 +44,9 @@ const StyledInput = styled(TextField)(({ props, barsbek }) => {
    }
    if (barsbek === 'krash') {
       return {
-         width: `${props.width}` || '100%',
-         height: `${props.height}` || '37px',
          backgroundColor: '#fff',
+         width: width || '100%',
+         height: height || '100px',
 
          '& .MuiOutlinedInput-input': {
             borderRadius: '2px',
