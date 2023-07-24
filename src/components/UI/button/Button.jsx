@@ -26,18 +26,14 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
       return {
          '&.MuiButtonBase-root': {
             display: 'flex',
+            width: ` ${props.width}`,
+            height: `${props.height}`,
+            backgroundColor: `${props.bgColor}`,
+            color: `${props.color}`,
             justifyContent: 'center',
             alignItems: 'center',
+            borderRadius: `${props.borderRadius}`,
             gap: '10px',
-            width: `${props.width}`,
-            background: props.background || '#DD8A08',
-            padding: props.padding || '0',
-            border: props.border || '1px solid',
-            color: `${props.color}`,
-            borderRadius: '2px',
-            fontFamily: 'Inter',
-            fontStyle: 'normal',
-            lineHeight: 'normal',
 
             '&:hover': {
                background: props.background || '#BB7200',

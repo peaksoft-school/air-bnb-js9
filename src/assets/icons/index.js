@@ -28,8 +28,12 @@ import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg'
 import { ReactComponent as ArrowLeftBlack } from './arrowLeftBlack.svg'
 import { ReactComponent as ArrowLeftDots } from './arrowLeftDots.svg'
 import { ReactComponent as ArrowRightDots } from './arrowRightDots.svg'
+import { ReactComponent as ArrowRight } from './arrfirght.svg'
+import { ReactComponent as Arrowleft } from './arrleft.svg'
 
 export {
+   ArrowRight,
+   Arrowleft,
    ArrowrightBlack,
    ArrowLeftBlack,
    ArrowLeftDots,

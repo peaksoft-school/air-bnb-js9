@@ -47,15 +47,57 @@ export const house = [
       thumbnail: detailHouse3,
    },
 ]
-
-export const Hotel = [
+export const data = [
    {
-      nameHotel: 'Name of hotel',
-      addresHotel: '12 Morris Ave, Toronto, ON, CA',
-      discriptionHotel:
-         'The hotel will provide guests with air-conditioned rooms offering a desk, a kettle, a fridge, a minibar, a safety deposit box, a flat-screen TV and a shared bathroom with a shower. At Garden Hotel & SPA the rooms have bed linen and towels.',
-      hostAvatar: 'https://img.freepik.com/free-icon/user_318-159711.jpg',
-      hostName: 'Anna Annova',
-      hostEmail: 'anna@gmail.com',
+      id: 8,
+      location: 'Kyrgyzstan, Bishkek, Cholpon-Ata',
+      rating: 2.3,
+      price: 220,
+
+      title: 'There is free private parking hhghg hggh hhh jj jh  h',
+      urls: [
+         'https://images.pexels.com/photos/1457847/pexels-photo-1457847.jpeg?auto=compress&cs=tinysrgb&w=600',
+         'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=600',
+         'https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&w=600',
+         'https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      ],
+   },
+   {
+      id: 3,
+      location: 'Kyrgyzstan, Bishkek, Cholpon-Ata',
+      rating: 2.3,
+      price: 220,
+      title: 'There is free private parkradfffffffff  jdsjhcjsd kjhdjhbjSbd ',
+      urls: [
+         'https://media.istockphoto.com/id/1406578714/photo/classic-living-room-interior-design-with-marble-floor.jpg?s=2048x2048&w=is&k=20&c=W6y9DnBiKOSmeEGk_G5unOGd5BHapCEWmuMbNt7XDg4=',
+      ],
+   },
+   {
+      id: 2,
+      location: 'Kyrgyzstan, Bishkek, Cholpon-Ata',
+      rating: 2.3,
+      price: 220,
+      status: 'dates',
+      title: 'There is free private parking sdfsf afdafsa afsefr aefrded eadrf aearfd erf qrf',
+      urls: [
+         'https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&w=600',
+         'https://images.pexels.com/photos/1457847/pexels-photo-1457847.jpeg?auto=compress&cs=tinysrgb&w=600',
+         'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=600',
+         'https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      ],
+   },
+   {
+      id: 2,
+      location: 'Kyrgyzstan, Bishkek, Cholpon-Ata',
+      rating: 2.3,
+      price: 220,
+      status: 'dates',
+      title: 'There is free private parking sdfsf afdafsa afsefr aefrded eadrf aearfd erf qrf',
+      urls: [
+         'https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&w=600',
+         'https://images.pexels.com/photos/1457847/pexels-photo-1457847.jpeg?auto=compress&cs=tinysrgb&w=600',
+         'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=600',
+         'https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      ],
    },
 ]
