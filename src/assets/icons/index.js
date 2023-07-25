@@ -6,8 +6,8 @@ import { ReactComponent as Dislike2 } from './dislike2.svg'
 import { ReactComponent as Card } from './card.svg'
 import { ReactComponent as Exist } from './exist.svg'
 import { ReactComponent as InstagramIcon } from './instagram.svg'
-import { ReactComponent as Like1 } from './like1.svg'
-import { ReactComponent as Like2 } from './like2.svg'
+import { ReactComponent as Like1 } from './Like1.svg'
+import { ReactComponent as Like2 } from './Like2.svg'
 import { ReactComponent as Location } from './location.svg'
 import { ReactComponent as Radio1 } from './radio1.svg'
 import { ReactComponent as Radio2 } from './radio 2.svg'
@@ -15,23 +15,36 @@ import { ReactComponent as SelectionIcon } from './selectIcon.svg'
 import { ReactComponent as Start1 } from './star1.svg'
 import { ReactComponent as Star2 } from './start2.svg'
 import { ReactComponent as TelegramIcon } from './telegram.svg'
-import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
+import { ReactComponent as ArrowRightDots } from './arrowRightDots.svg'
+import { ReactComponent as ArrowLeftDots } from './arrowLeftDots.svg' // Make sure the actual file name matches here
+import { ReactComponent as UploadImg } from './Camera Icon.svg' // Make sure the actual file name matches here
 import { ReactComponent as AirBNBIcon } from './airbnb.svg'
 import { ReactComponent as BlackAirBNBIcon } from './blackairbnb.svg'
-import { ReactComponent as SearchIcon } from './search.svg'
-import { ReactComponent as GroupIcon } from './group.svg'
+import { ReactComponent as SearchIcon } from './Search.svg'
+import { ReactComponent as GroupIcon } from './Group.svg'
 import { ReactComponent as Google } from './google.svg'
 import { ReactComponent as GeoIcon } from './geoIcon.svg'
+<<<<<<< HEAD
+import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg' // Make sure the actual file name matches here
+import { ReactComponent as ArrowLeftBlack } from './GroupBlack.svg' // Make sure the actual file name matches here
+import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
+=======
 import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg'
 import { ReactComponent as ArrowLeftBlack } from './arrowLeftBlack.svg'
 import { ReactComponent as ArrowLeftDots } from './arrowLeftDots.svg'
 import { ReactComponent as ArrowRightDots } from './arrowRightDots.svg'
+import { ReactComponent as ArrowRight } from './arrfirght.svg'
+import { ReactComponent as Arrowleft } from './arrleft.svg'
+>>>>>>> 349e4b72b305962c25820d6cd83c03098a13040f
 
 export {
+   ArrowRight,
+   Arrowleft,
    ArrowrightBlack,
    ArrowLeftBlack,
    ArrowLeftDots,
    ArrowRightDots,
+   UploadImg,
    Heart1,
    ClickHeart2,
    Delete,

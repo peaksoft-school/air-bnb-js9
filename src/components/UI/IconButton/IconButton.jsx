@@ -1,19 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { IconButton, styled } from '@mui/material'
-import { ClickHeart2, Heart1 } from '../../assets/icons'
+import { ClickHeart2, Heart1 } from '../../../assets/icons'
 
-export function ButtonIcon({ variant, ...props }) {
-   const [icon, setIcon] = useState(false)
-   const clikIconHandler = () => {
-      setIcon(!icon)
-   }
+export function ButtonIcon({ open, toggle, variant, ...props }) {
    return (
-      <IconButtonStyle
-         onClick={clikIconHandler}
-         variant={variant}
-         props={props}
-      >
-         {icon ? (
+      <IconButtonStyle onDoubleClick={toggle} variant={variant} props={props}>
+         {open ? (
             <ClickHeart2 />
          ) : (
             <div>
@@ -24,10 +16,10 @@ export function ButtonIcon({ variant, ...props }) {
    )
 }
 
-const IconButtonStyle = styled(IconButton)(() => ({
+const IconButtonStyle = styled(IconButton)((props) => ({
    '&.MuiButtonBase-root': {
       display: 'flex',
-      width: '3%',
+      width: `${props.width}`,
       height: '27px',
       padding: '6px 8px',
       justifyContent: 'center',
