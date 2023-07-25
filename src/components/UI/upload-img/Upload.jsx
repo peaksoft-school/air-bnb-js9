@@ -34,7 +34,7 @@ export function Upload({ width, height, maxWidth }) {
          <Form>
             <ImageContainer maxWidth={maxWidth}>
                {images.map((img, index) => (
-                  <Image src={img} alt={fileNames[index]} />
+                  <Image key={img} src={img} alt={fileNames[index]} />
                ))}
                {showCamera ? (
                   <DropzoneContainer
@@ -59,7 +59,6 @@ export function Upload({ width, height, maxWidth }) {
 const Container = styled('div')({
    display: 'flex',
    justifyContent: 'center',
-   marginTop: '12rem',
 })
 
 const DropzoneContainer = styled('div')(({ theme, width, height }) => ({
