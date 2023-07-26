@@ -6,9 +6,8 @@ import { Button } from '../UI/button/Button'
 import { Upload } from '../UI/upload-img/Upload'
 import Modal from '../UI/modal/Modal'
 
-export function LeaveFeedback() {
+export function LeaveFeedback({ openModal, setOpenModal }) {
    const [usersFeedback, setUsersFeedback] = useState('')
-   const [openModal, setOpenModal] = useState(false)
    const [fileNames, setFileNames] = useState([])
    const [ratingValue, setRatingValue] = useState('')
 
@@ -32,7 +31,7 @@ export function LeaveFeedback() {
    }
    return (
       <div>
-         {openModal ? (
+         {openModal && (
             <Modal open={openModal} onClose={openModalHandler}>
                <Container onSubmit={submitHandler}>
                   <StyledH3>LEAVE FEEDBACK</StyledH3>
@@ -116,8 +115,6 @@ export function LeaveFeedback() {
                   </div>
                </Container>
             </Modal>
-         ) : (
-            <Button onClick={openModalHandler}>LEAVE FEEDBACK</Button>
          )}
       </div>
    )
