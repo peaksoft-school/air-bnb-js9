@@ -1,7 +1,7 @@
 import { Box, Rating } from '@mui/material'
 import React from 'react'
 
-export function RatingStars({ starRating }) {
+export function RatingStars({ ratingValue, setRatingValue, size }) {
    return (
       <div>
          <Box
@@ -11,7 +11,15 @@ export function RatingStars({ starRating }) {
                alignItems: 'center',
             }}
          >
-            <Rating name="simple-controlled" value={starRating} />
+            <Rating
+               size={size}
+               controlled
+               name="simple-controlled"
+               value={ratingValue}
+               onChange={(event, newValue) => {
+                  setRatingValue(newValue)
+               }}
+            />
          </Box>
       </div>
    )

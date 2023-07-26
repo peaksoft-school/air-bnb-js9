@@ -3,9 +3,8 @@ import { useDropzone } from 'react-dropzone'
 import { styled } from '@mui/material'
 import { UploadImg } from '../../../assets/icons'
 
-export function Upload({ width, height, maxWidth }) {
+export function Upload({ width, height, maxWidth, setFileNames, fileNames }) {
    const [images, setImages] = useState([])
-   const [fileNames, setFileNames] = useState([])
    const [showCamera, setShowCamera] = useState(true)
 
    const onDrop = (acceptedFiles) => {

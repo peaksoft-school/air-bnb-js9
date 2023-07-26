@@ -1,6 +1,11 @@
 import React from 'react'
+import { LeaveFeedback } from './components/leave-feedback/LeaveFeeadback'
 
 function App() {
-   return <div>AirBnB</div>
+   return (
+      <div>
+         <LeaveFeedback />
+      </div>
+   )
 }
 export default App
