@@ -20,5 +20,6 @@ const StyledBox = styled(Box)((props) => ({
    padding: props.padding || '1.56rem 1.87rem',
    borderRadius: props.borderRadius || '0.125rem',
    border: props.border || 'none',
-   backgroundColor: '#fff',
+   backgroundColor: props.backgroundColor || '#fff',
+   margin: '0rem 0rem 15rem 0rem',
 }))

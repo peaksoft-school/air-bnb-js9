@@ -14,9 +14,9 @@ import { ReactComponent as Radio2 } from './radio 2.svg'
 import { ReactComponent as SelectionIcon } from './selectIcon.svg'
 import { ReactComponent as Start1 } from './star1.svg'
 import { ReactComponent as Star2 } from './start2.svg'
+// import { ReactComponent as ArrowLeftDots } from './ArrowLeftDots'
 import { ReactComponent as TelegramIcon } from './telegram.svg'
-import { ReactComponent as ArrowRightDots } from './arrowright.svg'
-import { ReactComponent as ArrowLeftDots } from './Group 238.svg'
+import { ReactComponent as ArrowRightDots } from './arrowRightDots.svg'
 import { ReactComponent as UploadImg } from './Camera Icon.svg'
 import { ReactComponent as AirBNBIcon } from './airbnb.svg'
 import { ReactComponent as BlackAirBNBIcon } from './blackairbnb.svg'
@@ -26,13 +26,12 @@ import { ReactComponent as Google } from './google.svg'
 import { ReactComponent as GeoIcon } from './geoIcon.svg'
 import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg'
 import { ReactComponent as ArrowLeftBlack } from './arrowLeftBlack.svg'
-import { ReactComponent as ArrowLeftDots } from './arrowLeftDots.svg'
-import { ReactComponent as ArrowRightDots } from './arrowRightDots.svg'
+import { ReactComponent as CardIcon } from './Frame.svg'
 
 export {
    ArrowrightBlack,
    ArrowLeftBlack,
-   ArrowLeftDots,
+   // ArrowLeftDots,
    ArrowRightDots,
    UploadImg,
    Heart1,
@@ -52,11 +51,11 @@ export {
    Start1,
    Star2,
    TelegramIcon,
-   WhatsAppIcon,
    AirBNBIcon,
    BlackAirBNBIcon,
    SearchIcon,
    GroupIcon,
    Google,
    GeoIcon,
+   CardIcon,
 }

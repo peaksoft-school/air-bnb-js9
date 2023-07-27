@@ -33,6 +33,7 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
             background: props.background || '#DD8A08',
             padding: props.padding || '0',
             border: props.border || '1px solid',
+            marginTop: props.marginTop || '0',
             color: `${props.color}`,
             borderRadius: '2px',
             fontFamily: 'Inter',
