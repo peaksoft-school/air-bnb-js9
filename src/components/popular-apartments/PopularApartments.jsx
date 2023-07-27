@@ -1,6 +1,6 @@
 import React from 'react'
 import { styled as MUistyled } from '@mui/material'
-import { NavLink, BrowserRouter as Router } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import popularHouseImage from '../../assets/images/popularapartment.png'
 import houseSlide from '../../assets/images/apartments-slide.png'
 import { Location } from '../../assets/icons'
@@ -112,42 +112,38 @@ export default function PopularApartments({ state, func }) {
    }))
 
    return (
-      <Router>
-         <Container state={state}>
-            <PopularApart>
-               <Popular>Popular Apartments</Popular>
-               <StyledNavlinkView
-                  style={{ marginRight: '7rem' }}
-                  to="/"
-                  onClick={func}
-               >
-                  View all
-               </StyledNavlinkView>
-            </PopularApart>
-            <>
-               {popular.map((el) => (
-                  <div>
-                     <BlockHouse>
-                        <ImageHouse src={el.img} alt={el.title} />
-                        <BlockText>
-                           <SpaOtel>{el.title}</SpaOtel>
-                           <BlockAskaLara>{el.description}</BlockAskaLara>
-                           <StyledNavlink>
-                              <Location />
-                              {el.location}
-                           </StyledNavlink>
-                           <StyledNavlinkView to="/">
-                              Read more
-                           </StyledNavlinkView>
-                        </BlockText>
-                        <div>
-                           <MySlider state={state} />
-                        </div>
-                     </BlockHouse>
-                  </div>
-               ))}
-            </>
-         </Container>
-      </Router>
+      <Container state={state}>
+         <PopularApart>
+            <Popular>Popular Apartments</Popular>
+            <StyledNavlinkView
+               style={{ marginRight: '7rem' }}
+               to="/"
+               onClick={func}
+            >
+               View all
+            </StyledNavlinkView>
+         </PopularApart>
+         <>
+            {popular.map((el) => (
+               <div>
+                  <BlockHouse>
+                     <ImageHouse src={el.img} alt={el.title} />
+                     <BlockText>
+                        <SpaOtel>{el.title}</SpaOtel>
+                        <BlockAskaLara>{el.description}</BlockAskaLara>
+                        <StyledNavlink>
+                           <Location />
+                           {el.location}
+                        </StyledNavlink>
+                        <StyledNavlinkView to="/">Read more</StyledNavlinkView>
+                     </BlockText>
+                     <div>
+                        <MySlider state={state} />
+                     </div>
+                  </BlockHouse>
+               </div>
+            ))}
+         </>
+      </Container>
    )
 }

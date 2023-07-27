@@ -17,16 +17,27 @@ import { ReactComponent as Star2 } from './start2.svg'
 // import { ReactComponent as ArrowLeftDots } from './ArrowLeftDots'
 import { ReactComponent as TelegramIcon } from './telegram.svg'
 import { ReactComponent as ArrowRightDots } from './arrowRightDots.svg'
+<<<<<<< HEAD
 import { ReactComponent as UploadImg } from './Camera Icon.svg'
+=======
+import { ReactComponent as ArrowLeftDots } from './arrowLeftDots.svg' // Make sure the actual file name matches here
+import { ReactComponent as UploadImg } from './Camera Icon.svg' // Make sure the actual file name matches here
+>>>>>>> d84f2e8933661f45c0667041d02b1f1456a5d131
 import { ReactComponent as AirBNBIcon } from './airbnb.svg'
 import { ReactComponent as BlackAirBNBIcon } from './blackairbnb.svg'
 import { ReactComponent as SearchIcon } from './Search.svg'
 import { ReactComponent as GroupIcon } from './Group.svg'
 import { ReactComponent as Google } from './google.svg'
 import { ReactComponent as GeoIcon } from './geoIcon.svg'
+<<<<<<< HEAD
 import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg'
 import { ReactComponent as ArrowLeftBlack } from './arrowLeftBlack.svg'
 import { ReactComponent as CardIcon } from './Frame.svg'
+=======
+import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg' // Make sure the actual file name matches here
+import { ReactComponent as ArrowLeftBlack } from './GroupBlack.svg' // Make sure the actual file name matches here
+import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
+>>>>>>> d84f2e8933661f45c0667041d02b1f1456a5d131
 
 export {
    ArrowrightBlack,
