@@ -1,11 +1,6 @@
 import React from 'react'
-import { Upload } from './components/UI/upload-img/Upload'
 
 function App() {
-   return (
-      <div>
-         <Upload />
-      </div>
-   )
+   return <div>AirBnB</div>
 }
 export default App
