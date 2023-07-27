@@ -34,19 +34,6 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
             alignItems: 'center',
             borderRadius: `${props.borderRadius}`,
             gap: '10px',
-<<<<<<< HEAD:src/components/UI/Button.jsx
-            width: `${props.width}`,
-            background: props.background || '#DD8A08',
-            padding: props.padding || '0',
-            border: props.border || '1px solid',
-            marginTop: props.marginTop || '0',
-            color: `${props.color}`,
-            borderRadius: '2px',
-            fontFamily: 'Inter',
-            fontStyle: 'normal',
-            lineHeight: 'normal',
-=======
->>>>>>> d84f2e8933661f45c0667041d02b1f1456a5d131:src/components/UI/button/Button.jsx
 
             '&:hover': {
                background: props.background || '#BB7200',

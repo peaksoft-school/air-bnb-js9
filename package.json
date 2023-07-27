@@ -10,13 +10,8 @@
       "@mui/material": "^5.14.0",
       "@mui/styled-engine-sc": "^5.12.0",
       "@mui/x-date-pickers": "^6.9.2",
-<<<<<<< HEAD
-      "@stripe/react-stripe-js": "^2.1.1",
-      "@stripe/stripe-js": "^1.54.1",
-=======
       "@reduxjs/toolkit": "^1.9.5",
       "axios": "^1.4.0",
->>>>>>> d84f2e8933661f45c0667041d02b1f1456a5d131
       "dayjs": "^1.11.9",
       "formik": "^2.4.2",
       "react": "^18.2.0",
