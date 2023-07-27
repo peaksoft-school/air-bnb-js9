@@ -4,7 +4,7 @@ import React from 'react'
 export default function Modal({ children, open, onClose, ...style }) {
    return (
       <StyledMuiModal open={open} onClose={onClose}>
-         <StyledBox {...style}>{children}</StyledBox>
+         <Box {...style}>{children}</Box>
       </StyledMuiModal>
    )
 }
@@ -13,12 +13,4 @@ const StyledMuiModal = styled(MuiModal)(() => ({
    display: 'flex',
    justifyContent: 'center',
    alignItems: 'center',
-}))
-const StyledBox = styled(Box)((props) => ({
-   width: props.width || '29.625rem',
-   height: props.height || '16.1875rem',
-   padding: props.padding || '1.56rem 1.87rem',
-   borderRadius: props.borderRadius || '0.125rem',
-   border: props.border || 'none',
-   backgroundColor: '#fff',
 }))

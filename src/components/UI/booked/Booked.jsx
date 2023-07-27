@@ -1,52 +1,46 @@
 import { styled } from '@mui/material'
 import React from 'react'
 
-export function Booked({ data }) {
+export function Booked({ item }) {
    return (
       <div>
-         {data.map((item) => {
-            return (
-               <StyleMapContainer>
-                  <MainMapContainer>
-                     <div>
-                        <Daylinecontainer>
-                           <DayPriceContainer>
-                              <PriceStyle>${item.price}/</PriceStyle>
-                              <DayStyle>day</DayStyle>
-                           </DayPriceContainer>
-                           <LineStyle />
-                        </Daylinecontainer>
+         <StyleMapContainer>
+            <MainMapContainer>
+               <div>
+                  <Daylinecontainer>
+                     <DayPriceContainer>
+                        <PriceStyle>${item.price}/</PriceStyle>
+                        <DayStyle>day</DayStyle>
+                     </DayPriceContainer>
+                     <LineStyle />
+                  </Daylinecontainer>
 
-                        <CheckConainer>
-                           <ChecinContainerStyle>
-                              <Checkstyle>Check in</Checkstyle>
-                              <Datestyle>{item.checkin}</Datestyle>
-                           </ChecinContainerStyle>
-                           <ChecinContainerStyle>
-                              <Checkstyle>Check out</Checkstyle>
-                              <Datestyle>{item.checkout}</Datestyle>
-                           </ChecinContainerStyle>
-                        </CheckConainer>
-                     </div>
-                  </MainMapContainer>
-                  <UserStyle>
-                     <Section />
-                     <div>
-                        <NameStyle>{item.name}</NameStyle>
-                        <EmailStyle>{item.email}</EmailStyle>
-                     </div>
-                  </UserStyle>
-               </StyleMapContainer>
-            )
-         })}
+                  <CheckConainer>
+                     <ChecinContainerStyle>
+                        <Checkstyle>Check in</Checkstyle>
+                        <Datestyle>{item.checkin}</Datestyle>
+                     </ChecinContainerStyle>
+                     <ChecinContainerStyle>
+                        <Checkstyle>Check out</Checkstyle>
+                        <Datestyle>{item.checkout}</Datestyle>
+                     </ChecinContainerStyle>
+                  </CheckConainer>
+               </div>
+            </MainMapContainer>
+            <UserStyle>
+               <Section />
+               <div>
+                  <NameStyle>{item.name}</NameStyle>
+                  <EmailStyle>{item.email}</EmailStyle>
+               </div>
+            </UserStyle>
+         </StyleMapContainer>
       </div>
    )
 }
 const StyleMapContainer = styled('div')`
-   padding: 0%;
-   margin: 0%;
-   width: 28rem;
-   height: 15.8131rem;
+   width: 28%;
+   height: 15.8131%;
    margin-left: 25%;
    display: flex;
    flex-direction: column;
@@ -54,6 +48,9 @@ const StyleMapContainer = styled('div')`
    gap: 2rem;
    justify-content: start;
    line-height: 3rem;
+   font-size: 1rem;
+   font-weight: 400;
+   font-style: normal;
 `
 
 const MainMapContainer = styled('div')`
@@ -75,19 +72,12 @@ const DayPriceContainer = styled('section')`
 `
 const PriceStyle = styled('p')`
    color: #000;
-   font-family: Inter;
    font-size: 1.25rem;
-   font-style: normal;
-   font-weight: 400;
    line-height: normal;
    text-transform: uppercase;
 `
 const DayStyle = styled('p')`
    color: #6c6c6c;
-   font-family: Inter;
-   font-size: 1.125rem;
-   font-style: normal;
-   font-weight: 400;
    line-height: normal;
 `
 const Section = styled('section')`
@@ -108,25 +98,18 @@ const Daylinecontainer = styled('div')`
 `
 const Checkstyle = styled('p')`
    color: var(--tertiary-dark-gray, #646464);
-   font-family: Inter;
    font-size: 0.875rem;
-   font-style: normal;
-   font-weight: 400;
    line-height: 2rem;
 `
 const CheckConainer = styled('div')`
    display: flex;
    gap: 10rem;
    padding-top: 1.25rem;
-
    line-height: 3rem;
 `
 const Datestyle = styled('p')`
    color: var(--primary-black, #363636);
    font-family: Roboto;
-   font-size: 1rem;
-   font-style: normal;
-   font-weight: 400;
    line-height: normal;
 `
 
@@ -137,10 +120,6 @@ const UserStyle = styled('div')`
 `
 const EmailStyle = styled('p')`
    color: var(--tertiary-middle-gray, #828282);
-   font-family: Inter;
-   font-size: 1rem;
-   font-style: normal;
-   font-weight: 400;
    line-height: 130%;
 `
 const ChecinContainerStyle = styled('section')`
@@ -150,9 +129,6 @@ const ChecinContainerStyle = styled('section')`
 `
 const NameStyle = styled('div')`
    color: #000;
-   font-family: Inter;
-   font-size: 1rem;
-   font-style: normal;
    font-weight: 500;
    line-height: normal;
 `
