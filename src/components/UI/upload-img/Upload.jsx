@@ -3,9 +3,8 @@ import { useDropzone } from 'react-dropzone'
 import { styled } from '@mui/material'
 import { UploadImg } from '../../../assets/icons'
 
-export function Upload({ width, height, maxWidth }) {
+export function Upload({ width, height, maxWidth, setFileNames, fileNames }) {
    const [images, setImages] = useState([])
-   const [fileNames, setFileNames] = useState([])
    const [showCamera, setShowCamera] = useState(true)
 
    const onDrop = (acceptedFiles) => {
@@ -34,7 +33,7 @@ export function Upload({ width, height, maxWidth }) {
          <Form>
             <ImageContainer maxWidth={maxWidth}>
                {images.map((img, index) => (
-                  <Image src={img} alt={fileNames[index]} />
+                  <Image key={img} src={img} alt={fileNames[index]} />
                ))}
                {showCamera ? (
                   <DropzoneContainer
@@ -59,7 +58,6 @@ export function Upload({ width, height, maxWidth }) {
 const Container = styled('div')({
    display: 'flex',
    justifyContent: 'center',
-   marginTop: '12rem',
 })
 
 const DropzoneContainer = styled('div')(({ theme, width, height }) => ({
