@@ -1,6 +1,6 @@
 import React from 'react'
 import { styled } from '@mui/material'
-import { Button } from '../Button'
+import { Button } from '../button/Button'
 import { ModalNameHotel } from './ModalNameHotel'
 
 export function NameOfHotel({ hotel, openModal, openModalHandler }) {
@@ -55,7 +55,7 @@ export function NameOfHotel({ hotel, openModal, openModalHandler }) {
                width="12.25rem"
                border-radius=" 0.125rem"
                border=" 1px solid #DD8A08"
-               background="#DD8A08"
+               bgColor="#DD8A08"
                padding=" 0.625rem 1rem"
                color="#fff"
                font-size="0.875rem"
