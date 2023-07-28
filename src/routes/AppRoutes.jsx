@@ -3,14 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { ProtectedRoutes } from './ProtectedRoutes'
 import { UserLayout } from '../layout/userLayout/UserLayout'
 import { AdminLayout } from '../layout/adminLayout/AdminLayout'
-
-const userRoles = {
-   ADMIN: 'admin',
-   USER: 'user',
-   GUEST: 'guest',
-}
-
-const roles = 'admin'
+import { roles, userRoles } from '../utils/constants'
 
 const isAllowed = (role) => {
    return role.includes(roles)
