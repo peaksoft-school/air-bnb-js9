@@ -30,7 +30,13 @@ export function MainPage() {
    return (
       <div>
          {openModal ? (
-            <Modal open={openModal} onClose={openModalHandler}>
+            <Modal
+               open={openModal}
+               onClose={openModalHandler}
+               width="35vw"
+               borderRadius="0.125rem"
+               border="none"
+            >
                {signIn ? (
                   <SignIn moveToSigninAndSignUp={moveToSigninAndSignUp} />
                ) : (

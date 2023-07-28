@@ -35,7 +35,7 @@ export const Input = forwardRef(
 )
 
 const StyledInput = styled(TextField)(
-   ({ barsbek, width, height, marginLeft, marginRight }) => {
+   ({ barsbek, width, height, marginLeft, marginRight, marginBottom }) => {
       if (barsbek === 'nekrash') {
          return {
             width: width || '100%',
@@ -67,6 +67,7 @@ const StyledInput = styled(TextField)(
             width: width || '100%',
             backgroundColor: '#fff',
             height: height || '100px',
+            marginBottom: marginBottom || '0px',
 
             '& .MuiOutlinedInput-input': {
                borderRadius: '2px',
