@@ -17,4 +17,4 @@ export const userRoles = {
    GUEST: 'guest',
 }
 
-export const roles = 'admin'
+export const roles = 'user'
