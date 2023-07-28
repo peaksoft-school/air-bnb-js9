@@ -3,7 +3,7 @@ import { styled } from '@mui/material'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { Input } from '../UI/input/Input'
-import { Button } from '../UI/Button'
+import { Button } from '../UI/button/Button'
 
 export function SignIn({ moveToSigninAndSignUp }) {
    const validationSchema = Yup.object().shape({
@@ -62,6 +62,7 @@ export function SignIn({ moveToSigninAndSignUp }) {
                      variant="contained"
                      width="100%"
                      color="white"
+                     bgColor="#DD8A08"
                   >
                      SIGN IN
                   </Button>

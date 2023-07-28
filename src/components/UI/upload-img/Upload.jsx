@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { styled } from '@mui/material'
-import { UploadImg } from '../../../assets/icons'
+import { Exist, UploadImg } from '../../../assets/icons'
 
-export function Upload({ width, height, maxWidth }) {
+export function Upload({ width, height, maxWidth, setFileNames, fileNames }) {
    const [images, setImages] = useState([])
-   const [fileNames, setFileNames] = useState([])
    const [showCamera, setShowCamera] = useState(true)
 
    const onDrop = (acceptedFiles) => {
@@ -22,6 +21,11 @@ export function Upload({ width, height, maxWidth }) {
       }
    }
 
+   const deleteImage = (imageURL) => {
+      setImages((prevImages) => prevImages.filter((img) => img !== imageURL))
+      setShowCamera(true)
+   }
+
    const { getRootProps, getInputProps, isDragActive } = useDropzone({
       onDrop,
       accept: 'image/*',
@@ -34,7 +38,11 @@ export function Upload({ width, height, maxWidth }) {
          <Form>
             <ImageContainer maxWidth={maxWidth}>
                {images.map((img, index) => (
-                  <Image src={img} alt={fileNames[index]} />
+                  <ImageWrapper>
+                     <Image src={img} alt={fileNames[index]} />
+
+                     <ExistIcon onClick={() => deleteImage(img)} />
+                  </ImageWrapper>
                ))}
                {showCamera ? (
                   <DropzoneContainer
@@ -59,7 +67,6 @@ export function Upload({ width, height, maxWidth }) {
 const Container = styled('div')({
    display: 'flex',
    justifyContent: 'center',
-   marginTop: '12rem',
 })
 
 const DropzoneContainer = styled('div')(({ theme, width, height }) => ({
@@ -88,15 +95,30 @@ const Form = styled('form')(() => ({
 
 const ImageContainer = styled('div')(({ maxWidth }) => ({
    border: '1px solid silver',
-   maxWidth: maxWidth || '16.3vw',
+   maxWidth: maxWidth || '16vw',
    display: 'flex',
    justifyContent: 'center',
+   alignItems: 'center',
    flexWrap: 'wrap',
-   gap: '2.5px',
+   gap: '3px',
 }))
+
+const ImageWrapper = styled('div')({
+   position: 'relative',
+   display: 'flex',
+})
 
 const Image = styled('img')(({ width, height }) => ({
    width: width || '120px',
-   height: height || '120px',
+   height: height || '125px',
    objectFit: 'cover',
 }))
+
+const ExistIcon = styled(Exist)({
+   position: 'absolute',
+   top: 0,
+   right: 0,
+   width: '28px',
+   height: '28px',
+   cursor: 'pointer',
+})

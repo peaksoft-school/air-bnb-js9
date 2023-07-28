@@ -18,7 +18,6 @@ export default function Feedback({ data, onLike, onDislike }) {
       }
    }
 
-   // const truncatedText = data.comment.substring(0, maxLength)
    const truncatedText = data.comment.substring(0, maxLength)
 
    const toggle = () => {

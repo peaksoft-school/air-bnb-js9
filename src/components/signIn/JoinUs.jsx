@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { Button } from '../UI/Button'
+import { Button } from '../UI/button/Button'
 import { Google } from '../../assets/icons'
 
 export function JoinUs({ loginHandler, moveToSigninAndSignUp }) {
