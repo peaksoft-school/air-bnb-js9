@@ -34,52 +34,57 @@ export const Input = forwardRef(
    }
 )
 
-const StyledInput = styled(TextField)(({ barsbek, width }) => {
-   if (barsbek === 'nekrash') {
-      return {
-         width: '100%',
-         backgroundColor: '#fff',
+const StyledInput = styled(TextField)(
+   ({ barsbek, width, height, marginLeft, marginRight }) => {
+      if (barsbek === 'nekrash') {
+         return {
+            width: width || '100%',
+            backgroundColor: '#fff',
+            marginLeft: marginLeft || '0px',
+            marginRight: marginRight || '0px',
 
-         '& .MuiOutlinedInput-input': {
-            borderRadius: '2px',
-         },
-         '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-               borderColor: 'gray',
-               border: 'none',
+            '& .MuiOutlinedInput-input': {
+               borderRadius: '2px',
             },
-            '&:hover fieldset': {
-               border: 'none',
+            '& .MuiOutlinedInput-root': {
+               '& fieldset': {
+                  borderColor: 'gray',
+                  border: 'none',
+               },
+               '&:hover fieldset': {
+                  border: 'none',
+               },
             },
-         },
-         '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':
-            {
-               borderColor: 'gray',
-               border: 'none',
-            },
+            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':
+               {
+                  borderColor: 'gray',
+                  border: 'none',
+               },
+         }
       }
-   }
-   if (barsbek === 'krash') {
-      return {
-         width: width || '100%',
-         backgroundColor: '#fff',
+      if (barsbek === 'krash') {
+         return {
+            width: width || '100%',
+            backgroundColor: '#fff',
+            height: height || '100px',
 
-         '& .MuiOutlinedInput-input': {
-            borderRadius: '2px',
-         },
-         '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-               borderColor: 'gray',
+            '& .MuiOutlinedInput-input': {
+               borderRadius: '2px',
             },
-            '&:hover fieldset': {
-               border: '2px solid gray',
+            '& .MuiOutlinedInput-root': {
+               '& fieldset': {
+                  borderColor: 'gray',
+               },
+               '&:hover fieldset': {
+                  border: '2px solid gray',
+               },
             },
-         },
-         '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':
-            {
-               borderColor: 'gray',
-            },
+            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':
+               {
+                  borderColor: 'gray',
+               },
+         }
       }
+      return {}
    }
-   return {}
-})
+)

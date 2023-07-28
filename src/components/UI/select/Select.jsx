@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
    FormControl,
    InputLabel,
@@ -7,33 +7,31 @@ import {
    styled,
 } from '@mui/material'
 
-export function Select({ data, onChange, size, labelName, ...props }) {
-   const [selectedValue, setSelectedValue] = useState('')
-
-   const handleFilterChange = (e) => {
-      setSelectedValue(e.target.value)
-      onChange(
-         e.target.value === 'all'
-            ? data.map((item) => item.name)
-            : e.target.value
-      )
-   }
-
+export function Select({
+   data,
+   onChange,
+   labelName,
+   register,
+   error,
+   ...props
+}) {
    return (
-      <StyledFormControl size={size} sx={{ m: 1, minWidth: 271 }} {...props}>
+      <StyledFormControl sx={{ m: 0, minWidth: 271 }} {...props}>
          <InputLabel id="filter-label" style={{ color: 'black' }}>
             {labelName}
          </InputLabel>
          <MuiSelect
+            error={error}
+            {...register('region')}
+            id="region"
             labelId="filter-label"
-            value={selectedValue}
-            onChange={handleFilterChange}
+            onChange={onChange}
             displayEmpty
             label={labelName}
          >
             <MenuItem value="all">All</MenuItem>
             {data?.map((item) => (
-               <MenuItem key={item.id} value={item.id}>
+               <MenuItem key={item.id} value={item.name}>
                   {item.name}
                </MenuItem>
             ))}

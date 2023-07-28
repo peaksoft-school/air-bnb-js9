@@ -40,6 +40,7 @@ export function Upload({ width, height, maxWidth, setFileNames, fileNames }) {
                {images.map((img, index) => (
                   <ImageWrapper>
                      <Image src={img} alt={fileNames[index]} />
+
                      <ExistIcon onClick={() => deleteImage(img)} />
                   </ImageWrapper>
                ))}
