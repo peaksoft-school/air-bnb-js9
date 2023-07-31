@@ -58,7 +58,7 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
             alignItems: 'center',
             gap: '16px',
             background: '#fff',
-            color: ' #000',
+            color: props.color || ' #000',
             borderRadius: '8px',
             border: '1px solid var(--tertiary-light-gray, #C4C4C4)',
             width: `${props.width}`,

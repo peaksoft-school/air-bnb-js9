@@ -65,6 +65,7 @@ const StyledInput = styled(TextField)(
       if (barsbek === 'krash') {
          return {
             width: width || '100%',
+<<<<<<< HEAD
             height: height || '2rem',
             paddingBottom: paddingBottom || '0',
             backgroundColor: '#fff',
@@ -84,6 +85,21 @@ const StyledInput = styled(TextField)(
                },
                '&:hover fieldset': {
                   border: border || '2px solid gray',
+=======
+            backgroundColor: '#fff',
+            height: height || '100px',
+            marginBottom: marginBottom || '0px',
+
+            '& .MuiOutlinedInput-input': {
+               borderRadius: '2px',
+            },
+            '& .MuiOutlinedInput-root': {
+               '& fieldset': {
+                  borderColor: 'gray',
+               },
+               '&:hover fieldset': {
+                  border: '2px solid gray',
+>>>>>>> 9def9ddf4ee511b819a74b1e0fb14fcf092c45ba
                },
             },
             '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':

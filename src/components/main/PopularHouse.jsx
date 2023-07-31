@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { popularHouse } from '../../utils/constants/helpers'
+import { popularHouse } from '../../utils/helpers'
 import { GeoIcon, Start1 } from '../../assets/icons'
 
 export function PopularHouse() {

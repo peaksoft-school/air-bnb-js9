@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { Button } from '../UI/Button'
+import { Button } from '../UI/button/Button'
 import { Google } from '../../assets/icons'
 
 export function JoinUs({ loginHandler, moveToSigninAndSignUp }) {
@@ -25,11 +25,6 @@ const Container = styled('div')(() => ({
    flexDirection: 'column',
    alignItems: 'center',
    justifyContent: 'center',
-   border: '1px solid gray',
-   width: '29.626rem',
-   padding: '25px',
-   backgroundColor: 'white',
-   borderRadius: '10px',
 }))
 
 const StyledH3 = styled('h3')(() => ({

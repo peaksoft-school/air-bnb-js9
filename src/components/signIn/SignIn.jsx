@@ -3,7 +3,7 @@ import { styled } from '@mui/material'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { Input } from '../UI/input/Input'
-import { Button } from '../UI/Button'
+import { Button } from '../UI/button/Button'
 
 export function SignIn({ moveToSigninAndSignUp }) {
    const validationSchema = Yup.object().shape({
@@ -27,12 +27,13 @@ export function SignIn({ moveToSigninAndSignUp }) {
          >
             {({ errors, touched, values, handleChange }) => (
                <FormStyled>
-                  <InputDiv>
+                  <div style={{ marginBottom: '1rem' }}>
                      <Input
                         type="text"
                         name="email"
                         barsbek="krash"
                         size="small"
+                        height="45px"
                         placeholder="Login"
                         value={values.email}
                         onChange={handleChange}
@@ -41,12 +42,15 @@ export function SignIn({ moveToSigninAndSignUp }) {
                      {errors.email && touched.email && (
                         <p style={{ color: 'red' }}>{errors.email}</p>
                      )}
+                  </div>
 
+                  <div style={{ marginBottom: '1rem' }}>
                      <Input
                         type="password"
                         name="password"
                         barsbek="krash"
                         size="small"
+                        height="45px"
                         placeholder="Password"
                         value={values.password}
                         error={touched.password && !!errors.password}
@@ -55,13 +59,14 @@ export function SignIn({ moveToSigninAndSignUp }) {
                      {errors.password && touched.password && (
                         <p style={{ color: 'red' }}>{errors.password}</p>
                      )}
-                  </InputDiv>
+                  </div>
 
                   <Button
                      type="submit"
                      variant="contained"
                      width="100%"
                      color="white"
+                     bgColor="#DD8A08"
                   >
                      SIGN IN
                   </Button>
@@ -79,20 +84,6 @@ const Container = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'center',
-   justifyContent: 'center',
-   border: '1px solid gray',
-   width: '29.625rem',
-   padding: '1.56rem 1.87rem 1.56rem 1.87rem',
-   backgroundColor: 'white',
-   borderRadius: '10px',
-}))
-
-const InputDiv = styled('div')(() => ({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '1rem',
-   width: '100%',
-   marginBottom: '2rem',
 }))
 
 const StyledH3 = styled('h3')(() => ({
@@ -100,7 +91,7 @@ const StyledH3 = styled('h3')(() => ({
    fontFamily: 'Inter',
    fontSize: '18px',
    fontWeight: '500',
-   textTransform: ' uppercase',
+   textTransform: 'uppercase',
    marginBottom: '1.5rem',
 }))
 
