@@ -1,52 +1,70 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { useState } from 'react'
+import React from 'react'
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { styled } from '@mui/material'
+import { Button } from '../UI/button/Button'
 
-export function ResulPaymentForm() {
+export function ResultPaymentForm({ openModalHandler }) {
    const stripe = useStripe()
    const elements = useElements()
 
-   const [message, setMessage] = useState(null)
-   const [isProcessing, setIsProcessing] = useState(false)
+   const handleSubmit = async (event) => {
+      event.preventDefault()
+      try {
+         if (!stripe || !elements) {
+            return
+         }
 
-   const handleSubmit = async (e) => {
-      e.preventDefault()
+         const { token } = await stripe.createToken(
+            elements.getElement(CardElement)
+         )
 
-      if (!stripe || !elements) {
-         return
+         openModalHandler()
+         console.log('Токен карты:', token)
+      } catch (error) {
+         console.error('Ошибка при получении токена:', error)
       }
-
-      setIsProcessing(true)
-
-      const { error } = await stripe.confirmPayment({
-         elements,
-         confirmParams: {
-            return_url: `${window.location.origin}/completion`,
-         },
-      })
-
-      if (error.type === 'card_error' || error.type === 'validation_error') {
-         setMessage(error.message)
-      } else {
-         setMessage('An unexpected error occured.')
-      }
-
-      setIsProcessing(false)
    }
 
    return (
-      <form id="payment-form" onSubmit={handleSubmit}>
-         <PaymentElement />
-         <button
-            disabled={isProcessing || !stripe || !elements}
-            id="submit"
-            type="button"
+      <ContainerFrom onSubmit={handleSubmit}>
+         <ContainerCartElement>
+            <CardElement
+               options={{
+                  placeholder: 'Card number',
+                  hidePostalCode: true,
+               }}
+            />
+         </ContainerCartElement>
+         <Button
+            variant="contained"
+            type="submit"
+            width=" 28.375rem"
+            padding=" 0.625rem 1rem"
+            borderRadius="0.125rem"
+            bgColor=" #DD8A08"
+            color="#F7F7F7"
+            fontSize=" 0.875rem"
+            textTransform="uppercase"
+            border="none"
          >
-            <span id="button-text">
-               {isProcessing ? 'Processing ... ' : 'Pay now'}
-            </span>
-         </button>
-         {message && <div id="payment-message">{message}</div>}
-      </form>
+            change the date
+         </Button>
+      </ContainerFrom>
    )
 }
+
+const ContainerFrom = styled('form')(() => ({
+   display: 'flex',
+   flexDirection: 'column',
+   gap: '1.38rem',
+   margin: '1rem 0 0 0',
+}))
+
+const ContainerCartElement = styled('div')(() => ({
+   width: ' 101%',
+   height: '5.5vh',
+   borderRadius: '0.125rem',
+   border: '1px solid var(--tertiary-light-gray, #c4c4c4)',
+   padding: '0.7rem 1rem',
+}))

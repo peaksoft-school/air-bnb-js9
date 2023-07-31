@@ -1,18 +1,39 @@
 /* eslint-disable import/no-cycle */
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
-import { Button } from '../UI/Button'
+import { Button } from '../UI/button/Button'
 import { PaymenrInDarePicker } from './PaymenrInDarePicker'
 import Modal from '../UI/modal/Modal'
 import { ResultPaiment } from './ResultPaiment'
 
-export function Payment({ state, openModalHandler }) {
+export function Payment({ state, openModalHandler, price }) {
    const [toggleResult, setToggleResult] = useState(false)
+   const [defaultDate, setDefaultDate] = useState(false)
    const [valueChekin, setValueCheckin] = useState('')
    const [valueChekout, setValueCheckout] = useState('')
 
    const toggleHandler = () => {
       setToggleResult((prev) => !prev)
+      setDefaultDate(true)
+   }
+   const ResultChekin = `${valueChekin.$D}.${valueChekin.$H}${valueChekin.$M}.${valueChekin.$y}`
+   const ResultChekout = `${valueChekout.$D}.${valueChekout.$H}${valueChekout.$M}.${valueChekout.$y}`
+
+   const getCurrentDate = () => {
+      const currentDate = new Date()
+      const day = currentDate.getDate().toString().padStart(2, '0')
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0')
+      const year = currentDate.getFullYear().toString().slice(-2)
+      return `${day}.${month}.${year}`
+   }
+
+   const getFutureDate = () => {
+      const currentDate = new Date()
+      currentDate.setDate(currentDate.getDate() + 3)
+      const day = currentDate.getDate().toString().padStart(2, '0')
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0')
+      const year = currentDate.getFullYear().toString().slice(-2)
+      return `${day}.${month}.${year}`
    }
    return (
       <div>
@@ -28,6 +49,8 @@ export function Payment({ state, openModalHandler }) {
                   <ResultPaiment
                      valueChekin={valueChekin}
                      valueChekout={valueChekout}
+                     openModalHandler={openModalHandler}
+                     price={price}
                   />
                ) : (
                   <PaymenrInDarePicker
@@ -44,19 +67,19 @@ export function Payment({ state, openModalHandler }) {
 
          <ContainerPayment>
             <ContainerDay styles="day">
-               <h4>$26</h4>/ <h4 className="day">day</h4>
+               <h4>${price}</h4>/ <h4 className="day">day</h4>
             </ContainerDay>
             <DatePickerStyle>
                <BlockDatePicker>
                   <p className="check">Check in</p>
                   <p className="date">
-                     {valueChekin.length ? valueChekin : '02.02.22'}
+                     {defaultDate ? ResultChekin : getCurrentDate()}
                   </p>
                </BlockDatePicker>
                <BlockDatePicker>
                   <p className="check">Check out</p>
                   <p className="date">
-                     {valueChekout.length ? valueChekout : '02.02.22'}
+                     {defaultDate ? ResultChekout : getFutureDate()}
                   </p>
                </BlockDatePicker>
             </DatePickerStyle>
@@ -65,7 +88,7 @@ export function Payment({ state, openModalHandler }) {
                width=" 28.375rem"
                padding=" 0.625rem 1rem"
                borderRadius="0.125rem"
-               background=" #DD8A08"
+               bgColor=" #DD8A08"
                color="#F7F7F7"
                fontSize=" 0.875rem"
                textTransform="uppercase"

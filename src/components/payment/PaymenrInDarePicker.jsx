@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
 import React from 'react'
-import { Button } from '../UI/Button'
+import { Button } from '../UI/button/Button'
 import DateePicker from '../UI/date-picker/Date-Picker'
 import {
    BlockDatePicker,
@@ -38,7 +38,7 @@ export function PaymenrInDarePicker({
             width=" 28.375rem"
             padding=" 0.625rem 1rem"
             borderRadius="0.125rem"
-            background=" #DD8A08"
+            bgColor="  #DD8A08"
             color="#F7F7F7"
             fontSize=" 0.875rem"
             textTransform="uppercase"
