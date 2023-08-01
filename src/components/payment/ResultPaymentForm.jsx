@@ -1,10 +1,15 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import React from 'react'
+import React, { useState } from 'react'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { styled } from '@mui/material'
 import { Button } from '../UI/button/Button'
 
-export function ResultPaymentForm({ openModalHandler }) {
+export function ResultPaymentForm({
+   openModalHandler,
+   valueChekin,
+   valueChekout,
+   price,
+}) {
+   const [error, setError] = useState('')
    const stripe = useStripe()
    const elements = useElements()
 
@@ -20,22 +25,25 @@ export function ResultPaymentForm({ openModalHandler }) {
          )
 
          openModalHandler()
-         console.log('Токен карты:', token)
+         console.log('Токен карты:', token, valueChekin, valueChekout, price)
       } catch (error) {
-         console.error('Ошибка при получении токена:', error)
+         setError('Ошибка при получении токена:', error)
       }
    }
 
    return (
       <ContainerFrom onSubmit={handleSubmit}>
-         <ContainerCartElement>
-            <CardElement
-               options={{
-                  placeholder: 'Card number',
-                  hidePostalCode: true,
-               }}
-            />
-         </ContainerCartElement>
+         <div className="block">
+            <ContainerCartElement>
+               <CardElement
+                  options={{
+                     placeholder: 'Card number',
+                     hidePostalCode: true,
+                  }}
+               />
+            </ContainerCartElement>
+            <p className="error">{error}</p>
+         </div>
          <Button
             variant="contained"
             type="submit"
@@ -48,7 +56,7 @@ export function ResultPaymentForm({ openModalHandler }) {
             textTransform="uppercase"
             border="none"
          >
-            change the date
+            Book
          </Button>
       </ContainerFrom>
    )
@@ -57,8 +65,18 @@ export function ResultPaymentForm({ openModalHandler }) {
 const ContainerFrom = styled('form')(() => ({
    display: 'flex',
    flexDirection: 'column',
-   gap: '1.38rem',
+   gap: '0.5rem',
    margin: '1rem 0 0 0',
+   '.block': {
+      height: '9vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+   },
+   '.error': {
+      color: 'red',
+   },
 }))
 
 const ContainerCartElement = styled('div')(() => ({

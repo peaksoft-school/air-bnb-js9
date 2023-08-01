@@ -80,7 +80,12 @@ export function ResultPaiment({
             </TotalContainer>
 
             <Elements stripe={stripePromise}>
-               <ResultPaymentForm openModalHandler={openModalHandler} />
+               <ResultPaymentForm
+                  openModalHandler={openModalHandler}
+                  valueChekin={valueChekin}
+                  valueChekout={valueChekout}
+                  price={price}
+               />
             </Elements>
          </ContainerPayment>
       </div>

@@ -1,8 +1,7 @@
-/* eslint-disable import/no-cycle */
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
+import { PaymentInDarePicker } from './PaymentInDatePicker'
 import { Button } from '../UI/button/Button'
-import { PaymenrInDarePicker } from './PaymenrInDarePicker'
 import Modal from '../UI/modal/Modal'
 import { ResultPaiment } from './ResultPaiment'
 
@@ -53,7 +52,7 @@ export function Payment({ state, openModalHandler, price }) {
                      price={price}
                   />
                ) : (
-                  <PaymenrInDarePicker
+                  <PaymentInDarePicker
                      valueChekin={valueChekin}
                      setValueCheckin={setValueCheckin}
                      valueChekout={valueChekout}
@@ -102,6 +101,7 @@ export function Payment({ state, openModalHandler, price }) {
       </div>
    )
 }
+
 export const ContainerPayment = styled('div')(() => ({
    width: '30.875rem',
    borderRadius: ' 0.125rem',
