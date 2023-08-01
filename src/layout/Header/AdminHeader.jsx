@@ -18,7 +18,7 @@ export function AdminHeader() {
             <AirBNBIcon />
             <div className="nav">
                <StyleNavLink
-                  to="/application"
+                  to="/admin/application"
                   isActive={location.pathname === '/application'}
                >
                   <p>Application</p>
