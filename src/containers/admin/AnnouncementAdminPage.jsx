@@ -3,7 +3,7 @@ import { styled } from '@mui/material'
 import { NavLink, useLocation } from 'react-router-dom'
 import { HouseSlidDetail } from '../../components/UI/house-detail/HouseSlidDetail'
 import { NameOfHotel } from '../../components/UI/name-hotel/NameOfHotel'
-import { house, Hotel } from '../../utils/constants/helpers'
+import { house, Hotel } from '../../utils/helpers'
 
 export function AnnouncementAdminPage() {
    const location = useLocation()

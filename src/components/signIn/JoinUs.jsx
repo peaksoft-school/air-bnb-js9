@@ -25,11 +25,6 @@ const Container = styled('div')(() => ({
    flexDirection: 'column',
    alignItems: 'center',
    justifyContent: 'center',
-   border: '1px solid gray',
-   width: '29.626rem',
-   padding: '25px',
-   backgroundColor: 'white',
-   borderRadius: '10px',
 }))
 
 const StyledH3 = styled('h3')(() => ({
