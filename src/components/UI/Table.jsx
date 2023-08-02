@@ -1,4 +1,3 @@
-import React from 'react'
 import {
    IconButton,
    Paper,
@@ -10,40 +9,36 @@ import {
    TableRow,
    styled,
 } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { Delete } from '../../assets/icons'
-
-const users = [
-   {
-      id: '1',
-      name: 'Илон Маск',
-      contact: 'elonmusk@gmail.com',
-      bookings: '1',
-      announcement: '2',
-   },
-   {
-      id: '2',
-      name: 'Илон Маск',
-      contact: 'elonmusk@gmail.com',
-      bookings: '1',
-      announcement: '2',
-   },
-   {
-      id: '3',
-      name: 'Илон Маск',
-      contact: 'elonmusk@gmail.com',
-      bookings: '1',
-      announcement: '2',
-   },
-   {
-      id: '4',
-      name: 'Илон Маск',
-      contact: 'elonmusk@gmail.com',
-      bookings: '1',
-      announcement: '2',
-   },
-]
+import { deleteUser, getAllUsers } from '../../api/userService'
 
 function ReusableTable() {
+   const [users, setUsers] = useState([])
+
+   const getUsers = async () => {
+      try {
+         const response = await getAllUsers()
+         const data = response
+         setUsers(data.data)
+      } catch (error) {
+         console.log('error: ', error)
+      }
+   }
+
+   const deleteUserById = async (id) => {
+      try {
+         await deleteUser(id)
+         console.log('id: ', id)
+      } catch (error) {
+         console.log('error: ', error)
+      }
+   }
+
+   useEffect(() => {
+      getUsers()
+   }, [])
+
    const columns = [
       {
          header: '№',
@@ -78,84 +73,80 @@ function ReusableTable() {
          key: 'action',
          minWidth: '10px',
          align: 'right',
-         render: () => (
-            <TableCell align="right">
-               <IconButton>
-                  <Delete />
-               </IconButton>
-            </TableCell>
-         ),
       },
    ]
 
    return (
       <StylePaper>
-         <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
-               <TableHead>
-                  <TableRow sx={{ height: '2%' }}>
-                     {columns.map((column) => (
-                        <StyledTableCell
-                           key={column.key}
-                           align={column.align}
-                           style={{ minWidth: column.minWidth }}
-                           sx={
-                              column.header && {
-                                 backgroundColor:
-                                    'var(--tertiary-dark-gray, #646464)',
-                                 color: 'white',
+         {users.length > 0 ? (
+            <TableContainer sx={{ maxHeight: 440 }}>
+               <Table stickyHeader aria-label="sticky table">
+                  <TableHead>
+                     <TableRow sx={{ height: '2%' }}>
+                        {columns.map((column) => (
+                           <StyledTableCell
+                              key={column.key}
+                              align={column.align}
+                              style={{ minWidth: column.minWidth }}
+                              sx={
+                                 column.header && {
+                                    backgroundColor:
+                                       'var(--tertiary-dark-gray, #646464)',
+                                    color: 'white',
+                                 }
                               }
-                           }
-                        >
-                           {column.header}
-                        </StyledTableCell>
-                     ))}
-                  </TableRow>
-               </TableHead>
+                           >
+                              {column.header}
+                           </StyledTableCell>
+                        ))}
+                     </TableRow>
+                  </TableHead>
 
-               <TableBody>
-                  {users?.map((user) => {
-                     return (
-                        <StyledTableRow
-                           hover
-                           role="checkbox"
-                           tabIndex={-1}
-                           key={user.id}
-                        >
-                           {columns.map((column) => {
-                              if (column.render) {
-                                 return column.render()
-                              }
-
-                              const value = user[column.key]
-                              return (
-                                 <StyledTableCell
-                                    key={column.key}
-                                    align={column.align}
-                                    name={column.name}
+                  <TableBody>
+                     {users?.map((user) => {
+                        return (
+                           <StyledTableRow
+                              hover
+                              role="checkbox"
+                              tabIndex={-1}
+                              key={user.id}
+                           >
+                              <StyledTableCell>{user.id}</StyledTableCell>
+                              <StyledTableCell>{user.fullName}</StyledTableCell>
+                              <TableCell align="center">{user.email}</TableCell>
+                              <TableCell align="right">
+                                 {user.announcements}
+                              </TableCell>
+                              <TableCell align="right">
+                                 {user.bookings}
+                              </TableCell>
+                              <TableCell align="right">
+                                 <IconButton
+                                    onClick={() => deleteUserById(user.id)}
                                  >
-                                    {column.format && typeof value === 'number'
-                                       ? column.format(value)
-                                       : value}
-                                 </StyledTableCell>
-                              )
-                           })}
-                        </StyledTableRow>
-                     )
-                  })}
-               </TableBody>
-            </Table>
-         </TableContainer>
+                                    <Delete />
+                                 </IconButton>
+                              </TableCell>
+                           </StyledTableRow>
+                        )
+                     })}
+                  </TableBody>
+               </Table>
+            </TableContainer>
+         ) : (
+            <p>There are no users here yet</p>
+         )}
       </StylePaper>
    )
 }
 
 export default ReusableTable
+
 const StylePaper = styled(Paper)`
-   margin-left: 5%;
    width: '90%';
    align-content: 'center';
 `
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${TableHead}`]: {
       color: theme.palette.common.white,

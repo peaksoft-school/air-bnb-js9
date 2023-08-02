@@ -1,37 +1,90 @@
+/* eslint-disable no-unused-vars */
 import { TextField, styled } from '@mui/material'
 import React, { forwardRef } from 'react'
 
 export const Input = forwardRef(
-   ({ type, placeholder, helperText, ...props }, ref) => {
+   (
+      {
+         type,
+         size,
+         label,
+         name,
+         placeholder,
+         onChange,
+         value,
+         error,
+         ...props
+      },
+      ref
+   ) => {
       return (
-         <div>
-            <StyledInput
-               type={type}
-               placeholder={placeholder || 'введите что-нибудь'}
-               ref={ref}
-               {...props}
-               error
-               helperText={helperText || 'Incorrect entry.'}
-            />
-         </div>
+         <StyledInput
+            type={type}
+            placeholder={placeholder || 'введите что-нибудь'}
+            ref={ref}
+            value={value}
+            size={size}
+            label={label}
+            onChange={onChange}
+            name={name}
+            error={error}
+            {...props}
+         />
       )
    }
 )
 
-const StyledInput = styled(TextField)((props) => ({
-   width: props.width || '100%',
-   height: props.height || '37px',
-   padding: props.padding || '10px, 8px, 10px, 16px',
+const StyledInput = styled(TextField)(
+   ({ barsbek, width, height, marginLeft, marginRight }) => {
+      if (barsbek === 'nekrash') {
+         return {
+            width: width || '100%',
+            backgroundColor: '#fff',
+            marginLeft: marginLeft || '0px',
+            marginRight: marginRight || '0px',
 
-   '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-         borderColor: 'gray',
-      },
-      '&:hover fieldset': {
-         border: '2px solid gray',
-      },
-   },
-   '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: 'gray',
-   },
-}))
+            '& .MuiOutlinedInput-input': {
+               borderRadius: '2px',
+            },
+            '& .MuiOutlinedInput-root': {
+               '& fieldset': {
+                  borderColor: 'gray',
+                  border: 'none',
+               },
+               '&:hover fieldset': {
+                  border: 'none',
+               },
+            },
+            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':
+               {
+                  borderColor: 'gray',
+                  border: 'none',
+               },
+         }
+      }
+      if (barsbek === 'krash') {
+         return {
+            width: width || '100%',
+            backgroundColor: '#fff',
+            height: height || '100px',
+
+            '& .MuiOutlinedInput-input': {
+               borderRadius: '2px',
+            },
+            '& .MuiOutlinedInput-root': {
+               '& fieldset': {
+                  borderColor: 'gray',
+               },
+               '&:hover fieldset': {
+                  border: '2px solid gray',
+               },
+            },
+            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':
+               {
+                  borderColor: 'gray',
+               },
+         }
+      }
+      return {}
+   }
+)

@@ -1,12 +1,11 @@
+import React from 'react'
 import ReusableTable from './components/UI/Table'
 
 function App() {
    return (
       <div>
-         AirBnB
          <ReusableTable />
       </div>
    )
 }
-
 export default App

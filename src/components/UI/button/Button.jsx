@@ -2,14 +2,16 @@ import { Button as ReusableButton, styled } from '@mui/material'
 
 export function Button({
    children,
-   variant = 'contained',
+   variant = 'outlined',
    disabled,
+   type,
    onClick,
    ...props
 }) {
    return (
       <ButtonStyled
          disabled={disabled}
+         type={type}
          onClick={onClick}
          variant={variant}
          props={props}
@@ -24,22 +26,24 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
       return {
          '&.MuiButtonBase-root': {
             display: 'flex',
-            width: `${props.width}`,
-
+            width: ` ${props.width}`,
+            height: `${props.height}`,
+            backgroundColor: `${props.bgColor}`,
+            color: `${props.color}`,
             justifyContent: 'center',
             alignItems: 'center',
-            borderRadius: '2px',
+            borderRadius: `${props.borderRadius}`,
             gap: '10px',
-            background: '#DD8A08',
 
             '&:hover': {
-               background: '#BB7200',
+               background: props.background || '#BB7200',
             },
             '&:active': {
-               background: '#F2B75B',
+               background: props.background || '#F2B75B',
             },
             '&:disabled': {
-               background: ' var(--tertiary-light-gray, #C4C4C4)',
+               background:
+                  props.background || ' var(--tertiary-light-gray, #C4C4C4)',
             },
          },
       }
@@ -52,9 +56,10 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
             alignItems: 'center',
             gap: '16px',
             background: '#fff',
-            color: ' #000',
+            color: props.color || ' #000',
             borderRadius: '8px',
             border: '1px solid var(--tertiary-light-gray, #C4C4C4)',
+            width: `${props.width}`,
          },
          '&:hover': {
             border: ' 1px solid var(--tertiary-middle-gray, #828282)',
