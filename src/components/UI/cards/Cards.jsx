@@ -16,6 +16,7 @@ export function Cards({ data, ...props }) {
    const [dataa, setData] = useState(
       data?.map((item) => ({ ...item, open: false }))
    )
+   console.log(data, 'datAAAAA')
 
    const handleNextImage = (index) => {
       setCurrentImages((prevImages) => {
@@ -65,10 +66,10 @@ export function Cards({ data, ...props }) {
 
    return (
       <MainContainer>
-         {dataa.map((item, index) => (
+         {dataa?.map((item, index) => (
             <MapContainer key={item.id} status={item.status}>
                <div>
-                  {item.urls.length > 1 && (
+                  {item.urls?.length > 1 && (
                      <IconsContainer className="ImageNavigation">
                         <StyledButton onClick={() => handlePrevImage(index)}>
                            <Arrowleft />
@@ -79,7 +80,8 @@ export function Cards({ data, ...props }) {
                      </IconsContainer>
                   )}
                   <StyleImage
-                     src={item.urls[currentImages[index]]}
+                     // src={item.urls[currentImages[index]]}
+                     src={item.img}
                      alt="home"
                   />
                </div>

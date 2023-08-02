@@ -6,8 +6,8 @@ import { ReactComponent as Dislike2 } from './dislike2.svg'
 import { ReactComponent as Card } from './card.svg'
 import { ReactComponent as Exist } from './exist.svg'
 import { ReactComponent as InstagramIcon } from './instagram.svg'
-import { ReactComponent as Like1 } from './Like1.svg'
-import { ReactComponent as Like2 } from './Like2.svg'
+// import { ReactComponent as Like1 } from './Like1.svg'
+// import { ReactComponent as Like2 } from './Like2.svg'
 import { ReactComponent as Location } from './location.svg'
 import { ReactComponent as Radio1 } from './radio1.svg'
 import { ReactComponent as Radio2 } from './radio 2.svg'
@@ -15,8 +15,8 @@ import { ReactComponent as SelectionIcon } from './selectIcon.svg'
 import { ReactComponent as Start1 } from './star1.svg'
 import { ReactComponent as Star2 } from './start2.svg'
 import { ReactComponent as TelegramIcon } from './telegram.svg'
-import { ReactComponent as ArrowRightDots } from './arrowright.svg'
-import { ReactComponent as ArrowLeftDots } from './Group 238.svg'
+// import { ReactComponent as ArrowRightDots } from './arrowright.svg'
+// import { ReactComponent as ArrowLeftDots } from './Group 238.svg'
 import { ReactComponent as UploadImg } from './Camera Icon.svg'
 import { ReactComponent as AirBNBIcon } from './airbnb.svg'
 import { ReactComponent as BlackAirBNBIcon } from './blackairbnb.svg'
@@ -26,18 +26,19 @@ import { ReactComponent as Google } from './google.svg'
 import { ReactComponent as GeoIcon } from './geoIcon.svg'
 import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg'
 import { ReactComponent as ArrowLeftBlack } from './arrowLeftBlack.svg'
-import { ReactComponent as ArrowLeftDots } from './arrowLeftDots.svg'
-import { ReactComponent as ArrowRightDots } from './arrowRightDots.svg'
+// import { ReactComponent as ArrowLeftDots } from './arrowLeftDots.svg'
+// import { ReactComponent as ArrowRightDots } from './arrowRightDots.svg'
 import { ReactComponent as ArrowRight } from './arrfirght.svg'
 import { ReactComponent as Arrowleft } from './arrleft.svg'
 
 export {
+   // ArrowLeftDots,
    ArrowRight,
    Arrowleft,
    ArrowrightBlack,
    ArrowLeftBlack,
-   ArrowLeftDots,
-   ArrowRightDots,
+   // ArrowLeftDots,
+   // ArrowRightDots,
    UploadImg,
    Heart1,
    ClickHeart2,
@@ -47,8 +48,8 @@ export {
    Card,
    Exist,
    InstagramIcon,
-   Like1,
-   Like2,
+   // Like1,
+   // Like2,
    Location,
    Radio1,
    Radio2,
@@ -56,7 +57,7 @@ export {
    Start1,
    Star2,
    TelegramIcon,
-   WhatsAppIcon,
+   // WhatsAppIcon,
    AirBNBIcon,
    BlackAirBNBIcon,
    SearchIcon,
