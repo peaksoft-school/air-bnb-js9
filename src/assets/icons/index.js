@@ -6,8 +6,8 @@ import { ReactComponent as Dislike2 } from './dislike2.svg'
 import { ReactComponent as Card } from './card.svg'
 import { ReactComponent as Exist } from './exist.svg'
 import { ReactComponent as InstagramIcon } from './instagram.svg'
-import { ReactComponent as Like1 } from './Like1.svg'
-import { ReactComponent as Like2 } from './Like2.svg'
+import { ReactComponent as Like1 } from './like1.svg'
+import { ReactComponent as Like2 } from './like2.svg'
 import { ReactComponent as Location } from './location.svg'
 import { ReactComponent as Radio1 } from './radio1.svg'
 import { ReactComponent as Radio2 } from './radio 2.svg'
@@ -27,6 +27,8 @@ import { ReactComponent as GeoIcon } from './geoIcon.svg'
 import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg'
 import { ReactComponent as ArrowLeftBlack } from './GroupBlack.svg'
 import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
+import { ReactComponent as ArrLeftIcon } from './arrleft.svg'
+import { ReactComponent as ArrRightIcon } from './arrfirght.svg'
 
 export {
    ArrowrightBlack,
@@ -58,4 +60,6 @@ export {
    Google,
    GeoIcon,
    WhatsAppIcon,
+   ArrRightIcon,
+   ArrLeftIcon,
 }

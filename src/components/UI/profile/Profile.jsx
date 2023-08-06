@@ -9,9 +9,7 @@ export default function Profile({ data, logOut }) {
             alt="photo"
             src={data.photo && data.photo}
          >
-            {data.photo || (
-               <p style={{ fontSize: '2.375rem' }}>{data.name[0]}</p>
-            )}
+            {data.photo || <p style={{ fontSize: '2.375rem' }}>{data.name}</p>}
          </StyledAvatar>
 
          <UserInfo>

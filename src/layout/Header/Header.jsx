@@ -9,7 +9,7 @@ import {
 } from '../../assets/icons/index'
 
 export function Header({ userLogin, openModalHandler }) {
-   const [login, setLogin] = useState(true)
+   const [login, setLogin] = useState(false)
 
    function headerLoginHandler() {
       setLogin((prev) => !prev)

@@ -3,8 +3,8 @@ import { IconButton, Menu, MenuItem, Tooltip, styled } from '@mui/material'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 
 import {
-   ArrowRight,
-   Arrowleft,
+   ArrLeftIcon,
+   ArrRightIcon,
    Location,
    Start1,
 } from '../../../assets/icons/index'
@@ -71,10 +71,10 @@ export function Cards({ data, ...props }) {
                   {item.urls.length > 1 && (
                      <IconsContainer className="ImageNavigation">
                         <StyledButton onClick={() => handlePrevImage(index)}>
-                           <Arrowleft />
+                           <ArrLeftIcon />
                         </StyledButton>
                         <StyledButton onClick={() => handleNextImage(index)}>
-                           <ArrowRight />
+                           <ArrRightIcon />
                         </StyledButton>
                      </IconsContainer>
                   )}
