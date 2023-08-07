@@ -27,6 +27,8 @@ import { ReactComponent as GeoIcon } from './geoIcon.svg'
 import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg' // Make sure the actual file name matches here
 import { ReactComponent as ArrowLeftBlack } from './GroupBlack.svg' // Make sure the actual file name matches here
 import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
+import { ReactComponent as SeenPassword } from './seenPassword.svg'
+import { ReactComponent as HiddenPassword } from './hiddenPassword.svg'
 
 export {
    ArrowrightBlack,
@@ -58,4 +60,6 @@ export {
    GroupIcon,
    Google,
    GeoIcon,
+   SeenPassword,
+   HiddenPassword,
 }

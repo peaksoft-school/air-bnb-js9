@@ -1,5 +1,6 @@
 import { Checkbox, InputAdornment, styled } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import mainBackground from '../../assets/images/MainBackground.png'
 import { Header } from '../../layout/Header/Header'
 import { Input } from '../UI/input/Input'
@@ -15,6 +16,8 @@ export function MainPage() {
    const [openModal, setOpenModal] = useState(false)
    const [signIn, setSignIn] = useState(false)
 
+   const { isAuthorization } = useSelector((state) => state.auth)
+
    const loginHandler = () => {
       setUserLogin((prev) => !prev)
    }
@@ -26,6 +29,12 @@ export function MainPage() {
    const moveToSigninAndSignUp = () => {
       setSignIn((prev) => !prev)
    }
+
+   useEffect(() => {
+      if (isAuthorization) {
+         setOpenModal(false)
+      }
+   }, [isAuthorization])
 
    return (
       <div>

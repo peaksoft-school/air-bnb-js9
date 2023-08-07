@@ -1,11 +1,21 @@
-import React from 'react'
-import { styled } from '@mui/material'
+import React, { useState } from 'react'
+import { InputAdornment, styled } from '@mui/material'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
+import { useDispatch } from 'react-redux'
 import { Input } from '../UI/input/Input'
 import { Button } from '../UI/button/Button'
+import { signInRequest } from '../../store/auth/authThunk'
+import { HiddenPassword, SeenPassword } from '../../assets/icons'
+import { toastSnackbar } from '../UI/snackbar/Snackbar'
 
 export function SignIn({ moveToSigninAndSignUp }) {
+   const [seePassword, setSeePassword] = useState(false)
+   const { toastType } = toastSnackbar()
+
+   const seePasswordHandler = () => {
+      setSeePassword((prev) => !prev)
+   }
    const validationSchema = Yup.object().shape({
       email: Yup.string().required('Required').email('It is not an email'),
       password: Yup.string()
@@ -13,8 +23,19 @@ export function SignIn({ moveToSigninAndSignUp }) {
          .min(8, 'Password must be more than 8 symbols'),
    })
 
-   const handleSubmit = (values) => {
-      console.log(values)
+   const dispatch = useDispatch()
+
+   const handleSubmit = async (values) => {
+      try {
+         await dispatch(signInRequest(values))
+         toastType(
+            'success',
+            'Successfully logIn as ADMIN',
+            'Вы только что выполнили вход на наш сайт как Админ'
+         )
+      } catch (error) {
+         toastType('error', 'Login error', 'Something went wrong')
+      }
    }
 
    return (
@@ -46,7 +67,7 @@ export function SignIn({ moveToSigninAndSignUp }) {
 
                   <div style={{ marginBottom: '1rem' }}>
                      <Input
-                        type="password"
+                        type={seePassword ? 'text' : 'password'}
                         name="password"
                         barsbek="krash"
                         size="small"
@@ -55,6 +76,27 @@ export function SignIn({ moveToSigninAndSignUp }) {
                         value={values.password}
                         error={touched.password && !!errors.password}
                         onChange={handleChange}
+                        InputProps={{
+                           endAdornment: (
+                              <InputAdornment position="end">
+                                 {seePassword ? (
+                                    <SeenPassword
+                                       style={{
+                                          cursor: 'pointer',
+                                       }}
+                                       onClick={seePasswordHandler}
+                                    />
+                                 ) : (
+                                    <HiddenPassword
+                                       style={{
+                                          cursor: 'pointer',
+                                       }}
+                                       onClick={seePasswordHandler}
+                                    />
+                                 )}
+                              </InputAdornment>
+                           ),
+                        }}
                      />
                      {errors.password && touched.password && (
                         <p style={{ color: 'red' }}>{errors.password}</p>
@@ -102,8 +144,15 @@ const StyledAhref = styled('a')(() => ({
    fontWeight: ' 400',
    marginTop: '1.8rem',
    textDecoration: 'underline',
+   cursor: 'pointer',
 }))
 
-const FormStyled = styled(Form)(() => ({
-   width: '100%',
-}))
+const FormStyled = styled(Form)`
+   width: 100%;
+
+   svg {
+      path {
+         fill: gray;
+      }
+   }
+`
