@@ -5,6 +5,5 @@ export const getAllUsers = () => {
 }
 
 export const deleteUser = (id) => {
-   console.log(id)
    return axiosInstance.delete(`/api/users/${id}`)
 }
