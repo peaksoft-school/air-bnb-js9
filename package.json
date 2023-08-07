@@ -14,6 +14,8 @@
       "@mui/x-date-pickers": "^6.9.2",
       "@react-firebase/auth": "^0.2.10",
       "@reduxjs/toolkit": "^1.9.5",
+      "@stripe/react-stripe-js": "^2.1.1",
+      "@stripe/stripe-js": "^1.54.1",
       "axios": "^1.4.0",
       "dayjs": "^1.11.9",
       "firebase": "^10.1.0",

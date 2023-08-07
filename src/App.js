@@ -4,6 +4,6 @@ import { injectStore } from './config/axiosInstance'
 injectStore()
 
 function App() {
-   return <div>AirBnB</div>
+   return <div>AirBnB </div>
 }
 export default App
