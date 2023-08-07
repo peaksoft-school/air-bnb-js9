@@ -42,7 +42,6 @@ export function MainPage() {
             <Modal
                open={openModal}
                onClose={openModalHandler}
-               width="35vw"
                borderRadius="0.125rem"
                border="none"
             >

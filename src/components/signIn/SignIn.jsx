@@ -48,13 +48,12 @@ export function SignIn({ moveToSigninAndSignUp }) {
          >
             {({ errors, touched, values, handleChange }) => (
                <FormStyled>
-                  <div style={{ marginBottom: '1rem' }}>
+                  <InputContainer>
                      <Input
                         type="text"
                         name="email"
                         barsbek="krash"
                         size="small"
-                        height="45px"
                         placeholder="Login"
                         value={values.email}
                         onChange={handleChange}
@@ -63,15 +62,14 @@ export function SignIn({ moveToSigninAndSignUp }) {
                      {errors.email && touched.email && (
                         <p style={{ color: 'red' }}>{errors.email}</p>
                      )}
-                  </div>
+                  </InputContainer>
 
-                  <div style={{ marginBottom: '1rem' }}>
+                  <InputContainer>
                      <Input
                         type={seePassword ? 'text' : 'password'}
                         name="password"
                         barsbek="krash"
                         size="small"
-                        height="45px"
                         placeholder="Password"
                         value={values.password}
                         error={touched.password && !!errors.password}
@@ -101,7 +99,7 @@ export function SignIn({ moveToSigninAndSignUp }) {
                      {errors.password && touched.password && (
                         <p style={{ color: 'red' }}>{errors.password}</p>
                      )}
-                  </div>
+                  </InputContainer>
 
                   <Button
                      type="submit"
@@ -156,3 +154,11 @@ const FormStyled = styled(Form)`
       }
    }
 `
+const InputContainer = styled('div')(() => ({
+   height: '5vh',
+   display: 'flex',
+   flexDirection: 'column',
+   justifyContent: 'space-between',
+   gap: '0.3rem',
+   marginBottom: '2rem',
+}))
