@@ -13,7 +13,8 @@ export const injectStore = (_store) => {
 }
 const logoutAction = () => {}
 
-const token = ''
+const token =
+   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTEzOTA1NDgsImlhdCI6MTY5MTM4Njk0OCwidXNlcm5hbWUiOiJhZG1pbkBnbWFpbC5jb20ifQ.Bc5fapoqxndxA-FzpLaKFOIkrCHl4lHrQebm0WgmVks'
 axiosInstance.interceptors.request.use((config) => {
    const updatedConfig = { ...config }
    // const token = store.getState().login.accessToken

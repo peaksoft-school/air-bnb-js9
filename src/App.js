@@ -1,5 +1,5 @@
 import React from 'react'
-import ReusableTable from './components/UI/Table'
+import ReusableTable from './components/table/Table'
 
 function App() {
    return (

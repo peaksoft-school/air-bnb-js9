@@ -1,9 +1,10 @@
 import { axiosInstance } from '../config/axiosInstance'
 
 export const getAllUsers = () => {
-   return axiosInstance.get('/api/users/getAllUsers')
+   return axiosInstance.get('/api/users/get-all')
 }
 
-export const deleteUser = ({ id }) => {
-   return axiosInstance.delete(`/api/announcements/${id}`)
+export const deleteUser = (id) => {
+   console.log(id)
+   return axiosInstance.delete(`/api/users/${id}`)
 }
