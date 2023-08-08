@@ -25,17 +25,19 @@ export function SignIn({ moveToSigninAndSignUp }) {
 
    const dispatch = useDispatch()
 
-   const handleSubmit = async (values) => {
-      try {
-         await dispatch(signInRequest(values))
-         toastType(
-            'success',
-            'Successfully logIn as ADMIN',
-            'Вы только что выполнили вход на наш сайт как Админ'
-         )
-      } catch (error) {
-         toastType('error', 'Login error', 'Something went wrong')
-      }
+   const handleSubmit = (values) => {
+      dispatch(signInRequest(values))
+         .unwrap()
+         .then(() => {
+            toastType(
+               'success',
+               'Successfully logIn as ADMIN',
+               'Вы только что выполнили вход на наш сайт как Админ'
+            )
+         })
+         .catch((error) => {
+            toastType('error', error)
+         })
    }
 
    return (

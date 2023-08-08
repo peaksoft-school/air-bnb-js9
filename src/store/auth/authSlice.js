@@ -23,6 +23,7 @@ const getInitialState = () => {
       token: '',
       email: '',
       role: userRoles.GUEST,
+      isError: '',
    }
 }
 
@@ -54,8 +55,9 @@ export const authSlice = createSlice({
          .addCase(signInRequest.pending, (state) => {
             state.isLoading = true
          })
-         .addCase(signInRequest.rejected, (state) => {
+         .addCase(signInRequest.rejected, (state, action) => {
             state.isLoading = false
+            state.isError = action.payload
          })
 
       builder
