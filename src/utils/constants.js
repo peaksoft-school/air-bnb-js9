@@ -18,5 +18,5 @@ export const userRoles = {
 }
 
 export const STORAGE_KEY = {
-   AIRBNB_AUTH: 'auth',
+   AIRBNB_AUTH: 'AUTH_AIRBNB',
 }
