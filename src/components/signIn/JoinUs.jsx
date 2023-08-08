@@ -1,16 +1,38 @@
 import { styled } from '@mui/material'
 import React from 'react'
+import { signInWithPopup } from 'firebase/auth'
+import { useDispatch } from 'react-redux'
 import { Button } from '../UI/button/Button'
 import { Google } from '../../assets/icons'
+import { auth, provider } from '../../config/fireBaseConfig'
+import { authWithGoogleRequest } from '../../store/auth/authThunk'
+import { toastSnackbar } from '../UI/snackbar/Snackbar'
 
-export function JoinUs({ loginHandler, moveToSigninAndSignUp }) {
+export function JoinUs({ moveToSigninAndSignUp }) {
+   const dispatch = useDispatch()
+   const { toastType } = toastSnackbar()
+   const signInGoogleHandler = async () => {
+      try {
+         await signInWithPopup(auth, provider).then((data) => {
+            dispatch(authWithGoogleRequest(data.user.accessToken)).unwrap()
+            toastType(
+               'success',
+               'Successfully logIn as USER',
+               'Вы только что выполнили вход в наш сайт через google account'
+            )
+         })
+      } catch (error) {
+         toastType('error', 'Login error', 'Something went wrong')
+      }
+   }
+
    return (
       <Container>
          <StyledH3>JOIN US</StyledH3>
          <StyledPtag>
             Sign in with Google to start booking available listings!
          </StyledPtag>
-         <Button onClick={loginHandler} width="100%">
+         <Button onClick={signInGoogleHandler} width="100%">
             <Google /> Google
          </Button>
          <StyledAhref onClick={moveToSigninAndSignUp}>
@@ -51,4 +73,5 @@ const StyledAhref = styled('a')(() => ({
    fontWeight: ' 400',
    marginTop: '2.25rem',
    textDecoration: 'underline',
+   cursor: 'pointer',
 }))

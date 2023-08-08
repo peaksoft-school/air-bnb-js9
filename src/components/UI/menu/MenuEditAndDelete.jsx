@@ -22,12 +22,12 @@ const Card = styled('div')({
 })
 
 const CardEditAndDelete = styled('div')((props) => ({
-   minWidth: '10%',
-   minHeight: '9%',
+   minWidth: props.minWidth || '10%',
+   minHeight: props.minHeight || '9%',
    borderRadius: '0.125rem',
    border: ' 1px solid var(--tertiary-light-gray, #C4C4C4)',
    background: '#FFF',
-   padding: '1rem 0rem',
+   padding: props.padding || '1rem 0rem',
    zIndex: 999,
    position: 'absolute',
    right: props.right || '10px',
@@ -38,7 +38,7 @@ const CardEditAndDelete = styled('div')((props) => ({
       fontFamily: 'Inter',
       fontSize: '1rem',
       fontStyle: 'normal',
-      fontWeight: '400',
+      fontWeight: '500',
       lineHeight: 'normal',
       padding: '0.25rem 0rem 0.25rem 1.25rem',
       '&:hover': {

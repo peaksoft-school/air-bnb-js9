@@ -1,25 +1,40 @@
 import React, { useState } from 'react'
-import { Button, InputAdornment, styled } from '@mui/material'
+import { Avatar, InputAdornment, styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button } from '../../components/UI/button/Button'
 import { Input } from '../../components/UI/input/Input'
 import {
    BlackAirBNBIcon,
-   GroupIcon,
    SearchIcon,
    AirBNBIcon,
 } from '../../assets/icons/index'
+import { userRoles } from '../../utils/constants'
+import { MenuEditAndDelete } from '../../components/UI/menu/MenuEditAndDelete'
+
+import { authActions } from '../../store/auth/authSlice'
 
 export function Header({ userLogin, openModalHandler }) {
    const [login, setLogin] = useState(true)
+   const [meatBalls, setMeatBalls] = useState(false)
+   const { isAuthorization, email } = useSelector((state) => state.auth)
 
+   const dispatch = useDispatch()
+
+   const toggleMeatBalls = () => {
+      setMeatBalls(!meatBalls)
+   }
    function headerLoginHandler() {
       setLogin((prev) => !prev)
+   }
+
+   const logoutHnadler = () => {
+      dispatch(authActions.logout())
    }
    return (
       <Container>
          {login ? (
             <StyleHeader login={login}>
-               {' '}
-               {userLogin ? (
+               {isAuthorization ? (
                   <AirBNBIcon />
                ) : (
                   <StateBlock>
@@ -29,6 +44,11 @@ export function Header({ userLogin, openModalHandler }) {
                         <StyledButton
                            variant="contained"
                            onClick={openModalHandler}
+                           width="13rem"
+                           bgColor="#DD8A08"
+                           color="white"
+                           fontFamily="Inter"
+                           fontWeight="500"
                         >
                            {userLogin ? 'SUBMIT AN AD' : 'JOIN US'}
                         </StyledButton>
@@ -36,16 +56,43 @@ export function Header({ userLogin, openModalHandler }) {
                   </StateBlock>
                )}
                <InputDiv>
-                  {userLogin ? (
+                  {isAuthorization ? (
                      <FavoriteDiv>
                         <StyleLink>leave an ad</StyleLink>
-                        <GroupIcon />
+                        <div
+                           style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.7rem',
+                           }}
+                        >
+                           <Avatar sx={{ bgcolor: '#0298D9' }}>
+                              {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
+                           </Avatar>
+                           <MenuEditAndDelete
+                              open={meatBalls}
+                              openHandler={toggleMeatBalls}
+                              state="true"
+                              right="6.5vw"
+                              top="10vh"
+                              padding="0.4rem 0.3rem"
+                              minHeight="0%"
+                              minWidth="0%"
+                           >
+                              <Button
+                                 onClick={logoutHnadler}
+                                 variant="outlined"
+                              >
+                                 log out
+                              </Button>
+                           </MenuEditAndDelete>
+                        </div>
                      </FavoriteDiv>
                   ) : null}
                </InputDiv>
             </StyleHeader>
          ) : (
-            <StyleHeader background="#fff">
+            <StyleHeader background="#ffffff">
                <div className="headerIcon">
                   <BlackAirBNBIcon />
                   <LeaveAnAd>leave an ad</LeaveAnAd>
@@ -113,6 +160,7 @@ const StyleLink = styled('a')(() => ({
    fontStyle: 'normal',
    fontWeight: '500',
    lineHeight: 'normal',
+   cursor: 'pointer',
 }))
 
 const StyledButton = styled(Button)(() => ({
@@ -126,7 +174,7 @@ const StyledButton = styled(Button)(() => ({
 const FavoriteDiv = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
-   gap: '3rem',
+   gap: '4rem',
 }))
 
 const StyleHeader = styled('header')((props) => ({
@@ -151,6 +199,7 @@ const LeaveAnAd = styled('p')(() => ({
    fontStyle: 'normal',
    fontWeight: '500',
    lineHeight: 'normal',
+   cursor: 'pointer',
 }))
 const SearchDiv = styled('div')(() => ({
    display: 'flex',
