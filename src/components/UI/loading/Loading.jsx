@@ -3,7 +3,7 @@ import { CircularProgress, styled } from '@mui/material'
 export function Loading() {
    return (
       <Container>
-         <CircularProgress />
+         <CircularProgress style={{ marginTop: '-17rem' }} />
       </Container>
    )
 }
@@ -16,6 +16,7 @@ const Container = styled('div')(() => ({
    width: '100%',
    display: 'flex',
    justifyContent: 'center',
+   // alignItems: 'center',
    zIndex: '99009',
    backgroundColor: 'rgba(44, 40, 28, 0.75)',
 }))
