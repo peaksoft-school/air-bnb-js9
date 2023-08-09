@@ -89,7 +89,7 @@ export function Cards({ data, ...props }) {
                   </div>
                   <DayStartContainer onClick={props.dd}>
                      <DayContainer>
-                        ${item.price}/ <DayStyle>day</DayStyle>{' '}
+                        ${item.price}/ <DayStyle>day</DayStyle>
                      </DayContainer>
 
                      <StartContainer>
@@ -281,7 +281,7 @@ const StyledButton = styled('button')`
 
 const StyleImage = styled('img')`
    width: 19rem;
-   height: 11.5rem;
+   height: 11rem;
 `
 
 const StyleTitle = styled('p')`

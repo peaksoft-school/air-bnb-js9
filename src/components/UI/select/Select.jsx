@@ -29,7 +29,7 @@ export function Select({
             displayEmpty
             label={labelName}
          >
-            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="all">--</MenuItem>
             {data?.map((item) => (
                <MenuItem key={item.id} value={item.name}>
                   {item.name}

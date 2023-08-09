@@ -12,7 +12,8 @@ export const regions = [
    { id: 'option4', name: 'CHUI' },
    { id: 'option5', name: 'NARYN' },
    { id: 'option6', name: 'TALAS' },
-   { id: 'option7', name: 'YSSYK-KUL' },
+   { id: 'option7', name: 'ISSYK_KUL' },
+   { id: 'option8', name: 'BISHKEK' },
 ]
 export const popular = [
    { id: 'option8', name: 'popular' },
