@@ -5,6 +5,7 @@ export const getAnnouncement = createAsyncThunk(
    'get/announcement',
    async () => {
       const response = await getMyAnnouncement()
+      console.log(response, 'responsethunk')
       return response.data
    }
 )

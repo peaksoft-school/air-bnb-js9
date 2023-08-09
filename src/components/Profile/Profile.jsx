@@ -1,11 +1,11 @@
 import { styled } from '@mui/material'
-import React from 'react'
-// import { Route, Routes } from 'react-router'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
 import { Tabs } from '../tabs/Tabs'
 import Profile from '../UI/profile/Profile'
-// import { UserLayout } from '../../layout/userLayout/UserLayout'
+import { getAnnouncement } from '../../store/profile/ProfileThunk'
 
 const data = [
    {
@@ -16,10 +16,13 @@ const data = [
 ]
 export function UserProfile() {
    const logOut = () => {
-      //   const navigate = useNavigate()
       const navigate = ''
       console.log('navigate: ', navigate)
    }
+   const dispatch = useDispatch()
+   useEffect(() => {
+      dispatch(getAnnouncement())
+   }, [dispatch])
    return (
       <MainContainer>
          <Header />
