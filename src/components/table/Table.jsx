@@ -12,9 +12,12 @@ import {
 import { useEffect, useState } from 'react'
 import { Delete } from '../../assets/icons'
 import { deleteUser, getAllUsers } from '../../api/userService'
+import Modal from '../UI/modal/Modal'
+import { Button } from '../UI/button/Button'
 
 function ReusableTable() {
    const [users, setUsers] = useState([])
+   const [showModal, setShowModal] = useState(false)
 
    const getUsers = async () => {
       try {
@@ -26,9 +29,14 @@ function ReusableTable() {
       }
    }
 
+   const openModalHandler = () => {
+      setShowModal((prev) => !prev)
+   }
+
    const deleteUserById = async (id) => {
       try {
          await deleteUser(id)
+         getUsers()
          console.log('id: ', id)
       } catch (error) {
          console.log('error: ', error)
@@ -121,12 +129,41 @@ function ReusableTable() {
                                  {user.bookings}
                               </TableCell>
                               <TableCell align="right">
-                                 <IconButton
-                                    onClick={() => deleteUserById(user.id)}
-                                 >
+                                 <IconButton onClick={openModalHandler}>
                                     <Delete />
                                  </IconButton>
                               </TableCell>
+                              {showModal && (
+                                 <Modal
+                                    open={showModal}
+                                    onClose={openModalHandler}
+                                    width="22%"
+                                    height="190px"
+                                    margin="350px 0"
+                                 >
+                                    Are your shure delate this user?
+                                    <ButtonContainer
+                                       style={{
+                                          display: 'flex',
+                                          marginTop: '50px',
+                                       }}
+                                    >
+                                       <Button onClick={openModalHandler}>
+                                          cancel
+                                       </Button>
+                                       <Button
+                                          bgColor="orange"
+                                          variant="contained"
+                                          color="white"
+                                          onClick={() =>
+                                             deleteUserById(user.id)
+                                          }
+                                       >
+                                          delete
+                                       </Button>
+                                    </ButtonContainer>
+                                 </Modal>
+                              )}
                            </StyledTableRow>
                         )
                      })}
@@ -134,7 +171,7 @@ function ReusableTable() {
                </Table>
             </TableContainer>
          ) : (
-            <p>There are no users here yet</p>
+            <ModalParagraph>There are no users here yet</ModalParagraph>
          )}
       </StylePaper>
    )
@@ -155,6 +192,18 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
       fontSize: 14,
    },
 }))
+const ButtonContainer = styled('div')`
+   display: flex;
+   justify-content: center;
+   gap: 30px;
+   align-items: flex-end;
+`
+const ModalParagraph = styled('p')`
+   margin-left: 90px;
+   color: #000;
+   font-size: 20px;
+   font-weight: 500;
+`
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
    '&:nth-of-type(odd)': {
