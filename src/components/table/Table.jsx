@@ -14,10 +14,13 @@ import { Delete } from '../../assets/icons'
 import { deleteUser, getAllUsers } from '../../api/userService'
 import Modal from '../UI/modal/Modal'
 import { Button } from '../UI/button/Button'
+import { toastSnackbar } from '../UI/snackbar/Snackbar'
 
-function ReusableTable() {
+export function ReusableTable() {
    const [users, setUsers] = useState([])
    const [showModal, setShowModal] = useState(false)
+   const [userToDelete, setUserToDeleteId] = useState(null)
+   const { toastType } = toastSnackbar()
 
    const getUsers = async () => {
       try {
@@ -29,17 +32,24 @@ function ReusableTable() {
       }
    }
 
-   const openModalHandler = () => {
-      setShowModal((prev) => !prev)
+   const openModalHandler = (id) => {
+      setUserToDeleteId(id) // Установка id выбранного пользователя
+      setShowModal(true)
+   }
+   const closeModalHandler = () => {
+      setUserToDeleteId(null) // Обнуление id выбранного пользователя
+      setShowModal(false)
    }
 
    const deleteUserById = async (id) => {
       try {
          await deleteUser(id)
          getUsers()
-         console.log('id: ', id)
+
+         closeModalHandler()
+         toastType('success', 'deleted successfully', 'success')
       } catch (error) {
-         console.log('error: ', error)
+         toastType('error', error)
       }
    }
 
@@ -85,34 +95,34 @@ function ReusableTable() {
    ]
 
    return (
-      <StylePaper>
-         {users.length > 0 ? (
-            <TableContainer sx={{ maxHeight: 440 }}>
-               <Table stickyHeader aria-label="sticky table">
-                  <TableHead>
-                     <TableRow sx={{ height: '2%' }}>
-                        {columns.map((column) => (
-                           <StyledTableCell
-                              key={column.key}
-                              align={column.align}
-                              style={{ minWidth: column.minWidth }}
-                              sx={
-                                 column.header && {
-                                    backgroundColor:
-                                       'var(--tertiary-dark-gray, #646464)',
-                                    color: 'white',
+      <div>
+         <StylePaper>
+            {users.length > 0 ? (
+               <TableContainer sx={{ maxHeight: 440 }}>
+                  <Table stickyHeader aria-label="sticky table">
+                     <TableHead>
+                        <TableRow sx={{ height: '2%' }}>
+                           {columns.map((column) => (
+                              <StyledTableCell
+                                 key={column.key}
+                                 align={column.align}
+                                 style={{ minWidth: column.minWidth }}
+                                 sx={
+                                    column.header && {
+                                       backgroundColor:
+                                          'var(--tertiary-dark-gray, #646464)',
+                                       color: 'white',
+                                    }
                                  }
-                              }
-                           >
-                              {column.header}
-                           </StyledTableCell>
-                        ))}
-                     </TableRow>
-                  </TableHead>
+                              >
+                                 {column.header}
+                              </StyledTableCell>
+                           ))}
+                        </TableRow>
+                     </TableHead>
 
-                  <TableBody>
-                     {users?.map((user) => {
-                        return (
+                     <TableBody>
+                        {users?.map((user) => (
                            <StyledTableRow
                               hover
                               role="checkbox"
@@ -129,55 +139,52 @@ function ReusableTable() {
                                  {user.bookings}
                               </TableCell>
                               <TableCell align="right">
-                                 <IconButton onClick={openModalHandler}>
+                                 <IconButton
+                                    onClick={() => openModalHandler(user.id)}
+                                 >
                                     <Delete />
                                  </IconButton>
                               </TableCell>
-                              {showModal && (
-                                 <Modal
-                                    open={showModal}
-                                    onClose={openModalHandler}
-                                    width="22%"
-                                    height="190px"
-                                    margin="350px 0"
-                                 >
-                                    Are your shure delate this user?
-                                    <ButtonContainer
-                                       style={{
-                                          display: 'flex',
-                                          marginTop: '50px',
-                                       }}
-                                    >
-                                       <Button onClick={openModalHandler}>
-                                          cancel
-                                       </Button>
-                                       <Button
-                                          bgColor="orange"
-                                          variant="contained"
-                                          color="white"
-                                          onClick={() =>
-                                             deleteUserById(user.id)
-                                          }
-                                       >
-                                          delete
-                                       </Button>
-                                    </ButtonContainer>
-                                 </Modal>
-                              )}
                            </StyledTableRow>
-                        )
-                     })}
-                  </TableBody>
-               </Table>
-            </TableContainer>
-         ) : (
-            <ModalParagraph>There are no users here yet</ModalParagraph>
+                        ))}
+                     </TableBody>
+                  </Table>
+               </TableContainer>
+            ) : (
+               <ModalParagraph>There are no users here yet</ModalParagraph>
+            )}
+         </StylePaper>
+
+         {showModal && (
+            <Modal
+               open={showModal}
+               onClose={closeModalHandler}
+               width="22%"
+               height="190px"
+               margin="350px 0"
+            >
+               Are you sure you want to delete this user?
+               <ButtonContainer
+                  style={{
+                     display: 'flex',
+                     marginTop: '50px',
+                  }}
+               >
+                  <Button onClick={closeModalHandler}>cancel</Button>
+                  <Button
+                     bgColor="orange"
+                     variant="contained"
+                     color="white"
+                     onClick={() => deleteUserById(userToDelete)}
+                  >
+                     delete
+                  </Button>
+               </ButtonContainer>
+            </Modal>
          )}
-      </StylePaper>
+      </div>
    )
 }
-
-export default ReusableTable
 
 const StylePaper = styled(Paper)`
    width: '90%';

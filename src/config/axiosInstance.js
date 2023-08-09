@@ -19,9 +19,9 @@ const token =
 axiosInstance.interceptors.request.use((config) => {
    const updatedConfig = { ...config }
    // const token = store.getState().login.accessToken
-   // if (token) {
-   //    updatedConfig.headers.Authorization = `Bearer ${token}`
-   // }
+   if (token) {
+      updatedConfig.headers.Authorization = `Bearer ${token}`
+   }
    return updatedConfig
 })
 
