@@ -64,8 +64,8 @@ export const authSlice = createSlice({
          .addCase(authWithGoogleRequest.fulfilled, (state, action) => {
             state.isAuthorization = true
             state.token = action.payload.token
-            state.isLoading = false
 
+            state.isLoading = false
             state.email = action.payload.email
             state.role = action.payload.role
          })
