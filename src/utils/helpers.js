@@ -6,13 +6,13 @@ import detailHouse4 from '../assets/images/houseDeteil4.png'
 import detailHouse3 from '../assets/images/houseDeteil3.png'
 
 export const regions = [
-   { id: 'option1', name: 'Batken' },
-   { id: 'option2', name: 'Osh' },
-   { id: 'option3', name: 'Jalal-abad' },
-   { id: 'option4', name: 'Chui' },
-   { id: 'option5', name: 'Naryn' },
-   { id: 'option6', name: 'Talas' },
-   { id: 'option7', name: 'Issyk-Kul' },
+   { id: 'option1', name: 'BATKEN' },
+   { id: 'option2', name: 'OSH' },
+   { id: 'option3', name: 'JALAL-ABAD' },
+   { id: 'option4', name: 'CHUI' },
+   { id: 'option5', name: 'NARYN' },
+   { id: 'option6', name: 'TALAS' },
+   { id: 'option7', name: 'YSSYK-KUL' },
 ]
 export const popular = [
    { id: 'option8', name: 'popular' },

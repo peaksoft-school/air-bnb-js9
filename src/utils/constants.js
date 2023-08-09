@@ -1,6 +1,6 @@
 export const LOGIN_USER_KEY = 'AirBnB_KEY_POPULAR_HOME'
 
-export const BASE_URL = ''
+export const BASE_URL = 'http://airbnb.peaksoftprojects.com'
 
 export const routes = {
    SIGNIN: '/signin',

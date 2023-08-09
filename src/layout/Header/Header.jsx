@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button, InputAdornment, styled } from '@mui/material'
 import { Input } from '../../components/UI/input/Input'
 import {
@@ -8,8 +8,8 @@ import {
    AirBNBIcon,
 } from '../../assets/icons/index'
 
-export function Header({ userLogin, openModalHandler }) {
-   const [login, setLogin] = useState(true)
+export function Header({ userLogin, openModalHandler, login, setLogin }) {
+   // const [login, setLogin] = useState(true)
 
    function headerLoginHandler() {
       setLogin((prev) => !prev)
@@ -18,7 +18,6 @@ export function Header({ userLogin, openModalHandler }) {
       <Container>
          {login ? (
             <StyleHeader login={login}>
-               {' '}
                {userLogin ? (
                   <AirBNBIcon />
                ) : (
@@ -136,7 +135,7 @@ const StyleHeader = styled('header')((props) => ({
    display: 'flex',
    justifyContent: 'space-between',
    alignItems: 'center',
-   padding: '1rem 6.25rem',
+   padding: '1rem 7.25rem',
 
    '.headerIcon': {
       display: 'flex',

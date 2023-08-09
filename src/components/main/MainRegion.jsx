@@ -1,5 +1,6 @@
 import { styled } from '@mui/material'
-import React from 'react'
+import { useEffect, React } from 'react'
+import AOS from 'aos'
 import chui from '../../assets/images/chui.png'
 import batken from '../../assets/images/batken.png'
 import jalalabat from '../../assets/images/jalalAbad.png'
@@ -8,8 +9,16 @@ import talas from '../../assets/images/talas.png'
 import bishkek from '../../assets/images/bishkek.png'
 import osh from '../../assets/images/osh.png'
 import naryn from '../../assets/images/naryn.png'
+import 'aos/dist/aos.css'
 
 export function MainRegion() {
+   useEffect(() => {
+      AOS.init({
+         duration: 1000,
+         easing: 'ease-in-out',
+         once: false,
+      })
+   }, [])
    return (
       <GlobalConteiner>
          <MainContainer>
@@ -23,6 +32,9 @@ export function MainRegion() {
             <ContainerRegion>
                <BlockRegion1>
                   <ChuiAndOshCard
+                     data-aos="fade-right"
+                     data-aos-offset="300"
+                     data-aos-easing="ease-in-sine"
                      style={{
                         background: `url(${chui})`,
                         backgroundSize: 'cover',
@@ -34,6 +46,9 @@ export function MainRegion() {
                   <div className="blockItemRegion">
                      <div>
                         <ItemRegionCard
+                           data-aos="fade-down"
+                           data-aos-easing="linear"
+                           data-aos-duration="1000"
                            style={{
                               background: `url(${batken})`,
                               backgroundSize: 'cover',
@@ -42,6 +57,9 @@ export function MainRegion() {
                            <StyleName>batken</StyleName>
                         </ItemRegionCard>
                         <ItemRegionCard
+                           data-aos="fade-left"
+                           data-aos-easing="linear"
+                           data-aos-duration="1000"
                            style={{
                               background: `url(${jalalabat})`,
                               backgroundSize: 'cover',
@@ -51,6 +69,10 @@ export function MainRegion() {
                         </ItemRegionCard>
                      </div>
                      <NarynAndBihkek
+                        data-aos="fade-left"
+                        data-aos-anchor="#example-anchor"
+                        data-aos-offset="1000"
+                        data-aos-duration="1000"
                         style={{
                            background: `url(${naryn})`,
                            backgroundSize: 'cover',
@@ -65,6 +87,8 @@ export function MainRegion() {
                   <div className="blockItemRegion">
                      <div>
                         <ItemRegionCard
+                           data-aos="flip-left"
+                           data-aos-duration="1000"
                            style={{
                               background: `url(${IssykKul})`,
                               backgroundSize: 'cover',
@@ -73,6 +97,7 @@ export function MainRegion() {
                            <StyleName>Issyk-kul</StyleName>
                         </ItemRegionCard>
                         <ItemRegionCard
+                           data-aos="flip-up"
                            style={{
                               background: `url(${talas})`,
                               backgroundSize: 'cover',
@@ -82,6 +107,8 @@ export function MainRegion() {
                         </ItemRegionCard>
                      </div>
                      <NarynAndBihkek
+                        data-aos="flip-left"
+                        data-aos-duration="1500"
                         style={{
                            background: `url(${bishkek})`,
                            backgroundSize: 'cover',
@@ -91,6 +118,7 @@ export function MainRegion() {
                      </NarynAndBihkek>
                   </div>
                   <ChuiAndOshCard
+                     data-aos="fade-down-left"
                      style={{
                         background: `url(${osh})`,
                         backgroundSize: 'cover',

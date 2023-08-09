@@ -27,8 +27,12 @@ import { ReactComponent as GeoIcon } from './geoIcon.svg'
 import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg'
 import { ReactComponent as ArrowLeftBlack } from './GroupBlack.svg'
 import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
+import { ReactComponent as ArrowleftIcon } from './arrleft.svg'
+import { ReactComponent as ArrowrightIcon } from './arrfirght.svg'
 
 export {
+   ArrowleftIcon,
+   ArrowrightIcon,
    ArrowrightBlack,
    ArrowLeftBlack,
    ArrowLeftDots,

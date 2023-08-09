@@ -14,6 +14,7 @@ export function MainPage() {
    const [userLogin, setUserLogin] = useState(false)
    const [openModal, setOpenModal] = useState(false)
    const [signIn, setSignIn] = useState(false)
+   const [login, setLogin] = useState(true)
 
    const loginHandler = () => {
       setUserLogin((prev) => !prev)
@@ -53,7 +54,12 @@ export function MainPage() {
                backgroundSize: 'cover',
             }}
          >
-            <Header userLogin={userLogin} openModalHandler={openModalHandler} />
+            <Header
+               userLogin={userLogin}
+               openModalHandler={openModalHandler}
+               login={login}
+               setLogin={setLogin}
+            />
             <Block>
                <h1>Find a place you ll love to stay at</h1>
                <BlockInput>
