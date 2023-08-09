@@ -8,6 +8,7 @@ import { injectStore } from './config/axiosInstance'
 import { theme } from './assets/styles/theme'
 import { store } from './store'
 import App from './App'
+import { Snackbar } from './components/UI/snackbar/Snackbar'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 injectStore()
@@ -17,6 +18,7 @@ root.render(
          <ThemeProvider theme={theme}>
             <BrowserRouter>
                <App />
+               <Snackbar />
             </BrowserRouter>
          </ThemeProvider>
       </Provider>
