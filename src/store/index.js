@@ -1,9 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-// import { anouncementSlice } from '../store/upload/uploadSlice'
-import { anouncementSlice } from './upload/uploadSlice'
+import { authSlice } from './auth/authSlice'
 
 export const store = configureStore({
    reducer: {
-      anouncement: anouncementSlice.reducer,
+      [authSlice.name]: authSlice.reducer,
    },
 })

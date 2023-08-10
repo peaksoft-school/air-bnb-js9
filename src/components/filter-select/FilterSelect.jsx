@@ -1,11 +1,6 @@
 import { styled } from '@mui/material'
 import { Select } from '../UI/select/Select'
-import {
-   homeType,
-   popular,
-   price,
-   regions,
-} from '../../utils/constants/helpers'
+import { homeType, popular, price, regions } from '../../utils/helpers'
 
 export function FilterSelect() {
    const onChangeRegions = (selectedOption) => {

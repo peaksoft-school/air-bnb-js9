@@ -77,39 +77,43 @@ export default function AddAnouncementForm() {
             <HomeTypeBlock>
                <StyledLabel>Home type</StyledLabel>
                <ApartmentAndHouseBlock>
-                  <Controller
-                     name="type"
-                     control={control}
-                     render={({ field }) => (
-                        <Input
-                           {...field}
-                           id="apartment"
-                           barsbek="nekrash"
-                           type="radio"
-                           value="apartment"
-                           width="1.25rem"
-                           marginLeft="-22.8125rem"
-                           marginRight="2.rem"
-                        />
-                     )}
-                  />
-                  <StyledLabel htmlFor="apartment">Apartment</StyledLabel>
-                  <Controller
-                     name="type"
-                     control={control}
-                     render={({ field }) => (
-                        <Input
-                           {...field}
-                           id="house"
-                           barsbek="nekrash"
-                           type="radio"
-                           value="house"
-                           marginLeft="2.5rem"
-                           width="1.25rem"
-                        />
-                     )}
-                  />
-                  <StyledLabel htmlFor="house">House</StyledLabel>
+                  <div className="checkboxContainer">
+                     <Controller
+                        name="type"
+                        control={control}
+                        render={({ field }) => (
+                           <Input
+                              {...field}
+                              id="apartment"
+                              barsbek="nekrash"
+                              type="radio"
+                              value="apartment"
+                              width="1.25rem"
+                              marginLeft="-22.8125rem"
+                              marginRight="2.rem"
+                           />
+                        )}
+                     />
+                     <StyledLabel htmlFor="apartment">Apartment</StyledLabel>
+                  </div>
+                  <div className="checkboxContainer">
+                     <Controller
+                        name="type"
+                        control={control}
+                        render={({ field }) => (
+                           <Input
+                              {...field}
+                              id="house"
+                              barsbek="nekrash"
+                              type="radio"
+                              value="house"
+                              marginLeft="2.5rem"
+                              width="1.25rem"
+                           />
+                        )}
+                     />
+                     <StyledLabel htmlFor="house">House</StyledLabel>
+                  </div>
                </ApartmentAndHouseBlock>
                <IsError>{errors.type?.message}</IsError>
             </HomeTypeBlock>
@@ -333,7 +337,14 @@ const SelectLabelName = styled('span')(() => ({
 
 const ApartmentAndHouseBlock = styled('div')(() => ({
    display: 'flex',
-   justifyContent: 'center',
+   justifyContent: 'flex-start',
+   gap: '2.5rem',
+
+   '.checkboxContainer': {
+      width: '20%',
+      display: 'flex',
+      justifyContent: 'flex-start',
+   },
 }))
 
 const FilterBlock = styled('div')(() => ({
