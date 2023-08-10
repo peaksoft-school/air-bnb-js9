@@ -1,14 +1,16 @@
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Input } from '../UI/input/Input'
 import { Select } from '../UI/select/Select'
 import { Upload } from '../UI/upload-img/Upload'
+import { postAnouncementForm } from '../../store/upload/uploadThunk'
 
 const data = [
-   { id: 'option1', name: 'Batken' },
+   { id: 'option1', name: 'BATKEN' },
    { id: 'option2', name: 'Jalal-Abad' },
    { id: 'option3', name: 'Yssyk-Kol' },
    { id: 'option4', name: 'Naryn' },
@@ -20,6 +22,7 @@ const data = [
 export default function AddAnouncementForm() {
    const [fileNames, setFileNames] = useState([])
    const schema = yup.object().shape({
+      type: yup.string().required('Please select a home type'),
       guests: yup.string().required('Please enter the number of guests'),
       price: yup.string().required('Please enter the price'),
       title: yup.string().required('Please enter a title'),
@@ -32,12 +35,15 @@ export default function AddAnouncementForm() {
       register,
       handleSubmit,
       formState: { errors },
+      control,
    } = useForm({
       resolver: yupResolver(schema),
    })
+   const dispatch = useDispatch()
 
-   const onSubmit = (data) => {
+   const onSubmit = async (data) => {
       console.log(data, 'data')
+      dispatch(postAnouncementForm(data))
    }
 
    return (
@@ -71,26 +77,41 @@ export default function AddAnouncementForm() {
             <HomeTypeBlock>
                <StyledLabel>Home type</StyledLabel>
                <ApartmentAndHouseBlock>
-                  <Input
-                     id="apartment"
-                     barsbek="nekrash"
-                     type="radio"
+                  <Controller
                      name="type"
-                     width="1.25rem"
-                     marginLeft="-22.8125rem"
-                     marginRight="2.rem"
+                     control={control}
+                     render={({ field }) => (
+                        <Input
+                           {...field}
+                           id="apartment"
+                           barsbek="nekrash"
+                           type="radio"
+                           value="apartment"
+                           width="1.25rem"
+                           marginLeft="-22.8125rem"
+                           marginRight="2.rem"
+                        />
+                     )}
                   />
                   <StyledLabel htmlFor="apartment">Apartment</StyledLabel>
-                  <Input
-                     id="house"
-                     barsbek="nekrash"
-                     type="radio"
+                  <Controller
                      name="type"
-                     marginLeft="2.5rem"
-                     width="1.25rem"
+                     control={control}
+                     render={({ field }) => (
+                        <Input
+                           {...field}
+                           id="house"
+                           barsbek="nekrash"
+                           type="radio"
+                           value="house"
+                           marginLeft="2.5rem"
+                           width="1.25rem"
+                        />
+                     )}
                   />
                   <StyledLabel htmlFor="house">House</StyledLabel>
                </ApartmentAndHouseBlock>
+               <IsError>{errors.type?.message}</IsError>
             </HomeTypeBlock>
             <FilterBlock>
                <GuestBlock>
@@ -290,6 +311,7 @@ const UploadPhotoInfo = styled('span')(() => ({
 const HomeTypeBlock = styled('div')(() => ({
    marginTop: '1.75rem',
    marginBottom: '.9375rem',
+   height: '5.3125rem',
 }))
 
 const StyledLabel = styled('label')(() => ({
