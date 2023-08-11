@@ -1,5 +1,8 @@
-import React from 'react'
+/* eslint-disable import/no-extraneous-dependencies */
+import React, { useEffect, useState } from 'react'
+import { useDebounce } from 'use-debounce'
 import { Button, InputAdornment, styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
 import { Input } from '../../components/UI/input/Input'
 import {
    BlackAirBNBIcon,
@@ -7,9 +10,27 @@ import {
    SearchIcon,
    AirBNBIcon,
 } from '../../assets/icons/index'
+import { getGlobalSearch } from '../../store/search/searchThunk'
+import { getAllCards } from '../../store/card/cardThunk'
 
 export function Header({ userLogin, openModalHandler, login, setLogin }) {
-   // const [login, setLogin] = useState(true)
+   const [searchText, setSearchText] = useState('')
+   const dispatch = useDispatch()
+   const [searchedValue] = useDebounce(searchText, 1000)
+
+   const onChangeRegions = (e) => {
+      setSearchText(e.target.value)
+   }
+   useEffect(() => {
+      const params = {
+         word: searchedValue,
+      }
+      if (searchedValue.trim().length > 0) {
+         dispatch(getGlobalSearch(params))
+      } else {
+         dispatch(getAllCards())
+      }
+   }, [searchedValue])
 
    function headerLoginHandler() {
       setLogin((prev) => !prev)
@@ -63,7 +84,9 @@ export function Header({ userLogin, openModalHandler, login, setLogin }) {
                      type="search"
                      width="25rem"
                      size="small"
+                     value={searchText}
                      placeholder="Search"
+                     onChange={onChangeRegions}
                      InputProps={{
                         startAdornment: (
                            <InputAdornment position="start">

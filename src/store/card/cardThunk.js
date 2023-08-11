@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { getAllCardsRequest } from '../../api/cardService'
 
 export const getAllCards = createAsyncThunk(
-   'todo/getAllCards',
+   'card/getAllCards',
    async (params, { rejectWithValue }) => {
       try {
          const response = await getAllCardsRequest(params)

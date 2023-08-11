@@ -15,24 +15,19 @@ import Skeleto from '../UI/cards/Skeleto'
 function AnnouncementGetAll() {
    const [login, setLogin] = useState(false)
    const dispatch = useDispatch()
-   const todos = useSelector((state) => state.todo.todos)
-   const isLoading = useSelector((state) => state.todo.isLoading)
-
+   const { search, isLoading } = useSelector((state) => state.global)
    const [selectedRegion, setSelectedRegion] = useState('')
    const [selectedPopular, setSelectedPopular] = useState('')
    const [selectedHomeType, setSelectedHomeType] = useState('')
    const [selectedPrice, setSelectedPrice] = useState('')
 
-   console.log(selectedRegion)
-
    useEffect(() => {
       const params = {
          region: selectedRegion,
-         popular: selectedPopular,
-         homeType: selectedHomeType,
+         rating: selectedPopular,
+         houseType: selectedHomeType,
          price: selectedPrice,
       }
-
       dispatch(getAllCards(params))
    }, [
       dispatch,
@@ -43,9 +38,9 @@ function AnnouncementGetAll() {
    ])
 
    useEffect(() => {
-      dispatch(getAllCards())
+      // dispatch(getAllCards())
    }, [dispatch])
-   const todosLength = todos.length
+   const todosLength = search.length
    function handleClick(event) {
       event.preventDefault()
       console.info('You clicked a breadcrumb.')
@@ -116,7 +111,7 @@ function AnnouncementGetAll() {
                <Skeleto />
             </div>
          ) : (
-            <Cards data={todos} />
+            <Cards data={search} />
          )}
          <PaginationStack spacing={2}>
             <Pagination count={37} color="secondary" />

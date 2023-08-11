@@ -32,7 +32,7 @@ const data = [
 ]
 
 function Media() {
-   const isLoading = useSelector((state) => state.todo.isLoading)
+   const isLoading = useSelector((state) => state.global.isLoading)
 
    return (
       <SkeletonGrid container wrap="nowrap">

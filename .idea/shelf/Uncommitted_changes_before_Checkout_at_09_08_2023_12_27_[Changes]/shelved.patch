@@ -1,0 +1,37 @@
+Index: src/components/signIn/JoinUs.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { styled } from '@mui/material'\r\nimport React from 'react'\r\nimport { Button } from '../UI/Button'\r\nimport { Google } from '../../assets/icons'\r\n\r\nexport function JoinUs({ loginHandler, moveToSigninAndSignUp }) {\r\n   return (\r\n      <Container>\r\n         <StyledH3>JOIN US</StyledH3>\r\n         <StyledPtag>\r\n            Sign in with Google to start booking available listings!\r\n         </StyledPtag>\r\n         <Button onClick={loginHandler} width=\"100%\">\r\n            <Google /> Google\r\n         </Button>\r\n         <StyledAhref onClick={moveToSigninAndSignUp}>\r\n            log in as admin\r\n         </StyledAhref>\r\n      </Container>\r\n   )\r\n}\r\n\r\nconst Container = styled('div')(() => ({\r\n   display: 'flex',\r\n   flexDirection: 'column',\r\n   alignItems: 'center',\r\n   justifyContent: 'center',\r\n   border: '1px solid gray',\r\n   width: '29.626rem',\r\n   padding: '25px',\r\n   backgroundColor: 'white',\r\n   borderRadius: '10px',\r\n}))\r\n\r\nconst StyledH3 = styled('h3')(() => ({\r\n   color: '#000',\r\n   fontFamily: 'Inter',\r\n   fontSize: '18px',\r\n   fontWeight: '500',\r\n   textTransform: ' uppercase',\r\n   marginBottom: '1.5rem',\r\n}))\r\n\r\nconst StyledPtag = styled('p')(() => ({\r\n   color: '#828282',\r\n   fontFamily: 'Inter',\r\n   fontSize: '16px',\r\n   fontWeight: ' 400',\r\n   marginBottom: '1.25rem',\r\n}))\r\n\r\nconst StyledAhref = styled('a')(() => ({\r\n   color: '#266BD3',\r\n   fontFamily: 'Inter',\r\n   fontSize: '14px',\r\n   fontWeight: ' 400',\r\n   marginTop: '2.25rem',\r\n   textDecoration: 'underline',\r\n}))\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/signIn/JoinUs.jsx b/src/components/signIn/JoinUs.jsx
+--- a/src/components/signIn/JoinUs.jsx	(revision 2c1a371a40aab6907c2ac260ed7faee9762bb8b5)
++++ b/src/components/signIn/JoinUs.jsx	(date 1691559855547)
+@@ -1,6 +1,6 @@
+ import { styled } from '@mui/material'
+ import React from 'react'
+-import { Button } from '../UI/Button'
++import { Button } from '../UI/button/Button'
+ import { Google } from '../../assets/icons'
+ 
+ export function JoinUs({ loginHandler, moveToSigninAndSignUp }) {
+Index: src/components/signIn/SignIn.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React from 'react'\r\nimport { styled } from '@mui/material'\r\nimport { Form, Formik } from 'formik'\r\nimport * as Yup from 'yup'\r\nimport { Input } from '../UI/input/Input'\r\nimport { Button } from '../UI/Button'\r\n\r\nexport function SignIn({ moveToSigninAndSignUp }) {\r\n   const validationSchema = Yup.object().shape({\r\n      email: Yup.string().required('Required').email('It is not an email'),\r\n      password: Yup.string()\r\n         .required('Required')\r\n         .min(8, 'Password must be more than 8 symbols'),\r\n   })\r\n\r\n   const handleSubmit = (values) => {\r\n      console.log(values)\r\n   }\r\n\r\n   return (\r\n      <Container>\r\n         <StyledH3>SIGN IN</StyledH3>\r\n         <Formik\r\n            initialValues={{ email: '', password: '' }}\r\n            validationSchema={validationSchema}\r\n            onSubmit={handleSubmit}\r\n         >\r\n            {({ errors, touched, values, handleChange }) => (\r\n               <FormStyled>\r\n                  <InputDiv>\r\n                     <Input\r\n                        type=\"text\"\r\n                        name=\"email\"\r\n                        barsbek=\"krash\"\r\n                        size=\"small\"\r\n                        placeholder=\"Login\"\r\n                        value={values.email}\r\n                        onChange={handleChange}\r\n                        error={touched.email && !!errors.email}\r\n                     />\r\n                     {errors.email && touched.email && (\r\n                        <p style={{ color: 'red' }}>{errors.email}</p>\r\n                     )}\r\n\r\n                     <Input\r\n                        type=\"password\"\r\n                        name=\"password\"\r\n                        barsbek=\"krash\"\r\n                        size=\"small\"\r\n                        placeholder=\"Password\"\r\n                        value={values.password}\r\n                        error={touched.password && !!errors.password}\r\n                        onChange={handleChange}\r\n                     />\r\n                     {errors.password && touched.password && (\r\n                        <p style={{ color: 'red' }}>{errors.password}</p>\r\n                     )}\r\n                  </InputDiv>\r\n\r\n                  <Button\r\n                     type=\"submit\"\r\n                     variant=\"contained\"\r\n                     width=\"100%\"\r\n                     color=\"white\"\r\n                  >\r\n                     SIGN IN\r\n                  </Button>\r\n               </FormStyled>\r\n            )}\r\n         </Formik>\r\n         <StyledAhref onClick={moveToSigninAndSignUp}>\r\n            sign in with google\r\n         </StyledAhref>\r\n      </Container>\r\n   )\r\n}\r\n\r\nconst Container = styled('div')(() => ({\r\n   display: 'flex',\r\n   flexDirection: 'column',\r\n   alignItems: 'center',\r\n   justifyContent: 'center',\r\n   border: '1px solid gray',\r\n   width: '29.625rem',\r\n   padding: '1.56rem 1.87rem 1.56rem 1.87rem',\r\n   backgroundColor: 'white',\r\n   borderRadius: '10px',\r\n}))\r\n\r\nconst InputDiv = styled('div')(() => ({\r\n   display: 'flex',\r\n   flexDirection: 'column',\r\n   gap: '1rem',\r\n   width: '100%',\r\n   marginBottom: '2rem',\r\n}))\r\n\r\nconst StyledH3 = styled('h3')(() => ({\r\n   color: '#000',\r\n   fontFamily: 'Inter',\r\n   fontSize: '18px',\r\n   fontWeight: '500',\r\n   textTransform: ' uppercase',\r\n   marginBottom: '1.5rem',\r\n}))\r\n\r\nconst StyledAhref = styled('a')(() => ({\r\n   color: '#266BD3',\r\n   fontFamily: 'Inter',\r\n   fontSize: '14px',\r\n   fontWeight: ' 400',\r\n   marginTop: '1.8rem',\r\n   textDecoration: 'underline',\r\n}))\r\n\r\nconst FormStyled = styled(Form)(() => ({\r\n   width: '100%',\r\n}))\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/signIn/SignIn.jsx b/src/components/signIn/SignIn.jsx
+--- a/src/components/signIn/SignIn.jsx	(revision 2c1a371a40aab6907c2ac260ed7faee9762bb8b5)
++++ b/src/components/signIn/SignIn.jsx	(date 1691559615013)
+@@ -3,7 +3,7 @@
+ import { Form, Formik } from 'formik'
+ import * as Yup from 'yup'
+ import { Input } from '../UI/input/Input'
+-import { Button } from '../UI/Button'
++import { Button } from '../UI/button/Button'
+ 
+ export function SignIn({ moveToSigninAndSignUp }) {
+    const validationSchema = Yup.object().shape({

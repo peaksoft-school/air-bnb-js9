@@ -6,27 +6,28 @@ import detailHouse4 from '../assets/images/houseDeteil4.png'
 import detailHouse3 from '../assets/images/houseDeteil3.png'
 
 export const regions = [
-   { id: 'option1', name: 'BATKEN' },
-   { id: 'option2', name: 'OSH' },
-   { id: 'option3', name: 'JALAL-ABAD' },
-   { id: 'option4', name: 'CHUI' },
-   { id: 'option5', name: 'NARYN' },
-   { id: 'option6', name: 'TALAS' },
-   { id: 'option7', name: 'ISSYK_KUL' },
-   { id: 'option8', name: 'BISHKEK' },
+   { id: 'option1', name: 'Batken', value: 'BATKEN' },
+   { id: 'option2', name: 'Osh', value: 'OSH' },
+   { id: 'option3', name: 'Jalalabad', value: 'JALAL-ABAD' },
+   { id: 'option4', name: 'Chui', value: 'CHUI' },
+   { id: 'option5', name: 'Naryn', value: 'NARYN' },
+   { id: 'option6', name: 'Talas', value: 'TALAS' },
+   { id: 'option7', name: 'Issyk-Kul', value: 'ISSYK_KUL' },
+   { id: 'option8', name: 'Biskek', value: 'BISHKEK' },
 ]
 export const popular = [
-   { id: 'option8', name: 'popular' },
-   { id: 'option9', name: 'un popular' },
+   { id: 'option8', name: 'Popular', value: 'desc' },
+   { id: 'option9', name: 'The latest', value: 'asc' },
 ]
+
 export const homeType = [
-   { id: 'option10', name: 'Apartment' },
-   { id: 'option11', name: 'House' },
+   { id: 'option10', name: 'Apartment', value: 'APARTMENT' },
+   { id: 'option11', name: 'House', value: 'HOUSE' },
 ]
 
 export const price = [
-   { id: 'option12', name: 'Low to high' },
-   { id: 'option13', name: 'High to low' },
+   { id: 'option12', name: 'Low to high', value: 'asc' },
+   { id: 'option13', name: 'High to low', value: 'desc' },
 ]
 
 export const popularHouse = [
