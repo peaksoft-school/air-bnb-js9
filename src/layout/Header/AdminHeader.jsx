@@ -48,9 +48,7 @@ export function AdminHeader() {
                right="6.5vw"
                top="8vh"
             >
-               <h3>Accept</h3>
-               <h3>Reject</h3>
-               <h3>Delete</h3>
+               <h3> Log out</h3>
             </MenuEditAndDelete>
          </HeaderMenu>
       </Header>
@@ -65,6 +63,9 @@ const Header = styled('header')(() => ({
    justifyContent: 'space-between',
    alignItems: 'center',
    padding: '0.87rem 2.4rem',
+   position: 'fixed',
+   zIndex: '11',
+   top: '0rem',
 
    '.header-block': {
       width: '45%',

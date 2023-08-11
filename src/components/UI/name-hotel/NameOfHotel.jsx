@@ -3,7 +3,13 @@ import { styled } from '@mui/material'
 import { Button } from '../button/Button'
 import { ModalNameHotel } from './ModalNameHotel'
 
-export function NameOfHotel({ hotel, openModal, openModalHandler }) {
+export function NameOfHotel({
+   hotel,
+   openModal,
+   openModalHandler,
+   pages,
+   roles,
+}) {
    return (
       <Container>
          <ModalNameHotel
@@ -48,21 +54,37 @@ export function NameOfHotel({ hotel, openModal, openModalHandler }) {
                font-size="0.875rem"
                font-weight="500"
             >
-               reject
+               {pages ? 'delete' : 'reject'}
             </Button>
-            <Button
-               variant="contained"
-               width="12.25rem"
-               border-radius=" 0.125rem"
-               border=" 1px solid #DD8A08"
-               bgColor="#DD8A08"
-               padding=" 0.625rem 1rem"
-               color="#fff"
-               font-size="0.875rem"
-               font-weight="500"
-            >
-               accept
-            </Button>
+            {roles === 'admin' ? (
+               <Button
+                  variant="contained"
+                  width="12.25rem"
+                  border-radius=" 0.125rem"
+                  border=" 1px solid #DD8A08"
+                  bgColor="#DD8A08"
+                  padding=" 0.625rem 1rem"
+                  color="#fff"
+                  font-size="0.875rem"
+                  font-weight="500"
+               >
+                  {pages ? 'block' : 'accept'}
+               </Button>
+            ) : (
+               <Button
+                  variant="contained"
+                  width="12.25rem"
+                  border-radius=" 0.125rem"
+                  border=" 1px solid #DD8A08"
+                  bgColor="#DD8A08"
+                  padding=" 0.625rem 1rem"
+                  color="#fff"
+                  font-size="0.875rem"
+                  font-weight="500"
+               >
+                  edit
+               </Button>
+            )}
          </ContainerButtonTwo>
       </Container>
    )

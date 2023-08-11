@@ -1,18 +1,22 @@
 import { TextField, styled } from '@mui/material'
 import React, { forwardRef } from 'react'
 
-export const TextArea = forwardRef(({ type, placeholder, ...props }, ref) => {
-   return (
-      <StyledTextArea
-         type={type}
-         placeholder={placeholder || 'введите что-нибудь'}
-         ref={ref}
-         multiline
-         rows={4}
-         {...props}
-      />
-   )
-})
+export const TextArea = forwardRef(
+   ({ type, placeholder, onChange, value, ...props }, ref) => {
+      return (
+         <StyledTextArea
+            type={type}
+            placeholder={placeholder || 'введите что-нибудь'}
+            ref={ref}
+            value={value}
+            onChange={onChange}
+            multiline
+            rows={4}
+            {...props}
+         />
+      )
+   }
+)
 
 const StyledTextArea = styled(TextField)((props) => ({
    width: props.width || '100%',

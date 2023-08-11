@@ -86,3 +86,27 @@ export const Hotel = [
       hostEmail: 'anna@gmail.com',
    },
 ]
+
+export const booked = [
+   {
+      price: 26,
+      checkin: '02.02.22',
+      checkout: '02.02.22',
+      name: 'Anna Annova',
+      email: 'anna@gmail.com',
+   },
+   {
+      price: 26,
+      checkin: '02.02.22',
+      checkout: '02.02.22',
+      name: 'Anna Annova',
+      email: 'anna@gmail.com',
+   },
+   {
+      price: 26,
+      checkin: '02.02.22',
+      checkout: '02.02.22',
+      name: 'Anna Annova',
+      email: 'anna@gmail.com',
+   },
+]

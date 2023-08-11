@@ -4,8 +4,8 @@ import { ProtectedRoutes } from './ProtectedRoutes'
 import { UserLayout } from '../layout/userLayout/UserLayout'
 import { AdminLayout } from '../layout/adminLayout/AdminLayout'
 import { roles, userRoles } from '../utils/constants'
-// import { AnnouncementAdminPage } from '../containers/admin/AnnouncementAdminPage'
-import { Applications } from '../pages/Applications'
+import { AnnouncementAdminPage } from '../pages/admin/AnnouncementAdminPage'
+import { Applications } from '../pages/admin/Applications'
 
 const isAllowed = (role) => {
    return role.includes(roles)
@@ -34,11 +34,12 @@ export function AppRoutes() {
                />
             }
          >
-            <Route path="application" element={<Applications />} />
-            {/* <Route
-               path="/announcementAdminPage"
-               element={<AnnouncementAdminPage />}
-            /> */}
+            <Route path="application/" element={<Applications />}>
+               <Route
+                  path="announcementAdminPage"
+                  element={<AnnouncementAdminPage />}
+               />
+            </Route>
          </Route>
       </Routes>
    )

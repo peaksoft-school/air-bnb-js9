@@ -4,7 +4,13 @@ import { Button } from '../button/Button'
 import Modal from '../modal/Modal'
 import { TextArea } from '../textarea/TextArea'
 
-export function ModalNameHotel({ openModal, openModalHandler }) {
+export function ModalNameHotel({
+   openModal,
+   openModalHandler,
+   rejectedCartd,
+   changeHandler,
+   title,
+}) {
    return (
       openModal && (
          <Modal
@@ -24,6 +30,8 @@ export function ModalNameHotel({ openModal, openModalHandler }) {
                   borderRadius=" 0.125rem"
                   marginBottom="1.5rem"
                   placeholder="Write the reason for your rejection "
+                  value={title}
+                  onChange={changeHandler}
                />
                <ContainerButtonTwo>
                   <Button
@@ -41,6 +49,7 @@ export function ModalNameHotel({ openModal, openModalHandler }) {
                      cancel
                   </Button>
                   <Button
+                     onClick={rejectedCartd}
                      variant="contained"
                      width="12.25rem"
                      border-radius=" 0.125rem"

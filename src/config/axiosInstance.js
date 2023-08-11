@@ -2,7 +2,7 @@ import axios from 'axios'
 import { BASE_URL } from '../utils/constants'
 
 const headers = {
-   'Content-Type': 'multipart/form-data',
+   'Content-Type': 'application/json',
 }
 const axiosInstance = axios.create({ baseURL: BASE_URL, headers })
 
@@ -15,7 +15,8 @@ const logoutAction = () => {}
 
 axiosInstance.interceptors.request.use((config) => {
    const updatedConfig = { ...config }
-   const token = store.getState().login.accessToken
+   const token =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTE5OTU1NzcsImlhdCI6MTY5MTczNjM3NywidXNlcm5hbWUiOiJhZG1pbkBnbWFpbC5jb20ifQ.rrpPVgTGrtY6ZGpQoLIPhCfsc60oQLgr1oBgjVFm4eY'
    if (token) {
       updatedConfig.headers.Authorization = `Bearer ${token}`
    }
