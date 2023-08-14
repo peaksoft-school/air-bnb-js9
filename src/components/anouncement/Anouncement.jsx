@@ -7,16 +7,16 @@ import { useDispatch } from 'react-redux'
 import { Input } from '../UI/input/Input'
 import { Select } from '../UI/select/Select'
 import { Upload } from '../UI/upload-img/Upload'
-import { postAnouncementForm } from '../../store/upload/uploadThunk'
+import { postAnouncementForm } from '../../store/upload/anouncementThunk'
 
 const data = [
    { id: 'option1', name: 'BATKEN' },
-   { id: 'option2', name: 'Jalal-Abad' },
-   { id: 'option3', name: 'Yssyk-Kol' },
-   { id: 'option4', name: 'Naryn' },
-   { id: 'option5', name: 'Osh' },
-   { id: 'option6', name: 'Talas' },
-   { id: 'option7', name: 'Chui' },
+   { id: 'option2', name: 'JALAL_ABAD' },
+   { id: 'option3', name: 'YSSYK-KOL' },
+   { id: 'option4', name: 'NARYN' },
+   { id: 'option5', name: 'OSH' },
+   { id: 'option6', name: 'TALAS' },
+   { id: 'option7', name: 'CHUI' },
 ]
 
 export default function AddAnouncementForm() {
