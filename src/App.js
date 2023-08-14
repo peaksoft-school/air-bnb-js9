@@ -1,11 +1,6 @@
 import React from 'react'
-import AddAnouncementForm from './components/anouncement/Anouncement'
 
 function App() {
-   return (
-      <div>
-         <AddAnouncementForm />
-      </div>
-   )
+   return <div>AirBnB</div>
 }
 export default App

@@ -5,9 +5,7 @@ export const postAnouncementForm = createAsyncThunk(
    'upload/postAnouncementForm',
    async (payload, { rejectWithValue }) => {
       try {
-         console.log('payload: ', payload)
          const response = await addAnouncement(payload)
-         console.log('response: ', response)
 
          return response.data
       } catch (error) {
