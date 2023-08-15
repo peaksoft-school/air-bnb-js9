@@ -28,6 +28,8 @@ import { ReactComponent as ArrowLeftBlack } from './GroupBlack.svg'
 import { ReactComponent as SeenPassword } from './seenPassword.svg'
 import { ReactComponent as HiddenPassword } from './hiddenPassword.svg'
 import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
+import { ReactComponent as ArrowRight } from './arrfirght.svg'
+import { ReactComponent as Arrowleft } from './arrleft.svg'
 
 export {
    ArrowrightBlack,
@@ -60,4 +62,6 @@ export {
    SeenPassword,
    HiddenPassword,
    WhatsAppIcon,
+   ArrowRight,
+   Arrowleft,
 }

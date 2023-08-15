@@ -10,7 +10,7 @@ import { store } from './store'
 import App from './App'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
-injectStore()
+injectStore(store)
 root.render(
    <React.StrictMode>
       <Provider store={store}>

@@ -1,13 +1,12 @@
 import React from 'react'
 
-export function MyAnnouncement({ moderation }) {
+export function MyAnnouncement({ announcement }) {
    return (
       <div>
-         {moderation.map((item) => {
+         {announcement.map((item) => {
             return (
                <div key={item.id}>
                   <h1>{item.title}</h1>
-                  <p>{item.age}</p>
                </div>
             )
          })}

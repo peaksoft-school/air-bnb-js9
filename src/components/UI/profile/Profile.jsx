@@ -1,9 +1,9 @@
 import { Avatar, styled } from '@mui/material'
 import React from 'react'
 
-export default function Profile({ data, logOut }) {
+export function Profile({ data, logOut, ...props }) {
    return (
-      <Container>
+      <Container {...props}>
          <StyledAvatar
             sx={{ bgcolor: '#266BD3' }}
             alt="photo"
@@ -18,7 +18,6 @@ export default function Profile({ data, logOut }) {
             <NameAndContactBlock
                textAlign="right"
                width="4.375rem"
-               height="8.125rem"
                color="var(--tertiary-dark-gray, #646464)"
             >
                <p>Name:</p>
@@ -37,9 +36,9 @@ export default function Profile({ data, logOut }) {
    )
 }
 
-const Container = styled('div')(() => ({
-   width: '34.4167vw',
-   height: '20.9167%',
+const Container = styled('div')((props) => ({
+   width: props.width || '34.4167vw',
+   height: props.height || '20.9167%',
    borderRadius: '1rem',
    border: '0.0625rem solid var(--tertiary-light-gray, #c4c4c4)',
    display: 'flex',
@@ -47,7 +46,8 @@ const Container = styled('div')(() => ({
    justifyContent: 'center',
    alignItems: 'center',
    marginTop: '.625rem',
-   paddingTop: '2.37rem',
+   paddingTop: props.paddingTop || '2.37rem',
+   paddingBottom: props.paddingBottom || '3rem',
 }))
 
 const StyledAvatar = styled(Avatar)(() => ({
@@ -58,8 +58,6 @@ const StyledAvatar = styled(Avatar)(() => ({
 
 const UserInfo = styled('div')(() => ({
    marginTop: '1.88rem',
-   marginBottom: '2.37rem',
-
    display: 'flex',
    gap: '1.25rem',
 }))
@@ -76,7 +74,7 @@ const NameAndContactBlock = styled('div')((props) => ({
       color: props.color,
       fontSize: '1rem',
       fontStyle: 'normal',
-      fontWeight: '400',
+      fontWeight: '500',
       lineHeight: 'normal',
    },
 }))

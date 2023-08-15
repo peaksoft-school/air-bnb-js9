@@ -15,7 +15,7 @@ export function AdminHeader() {
    return (
       <Header>
          <div className="header-block">
-            <AirBNBIcon />
+            <AirBNBIcon style={{ height: '4.5rem', width: '4.5rem' }} />
             <div className="nav">
                <StyleNavLink
                   to="/application"
@@ -25,7 +25,7 @@ export function AdminHeader() {
                </StyleNavLink>
 
                <StyleNavLink
-                  to="/users"
+                  to="/admin/users"
                   isActive={location.pathname === '/users'}
                >
                   <p>Users</p>
@@ -96,9 +96,9 @@ const HeaderMenu = styled('div')(() => ({
 
 const StyleNavLink = styled(NavLink)(({ isActive }) => ({
    textDecoration: 'uppercase',
+   color: isActive ? '#FF4B4B' : ' #E5E5E5',
 
    p: {
-      color: isActive ? '#FF4B4B' : ' #E5E5E5',
       fontFamily: 'Inter',
       fontSize: '1.125rem',
       fontStyle: 'normal',

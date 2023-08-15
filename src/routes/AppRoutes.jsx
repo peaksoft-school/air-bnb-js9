@@ -5,6 +5,10 @@ import { ProtectedRoutes } from './ProtectedRoutes'
 import { UserLayout } from '../layout/userLayout/UserLayout'
 import { AdminLayout } from '../layout/adminLayout/AdminLayout'
 import { userRoles } from '../utils/constants'
+import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
+import { Bookings } from '../components/tabs/Bookings'
+import { MyAnnouncement } from '../components/tabs/MyAnnouncement'
+import { announcement, bookings } from '../utils/helpers'
 
 export function AppRoutes() {
    const role = useSelector((state) => state.auth.role)
@@ -26,7 +30,7 @@ export function AppRoutes() {
             }
          />
          <Route
-            path="/admin"
+            path="/admin/"
             element={
                <ProtectedRoutes
                   isAllowed={isAllowed([userRoles.ADMIN])}
@@ -34,7 +38,19 @@ export function AppRoutes() {
                   fallbackPath="/"
                />
             }
-         />
+         >
+            <Route path="users/" element={<AdminUsersPage />}>
+               <Route
+                  index
+                  path="booking"
+                  element={<Bookings bookings={bookings} />}
+               />
+               <Route
+                  path="my-announcement"
+                  element={<MyAnnouncement announcement={announcement} />}
+               />
+            </Route>
+         </Route>
       </Routes>
    )
 }

@@ -86,3 +86,33 @@ export const Hotel = [
       hostEmail: 'anna@gmail.com',
    },
 ]
+
+export const bookings = [
+   {
+      urls: [
+         'https://images.pexels.com/photos/17428217/pexels-photo-17428217/free-photo-of-grand-hotel-on-sea-shore-in-llandudno.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+      ],
+      location: 'ads asf asefafa faf ',
+      rating: 97,
+      title: 'afdvf asdf asf asf ',
+      checkin: '200.20.2012',
+      checkout: '1223.213.3123.',
+      price: 334,
+   },
+]
+export const announcement = [
+   {
+      id: 3,
+      title: 'announcement',
+   },
+   {
+      id: 4,
+      title: 'Beku',
+   },
+]
+export const moderation = [
+   {
+      id: 5,
+      title: 'moderation',
+   },
+]

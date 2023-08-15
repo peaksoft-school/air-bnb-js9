@@ -1,46 +1,19 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { styled } from '@mui/material'
 import React from 'react'
-import { NavLink, Route, Routes } from 'react-router-dom'
-import { Bookings } from './Bookings'
-import { MyAnnouncement } from './MyAnnouncement'
+import { NavLink, Outlet, Route, Routes } from 'react-router-dom'
 import { OnModeration } from './OnModeration'
+import { announcement, bookings, moderation } from '../../utils/helpers'
 
-const bookings = [
-   {
-      id: 1,
-      title: 'Beku',
-   },
-   {
-      id: 2,
-      title: 'bookings',
-   },
-]
-const announcement = [
-   {
-      id: 3,
-      title: 'announcement',
-   },
-   {
-      id: 4,
-      title: 'Beku',
-   },
-]
-const moderation = [
-   {
-      id: 5,
-      title: 'moderation',
-   },
-]
-export function Tabs() {
+export function Tabs({ state }) {
    const BookingLength = bookings.length
    const announcementLength = announcement.length
    const moderationLength = moderation.length
 
-   return (
+   return state === 'true' ? (
       <div>
          <StyleHead>
-            <StyleLink to="/">
+            <StyleLink to="/booking">
                <h3>Bookings({BookingLength})</h3>
             </StyleLink>
 
@@ -54,23 +27,29 @@ export function Tabs() {
          </StyleHead>
 
          <Routes>
-            <Route path="/" element={<Bookings bookings={bookings} />} />
-
-            <Route
-               path="/my-announcemen"
-               element={<MyAnnouncement moderation={announcement} />}
-            />
-
             <Route
                path="/on-moderation"
                element={<OnModeration moderation={moderation} />}
             />
          </Routes>
       </div>
+   ) : (
+      <div>
+         <StyleHead>
+            <StyleLink to="booking">
+               <h3>Bookings</h3>
+            </StyleLink>
+
+            <StyleLink to="my-announcement">
+               <h3>My announcement</h3>
+            </StyleLink>
+         </StyleHead>
+         <Outlet />
+      </div>
    )
 }
 const StyleHead = styled('div')(() => ({
-   width: '90%',
+   width: '95%',
    height: '4.25vh',
    borderBottom: '1px solid #C4C4C4',
    display: 'flex',
@@ -79,12 +58,12 @@ const StyleHead = styled('div')(() => ({
    gap: '3.125rem',
 }))
 
-const StyleLink = styled(NavLink)(() => ({
-   color: ' #6C6C6C',
+const StyleLink = styled(NavLink)(({ isActive }) => ({
+   color: isActive ? 'black' : '#6C6C6C',
    fontFamily: 'Inter',
    fontSize: '1.125rem',
    fontStyle: 'normal',
-   fontWeight: '400',
+   fontWeight: isActive ? '600' : '400',
    lineHeight: 'normal',
    '&:hover': {
       color: ' var(--primary-black, #363636)',
