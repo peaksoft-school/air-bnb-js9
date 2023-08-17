@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { styled } from '@mui/material'
 import React from 'react'
-import { NavLink, Outlet, Route, Routes } from 'react-router-dom'
+import { NavLink, Route, Routes } from 'react-router-dom'
 import { OnModeration } from './OnModeration'
 import { announcement, bookings, moderation } from '../../utils/helpers'
 
@@ -37,14 +37,13 @@ export function Tabs({ state }) {
       <div>
          <StyleHead>
             <StyleLink to="booking">
-               <h3>Bookings</h3>
+               <h3>Booking</h3>
             </StyleLink>
 
             <StyleLink to="my-announcement">
                <h3>My announcement</h3>
             </StyleLink>
          </StyleHead>
-         <Outlet />
       </div>
    )
 }

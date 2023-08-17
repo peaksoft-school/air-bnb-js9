@@ -1,8 +1,13 @@
 import { axiosInstance } from '../config/axiosInstance'
 
-export const getAdminUsersCardsRequest = () => {
-   return axiosInstance.get('/api/users')
+export const getAdminUsersCardsIdRequest = (payload) => {
+   return axiosInstance.get(`/api/users/get/${payload}?value=announcement`)
 }
-export const getAdminUsersCardsIdRequest = (userId) => {
-   return axiosInstance.get(`/api/users/get/${userId}`)
+
+export const getMyAnnouncementRequest = (id) => {
+   return axiosInstance.get(`/api/users/get/${id}?value=announcement`)
+}
+
+export const getBookingsRequest = (id) => {
+   return axiosInstance.get(`/api/users/get/${id}?value=booking`)
 }

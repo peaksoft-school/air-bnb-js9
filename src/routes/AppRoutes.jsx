@@ -5,13 +5,14 @@ import { ProtectedRoutes } from './ProtectedRoutes'
 import { UserLayout } from '../layout/userLayout/UserLayout'
 import { AdminLayout } from '../layout/adminLayout/AdminLayout'
 import { userRoles } from '../utils/constants'
-import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
 import { Bookings } from '../components/tabs/Bookings'
 import { MyAnnouncement } from '../components/tabs/MyAnnouncement'
-import { announcement, bookings } from '../utils/helpers'
+import { ReusableTable } from '../components/table/Table'
+import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
 
 export function AppRoutes() {
    const role = useSelector((state) => state.auth.role)
+   const { data, bookings } = useSelector((state) => state.adminUsers)
 
    const isAllowed = (roles) => {
       return roles.includes(role)
@@ -39,15 +40,18 @@ export function AppRoutes() {
                />
             }
          >
-            <Route path="users/" element={<AdminUsersPage />}>
+            <Route path="users/" element={<ReusableTable />} />
+            <Route path="users/:userId" element={<AdminUsersPage />}>
                <Route
                   index
                   path="booking"
-                  element={<Bookings bookings={bookings} />}
+                  element={<Bookings bookings={bookings} select="false" />}
                />
                <Route
                   path="my-announcement"
-                  element={<MyAnnouncement announcement={announcement} />}
+                  element={
+                     <MyAnnouncement announcement={data} select="false" />
+                  }
                />
             </Route>
          </Route>

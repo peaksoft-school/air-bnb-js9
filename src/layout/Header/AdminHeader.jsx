@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useParams } from 'react-router-dom'
 import { AirBNBIcon } from '../../assets/icons/index'
 import { MenuEditAndDelete } from '../../components/UI/menu/MenuEditAndDelete'
 
 export function AdminHeader() {
    const [meatBalls, setMeatBalls] = useState(false)
    const location = useLocation()
+
+   const { userId } = useParams()
 
    const toggleMeatBalls = () => {
       setMeatBalls(!meatBalls)
@@ -26,7 +28,13 @@ export function AdminHeader() {
 
                <StyleNavLink
                   to="/admin/users"
-                  isActive={location.pathname === '/users'}
+                  isActive={
+                     location.pathname === '/admin/users' ||
+                     location.pathname === `/admin/users/${userId}` ||
+                     location.pathname === `/admin/users/${userId}/booking` ||
+                     location.pathname ===
+                        `/admin/users/${userId}/my-announcement`
+                  }
                >
                   <p>Users</p>
                </StyleNavLink>

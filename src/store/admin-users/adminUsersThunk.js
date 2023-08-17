@@ -1,31 +1,32 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
-   // getAdminUsersCardsIdRequest,
-   getAdminUsersCardsRequest,
+   getBookingsRequest,
+   getMyAnnouncementRequest,
 } from '../../api/adminUsersServise'
 
-export const getAdminUsersCards = createAsyncThunk(
-   'adminUsers/getAdminUsersCards',
-   async (_, { rejectWithValue }) => {
+export const getAdminUsersCardsId = createAsyncThunk(
+   'adminUsers/getAdminUsersCardsId',
+   async (payload, { rejectWithValue }) => {
       try {
-         const response = await getAdminUsersCardsRequest()
+         const response = await getMyAnnouncementRequest(payload)
 
-         return response.data
+         // console.log('response: ', response.data.announcementResponses)
+
+         return response.data.announcementResponses
       } catch (error) {
          return rejectWithValue(error.message)
       }
    }
 )
-
-// export const getAdminUsersCardsId = createAsyncThunk(
-//    'adminUsers/getAdminUsersCardsId',
-//    async (userId, { rejectWithValue }) => {
-//       try {
-//          const response = await getAdminUsersCardsIdRequest(userId)
-//          console.log('response: ', response.data)
-//          return response.data
-//       } catch (error) {
-//          return rejectWithValue(error.message)
-//       }
-//    }
-// )
+export const getBookings = createAsyncThunk(
+   'adminUsers/getBookings',
+   async (payload, { rejectWithValue }) => {
+      try {
+         const response = await getBookingsRequest(payload)
+         console.log('response.booking: ', response.data.bookingUser)
+         return response.data.bookingUser
+      } catch (error) {
+         return rejectWithValue(error)
+      }
+   }
+)

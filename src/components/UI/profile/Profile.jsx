@@ -9,9 +9,11 @@ export function Profile({ data, logOut, ...props }) {
             alt="photo"
             src={data.photo && data.photo}
          >
-            {data.photo || (
-               <p style={{ fontSize: '2.375rem' }}>{data.name[0]}</p>
-            )}
+            <p style={{ fontSize: '2.375rem' }}>
+               {data.fullName && data.fullName.length > 0
+                  ? data.fullName[0]
+                  : ''}
+            </p>
          </StyledAvatar>
 
          <UserInfo>
@@ -28,8 +30,8 @@ export function Profile({ data, logOut, ...props }) {
                textAlign="left"
                color="var(--primary-black, #363636)"
             >
-               <p>{data.name}</p>
-               <p>{data.contact}</p>
+               <p style={{ fontWeight: '600' }}>{data.fullName}</p>
+               <p style={{ fontWeight: '600' }}>{data.email}</p>
             </NameAndContactBlock>
          </UserInfo>
       </Container>

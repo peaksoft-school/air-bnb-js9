@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getAdminUsersCards } from './adminUsersThunk'
+import { getAdminUsersCardsId, getBookings } from './adminUsersThunk'
 
 const initialState = {
    data: [],
+   bookings: [],
 }
 
 export const adminUsersSlice = createSlice({
@@ -10,8 +11,12 @@ export const adminUsersSlice = createSlice({
    initialState,
    reducers: {},
    extraReducers: (builder) => {
-      builder.addCase(getAdminUsersCards.fulfilled, (state, action) => {
-         state.data = action.payload
-      })
+      builder
+         .addCase(getAdminUsersCardsId.fulfilled, (state, action) => {
+            state.data = action.payload
+         })
+         .addCase(getBookings.fulfilled, (state, action) => {
+            state.bookings = action.payload
+         })
    },
 })
