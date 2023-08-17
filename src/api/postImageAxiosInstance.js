@@ -2,9 +2,9 @@ import axios from 'axios'
 import { BASE_URL } from '../utils/constants'
 
 const headers = {
-   'Content-Type': 'application/json',
+   'Content-Type': 'multipart/form-data',
 }
-const axiosInstance = axios.create({ baseURL: BASE_URL, headers })
+const axiosInstanceForImage = axios.create({ baseURL: BASE_URL, headers })
 
 let store
 
@@ -14,19 +14,19 @@ export const injectStore = (_store) => {
 
 const logoutAction = () => {}
 
-axiosInstance.interceptors.request.use((config) => {
+axiosInstanceForImage.interceptors.request.use((config) => {
    const updatedConfig = { ...config }
    // const token = store.getState().login.accessToken
 
    const token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTI1MTQ2MzAsImlhdCI6MTY5MjI1NTQzMCwidXNlcm5hbWUiOiJhbGlzdGVyQGdtYWlsLmNvbSJ9.Qal8I7Njl47mKbBWY2SB-8QY8nDsTw1RKDRc7wiixM4'
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTIyNTE5NzQsImlhdCI6MTY5MTk5Mjc3NCwidXNlcm5hbWUiOiJhbGlzdGVyQGdtYWlsLmNvbSJ9.KngtGF5uVaZPyBRboLhGYUf1rQggPlyKfGHaaG0-XYE'
    if (token) {
       updatedConfig.headers.Authorization = `Bearer ${token}`
    }
    return updatedConfig
 })
 
-axiosInstance.interceptors.response.use(
+axiosInstanceForImage.interceptors.response.use(
    (response) => {
       return Promise.resolve(response)
    },
@@ -38,4 +38,4 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(error)
    }
 )
-export { axiosInstance }
+export { axiosInstanceForImage }

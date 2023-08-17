@@ -1,13 +1,15 @@
+/* eslint-disable consistent-return */
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Input } from '../UI/input/Input'
 import { Select } from '../UI/select/Select'
 import { Upload } from '../UI/upload-img/Upload'
-import { postAnouncementForm } from '../../store/upload/anouncementThunk'
+import { schema } from '../../utils/helpers'
+import { addAnouncement } from '../../api/anouncementService'
+import { toastSnackbar } from '../UI/snackbar/Snackbar'
 
 const data = [
    { id: 'option1', name: 'BATKEN' },
@@ -21,16 +23,21 @@ const data = [
 
 export default function AddAnouncementForm() {
    const [fileNames, setFileNames] = useState([])
-   const schema = yup.object().shape({
-      type: yup.string().required('Please select a home type'),
-      guests: yup.string().required('Please enter the number of guests'),
-      price: yup.string().required('Please enter the price'),
-      title: yup.string().required('Please enter a title'),
-      description: yup.string().required('Please enter a description'),
-      region: yup.string().required('Please select the region'),
-      town: yup.string().required('Please enter the town'),
-      address: yup.string().required('Please enter the address'),
-   })
+   const { toastType } = toastSnackbar()
+   const navigate = useNavigate()
+
+   const postAnouncementForm = async (payload) => {
+      try {
+         const response = await addAnouncement(payload)
+         toastType('success', 'Ad added successfully!')
+         navigate('/')
+
+         return response.data
+      } catch (error) {
+         toastType('error', 'Error!')
+      }
+   }
+
    const {
       register,
       handleSubmit,
@@ -39,11 +46,9 @@ export default function AddAnouncementForm() {
    } = useForm({
       resolver: yupResolver(schema),
    })
-   const dispatch = useDispatch()
 
-   const onSubmit = async (data) => {
-      console.log(data, 'data')
-      dispatch(postAnouncementForm(data))
+   const onSubmit = (data) => {
+      postAnouncementForm(data)
    }
 
    return (
@@ -79,7 +84,7 @@ export default function AddAnouncementForm() {
                <ApartmentAndHouseBlock>
                   <div className="checkboxContainer">
                      <Controller
-                        name="type"
+                        name="houseType"
                         control={control}
                         render={({ field }) => (
                            <Input
@@ -98,7 +103,7 @@ export default function AddAnouncementForm() {
                   </div>
                   <div className="checkboxContainer">
                      <Controller
-                        name="type"
+                        name="houseType"
                         control={control}
                         render={({ field }) => (
                            <Input
@@ -115,13 +120,13 @@ export default function AddAnouncementForm() {
                      <StyledLabel htmlFor="house">House</StyledLabel>
                   </div>
                </ApartmentAndHouseBlock>
-               <IsError>{errors.type?.message}</IsError>
+               <IsError>{errors.houseType?.message}</IsError>
             </HomeTypeBlock>
             <FilterBlock>
                <GuestBlock>
-                  <StyledLabel htmlFor="guest">Max of Guests</StyledLabel>
+                  <StyledLabel htmlFor="maxGuests">Max of Guests</StyledLabel>
                   <Input
-                     {...register('guests')}
+                     {...register('maxGuests')}
                      size="small"
                      type="number"
                      placeholder="    0"
@@ -129,9 +134,9 @@ export default function AddAnouncementForm() {
                      height="2.4375rem"
                      id="guest"
                      padding="0 0 0.625rem 0"
-                     error={!!errors.guests}
+                     error={!!errors.maxGuests}
                   />
-                  <IsError>{errors.guests?.message}</IsError>
+                  <IsError>{errors.maxGuests?.message}</IsError>
                </GuestBlock>
                <PriceBlock>
                   <StyledLabel htmlFor="price">Price</StyledLabel>
@@ -193,19 +198,19 @@ export default function AddAnouncementForm() {
                <IsError>{errors.region?.message}</IsError>
             </RegionBlock>
             <TownBlock>
-               <StyledLabel htmlFor="town">Town / Province</StyledLabel>
+               <StyledLabel htmlFor="province">Town / Province</StyledLabel>
                <Input
-                  {...register('town')}
-                  id="town"
+                  {...register('province')}
+                  id="province"
                   type="text"
                   barsbek="krash"
                   width="100%"
                   height="2.4375rem"
                   size="small"
-                  error={!!errors.town}
+                  error={!!errors.province}
                   placeholder=" "
                />
-               <IsError>{errors.town?.message}</IsError>
+               <IsError>{errors.province?.message}</IsError>
             </TownBlock>
             <AddressBlock>
                <StyledLabel htmlFor="address">Address</StyledLabel>
