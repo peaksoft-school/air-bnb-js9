@@ -107,188 +107,202 @@ export function Cards({
             title={title}
             changeHandler={changeHandler}
          />
-         {dataa.map((item, index) => {
-            return page === 'user' ? (
-               <MapContainer key={item.id} status={item.status} state={page}>
-                  <div>
-                     {item.images.length > 1 && (
-                        <div className="ImageNavigation">
-                           <StyledButton onClick={() => handlePrevImage(index)}>
-                              <ArrowleftIcon />
-                           </StyledButton>
-                           <StyledButton onClick={() => handleNextImage(index)}>
-                              <ArrowrightIcon />
-                           </StyledButton>
-                        </div>
-                     )}
-                     <StyleImage
-                        src={item.images[currentImages[index]]}
-                        alt="home"
-                     />
-                  </div>
-                  <DayStartContainer onClick={props.dd}>
-                     <DayContainer>
-                        ${item.price}/ <DayStyle>day</DayStyle>{' '}
-                     </DayContainer>
-                     <StartContainer>
-                        <Start1 />
-                        <p>{item.rating}</p>
-                     </StartContainer>
-                  </DayStartContainer>
-                  <StyleTitle>
-                     <Tooltip title={item.title}>
-                        {truncateTitle(item.title)}
-                     </Tooltip>
-                  </StyleTitle>
-                  <LocationCantainerStyle>
-                     <Location />
-                     <p>{item.location}</p>
-                  </LocationCantainerStyle>
-                  {item.status === 'dates' ? (
-                     <StyledHorizIcon>
-                        <DayStyle>2 guests</DayStyle>
-                        <div>
-                           <IconButtonStyled
-                              edge="start"
-                              color="inherit"
-                              aria-label="menu"
-                              onClick={handleMenuOpen}
-                           >
-                              <MoreHorizIconStyled />
-                           </IconButtonStyled>
+         {dataa.length > 0 ? (
+            dataa.map((item, index) => {
+               return page === 'user' ? (
+                  <MapContainer key={item.id} status={item.status} state={page}>
+                     <div>
+                        {item.images.length > 1 && (
+                           <div className="ImageNavigation">
+                              <StyledButton
+                                 onClick={() => handlePrevImage(index)}
+                              >
+                                 <ArrowleftIcon />
+                              </StyledButton>
+                              <StyledButton
+                                 onClick={() => handleNextImage(index)}
+                              >
+                                 <ArrowrightIcon />
+                              </StyledButton>
+                           </div>
+                        )}
+                        <StyleImage
+                           src={item.images[currentImages[index]]}
+                           alt="home"
+                        />
+                     </div>
+                     <DayStartContainer onClick={props.dd}>
+                        <DayContainer>
+                           ${item.price}/ <DayStyle>day</DayStyle>{' '}
+                        </DayContainer>
+                        <StartContainer>
+                           <Start1 />
+                           <p>{item.rating}</p>
+                        </StartContainer>
+                     </DayStartContainer>
+                     <StyleTitle>
+                        <Tooltip title={item.title}>
+                           {truncateTitle(item.title)}
+                        </Tooltip>
+                     </StyleTitle>
+                     <LocationCantainerStyle>
+                        <Location />
+                        <p>{item.location}</p>
+                     </LocationCantainerStyle>
+                     {item.status === 'dates' ? (
+                        <StyledHorizIcon>
+                           <DayStyle>2 guests</DayStyle>
+                           <div>
+                              <IconButtonStyled
+                                 edge="start"
+                                 color="inherit"
+                                 aria-label="menu"
+                                 onClick={handleMenuOpen}
+                              >
+                                 <MoreHorizIconStyled />
+                              </IconButtonStyled>
 
+                              <StyledMenu
+                                 anchorEl={anchorEl}
+                                 open={Boolean(anchorEl)}
+                                 onClose={handleMenuClose}
+                              >
+                                 <MenuItem onClick={handleMenuClose}>
+                                    Accept
+                                 </MenuItem>
+                                 <MenuItem onClick={handleMenuClose}>
+                                    Reject
+                                 </MenuItem>
+                                 <MenuItem onClick={handleMenuClose}>
+                                    Delete
+                                 </MenuItem>
+                              </StyledMenu>
+                           </div>
+                        </StyledHorizIcon>
+                     ) : (
+                        <ButtonsContainer>
+                           <DayStyle>2 guests</DayStyle>
+                           <Button
+                              variant="contained"
+                              height="20%"
+                              bgColor="#DD8A08"
+                              color="white"
+                              width="6.4375rem"
+                           >
+                              Book
+                           </Button>
+                           <ButtonIcon
+                              width="10%"
+                              open={item.open}
+                              toggle={() => toggle(index)}
+                           />
+                        </ButtonsContainer>
+                     )}
+                  </MapContainer>
+               ) : (
+                  <AdminMapContainer key={item.id}>
+                     <div>
+                        {item.images.length > 1 && (
+                           <div className="ImageNavigation">
+                              <StyledButton
+                                 onClick={() => handlePrevImage(index)}
+                              >
+                                 <ArrowleftIcon />
+                              </StyledButton>
+                              <StyledButton
+                                 onClick={() => handleNextImage(index)}
+                              >
+                                 <ArrowrightIcon />
+                              </StyledButton>
+                           </div>
+                        )}
+                        <ImageLink to="announcementAdminPage">
+                           <StyleImage
+                              src={item.images[currentImages[index]]}
+                              alt="home"
+                              onClick={toggleHandler}
+                           />
+                        </ImageLink>
+                     </div>
+                     <DayStartContainer onClick={props.dd}>
+                        <DayContainer>
+                           ${item.price}/ <DayStyle>day</DayStyle>{' '}
+                        </DayContainer>
+                        <StartContainer>
+                           <Start1 />
+                           <p>{item.rating}</p>
+                        </StartContainer>
+                     </DayStartContainer>
+                     <div
+                        style={{
+                           width: '90%',
+                           display: 'flex',
+                           flexDirection: 'column',
+                           alignItems: 'start',
+                        }}
+                     >
+                        <Tooltip title={item.title}>
+                           {truncateTitle(item.description)}
+                        </Tooltip>
+                        <LocationCantainerStyle>
+                           <Location />
+                           <p>
+                              {item.address} , {item.province}
+                           </p>
+                        </LocationCantainerStyle>
+                     </div>
+                     <StyledHorizIcon>
+                        <DayStyle>
+                           <p>{item.maxGuests}</p> <p>guests</p>{' '}
+                        </DayStyle>
+                        <IconButtonStyled
+                           edge="start"
+                           color="inherit"
+                           aria-label="menu"
+                           onClick={handleMenuOpen}
+                        >
+                           <MoreHorizIconStyled />
+                        </IconButtonStyled>
+
+                        <Backdrop
+                           sx={{
+                              color: '#fff',
+                              background: 'rgba(0,0,0,0.0)',
+                              zIndex: 1,
+                           }}
+                           open={Boolean(anchorEl)}
+                           onClick={handleMenuClose}
+                        >
+                           {' '}
                            <StyledMenu
+                              anchorOrigin={{
+                                 vertical: 'top',
+                                 horizontal: 'left',
+                              }}
                               anchorEl={anchorEl}
                               open={Boolean(anchorEl)}
                               onClose={handleMenuClose}
                            >
-                              <MenuItem onClick={handleMenuClose}>
+                              <MenuItem onClick={() => accerptHandler(item.id)}>
                                  Accept
                               </MenuItem>
-                              <MenuItem onClick={handleMenuClose}>
+                              <MenuItem
+                                 onClick={() => openModalHandler(item.id)}
+                              >
                                  Reject
                               </MenuItem>
-                              <MenuItem onClick={handleMenuClose}>
+                              <MenuItem onClick={() => removeCard(item.id)}>
                                  Delete
                               </MenuItem>
                            </StyledMenu>
-                        </div>
+                        </Backdrop>
                      </StyledHorizIcon>
-                  ) : (
-                     <ButtonsContainer>
-                        <DayStyle>2 guests</DayStyle>
-                        <Button
-                           variant="contained"
-                           height="20%"
-                           bgColor="#DD8A08"
-                           color="white"
-                           width="6.4375rem"
-                        >
-                           Book
-                        </Button>
-                        <ButtonIcon
-                           width="10%"
-                           open={item.open}
-                           toggle={() => toggle(index)}
-                        />
-                     </ButtonsContainer>
-                  )}
-               </MapContainer>
-            ) : (
-               <AdminMapContainer key={item.id}>
-                  <div>
-                     {item.images.length > 1 && (
-                        <div className="ImageNavigation">
-                           <StyledButton onClick={() => handlePrevImage(index)}>
-                              <ArrowleftIcon />
-                           </StyledButton>
-                           <StyledButton onClick={() => handleNextImage(index)}>
-                              <ArrowrightIcon />
-                           </StyledButton>
-                        </div>
-                     )}
-                     <ImageLink to="announcementAdminPage">
-                        <StyleImage
-                           src={item.images[currentImages[index]]}
-                           alt="home"
-                           onClick={toggleHandler}
-                        />
-                     </ImageLink>
-                  </div>
-                  <DayStartContainer onClick={props.dd}>
-                     <DayContainer>
-                        ${item.price}/ <DayStyle>day</DayStyle>{' '}
-                     </DayContainer>
-                     <StartContainer>
-                        <Start1 />
-                        <p>{item.rating}</p>
-                     </StartContainer>
-                  </DayStartContainer>
-                  <div
-                     style={{
-                        width: '90%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'start',
-                     }}
-                  >
-                     <Tooltip title={item.title}>
-                        {truncateTitle(item.description)}
-                     </Tooltip>
-                     <LocationCantainerStyle>
-                        <Location />
-                        <p>
-                           {item.address} , {item.province}
-                        </p>
-                     </LocationCantainerStyle>
-                  </div>
-                  <StyledHorizIcon>
-                     <DayStyle>
-                        <p>{item.maxGuests}</p> <p>guests</p>{' '}
-                     </DayStyle>
-                     <IconButtonStyled
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        onClick={handleMenuOpen}
-                     >
-                        <MoreHorizIconStyled />
-                     </IconButtonStyled>
-
-                     <Backdrop
-                        sx={{
-                           color: '#fff',
-                           background: 'rgba(0,0,0,0.0)',
-                           zIndex: 1,
-                        }}
-                        open={Boolean(anchorEl)}
-                        onClick={handleMenuClose}
-                     >
-                        {' '}
-                        <StyledMenu
-                           anchorOrigin={{
-                              vertical: 'top',
-                              horizontal: 'left',
-                           }}
-                           anchorEl={anchorEl}
-                           open={Boolean(anchorEl)}
-                           onClose={handleMenuClose}
-                        >
-                           <MenuItem onClick={() => accerptHandler(item.id)}>
-                              Accept
-                           </MenuItem>
-                           <MenuItem onClick={() => openModalHandler(item.id)}>
-                              Reject
-                           </MenuItem>
-                           <MenuItem onClick={() => removeCard(item.id)}>
-                              Delete
-                           </MenuItem>
-                        </StyledMenu>
-                     </Backdrop>
-                  </StyledHorizIcon>
-               </AdminMapContainer>
-            )
-         })}
+                  </AdminMapContainer>
+               )
+            })
+         ) : (
+            <h2>no cards yet...</h2>
+         )}
       </MainContainer>
    )
 }
