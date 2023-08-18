@@ -5,7 +5,7 @@ import { NavLink, Route, Routes } from 'react-router-dom'
 import { OnModeration } from './OnModeration'
 import { announcement, bookings, moderation } from '../../utils/helpers'
 
-export function Tabs({ state }) {
+export function Tabs({ state, showButtonHandler, closeButtonHandler }) {
    const BookingLength = bookings.length
    const announcementLength = announcement.length
    const moderationLength = moderation.length
@@ -36,11 +36,11 @@ export function Tabs({ state }) {
    ) : (
       <div>
          <StyleHead>
-            <StyleLink to="booking">
+            <StyleLink onClick={closeButtonHandler} to="booking">
                <h3>Booking</h3>
             </StyleLink>
 
-            <StyleLink to="my-announcement">
+            <StyleLink onClick={showButtonHandler} to="my-announcement">
                <h3>My announcement</h3>
             </StyleLink>
          </StyleHead>

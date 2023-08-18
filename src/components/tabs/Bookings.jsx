@@ -1,15 +1,16 @@
 import React from 'react'
-import { Cards } from '../UI/cards/Cards'
+// import { Cards } from '../UI/cards/Cards'
 
-export function Bookings({ booking }) {
+export function Bookings() {
    return (
       <div>
-         <Cards
+         {/* <Cards
             data={booking}
             page="admin"
             justifyContent="start"
             bgColor="white"
-         />
+         /> */}
+         <h1>Bookings</h1>
       </div>
    )
 }

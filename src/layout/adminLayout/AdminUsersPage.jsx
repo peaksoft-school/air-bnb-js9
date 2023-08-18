@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { NavLink, Outlet, useParams } from 'react-router-dom'
 import { styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
+import { Button } from '../../components/UI/button/Button'
 import { Profile } from '../../components/UI/profile/Profile'
 import { Tabs } from '../../components/tabs/Tabs'
 import { getAdminUsersCardsIdRequest } from '../../api/adminUsersServise'
@@ -12,9 +13,17 @@ import {
 
 function AdminUsersPage() {
    const [userData, setUserData] = useState({})
+   const [showButton, setShowButton] = useState(false)
    const { userId } = useParams()
    const dispatch = useDispatch()
 
+   const showButtonHandler = () => {
+      setShowButton(true)
+   }
+
+   const closeButtonHandler = () => {
+      setShowButton(false)
+   }
    const getUsersById = async () => {
       try {
          const { data } = await getAdminUsersCardsIdRequest(userId)
@@ -50,10 +59,27 @@ function AdminUsersPage() {
                   height="6%"
                   paddingTop="1rem"
                />
+
+               {showButton ? (
+                  <Button
+                     variant="contained"
+                     bgColor="#DD8A08"
+                     color="white"
+                     width="350px"
+                     marginTop="2rem"
+                     marginLeft="2.8rem"
+                  >
+                     block all announcement
+                  </Button>
+               ) : null}
             </div>
          </UserSide>
          <CardSide>
-            <Tabs state="false" />
+            <Tabs
+               state="false"
+               showButtonHandler={showButtonHandler}
+               closeButtonHandler={closeButtonHandler}
+            />
             <Outlet />
          </CardSide>
       </Container>
