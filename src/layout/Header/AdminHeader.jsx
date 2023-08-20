@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { styled } from '@mui/material'
 import { NavLink, useLocation } from 'react-router-dom'
 import { AirBNBIcon } from '../../assets/icons/index'
-import { MenuEditAndDelete } from '../../components/UI/menu/MenuEditAndDelete'
+import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
 
 export function AdminHeader() {
    const [meatBalls, setMeatBalls] = useState(false)
@@ -19,7 +19,11 @@ export function AdminHeader() {
             <div className="nav">
                <StyleNavLink
                   to="/admin/application"
-                  isActive={location.pathname === '/application'}
+                  isActive={
+                     location.pathname === '/admin/application' ||
+                     location.pathname ===
+                        '/admin/application/announcementAdminPage'
+                  }
                >
                   <p>Application</p>
                </StyleNavLink>
@@ -41,7 +45,7 @@ export function AdminHeader() {
          </div>
          <HeaderMenu onClick={toggleMeatBalls}>
             <p>Administrator</p>
-            <MenuEditAndDelete
+            <MeatBalls
                open={meatBalls}
                openHandler={toggleMeatBalls}
                state="true"
@@ -49,7 +53,7 @@ export function AdminHeader() {
                top="8vh"
             >
                <h3> Log out</h3>
-            </MenuEditAndDelete>
+            </MeatBalls>
          </HeaderMenu>
       </Header>
    )

@@ -17,10 +17,8 @@ export const userRoles = {
    GUEST: 'GUEST',
 }
 
-<<<<<<< HEAD
-export const roles = userRoles.ADMIN
-=======
+export const role = userRoles.ADMIN
+
 export const STORAGE_KEY = {
-   AIRBNB_AUTH: 'AUTH_AIRBNB',
+   AIRBNB_AUTH: ' AUTH_AIRBNB',
 }
->>>>>>> 8b126ec6b3765746a1d4faca70b5665e40beb34c

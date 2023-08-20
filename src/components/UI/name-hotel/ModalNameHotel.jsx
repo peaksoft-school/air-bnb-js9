@@ -25,7 +25,7 @@ export function ModalNameHotel({
             <ModalContainer>
                <h3>Reject</h3>
                <TextArea
-                  width="25.875rem"
+                  width="100%"
                   height=" 6.5rem"
                   borderRadius=" 0.125rem"
                   marginBottom="1.5rem"

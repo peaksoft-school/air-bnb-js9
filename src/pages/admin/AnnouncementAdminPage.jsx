@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Breadcrumbs, Link, styled, Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { HouseSlidDetail } from '../../components/UI/house-detail/HouseSlidDetail'
 import { NameOfHotel } from '../../components/UI/name-hotel/NameOfHotel'
 import { house, Hotel, booked } from '../../utils/helpers'
@@ -8,8 +10,9 @@ import { RatingChart } from '../../components/UI/rating/RatingChart'
 import { Booked } from '../../components/UI/booked/Booked'
 import { Favorites } from '../../components/UI/favorites/Favorites'
 
-export function AnnouncementAdminPage({ roles, pages }) {
+export function AnnouncementAdminPage({ roles, pages, acceptHandler }) {
    const [openModal, setOpenModal] = useState(false)
+   const { dataById } = useSelector((state) => state.application)
 
    const data = [
       {
@@ -51,37 +54,40 @@ export function AnnouncementAdminPage({ roles, pages }) {
          avatar: '',
       },
    ]
+   const navigate = useNavigate()
+
+   function backNavigation() {
+      navigate('/admin/application')
+   }
 
    const openModalHandler = () => {
       setOpenModal((prev) => !prev)
    }
-   console.log(pages)
 
    return roles === 'admin' ? (
       <div>
          {pages === 'application' ? (
             <Applications>
                <MainContainer>
-                  <div role="presentation">
-                     <Breadcrumbs aria-label="breadcrumb">
-                        <Link
-                           underline="hover"
-                           color="inherit"
-                           href="application"
-                        >
-                           application
-                        </Link>
-                        <Typography color="text.primary">Name</Typography>
-                     </Breadcrumbs>
-                  </div>
+                  <Navigate role="presentation">
+                     <button
+                        className="application"
+                        onClick={() => backNavigation()}
+                        type="button"
+                     >
+                        Application
+                     </button>
+                     / <p className="name">Name</p>
+                  </Navigate>
                   <BlockMain>
                      <h2>Name</h2>
                      <Main>
                         <HouseSlidDetail images={house} />
                         <NameOfHotel
-                           hotel={Hotel}
+                           dataById={dataById}
                            openModal={openModal}
                            openModalHandler={openModalHandler}
+                           acceptHandler={acceptHandler}
                         />
                      </Main>
                   </BlockMain>
@@ -190,7 +196,7 @@ export function AnnouncementAdminPage({ roles, pages }) {
 }
 const Applications = styled('div')(() => ({
    width: '100%',
-   height: '100vh',
+   height: '80vh',
    display: 'flex',
    flexDirection: 'column',
    gap: '1.87rem',
@@ -218,7 +224,7 @@ const Container = styled('div')(() => ({
 
 const MainContainer = styled('div')(() => ({
    width: '100%',
-   padding: '2.5rem',
+   paddingLeft: '2.5rem',
    display: 'flex',
    flexDirection: 'column',
    gap: '2.5rem',
@@ -253,4 +259,27 @@ const FavoritesContainer = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
    gap: '1.87rem',
+}))
+const Navigate = styled('div')(() => ({
+   display: 'flex',
+   alignItems: 'center',
+   gap: '0.5rem',
+   '.application': {
+      color: ' var(--tertiary-light-gray, #C4C4C4)',
+      fontFamily: 'Inter',
+      fontSize: '0.875rem',
+      fontStyle: 'normal',
+      fontWeight: 400,
+      lineHeight: 'normal',
+      background: '#F7F7F7',
+      border: 'none',
+   },
+   '.name': {
+      color: ' var(--primary-black, #363636)',
+      fontFamily: 'Inter',
+      fontSize: '0.875rem',
+      fontStyle: 'normal',
+      fontWeight: 400,
+      lineHeight: 'normal',
+   },
 }))

@@ -1,26 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { ProtectedRoutes } from './ProtectedRoutes'
 import { UserLayout } from '../layout/userLayout/UserLayout'
 import { AdminLayout } from '../layout/adminLayout/AdminLayout'
-<<<<<<< HEAD
-import { roles, userRoles } from '../utils/constants'
+import { role, userRoles } from '../utils/constants'
 import { AnnouncementAdminPage } from '../pages/admin/AnnouncementAdminPage'
 import { Applications } from '../pages/admin/Applications'
-
-const isAllowed = (role) => {
-   return role.includes(roles)
-}
-=======
-import { userRoles } from '../utils/constants'
->>>>>>> 8b126ec6b3765746a1d4faca70b5665e40beb34c
+import {
+   getAdminApplication,
+   postAcceptApplications,
+} from '../store/admin-application/ApplicationThunk'
 
 export function AppRoutes() {
-   const role = useSelector((state) => state.auth.role)
-
+   const [currentPage, setCurrentPage] = useState(1)
+   const [currentSize, setCurrenSize] = useState(10)
    const isAllowed = (roles) => {
       return roles.includes(role)
+   }
+   const dispatch = useDispatch()
+
+   const acceptHandler = (id) => {
+      const object = {
+         status: 'accept',
+         id,
+      }
+      dispatch(postAcceptApplications(object))
+
+      const current = {
+         currentPage,
+         currentSize,
+      }
+      dispatch(getAdminApplication(current))
    }
 
    return (
@@ -45,10 +56,27 @@ export function AppRoutes() {
                />
             }
          >
-            <Route path="application/" element={<Applications />}>
+            <Route
+               path="application/"
+               element={
+                  <Applications
+                     acceptHandler={acceptHandler}
+                     currentPage={currentPage}
+                     currentSize={currentSize}
+                     setCurrentPage={setCurrentPage}
+                     setCurrenSize={setCurrenSize}
+                  />
+               }
+            >
                <Route
-                  path="announcementAdminPage"
-                  element={<AnnouncementAdminPage />}
+                  path="Name"
+                  element={
+                     <AnnouncementAdminPage
+                        roles="admin"
+                        pages="application"
+                        acceptHandler={acceptHandler}
+                     />
+                  }
                />
             </Route>
          </Route>

@@ -1,78 +1,102 @@
-import { Breadcrumbs, styled, Typography } from '@mui/material'
+import { styled, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
-import { Cards } from '../../components/UI/cards/Cards'
+import { AdminCards } from '../../components/UI/cards/AdminCards'
 import { Paginations } from '../../components/UI/pagination/Pagination'
 import {
    deleteAdminApplication,
    getAdminApplication,
-   postAcceptApplications,
+   getApplicationById,
    postRejectApplications,
 } from '../../store/admin-application/ApplicationThunk'
 
-export function Applications() {
+export function Applications({
+   acceptHandler,
+   setCurrentPage,
+   setCurrenSize,
+   currentPage,
+   currentSize,
+}) {
    const { data } = useSelector((state) => state.application)
    const [toggle, setToggle] = useState(false)
    const [title, setTitle] = useState('')
-   const [page, setPage] = useState(1)
+
    const dispatch = useDispatch()
 
    useEffect(() => {
-      dispatch(getAdminApplication(page))
-   }, [page])
+      const current = {
+         currentPage,
+         currentSize,
+      }
+      dispatch(getAdminApplication(current))
+      setCurrenSize(10)
+   }, [currentPage])
 
    const changeHandler = (e) => {
       setTitle(e.target.value)
    }
 
-   const toggleHandler = () => {
+   const toggleHandler = (id) => {
       setToggle((prev) => !prev)
+      dispatch(getApplicationById(id))
    }
 
-   const removeCard = async (id) => {
+   const removeCard = (id) => {
       dispatch(deleteAdminApplication(id))
+
+      const current = {
+         currentPage,
+         currentSize,
+      }
+      dispatch(getAdminApplication(current))
    }
 
    const rejectedHandler = (id) => {
       const object = {
+         status: 'reject',
          title,
          id,
       }
+
       dispatch(postRejectApplications(object))
       setTitle('')
-   }
 
-   const accerptHandler = (id) => {
-      dispatch(postAcceptApplications(id))
+      const current = {
+         currentPage,
+         currentSize,
+      }
+      dispatch(getAdminApplication(current))
    }
 
    const pagePagination = (value) => {
-      setPage(value)
+      setCurrentPage(value)
    }
 
    return (
       <Container>
-         <Breadcrumbs aria-label="breadcrumb">
-            <StyleTypography color="text.primary">application</StyleTypography>
-         </Breadcrumbs>
          {toggle ? (
             <Outlet />
          ) : (
-            <Cards
-               data={data}
-               toggleHandler={toggleHandler}
-               removeCard={removeCard}
-               rejectedHandler={rejectedHandler}
-               title={title}
-               changeHandler={changeHandler}
-               accerptHandler={accerptHandler}
-               page="admin"
-            />
+            <>
+               {' '}
+               <StyleTypography color="text.primary">
+                  application
+               </StyleTypography>
+               <AdminCards
+                  data={data}
+                  title={title}
+                  removeCard={removeCard}
+                  toggleHandler={toggleHandler}
+                  acceptHandler={acceptHandler}
+                  changeHandler={changeHandler}
+                  rejectedHandler={rejectedHandler}
+               />
+               <ContainerPagination>
+                  <Paginations count={10} pages={pagePagination} />
+               </ContainerPagination>
+            </>
          )}
-         <ContainerPagination>
-            <Paginations count={10} pages={pagePagination} />
-         </ContainerPagination>
       </Container>
    )
 }
@@ -98,5 +122,5 @@ const StyleTypography = styled(Typography)(() => ({
    fontWeight: 500,
    lineHeight: 'normal',
    textTransform: ' uppercase',
-   margin: '3.13rem 0rem 0rem 9.375rem',
+   margin: '3.13rem 0rem 0rem 2.25rem',
 }))

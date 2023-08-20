@@ -2,17 +2,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
    deleteAdminApplicationRequest,
    getAdminApplicationRequest,
+   getApplicationByIdRequest,
    postAcceptApplicationsRequest,
    postRejectApplicationsRequest,
 } from '../../api/AdminApplicationService'
 
 export const getAdminApplication = createAsyncThunk(
    'application/getAdminApplication',
-   async (count, { rejectWithValue }) => {
+   async (payload, { rejectWithValue }) => {
       try {
-         const response = await getAdminApplicationRequest(count)
-
-         console.log('response', response.data.announcementResponses)
+         const response = await getAdminApplicationRequest(payload)
 
          return response.data.announcementResponses
       } catch (error) {
@@ -21,12 +20,25 @@ export const getAdminApplication = createAsyncThunk(
    }
 )
 
+export const getApplicationById = createAsyncThunk(
+   'application/getApplicationById',
+   async (payload, { rejectWithValue }) => {
+      try {
+         const response = await getApplicationByIdRequest(payload)
+
+         return response.data
+      } catch (error) {
+         return rejectWithValue(error.message)
+      }
+   }
+)
+
 export const deleteAdminApplication = createAsyncThunk(
    'application/deleteAdminApplication',
-   async (payload, { rejectWithValue, dispatch }) => {
+   async (id, { rejectWithValue }) => {
       try {
-         const response = await deleteAdminApplicationRequest(payload)
-         dispatch(getAdminApplication())
+         const response = await deleteAdminApplicationRequest(id)
+
          return response.data
       } catch (error) {
          return rejectWithValue(error.message)
@@ -36,11 +48,9 @@ export const deleteAdminApplication = createAsyncThunk(
 
 export const postRejectApplications = createAsyncThunk(
    'application/putRejectApplications',
-   async (payload, { rejectWithValue, dispatch }) => {
+   async (payload, { rejectWithValue }) => {
       try {
          const response = await postRejectApplicationsRequest(payload)
-
-         dispatch(getAdminApplication())
 
          return response.data
       } catch (error) {
@@ -51,14 +61,9 @@ export const postRejectApplications = createAsyncThunk(
 
 export const postAcceptApplications = createAsyncThunk(
    'application/putRejectApplications',
-   async (payload, { rejectWithValue, dispatch }) => {
-      console.log('payload', payload)
+   async (payload, { rejectWithValue }) => {
       try {
          const response = await postAcceptApplicationsRequest(payload)
-
-         dispatch(getAdminApplication())
-
-         console.log('response', response.data)
 
          return response.data
       } catch (error) {

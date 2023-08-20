@@ -14,16 +14,10 @@ export const injectStore = (_store) => {
 
 const logoutAction = () => {}
 
-const token =
-   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTE4MTY0NTUsImlhdCI6MTY5MTU1NzI1NSwidXNlcm5hbWUiOiJhZG1pbkBnbWFpbC5jb20ifQ.Sv8eD1SmRa1fLZ0sXyRydWBhfS-5linJgMSlyct3rtk'
 axiosInstance.interceptors.request.use((config) => {
    const updatedConfig = { ...config }
-<<<<<<< HEAD
    const token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTE5OTU1NzcsImlhdCI6MTY5MTczNjM3NywidXNlcm5hbWUiOiJhZG1pbkBnbWFpbC5jb20ifQ.rrpPVgTGrtY6ZGpQoLIPhCfsc60oQLgr1oBgjVFm4eY'
-=======
-   // const token = store.getState().login.accessToken
->>>>>>> 8b126ec6b3765746a1d4faca70b5665e40beb34c
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTI1OTgzNjAsImlhdCI6MTY5MjMzOTE2MCwidXNlcm5hbWUiOiJhZG1pbkBnbWFpbC5jb20ifQ.wUmNBR7pQyd_0A1NNzXlSXwztC9KUS3IeASpSDc6AI4'
    if (token) {
       updatedConfig.headers.Authorization = `Bearer ${token}`
    }

@@ -9,7 +9,7 @@ import {
    AirBNBIcon,
 } from '../../assets/icons/index'
 import { userRoles } from '../../utils/constants'
-import { MenuEditAndDelete } from '../../components/UI/menu/MenuEditAndDelete'
+import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
 
 import { authActions } from '../../store/auth/authSlice'
 
@@ -69,7 +69,7 @@ export function Header({ userLogin, openModalHandler }) {
                            <Avatar sx={{ bgcolor: '#0298D9' }}>
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
-                           <MenuEditAndDelete
+                           <MeatBalls
                               open={meatBalls}
                               openHandler={toggleMeatBalls}
                               state="true"
@@ -85,7 +85,7 @@ export function Header({ userLogin, openModalHandler }) {
                               >
                                  log out
                               </Button>
-                           </MenuEditAndDelete>
+                           </MeatBalls>
                         </div>
                      </FavoriteDiv>
                   ) : null}

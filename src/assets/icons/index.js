@@ -21,22 +21,18 @@ import { ReactComponent as UploadImg } from './Camera Icon.svg'
 import { ReactComponent as AirBNBIcon } from './airbnb.svg'
 import { ReactComponent as BlackAirBNBIcon } from './blackairbnb.svg'
 import { ReactComponent as SearchIcon } from './Search.svg'
-<<<<<<< HEAD
-import { ReactComponent as GroupIcon } from './Group.svg'
-=======
->>>>>>> 8b126ec6b3765746a1d4faca70b5665e40beb34c
+// import { ReactComponent as GroupIcon } from './Group.svg'
 import { ReactComponent as Google } from './google.svg'
 import { ReactComponent as GeoIcon } from './geoIcon.svg'
 import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg'
 import { ReactComponent as ArrowLeftBlack } from './GroupBlack.svg'
-<<<<<<< HEAD
-=======
-import { ReactComponent as SeenPassword } from './seenPassword.svg'
-import { ReactComponent as HiddenPassword } from './hiddenPassword.svg'
->>>>>>> 8b126ec6b3765746a1d4faca70b5665e40beb34c
 import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
 import { ReactComponent as ArrowleftIcon } from './arrleft.svg'
 import { ReactComponent as ArrowrightIcon } from './arrfirght.svg'
+import { ReactComponent as HiddenPassword } from './hiddenPassword.svg'
+import { ReactComponent as SeenPassword } from './seenPassword.svg'
+import { ReactComponent as AdminLocation } from './AdminLocation.svg'
+import { ReactComponent as AdminMenu } from './AdminMenu.svg'
 
 export {
    ArrowleftIcon,
@@ -68,10 +64,9 @@ export {
    SearchIcon,
    Google,
    GeoIcon,
-<<<<<<< HEAD
-=======
-   SeenPassword,
-   HiddenPassword,
->>>>>>> 8b126ec6b3765746a1d4faca70b5665e40beb34c
    WhatsAppIcon,
+   HiddenPassword,
+   SeenPassword,
+   AdminLocation,
+   AdminMenu,
 }

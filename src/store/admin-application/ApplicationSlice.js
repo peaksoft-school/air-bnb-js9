@@ -1,9 +1,14 @@
-/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
-import { deleteAdminApplication, getAdminApplication } from './ApplicationThunk'
+import {
+   deleteAdminApplication,
+   getAdminApplication,
+   getApplicationById,
+} from './ApplicationThunk'
 
 const initialState = {
    data: [],
+   dataById: [],
+   error: '',
 }
 
 export const applicationSlice = createSlice({
@@ -15,10 +20,11 @@ export const applicationSlice = createSlice({
          .addCase(getAdminApplication.fulfilled, (state, action) => {
             state.data = action.payload
          })
+         .addCase(getApplicationById.fulfilled, (state, action) => {
+            state.dataById = action.payload
+         })
          .addCase(deleteAdminApplication.fulfilled, (state, action) => {
-            state.data.filter((item) => item.id !== action.payload)
+            state.error = action.payload
          })
    },
 })
-
-export const ApplicationActoins = applicationSlice.actions

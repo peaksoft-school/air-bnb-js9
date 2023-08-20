@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import {
-   IconButton,
-   Menu,
-   MenuItem,
-   Tooltip,
-   styled,
-   Backdrop,
-} from '@mui/material'
+import { IconButton, Menu, MenuItem, Tooltip, styled } from '@mui/material'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import { Link } from 'react-router-dom'
 import {
    ArrowleftIcon,
    ArrowrightIcon,
@@ -17,7 +9,6 @@ import {
 } from '../../../assets/icons/index'
 import { Button } from '../button/Button'
 import { ButtonIcon } from '../IconButton/IconButton'
-import { ModalNameHotel } from '../name-hotel/ModalNameHotel'
 
 export function Cards({
    data,
@@ -30,15 +21,14 @@ export function Cards({
    accerptHandler,
    ...props
 }) {
-   const [currentImages, setCurrentImages] = useState(data.map(() => -0))
+   const [currentImages, setCurrentImages] = useState([])
    const [dataa, setData] = useState([])
-   const [openModal, setOpenModal] = useState(false)
-   const [id, setId] = useState(null)
+   const [anchorEl, setAnchorEl] = useState(null)
 
    useEffect(() => {
       setData(data?.map((item) => ({ ...item, open: false })))
+      setCurrentImages(data.map(() => 0))
    }, [data])
-   const [anchorEl, setAnchorEl] = useState(null)
 
    const handleNextImage = (index) => {
       setCurrentImages((prevImages) => {
@@ -50,6 +40,7 @@ export function Cards({
          return newImages
       })
    }
+
    const truncateTitle = (title) => {
       const words = title.split(' ')
       if (words.length > 7) {
@@ -79,37 +70,17 @@ export function Cards({
 
    const handleMenuOpen = (event) => {
       setAnchorEl(event.currentTarget)
+      console.log('event.currentTarget', event.currentTarget)
    }
 
    const handleMenuClose = () => {
       setAnchorEl(null)
    }
 
-   const openModalHandler = (id) => {
-      setOpenModal((prev) => !prev)
-      setAnchorEl(null)
-      setId(id)
-   }
-
-   const rejectedCartd = () => {
-      rejectedHandler(id)
-      setOpenModal(false)
-   }
-
-   const accerptCartd = (id) => {
-      accerptHandler(id)
-   }
    return (
       <MainContainer>
-         <ModalNameHotel
-            openModal={openModal}
-            openModalHandler={openModalHandler}
-            rejectedCartd={rejectedCartd}
-            title={title}
-            changeHandler={changeHandler}
-         />
          {dataa.map((item, index) => {
-            return page === 'user' ? (
+            return (
                <MapContainer key={item.id} status={item.status} state={page}>
                   <div>
                      {item.images.length > 1 && (
@@ -161,7 +132,7 @@ export function Cards({
 
                            <StyledMenu
                               anchorEl={anchorEl}
-                              open={Boolean(anchorEl)}
+                              open={anchorEl}
                               onClose={handleMenuClose}
                            >
                               <MenuItem onClick={handleMenuClose}>
@@ -196,100 +167,6 @@ export function Cards({
                      </ButtonsContainer>
                   )}
                </MapContainer>
-            ) : (
-               <AdminMapContainer key={item.id}>
-                  <div>
-                     {item.images.length > 1 && (
-                        <div className="ImageNavigation">
-                           <StyledButton onClick={() => handlePrevImage(index)}>
-                              <ArrowleftIcon />
-                           </StyledButton>
-                           <StyledButton onClick={() => handleNextImage(index)}>
-                              <ArrowrightIcon />
-                           </StyledButton>
-                        </div>
-                     )}
-                     <ImageLink to="announcementAdminPage">
-                        <StyleImage
-                           src={item.images[currentImages[index]]}
-                           alt="home"
-                           onClick={toggleHandler}
-                        />
-                     </ImageLink>
-                  </div>
-                  <DayStartContainer onClick={props.dd}>
-                     <DayContainer>
-                        ${item.price}/ <DayStyle>day</DayStyle>{' '}
-                     </DayContainer>
-
-                     <StartContainer>
-                        <Start1 />
-                        <p>{item.rating}</p>
-                     </StartContainer>
-                  </DayStartContainer>
-                  <div
-                     style={{
-                        width: '90%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'start',
-                     }}
-                  >
-                     <Tooltip title={item.title}>
-                        {truncateTitle(item.description)}
-                     </Tooltip>
-                     <LocationCantainerStyle>
-                        <Location />
-                        <p>
-                           {item.address} , {item.province}
-                        </p>
-                     </LocationCantainerStyle>
-                  </div>
-                  <StyledHorizIcon>
-                     <DayStyle>
-                        <p>{item.maxGuests}</p> <p>guests</p>{' '}
-                     </DayStyle>
-                     <IconButtonStyled
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        onClick={handleMenuOpen}
-                     >
-                        <MoreHorizIconStyled />
-                     </IconButtonStyled>
-
-                     <Backdrop
-                        sx={{
-                           color: '#fff',
-                           background: 'rgba(0,0,0,0.0)',
-                           zIndex: 1,
-                        }}
-                        open={Boolean(anchorEl)}
-                        onClick={handleMenuClose}
-                     >
-                        {' '}
-                        <StyledMenu
-                           anchorOrigin={{
-                              vertical: 'top',
-                              horizontal: 'left',
-                           }}
-                           anchorEl={anchorEl}
-                           open={Boolean(anchorEl)}
-                           onClose={handleMenuClose}
-                        >
-                           <MenuItem onClick={() => accerptCartd(item.id)}>
-                              Accept
-                           </MenuItem>
-                           <MenuItem onClick={() => openModalHandler(item.id)}>
-                              Reject
-                           </MenuItem>
-                           <MenuItem onClick={() => removeCard(item.id)}>
-                              Delete
-                           </MenuItem>
-                        </StyledMenu>
-                     </Backdrop>
-                  </StyledHorizIcon>
-               </AdminMapContainer>
             )
          })}
       </MainContainer>
@@ -341,41 +218,6 @@ const MapContainer = styled('div')(({ status }) => ({
    },
 }))
 
-const AdminMapContainer = styled('div')(() => ({
-   width: '20%',
-   height: '16%',
-   borderRadius: '4px',
-   display: 'flex',
-   position: 'relative',
-   flexDirection: 'column',
-   alignItems: 'center',
-   justifyContent: 'center',
-   lineHeight: '2rem',
-   color: ' #6c6c6c',
-
-   '.ImageNavigation': {
-      display: 'none',
-   },
-
-   '&:hover': {
-      opacity: 1,
-      boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
-
-      '.ImageNavigation': {
-         position: 'absolute',
-         ziIdex: '9',
-         display: 'flex',
-         justifyContent: 'center',
-         gap: ' 15rem',
-         marginTop: '4.1rem',
-      },
-   },
-}))
-
-const ImageLink = styled(Link)(() => ({
-   width: '13.125rem',
-   height: '8.5rem',
-}))
 const StartContainer = styled('section')`
    display: flex;
    align-items: center;
