@@ -20,7 +20,7 @@ import { ReactComponent as ArrowLeftDots } from './arrowLeftDots.svg'
 import { ReactComponent as UploadImg } from './Camera Icon.svg'
 import { ReactComponent as AirBNBIcon } from './airbnb.svg'
 import { ReactComponent as BlackAirBNBIcon } from './blackairbnb.svg'
-import { ReactComponent as SearchIcon } from './Search.svg'
+import { ReactComponent as SearchIcon } from './search.svg'
 import { ReactComponent as Google } from './google.svg'
 import { ReactComponent as GeoIcon } from './geoIcon.svg'
 import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg'
@@ -28,6 +28,8 @@ import { ReactComponent as ArrowLeftBlack } from './GroupBlack.svg'
 import { ReactComponent as SeenPassword } from './seenPassword.svg'
 import { ReactComponent as HiddenPassword } from './hiddenPassword.svg'
 import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
+import { ReactComponent as ArrowrightIcon } from './arrfirght.svg'
+import { ReactComponent as ArrowleftIcon } from './arrleft.svg'
 
 export {
    ArrowrightBlack,
@@ -60,4 +62,6 @@ export {
    SeenPassword,
    HiddenPassword,
    WhatsAppIcon,
+   ArrowrightIcon,
+   ArrowleftIcon,
 }

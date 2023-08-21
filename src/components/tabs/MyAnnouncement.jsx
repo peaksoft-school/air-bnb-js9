@@ -1,16 +1,15 @@
 import React from 'react'
+import { Cards } from '../UI/cards/Cards'
 
-export function MyAnnouncement({ moderation }) {
+export function MyAnnouncement({ announcement }) {
    return (
       <div>
-         {moderation.map((item) => {
-            return (
-               <div key={item.id}>
-                  <h1>{item.title}</h1>
-                  <p>{item.age}</p>
-               </div>
-            )
-         })}
+         <Cards
+            data={announcement}
+            page="admin"
+            justifyContent="start"
+            bgColor="white"
+         />
       </div>
    )
 }

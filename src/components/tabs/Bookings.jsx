@@ -1,16 +1,15 @@
 import React from 'react'
+import { Cards } from '../UI/cards/Cards'
 
 export function Bookings({ bookings }) {
    return (
       <div>
-         {bookings.map((item) => {
-            return (
-               <div key={item.id}>
-                  <h1>{item.title}</h1>
-                  <p>{item.age}</p>
-               </div>
-            )
-         })}
+         <Cards
+            data={bookings}
+            page="admin"
+            justifyContent="start"
+            bgColor="white"
+         />
       </div>
    )
 }
