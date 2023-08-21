@@ -44,7 +44,7 @@ export function Cards({
    const truncateTitle = (title) => {
       const words = title.split(' ')
       if (words.length > 7) {
-         return `${words.slice(0, 4).join(' ')}...`
+         return `${words.slice(0, 4).join(' ')}`
       }
       return title
    }
@@ -70,7 +70,6 @@ export function Cards({
 
    const handleMenuOpen = (event) => {
       setAnchorEl(event.currentTarget)
-      console.log('event.currentTarget', event.currentTarget)
    }
 
    const handleMenuClose = () => {

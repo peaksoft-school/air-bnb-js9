@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useParams } from 'react-router-dom'
 import { AirBNBIcon } from '../../assets/icons/index'
 import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
 
 export function AdminHeader() {
    const [meatBalls, setMeatBalls] = useState(false)
    const location = useLocation()
+
+   const { userId } = useParams()
 
    const toggleMeatBalls = () => {
       setMeatBalls(!meatBalls)
@@ -15,7 +17,7 @@ export function AdminHeader() {
    return (
       <Header>
          <div className="header-block">
-            <AirBNBIcon />
+            <AirBNBIcon style={{ height: '4.5rem', width: '4.5rem' }} />
             <div className="nav">
                <StyleNavLink
                   to="/admin/application"
@@ -29,8 +31,14 @@ export function AdminHeader() {
                </StyleNavLink>
 
                <StyleNavLink
-                  to="/users"
-                  isActive={location.pathname === '/users'}
+                  to="/admin/users"
+                  isActive={
+                     location.pathname === '/admin/users' ||
+                     location.pathname === `/admin/users/${userId}` ||
+                     location.pathname === `/admin/users/${userId}/booking` ||
+                     location.pathname ===
+                        `/admin/users/${userId}/my-announcement`
+                  }
                >
                   <p>Users</p>
                </StyleNavLink>
@@ -101,9 +109,9 @@ const HeaderMenu = styled('div')(() => ({
 
 const StyleNavLink = styled(NavLink)(({ isActive }) => ({
    textDecoration: 'uppercase',
+   color: isActive ? '#FF4B4B' : ' #E5E5E5',
 
    p: {
-      color: isActive ? '#FF4B4B' : ' #E5E5E5',
       fontFamily: 'Inter',
       fontSize: '1.125rem',
       fontStyle: 'normal',

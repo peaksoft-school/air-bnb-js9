@@ -10,7 +10,7 @@ import './index.css'
 import { injectStore } from './config/axiosInstance'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
-injectStore()
+injectStore(store)
 root.render(
    <React.StrictMode>
       <ThemeProvider theme={theme}>
