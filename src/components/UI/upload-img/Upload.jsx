@@ -1,14 +1,50 @@
+/* eslint-disable consistent-return */
 import React, { useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { styled } from '@mui/material'
+import axios from 'axios'
 import { Exist, UploadImg } from '../../../assets/icons'
 
-export function Upload({ width, height, maxWidth, setFileNames, fileNames }) {
+export function Upload({
+   width,
+   height,
+   maxWidth,
+   setFileNames,
+   fileNames,
+   addImageForAnoucement,
+}) {
    const [images, setImages] = useState([])
    const [showCamera, setShowCamera] = useState(true)
 
+   const postImage = async (data) => {
+      try {
+         const response = await axios.post(
+            'http://airbnb.peaksoftprojects.com/api/file',
+            data,
+            {
+               headers: {
+                  'Content-Type': 'multipart/form-data',
+               },
+            }
+         )
+         const uploadedimgUrl = response.data.Link
+
+         addImageForAnoucement(uploadedimgUrl)
+         return response.data
+      } catch (error) {
+         console.error('Upload error', error)
+      }
+   }
+
    const onDrop = (acceptedFiles) => {
       const slicedFiles = acceptedFiles.slice(0, 4)
+
+      const formData = new FormData()
+
+      slicedFiles.forEach((file) => {
+         formData.append('file', file)
+      })
+
       const fileURLs = slicedFiles.map((file) => URL.createObjectURL(file))
       setImages((prevImages) => [...prevImages, ...fileURLs])
       setFileNames((prevFileNames) => [
@@ -19,6 +55,7 @@ export function Upload({ width, height, maxWidth, setFileNames, fileNames }) {
       if (images.length + fileURLs.length === 4) {
          setShowCamera(false)
       }
+      postImage(formData)
    }
 
    const deleteImage = (imageURL) => {

@@ -47,7 +47,12 @@ export default function AddAnouncementForm() {
       resolver: yupResolver(schema),
    })
 
+   const addImageForAnoucement = (data) => {
+      setFileNames([...fileNames, data])
+   }
+
    const onSubmit = (data) => {
+      data.images = fileNames
       postAnouncementForm(data)
    }
 
@@ -69,6 +74,7 @@ export default function AddAnouncementForm() {
                      maxWidth="16vw"
                      fileNames={fileNames}
                      setFileNames={setFileNames}
+                     addImageForAnoucement={addImageForAnoucement}
                   />
                   <AddPhotoInfo>
                      <AddPhotoReview>Add photos to the review</AddPhotoReview>
