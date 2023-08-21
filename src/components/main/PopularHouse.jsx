@@ -1,9 +1,25 @@
 import { styled } from '@mui/material'
-import React from 'react'
-import { popularHouse } from '../../utils/helpers'
+import React, { useEffect, useState } from 'react'
 import { GeoIcon, Start1 } from '../../assets/icons'
+import { axiosInstance } from '../../config/axiosInstance'
 
 export function PopularHouse() {
+   const [houseData, setHouseData] = useState([])
+
+   const getPopularHouse = async () => {
+      try {
+         const response = await axiosInstance.get(
+            '/api/announcements/getPopularHouses'
+         )
+         setHouseData(response.data)
+      } catch (error) {
+         console.log('error: ', error)
+      }
+   }
+
+   useEffect(() => {
+      getPopularHouse()
+   }, [])
    return (
       <Container>
          <DescriptionDiv>
@@ -44,7 +60,7 @@ export function PopularHouse() {
                gap: '1.2rem',
             }}
          >
-            {popularHouse.map((item) => {
+            {houseData.map((item) => {
                return (
                   <HouseContainer>
                      <div
@@ -53,7 +69,7 @@ export function PopularHouse() {
                            height: '30.20rem',
                            display: 'flex',
                            justifyContent: 'flex-end',
-                           background: `url(${item.img})`,
+                           background: `url(${item.image})`,
                            padding: '27px 28px 0px 0px',
                         }}
                      >

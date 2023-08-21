@@ -1,24 +1,47 @@
-import React from 'react'
+/* eslint-disable no-nested-ternary */
+import React, { useEffect, useState } from 'react'
 import { styled as MUistyled } from '@mui/material'
 import { NavLink } from 'react-router-dom'
-import popularHouseImage from '../../assets/images/popularapartment.png'
-import houseSlide from '../../assets/images/apartments-slide.png'
 import { Location } from '../../assets/icons'
 import { MySlider } from './Slide'
-
-export const popular = [
-   {
-      location: '723510 Osh Muzurbek Alimbekov 9/7',
-      title: 'Aska Lara Resort & Spa Hotel',
-      id: 1,
-      img: popularHouseImage,
-      img1: houseSlide,
-      description:
-         'The Aska Lara Resort & Spa Hotel, which operates  on an all-inclusive system, occupies 2 plots separated by a road. The hotel is located in the Lara district, 500 meters from the sea...',
-   },
-]
+import { axiosInstance } from '../../config/axiosInstance'
 
 export default function PopularApartments({ state, func }) {
+   const [apartmentData, setApartmentData] = useState({})
+   console.log('apartmentData: ', apartmentData)
+   const [lastestData, setLastestData] = useState({})
+   console.log('lastetData: ', lastestData)
+
+   const getPopularApartment = async () => {
+      try {
+         const response = await axiosInstance.get(
+            '/api/announcements/getPopularApartment'
+         )
+
+         setApartmentData(response.data)
+      } catch (error) {
+         console.log('error: ', error)
+      }
+   }
+
+   const getLastest = async () => {
+      try {
+         const response = await axiosInstance.get(
+            '/api/announcements/latestAnnouncement'
+         )
+         console.log('response: ', response.data.images)
+
+         setLastestData(response.data)
+      } catch (error) {
+         console.log('error: ', error)
+      }
+   }
+
+   useEffect(() => {
+      getPopularApartment()
+      getLastest()
+   }, [])
+
    const Container = MUistyled('div')(({ state }) => ({
       width: '100%',
       height: '55rem',
@@ -66,6 +89,7 @@ export default function PopularApartments({ state, func }) {
       color: state ? '#000' : theme.palette.primary.white,
       fontFamily: 'Inter',
       fontWeight: 500,
+      fontSize: '1.25rem',
    }))
 
    const SpaOtel = MUistyled('h2')(({ theme }) => ({
@@ -98,7 +122,6 @@ export default function PopularApartments({ state, func }) {
          alignItems: 'center',
       },
    })
-
    const BlockAskaLara = MUistyled('p')(({ theme }) => ({
       color: state ? '#000' : theme.palette.primary.white,
       fontSize: '16px',
@@ -114,7 +137,7 @@ export default function PopularApartments({ state, func }) {
    return (
       <Container state={state}>
          <PopularApart>
-            <Popular>Popular Apartments</Popular>
+            <Popular>{state ? 'THE LASTEST' : 'POPULAR APARTMENTS'}</Popular>
             <StyledNavlinkView
                style={{ marginRight: '7rem' }}
                to="/"
@@ -123,27 +146,42 @@ export default function PopularApartments({ state, func }) {
                View all
             </StyledNavlinkView>
          </PopularApart>
-         <>
-            {popular.map((el) => (
+         <div>
+            <BlockHouse>
+               <ImageHouse
+                  src={
+                     state
+                        ? lastestData.images
+                           ? lastestData.images[0]
+                           : ''
+                        : apartmentData.images
+                  }
+                  alt={apartmentData.title}
+               />
+               <BlockText>
+                  <SpaOtel>
+                     {state ? lastestData.title : apartmentData.title}
+                  </SpaOtel>
+                  <BlockAskaLara>
+                     {state
+                        ? lastestData.description
+                        : apartmentData.description}
+                  </BlockAskaLara>
+                  <StyledNavlink>
+                     <Location />
+                     {state ? lastestData.address : apartmentData.address}
+                  </StyledNavlink>
+                  <StyledNavlinkView to="/">Read more</StyledNavlinkView>
+               </BlockText>
                <div>
-                  <BlockHouse>
-                     <ImageHouse src={el.img} alt={el.title} />
-                     <BlockText>
-                        <SpaOtel>{el.title}</SpaOtel>
-                        <BlockAskaLara>{el.description}</BlockAskaLara>
-                        <StyledNavlink>
-                           <Location />
-                           {el.location}
-                        </StyledNavlink>
-                        <StyledNavlinkView to="/">Read more</StyledNavlinkView>
-                     </BlockText>
-                     <div>
-                        <MySlider state={state} />
-                     </div>
-                  </BlockHouse>
+                  <MySlider
+                     state={state}
+                     lastestData={lastestData}
+                     apartmentData={apartmentData}
+                  />
                </div>
-            ))}
-         </>
+            </BlockHouse>
+         </div>
       </Container>
    )
 }
