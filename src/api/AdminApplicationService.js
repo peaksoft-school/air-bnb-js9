@@ -11,7 +11,6 @@ export const getApplicationByIdRequest = (id) => {
 }
 
 export const deleteAdminApplicationRequest = (id) => {
-   console.log('id', id)
    return axiosInstance.delete(`/api/announcements/${id}`)
 }
 

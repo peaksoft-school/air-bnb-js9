@@ -8,10 +8,10 @@ export function MeatBalls({ children, open, close, ...style }) {
             {...style}
             open={open}
             onClose={close}
-            // anchorOrigin={{
-            //    vertical: 'center',
-            //    horizontal: 'left',
-            // }}
+            anchorOrigin={{
+               vertical: 'center',
+               horizontal: 'left',
+            }}
          >
             {children}
          </StyledMenu>
