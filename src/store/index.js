@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { applicationSlice } from './admin-application/ApplicationSlice'
 import { authSlice } from './auth/authSlice'
 import { adminUsersSlice } from './admin-users/adminUsersSlice'
+import { applicationSlice } from './admin-application/ApplicationSlice'
 
 export const store = configureStore({
    reducer: {
