@@ -8,9 +8,7 @@ import { axiosInstance } from '../../config/axiosInstance'
 
 export default function PopularApartments({ state, func }) {
    const [apartmentData, setApartmentData] = useState({})
-   console.log('apartmentData: ', apartmentData)
    const [lastestData, setLastestData] = useState({})
-   console.log('lastetData: ', lastestData)
 
    const getPopularApartment = async () => {
       try {
