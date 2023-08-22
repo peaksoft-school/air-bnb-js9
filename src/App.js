@@ -1,10 +1,14 @@
 import React from 'react'
-import { AppRoutes } from './routes/AppRoutes'
+// import AddAnouncementForm from './components/anouncement/Anouncement'
+import AnouncementDetailPage from './pages/AnouncementDetailPage'
+// import { AppRoutes } from './routes/AppRoutes'
 
 function App() {
    return (
       <div>
-         <AppRoutes />
+         {/* <AppRoutes /> */}
+         <AnouncementDetailPage />
+         {/* <AddAnouncementForm /> */}
       </div>
    )
 }
