@@ -37,6 +37,8 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
             marginTop: `${props.marginTop}`,
             marginLeft: `${props.marginLeft}`,
             padding: `${props.padding}`,
+            fontSize: `${props.fontSize}`,
+            fontWeight: `${props.fontWeight}`,
 
             '&:hover': {
                background: props.bgColor || '#BB7200',

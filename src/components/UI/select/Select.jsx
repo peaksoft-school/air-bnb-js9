@@ -22,7 +22,7 @@ export function Select({
          </InputLabel>
          <MuiSelect
             error={error}
-            {...register('region')}
+            {...(register ? register('region') : {})}
             id="region"
             labelId="filter-label"
             onChange={onChange}

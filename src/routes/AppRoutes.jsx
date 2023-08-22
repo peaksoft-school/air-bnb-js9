@@ -7,6 +7,7 @@ import { AdminLayout } from '../layout/adminLayout/AdminLayout'
 import { userRoles } from '../utils/constants'
 import { AnnouncementAdminPage } from '../pages/admin/AnnouncementAdminPage'
 import { Applications } from '../pages/admin/Applications'
+import AddAnouncementForm from '../components/anouncement/Anouncement'
 import {
    getAdminApplication,
    postAcceptApplications,
@@ -87,6 +88,8 @@ export function AppRoutes() {
                />
             }
          />
+         <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
+
          <Route
             path="/admin/"
             element={
