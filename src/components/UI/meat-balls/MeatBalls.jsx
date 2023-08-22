@@ -1,20 +1,31 @@
 import React from 'react'
-import { Backdrop, Menu, styled } from '@mui/material'
+import { Backdrop, Popover, styled } from '@mui/material'
 
-export function MeatBalls({ children, open, close, ...style }) {
+export function MeatBalls({
+   children,
+   open,
+   close,
+   anchorEl,
+   id,
+   propsVertical,
+   propsHorizontal,
+   ...style
+}) {
    return (
       <StyledBackdrop open={open} onClick={close}>
-         <StyledMenu
-            {...style}
+         <StyledPopover
+            id={id}
             open={open}
+            anchorEl={anchorEl}
             onClose={close}
             anchorOrigin={{
-               vertical: 'center',
-               horizontal: 'left',
+               vertical: propsVertical,
+               horizontal: propsHorizontal,
             }}
+            {...style}
          >
             {children}
-         </StyledMenu>
+         </StyledPopover>
       </StyledBackdrop>
    )
 }
@@ -24,13 +35,15 @@ const StyledBackdrop = styled(Backdrop)(() => ({
    background: 'rgba(0,0,0,0.0)',
    zIndex: 1,
 }))
-const StyledMenu = styled(Menu)((props) => ({
+const StyledPopover = styled(Popover)((props) => ({
    '& .MuiPaper-root': {
-      minWidth: props.minWidth || '10%',
-      minHeight: props.minHeight || '9%',
+      width: props.width || '10%',
+      height: props.height || '9%',
+      margin: props.margin || '0px',
       borderRadius: '0.125rem',
       background: ' #FFF',
       border: ' 1px solid var(--tertiary-light-gray, #C4C4C4)',
       boxShadow: 'none',
+      paddingTop: '6px',
    },
 }))

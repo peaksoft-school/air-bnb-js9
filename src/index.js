@@ -8,6 +8,7 @@ import { theme } from './assets/styles/theme'
 import { store } from './store/index'
 import './index.css'
 import { injectStore } from './config/axiosInstance'
+import { Snackbar } from './components/UI/snackbar/Snackbar'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 injectStore(store)
@@ -20,5 +21,6 @@ root.render(
             </Provider>
          </BrowserRouter>
       </ThemeProvider>
+      <Snackbar />
    </React.StrictMode>
 )

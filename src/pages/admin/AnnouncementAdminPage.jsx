@@ -10,7 +10,12 @@ import { RatingChart } from '../../components/UI/rating/RatingChart'
 import { Booked } from '../../components/UI/booked/Booked'
 import { Favorites } from '../../components/UI/favorites/Favorites'
 
-export function AnnouncementAdminPage({ roles, pages, acceptHandler }) {
+export function AnnouncementAdminPage({
+   roles,
+   pages,
+   acceptHandler,
+   rejectedHandler,
+}) {
    const [openModal, setOpenModal] = useState(false)
    const { dataById } = useSelector((state) => state.application)
 
@@ -63,6 +68,10 @@ export function AnnouncementAdminPage({ roles, pages, acceptHandler }) {
    const openModalHandler = () => {
       setOpenModal((prev) => !prev)
    }
+   const rejectedCartd = () => {
+      rejectedHandler(dataById.id)
+      setOpenModal(false)
+   }
 
    return roles === 'admin' ? (
       <div>
@@ -88,6 +97,7 @@ export function AnnouncementAdminPage({ roles, pages, acceptHandler }) {
                            openModal={openModal}
                            openModalHandler={openModalHandler}
                            acceptHandler={acceptHandler}
+                           rejectedCartd={rejectedCartd}
                         />
                      </Main>
                   </BlockMain>

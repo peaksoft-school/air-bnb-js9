@@ -1,18 +1,30 @@
 import React, { useState } from 'react'
-import { styled } from '@mui/material'
+import { MenuItem, styled } from '@mui/material'
 import { NavLink, useLocation, useParams } from 'react-router-dom'
-import { AirBNBIcon } from '../../assets/icons/index'
+import { useDispatch } from 'react-redux'
+import { AirBNBIcon, SelectionIcon } from '../../assets/icons/index'
 import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
+import { authActions } from '../../store/auth/authSlice'
 
 export function AdminHeader() {
-   const [meatBalls, setMeatBalls] = useState(false)
+   const [meatBalls, setMeatBalls] = useState(null)
    const location = useLocation()
-
    const { userId } = useParams()
+   const dispatch = useDispatch()
 
-   const toggleMeatBalls = () => {
-      setMeatBalls(!meatBalls)
+   const toggleMeatBalls = (e) => {
+      setMeatBalls(e.currentTarget)
    }
+   const closeMeatBallsHeandler = () => {
+      setMeatBalls(null)
+   }
+
+   const logoutHnadler = () => {
+      dispatch(authActions.logout())
+   }
+
+   const open = Boolean(meatBalls)
+   const idd = open ? 'simple-popover' : undefined
 
    return (
       <Header>
@@ -53,16 +65,21 @@ export function AdminHeader() {
          </div>
          <HeaderMenu onClick={toggleMeatBalls}>
             <p>Administrator</p>
-            <MeatBalls
-               open={meatBalls}
-               openHandler={toggleMeatBalls}
-               state="true"
-               right="6.5vw"
-               top="8vh"
-            >
-               <h3> Log out</h3>
-            </MeatBalls>
+            <SelectionIcon />
          </HeaderMenu>
+         <MeatBalls
+            anchorEl={meatBalls}
+            open={open}
+            close={closeMeatBallsHeandler}
+            id={idd}
+            propsVertical="bottom"
+            propsHorizontal="left"
+            width=" 10rem"
+            height=" 3rem"
+            margin="10px 0 0 0"
+         >
+            <MenuItem onClick={logoutHnadler}>Log out</MenuItem>
+         </MeatBalls>
       </Header>
    )
 }

@@ -10,6 +10,7 @@ import {
 } from '../../../assets/icons'
 import { MeatBalls } from '../meat-balls/MeatBalls'
 import { ModalNameHotel } from '../name-hotel/ModalNameHotel'
+import { toastSnackbar } from '../snackbar/Snackbar'
 
 export function AdminCards({
    data,
@@ -26,6 +27,7 @@ export function AdminCards({
    const [openModal, setOpenModal] = useState(false)
    const [id, setId] = useState(null)
    const [itemId, setItemId] = useState('')
+   const { toastType } = toastSnackbar()
 
    useEffect(() => {
       setData(data?.map((item) => ({ ...item, open: false })))
@@ -74,10 +76,18 @@ export function AdminCards({
       setId(id)
    }
 
-   const rejectedCartd = () => {
-      rejectedHandler(id)
-      setOpenModal(false)
+   const rejectedCartd = async () => {
+      try {
+         rejectedHandler(id)
+         setOpenModal(false)
+         toastType('success', 'Successfully sent :)')
+      } catch (error) {
+         toastType('error', error)
+      }
    }
+
+   const open = Boolean(currentEl)
+   const idd = open ? 'simple-popover' : undefined
 
    return (
       <Container>
@@ -88,11 +98,10 @@ export function AdminCards({
                rejectedCartd={rejectedCartd}
                title={title}
                changeHandler={changeHandler}
-               acceptHandler={acceptHandler}
             />
 
             {data.map((item, index) => (
-               <MapContainer status="dat">
+               <MapContainer status="dat" key={item.id}>
                   <ImageContainer
                      to="/admin/application/Name"
                      onClick={() => toggleHandler(item.id)}
@@ -150,25 +159,31 @@ export function AdminCards({
                            <AdminMenu
                               onClick={(e) => handleMenuOpen(e, item.id)}
                            />
+                           <MeatBalls
+                              anchorEl={currentEl}
+                              open={open}
+                              close={closeMeatBallsHeandler}
+                              id={idd}
+                              propsVertical="top"
+                              propsHorizontal="left"
+                              width="15%"
+                              height="16%"
+                           >
+                              <MenuItem onClick={() => acceptHandler(itemId)}>
+                                 Accept
+                              </MenuItem>
+                              <MenuItem
+                                 onClick={() => openModalHandler(itemId)}
+                              >
+                                 Reject
+                              </MenuItem>
+                              <MenuItem onClick={() => removeCard(itemId)}>
+                                 Delete
+                              </MenuItem>
+                           </MeatBalls>
                         </ContainerGuests>
                      </ContainerInformation>
                   </ContainerDescription>
-                  <MeatBalls
-                     open={currentEl !== null && item.id === itemId}
-                     close={closeMeatBallsHeandler}
-                     minWidth=" 12vw"
-                     minHeight="7vh"
-                  >
-                     <MenuItem onClick={() => acceptHandler(itemId)}>
-                        Accept
-                     </MenuItem>
-                     <MenuItem onClick={() => openModalHandler(itemId)}>
-                        Reject
-                     </MenuItem>
-                     <MenuItem onClick={() => removeCard(itemId)}>
-                        Delete
-                     </MenuItem>
-                  </MeatBalls>
                </MapContainer>
             ))}
          </div>

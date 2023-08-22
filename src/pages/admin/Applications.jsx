@@ -8,19 +8,20 @@ import {
    deleteAdminApplication,
    getAdminApplication,
    getApplicationById,
-   postRejectApplications,
 } from '../../store/admin-application/ApplicationThunk'
 
 export function Applications({
+   rejectedHandler,
    acceptHandler,
    setCurrentPage,
    setCurrenSize,
    currentPage,
    currentSize,
+   setTitle,
+   title,
 }) {
    const { data } = useSelector((state) => state.application)
    const [toggle, setToggle] = useState(false)
-   const [title, setTitle] = useState('')
 
    const dispatch = useDispatch()
 
@@ -30,7 +31,7 @@ export function Applications({
          currentSize,
       }
       dispatch(getAdminApplication(current))
-      setCurrenSize(10)
+      setCurrenSize(18)
    }, [currentPage])
 
    const changeHandler = (e) => {
@@ -44,23 +45,6 @@ export function Applications({
 
    const removeCard = (id) => {
       dispatch(deleteAdminApplication(id))
-
-      const current = {
-         currentPage,
-         currentSize,
-      }
-      dispatch(getAdminApplication(current))
-   }
-
-   const rejectedHandler = (id) => {
-      const object = {
-         status: 'reject',
-         title,
-         id,
-      }
-
-      dispatch(postRejectApplications(object))
-      setTitle('')
 
       const current = {
          currentPage,
@@ -103,7 +87,6 @@ export function Applications({
 
 const Container = styled('div')(() => ({
    width: '100%',
-   height: '100vh',
    background: ' #F7F7F7',
    position: 'absolute',
    top: '5.1rem',

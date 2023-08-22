@@ -7,6 +7,7 @@ export function NameOfHotel({
    dataById,
    openModal,
    openModalHandler,
+   rejectedCartd,
    acceptHandler,
    pages,
    roles,
@@ -16,6 +17,7 @@ export function NameOfHotel({
          <ModalNameHotel
             openModal={openModal}
             openModalHandler={openModalHandler}
+            rejectedCartd={rejectedCartd}
          />
          <DescriptionContainer key={dataById.id}>
             <ButtonContainerOne>
