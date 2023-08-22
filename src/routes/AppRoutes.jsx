@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
+// import { useSelector } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { ProtectedRoutes } from './ProtectedRoutes'
 import { UserLayout } from '../layout/userLayout/UserLayout'
@@ -9,6 +10,7 @@ import { Bookings } from '../components/tabs/Bookings'
 import { MyAnnouncement } from '../components/tabs/MyAnnouncement'
 import { ReusableTable } from '../components/table/Table'
 import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
+import AddAnouncementForm from '../components/anouncement/Anouncement'
 
 export function AppRoutes() {
    const role = useSelector((state) => state.auth.role)
@@ -30,6 +32,8 @@ export function AppRoutes() {
                />
             }
          />
+         <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
+
          <Route
             path="/admin/"
             element={

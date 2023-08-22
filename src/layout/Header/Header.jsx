@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Avatar, InputAdornment, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../components/UI/button/Button'
+import { JoinUs } from '../../components/signIn/JoinUs'
+import { SignIn } from '../../components/signIn/SignIn'
 import { Input } from '../../components/UI/input/Input'
 import {
    BlackAirBNBIcon,
@@ -12,19 +15,39 @@ import { userRoles } from '../../utils/constants'
 import { MenuEditAndDelete } from '../../components/UI/menu/MenuEditAndDelete'
 
 import { authActions } from '../../store/auth/authSlice'
+import Modal from '../../components/UI/modal/Modal'
 
-export function Header({ userLogin, openModalHandler }) {
-   const [login, setLogin] = useState(true)
+export function Header({ login }) {
    const [meatBalls, setMeatBalls] = useState(false)
    const { isAuthorization, email } = useSelector((state) => state.auth)
+
+   const [userLogin, setUserLogin] = useState(false)
+   const [openModal, setOpenModal] = useState(false)
+   const [signIn, setSignIn] = useState(false)
+
+   const loginHandler = () => {
+      setUserLogin((prev) => !prev)
+   }
+
+   const openModalHandler = () => {
+      console.log('click')
+      setOpenModal((prev) => !prev)
+   }
+
+   const moveToSigninAndSignUp = () => {
+      setSignIn((prev) => !prev)
+   }
+
+   useEffect(() => {
+      if (isAuthorization) {
+         setOpenModal(false)
+      }
+   }, [isAuthorization])
 
    const dispatch = useDispatch()
 
    const toggleMeatBalls = () => {
       setMeatBalls(!meatBalls)
-   }
-   function headerLoginHandler() {
-      setLogin((prev) => !prev)
    }
 
    const logoutHnadler = () => {
@@ -32,16 +55,74 @@ export function Header({ userLogin, openModalHandler }) {
    }
    return (
       <Container>
-         {login ? (
-            <StyleHeader login={login}>
-               {isAuthorization ? (
-                  <AirBNBIcon />
+         {openModal ? (
+            <Modal
+               open={openModal}
+               onClose={openModalHandler}
+               borderRadius="0.125rem"
+               border="none"
+            >
+               {signIn ? (
+                  <SignIn moveToSigninAndSignUp={moveToSigninAndSignUp} />
                ) : (
-                  <StateBlock>
-                     <AirBNBIcon />
+                  <JoinUs
+                     loginHandler={loginHandler}
+                     moveToSigninAndSignUp={moveToSigninAndSignUp}
+                  />
+               )}
+            </Modal>
+         ) : null}
+         {login === 'true' ? (
+            <StyleHeader login={login}>
+               <StateBlock>
+                  <AirBNBIcon />
+               </StateBlock>
+               <InputDiv>
+                  {isAuthorization ? (
+                     <FavoriteDiv>
+                        <StyleLink to="/AddAnouncementForm">
+                           leave an ad
+                        </StyleLink>
+                        <div
+                           style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.7rem',
+                           }}
+                        >
+                           <Avatar
+                              sx={{
+                                 bgcolor: '#0298D9',
+                                 paddingLeft: '12px',
+                              }}
+                           >
+                              {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
+                           </Avatar>
+                           <MenuEditAndDelete
+                              open={meatBalls}
+                              openHandler={toggleMeatBalls}
+                              state="true"
+                              right="6.5vw"
+                              top="10vh"
+                              padding="0.4rem 0.3rem"
+                              minHeight="0%"
+                              minWidth="0%"
+                           >
+                              <Button
+                                 onClick={logoutHnadler}
+                                 variant="outlined"
+                              >
+                                 log out
+                              </Button>
+                           </MenuEditAndDelete>
+                        </div>
+                     </FavoriteDiv>
+                  ) : (
                      <div>
-                        <StyleLink>leave an ad</StyleLink>
-                        <StyledButton
+                        <StyleLink to="/AddAnouncementForm">
+                           leave an ad
+                        </StyleLink>
+                        <Button
                            variant="contained"
                            onClick={openModalHandler}
                            width="13rem"
@@ -51,14 +132,53 @@ export function Header({ userLogin, openModalHandler }) {
                            fontWeight="500"
                         >
                            {userLogin ? 'SUBMIT AN AD' : 'JOIN US'}
-                        </StyledButton>
+                        </Button>
                      </div>
-                  </StateBlock>
-               )}
-               <InputDiv>
+                  )}
+               </InputDiv>
+            </StyleHeader>
+         ) : (
+            <StyleHeader background="#ffffff">
+               <div className="headerIcon">
+                  <BlackAirBNBIcon />
+                  <LeaveAnAd>leave an ad</LeaveAnAd>
+               </div>
+
+               <SearchDiv>
+                  <div className="blockCheckbox">
+                     <ChecboxStyled type="checkbox" id="search" />
+                     <StyledLabel htmlFor="search">Search nearby</StyledLabel>
+                  </div>
+                  <Input
+                     type="search"
+                     width="30rem"
+                     size="small"
+                     placeholder="Search"
+                     barsbek="krash"
+                     InputProps={{
+                        startAdornment: (
+                           <InputAdornment position="start">
+                              <SearchIcon />
+                           </InputAdornment>
+                        ),
+                     }}
+                  />
+                  <Button
+                     onClick={openModalHandler}
+                     variant="contained"
+                     width="296px"
+                     padding="10px 16px"
+                     borderRadius="2px"
+                     bgColor="#DD8A08"
+                     color="white"
+                     fontSize=" 14px"
+                     fontWeight=" 500"
+                  >
+                     {isAuthorization ? 'SUBMIT AN AD' : 'JOIN US'}
+                  </Button>
                   {isAuthorization ? (
                      <FavoriteDiv>
-                        <StyleLink>leave an ad</StyleLink>
+                        {/* <StyleLink>leave an ad</StyleLink> */}
                         <div
                            style={{
                               display: 'flex',
@@ -89,40 +209,6 @@ export function Header({ userLogin, openModalHandler }) {
                         </div>
                      </FavoriteDiv>
                   ) : null}
-               </InputDiv>
-            </StyleHeader>
-         ) : (
-            <StyleHeader background="#ffffff">
-               <div className="headerIcon">
-                  <BlackAirBNBIcon />
-                  <LeaveAnAd>leave an ad</LeaveAnAd>
-               </div>
-
-               <SearchDiv>
-                  <div className="blockCheckbox">
-                     <ChecboxStyled
-                        type="checkbox"
-                        id="search"
-                        onClick={() => headerLoginHandler()}
-                     />
-                     <StyledLabel htmlFor="search">Search nearby</StyledLabel>
-                  </div>
-                  <Input
-                     type="search"
-                     width="25rem"
-                     size="small"
-                     placeholder="Search"
-                     InputProps={{
-                        startAdornment: (
-                           <InputAdornment position="start">
-                              <SearchIcon />
-                           </InputAdornment>
-                        ),
-                     }}
-                  />
-                  <StyledButton variant="contained">
-                     {userLogin ? 'SUBMIT AN AD' : 'JOIN US'}
-                  </StyledButton>
                </SearchDiv>
             </StyleHeader>
          )}
@@ -140,6 +226,12 @@ const InputDiv = styled('div')(() => ({
    display: 'flex',
    gap: '2rem',
    alignItems: 'center',
+   div: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: '3.75rem',
+   },
 }))
 
 const StateBlock = styled('div')(() => ({
@@ -152,7 +244,8 @@ const StateBlock = styled('div')(() => ({
       gap: '3.75rem',
    },
 }))
-const StyleLink = styled('a')(() => ({
+const StyleLink = styled(Link)(() => ({
+   width: '100px',
    textDecoration: 'none',
    color: 'var(--primary-white, #FFF)',
    fontFamily: 'Inter',
@@ -161,14 +254,6 @@ const StyleLink = styled('a')(() => ({
    fontWeight: '500',
    lineHeight: 'normal',
    cursor: 'pointer',
-}))
-
-const StyledButton = styled(Button)(() => ({
-   width: '13rem',
-   backgroundColor: '#DD8A08',
-   color: 'white',
-   fontFamily: 'Inter',
-   fontWeight: '500',
 }))
 
 const FavoriteDiv = styled('div')(() => ({
@@ -206,7 +291,7 @@ const SearchDiv = styled('div')(() => ({
    alignItems: 'center',
    gap: '1.87rem',
    '.blockCheckbox': {
-      width: '10vw',
+      width: '18vw',
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem',
