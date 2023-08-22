@@ -1,7 +1,7 @@
 import { axiosInstance } from '../config/axiosInstance'
 
 export const getAllUsers = () => {
-   return axiosInstance.get('/api/users/get-all')
+   return axiosInstance.get('/api/users')
 }
 
 export const deleteUser = (id) => {

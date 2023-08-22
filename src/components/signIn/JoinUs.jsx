@@ -15,6 +15,7 @@ export function JoinUs({ moveToSigninAndSignUp }) {
       try {
          await signInWithPopup(auth, provider).then((data) => {
             dispatch(authWithGoogleRequest(data.user.accessToken)).unwrap()
+            console.log('data: ', data.user.accessToken)
             toastType(
                'success',
                'Successfully logIn as USER',

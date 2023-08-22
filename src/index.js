@@ -11,7 +11,7 @@ import App from './App'
 import { Snackbar } from './components/UI/snackbar/Snackbar'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
-injectStore()
+injectStore(store)
 root.render(
    <React.StrictMode>
       <Provider store={store}>

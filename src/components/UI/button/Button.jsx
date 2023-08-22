@@ -35,6 +35,7 @@ const ButtonStyled = styled(ReusableButton)(({ variant, props }) => {
             color: `${props.color}`,
             borderRadius: `${props.borderRadius}`,
             marginTop: `${props.marginTop}`,
+            marginLeft: `${props.marginLeft}`,
             padding: `${props.padding}`,
             fontSize: `${props.fontSize}`,
             fontWeight: `${props.fontWeight}`,
