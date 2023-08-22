@@ -76,25 +76,13 @@ export function Header({ login }) {
             <StyleHeader login={login}>
                <StateBlock>
                   <AirBNBIcon />
-                  <div>
-                     <StyleLink to="/AddAnouncementForm">leave an ad</StyleLink>
-                     <Button
-                        variant="contained"
-                        onClick={openModalHandler}
-                        width="13rem"
-                        bgColor="#DD8A08"
-                        color="white"
-                        fontFamily="Inter"
-                        fontWeight="500"
-                     >
-                        {userLogin ? 'SUBMIT AN AD' : 'JOIN US'}
-                     </Button>
-                  </div>
                </StateBlock>
                <InputDiv>
                   {isAuthorization ? (
                      <FavoriteDiv>
-                        <StyleLink>leave an ad</StyleLink>
+                        <StyleLink to="/AddAnouncementForm">
+                           leave an ad
+                        </StyleLink>
                         <div
                            style={{
                               display: 'flex',
@@ -102,7 +90,12 @@ export function Header({ login }) {
                               gap: '0.7rem',
                            }}
                         >
-                           <Avatar sx={{ bgcolor: '#0298D9' }}>
+                           <Avatar
+                              sx={{
+                                 bgcolor: '#0298D9',
+                                 paddingLeft: '12px',
+                              }}
+                           >
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
                            <MenuEditAndDelete
@@ -124,7 +117,24 @@ export function Header({ login }) {
                            </MenuEditAndDelete>
                         </div>
                      </FavoriteDiv>
-                  ) : null}
+                  ) : (
+                     <div>
+                        <StyleLink to="/AddAnouncementForm">
+                           leave an ad
+                        </StyleLink>
+                        <Button
+                           variant="contained"
+                           onClick={openModalHandler}
+                           width="13rem"
+                           bgColor="#DD8A08"
+                           color="white"
+                           fontFamily="Inter"
+                           fontWeight="500"
+                        >
+                           {userLogin ? 'SUBMIT AN AD' : 'JOIN US'}
+                        </Button>
+                     </div>
+                  )}
                </InputDiv>
             </StyleHeader>
          ) : (
@@ -156,7 +166,7 @@ export function Header({ login }) {
                   <Button
                      onClick={openModalHandler}
                      variant="contained"
-                     width="196px"
+                     width="296px"
                      padding="10px 16px"
                      borderRadius="2px"
                      bgColor="#DD8A08"
@@ -168,7 +178,7 @@ export function Header({ login }) {
                   </Button>
                   {isAuthorization ? (
                      <FavoriteDiv>
-                        <StyleLink>leave an ad</StyleLink>
+                        {/* <StyleLink>leave an ad</StyleLink> */}
                         <div
                            style={{
                               display: 'flex',
@@ -216,6 +226,12 @@ const InputDiv = styled('div')(() => ({
    display: 'flex',
    gap: '2rem',
    alignItems: 'center',
+   div: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: '3.75rem',
+   },
 }))
 
 const StateBlock = styled('div')(() => ({
@@ -229,6 +245,7 @@ const StateBlock = styled('div')(() => ({
    },
 }))
 const StyleLink = styled(Link)(() => ({
+   width: '100px',
    textDecoration: 'none',
    color: 'var(--primary-white, #FFF)',
    fontFamily: 'Inter',
@@ -274,7 +291,7 @@ const SearchDiv = styled('div')(() => ({
    alignItems: 'center',
    gap: '1.87rem',
    '.blockCheckbox': {
-      width: '10vw',
+      width: '18vw',
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem',

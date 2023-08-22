@@ -15,7 +15,7 @@ export function Upload({
 }) {
    const [images, setImages] = useState([])
    const [showCamera, setShowCamera] = useState(true)
-   const [uploadImage, setUploadImage] = useState('')
+   // const [uploadImage, setUploadImage] = useState('')
 
    const postImage = async (data) => {
       try {
@@ -29,7 +29,7 @@ export function Upload({
             }
          )
          const uploadedimgUrl = response.data.Link
-         setUploadImage(uploadedimgUrl)
+         // setUploadImage(uploadedimgUry
 
          addImageForAnoucement(uploadedimgUrl)
          return response.data
@@ -37,16 +37,16 @@ export function Upload({
          console.error('Upload error', error)
       }
    }
-   const deleteImageUrl = async (file) => {
-      try {
-         const response = await axios.delete(
-            `http://airbnb.peaksoftprojects.com/api/file?fileName=${file}`
-         )
-         return response.data
-      } catch (error) {
-         console.error(error)
-      }
-   }
+   // const deleteImageUrl = async (file) => {
+   //    try {
+   //       const response = await axios.delete(
+   //          `http://airbnb.peaksoftprojects.com/api/file?fileName=${file}`
+   //       )
+   //       return response.data
+   //    } catch (error) {
+   //       console.error(error)
+   //    }
+   // }
    const onDrop = (acceptedFiles) => {
       const slicedFiles = acceptedFiles.slice(0, 4)
 
@@ -72,7 +72,7 @@ export function Upload({
    const deleteImage = (imageURL) => {
       setImages((prevImages) => prevImages.filter((img) => img !== imageURL))
       setShowCamera(true)
-      deleteImageUrl(uploadImage)
+      // deleteImageUrl(uploadImage)
    }
 
    const { getRootProps, getInputProps, isDragActive } = useDropzone({
