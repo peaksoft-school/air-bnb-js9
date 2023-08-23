@@ -98,7 +98,7 @@ export function Header({ login }) {
                            >
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
-                           <MenuEditAndDelete
+                           <MeatBalls
                               open={meatBalls}
                               openHandler={toggleMeatBalls}
                               state="true"
@@ -114,7 +114,7 @@ export function Header({ login }) {
                               >
                                  log out
                               </Button>
-                           </MenuEditAndDelete>
+                           </MeatBalls>
                         </div>
                      </FavoriteDiv>
                   ) : (
