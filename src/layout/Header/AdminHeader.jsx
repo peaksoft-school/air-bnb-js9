@@ -33,10 +33,11 @@ export function AdminHeader() {
             <div className="nav">
                <StyleNavLink
                   to="/admin/application"
-                  isActive={
+                  active={
                      location.pathname === '/admin/application' ||
-                     location.pathname ===
-                        '/admin/application/announcementAdminPage'
+                     location.pathname === '/admin/application/Name'
+                        ? 'true'
+                        : 'false'
                   }
                >
                   <p>Application</p>
@@ -44,12 +45,14 @@ export function AdminHeader() {
 
                <StyleNavLink
                   to="/admin/users"
-                  isActive={
+                  active={
                      location.pathname === '/admin/users' ||
                      location.pathname === `/admin/users/${userId}` ||
                      location.pathname === `/admin/users/${userId}/booking` ||
                      location.pathname ===
                         `/admin/users/${userId}/my-announcement`
+                        ? 'true'
+                        : 'false'
                   }
                >
                   <p>Users</p>
@@ -57,7 +60,9 @@ export function AdminHeader() {
 
                <StyleNavLink
                   to="/all-housing"
-                  isActive={location.pathname === '/all-housing'}
+                  active={
+                     location.pathname === '/all-housing' ? 'true' : 'false'
+                  }
                >
                   <p>All housing</p>
                </StyleNavLink>
@@ -124,9 +129,9 @@ const HeaderMenu = styled('div')(() => ({
    },
 }))
 
-const StyleNavLink = styled(NavLink)(({ isActive }) => ({
+const StyleNavLink = styled(NavLink)(({ active }) => ({
    textDecoration: 'uppercase',
-   color: isActive ? '#FF4B4B' : ' #E5E5E5',
+   color: active === 'true' ? '#FF4B4B' : ' #E5E5E5',
 
    p: {
       fontFamily: 'Inter',

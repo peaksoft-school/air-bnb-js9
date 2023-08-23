@@ -24,11 +24,7 @@ export function ModalNameHotel({
          >
             <ModalContainer>
                <h3>Reject</h3>
-               <TextArea
-                  width="100%"
-                  height=" 6.5rem"
-                  borderRadius=" 0.125rem"
-                  marginBottom="1.5rem"
+               <StyledTextArea
                   placeholder="Write the reason for your rejection "
                   value={title}
                   onChange={changeHandler}
@@ -80,4 +76,10 @@ const ModalContainer = styled('div')(() => ({
 export const ContainerButtonTwo = styled('div')(() => ({
    display: 'flex',
    gap: '1.25rem',
+}))
+const StyledTextArea = styled(TextArea)(() => ({
+   width: '100%',
+   height: ' 6.5rem',
+   borderRadius: ' 0.125rem',
+   marginBottom: '1.5rem',
 }))

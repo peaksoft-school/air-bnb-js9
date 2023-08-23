@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Breadcrumbs, Link, styled, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { HouseSlidDetail } from '../../components/UI/house-detail/HouseSlidDetail'
 import { NameOfHotel } from '../../components/UI/name-hotel/NameOfHotel'
 import { house, Hotel, booked } from '../../utils/helpers'
@@ -9,6 +9,7 @@ import Feedback from '../../components/UI/feedback/Feedback'
 import { RatingChart } from '../../components/UI/rating/RatingChart'
 import { Booked } from '../../components/UI/booked/Booked'
 import { Favorites } from '../../components/UI/favorites/Favorites'
+import { applicationSlice } from '../../store/admin-application/ApplicationSlice'
 
 export function AnnouncementAdminPage({
    roles,
@@ -18,7 +19,7 @@ export function AnnouncementAdminPage({
 }) {
    const [openModal, setOpenModal] = useState(false)
    const { dataById } = useSelector((state) => state.application)
-
+   const dispatch = useDispatch()
    const data = [
       {
          name: 'Bars Barsov',
@@ -62,12 +63,14 @@ export function AnnouncementAdminPage({
    const navigate = useNavigate()
 
    function backNavigation() {
+      dispatch(applicationSlice.actions.toggleHandler())
       navigate('/admin/application')
    }
 
    const openModalHandler = () => {
       setOpenModal((prev) => !prev)
    }
+
    const rejectedCartd = () => {
       rejectedHandler(dataById.id)
       setOpenModal(false)

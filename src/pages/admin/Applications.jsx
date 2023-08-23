@@ -1,9 +1,10 @@
 import { styled, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
 import { AdminCards } from '../../components/UI/cards/AdminCards'
 import { Paginations } from '../../components/UI/pagination/Pagination'
+import { applicationSlice } from '../../store/admin-application/ApplicationSlice'
 import {
    deleteAdminApplication,
    getAdminApplication,
@@ -20,8 +21,7 @@ export function Applications({
    setTitle,
    title,
 }) {
-   const { data } = useSelector((state) => state.application)
-   const [toggle, setToggle] = useState(false)
+   const { data, toggle } = useSelector((state) => state.application)
 
    const dispatch = useDispatch()
 
@@ -39,7 +39,7 @@ export function Applications({
    }
 
    const toggleHandler = (id) => {
-      setToggle((prev) => !prev)
+      dispatch(applicationSlice.actions.toggleHandler())
       dispatch(getApplicationById(id))
    }
 
@@ -56,9 +56,9 @@ export function Applications({
    const pagePagination = (value) => {
       setCurrentPage(value)
    }
-
+   const lengthh = data.length <= 6 ? '88%' : 'auto'
    return (
-      <Container>
+      <Container lengthh={lengthh}>
          {toggle ? (
             <Outlet />
          ) : (
@@ -85,8 +85,9 @@ export function Applications({
    )
 }
 
-const Container = styled('div')(() => ({
+const Container = styled('div')(({ lengthh }) => ({
    width: '100%',
+   minHeight: lengthh,
    background: ' #F7F7F7',
    position: 'absolute',
    top: '5.1rem',

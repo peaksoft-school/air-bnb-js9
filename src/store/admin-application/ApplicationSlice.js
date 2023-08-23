@@ -9,12 +9,17 @@ const initialState = {
    data: [],
    dataById: [],
    error: '',
+   toggle: false,
 }
 
 export const applicationSlice = createSlice({
    name: 'application',
    initialState,
-   reducers: {},
+   reducers: {
+      toggleHandler: (state) => {
+         return { ...state, toggle: !state.toggle }
+      },
+   },
    extraReducers: (builder) => {
       builder
          .addCase(getAdminApplication.fulfilled, (state, action) => {

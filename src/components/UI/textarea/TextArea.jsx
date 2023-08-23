@@ -18,7 +18,7 @@ export const TextArea = forwardRef(
    }
 )
 
-const StyledTextArea = styled(TextField)((props) => ({
+const StyledTextArea = styled(TextField)((...props) => ({
    width: props.width || '100%',
    height: props.height || '10%',
    marginBottom: props.marginBottom || '0',

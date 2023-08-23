@@ -30,7 +30,6 @@ export function Header({ login }) {
    }
 
    const openModalHandler = () => {
-      console.log('click')
       setOpenModal((prev) => !prev)
    }
 
