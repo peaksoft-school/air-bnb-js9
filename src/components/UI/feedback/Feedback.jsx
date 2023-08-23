@@ -38,7 +38,7 @@ export default function Feedback({ data, onLike, onDislike }) {
 
                <div>
                   <RatingAndNameBlock>
-                     <h4>{data.name}</h4>
+                     <h4 style={{ marginRight: '10px' }}>{data.name}</h4>
 
                      <RatingStars starRating={data.starRating} />
                      <StyledSpan>({data.starRating})</StyledSpan>
@@ -134,7 +134,7 @@ const StyledIconButton = styled(IconButton)(() => ({
 
 const CommentBlock = styled('div')(() => ({
    width: '36.4375rem',
-   marginTop: '-1.25rem',
+   marginTop: '.5625rem',
 }))
 
 const ShowMoreAndLess = styled('span')(() => ({
