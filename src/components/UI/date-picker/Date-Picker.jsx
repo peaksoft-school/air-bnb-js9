@@ -10,12 +10,18 @@ import { styled } from '@mui/material'
 dayjs.locale('ru')
 
 export default function DateePicker({ value, setValue }) {
+   const today = dayjs()
+
+   const shouldDisableDate = (date) => {
+      return dayjs(date).isBefore(today)
+   }
    return (
       <LocalizationProvider dateAdapter={AdapterDayjs}>
          <DemoContainer components={['DatePickers']}>
             <StyledDate
                value={value}
                onChange={(newValue) => setValue(newValue)}
+               shouldDisableDate={shouldDisableDate}
             />
          </DemoContainer>
       </LocalizationProvider>
@@ -28,5 +34,17 @@ const StyledDate = styled(DatePicker)(() => ({
       display: 'inline-flex',
       justifyContent: 'space-between',
       alignItems: 'center',
+   },
+
+   '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+         borderColor: 'gray',
+      },
+      '&:hover fieldset': {
+         borderColor: 'gray',
+      },
+   },
+   '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'gray',
    },
 }))

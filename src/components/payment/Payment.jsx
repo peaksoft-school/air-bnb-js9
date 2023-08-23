@@ -2,10 +2,10 @@ import { styled } from '@mui/material'
 import React, { useState } from 'react'
 import { PaymentInDarePicker } from './PaymentInDatePicker'
 import { Button } from '../UI/button/Button'
-import Modal from '../UI/modal/Modal'
+// import Modal from '../UI/modal/Modal'
 import { ResultPaiment } from './ResultPaiment'
 
-export function Payment({ state, openModalHandler, price }) {
+export function Payment({ state, openModalHandler, price, methot }) {
    const [toggleResult, setToggleResult] = useState(false)
    const [defaultDate, setDefaultDate] = useState(false)
    const [valueChekin, setValueCheckin] = useState('')
@@ -34,16 +34,11 @@ export function Payment({ state, openModalHandler, price }) {
       const year = currentDate.getFullYear().toString().slice(-2)
       return `${day}.${month}.${year}`
    }
-   return (
+   return methot === 'post' ? (
       <div>
          {state ? (
-            <Modal
-               open={state}
-               onClose={openModalHandler}
-               width="32.875rem"
-               height=" 19.75rem"
-               backgroundColor="none"
-            >
+            <div>
+               {' '}
                {toggleResult ? (
                   <ResultPaiment
                      valueChekin={valueChekin}
@@ -59,45 +54,70 @@ export function Payment({ state, openModalHandler, price }) {
                      setValueCheckout={setValueCheckout}
                      openModal={state}
                      toggleHandler={toggleHandler}
+                     methot={methot}
+                     price={price}
                   />
                )}
-            </Modal>
-         ) : null}
-
-         <ContainerPayment>
-            <ContainerDay styles="day">
-               <h4>${price}</h4>/ <h4 className="day">day</h4>
-            </ContainerDay>
-            <DatePickerStyle>
-               <BlockDatePicker>
-                  <p className="check">Check in</p>
-                  <p className="date">
-                     {defaultDate ? ResultChekin : getCurrentDate()}
-                  </p>
-               </BlockDatePicker>
-               <BlockDatePicker>
-                  <p className="check">Check out</p>
-                  <p className="date">
-                     {defaultDate ? ResultChekout : getFutureDate()}
-                  </p>
-               </BlockDatePicker>
-            </DatePickerStyle>
-            <Button
-               variant="contained"
-               width=" 28.375rem"
-               padding=" 0.625rem 1rem"
-               borderRadius="0.125rem"
-               bgColor=" #DD8A08"
-               color="#F7F7F7"
-               fontSize=" 0.875rem"
-               textTransform="uppercase"
-               border="none"
-               marginTop="2.63rem"
-               onClick={openModalHandler}
-            >
-               change the date
-            </Button>
-         </ContainerPayment>
+            </div>
+         ) : (
+            <ContainerPayment>
+               <ContainerDay styles="day">
+                  <h4>${price}</h4>/ <h4 className="day">day</h4>
+               </ContainerDay>
+               <DatePickerStyle>
+                  <BlockDatePicker>
+                     <p className="check">Check in</p>
+                     <p className="date">
+                        {defaultDate ? ResultChekin : getCurrentDate()}
+                     </p>
+                  </BlockDatePicker>
+                  <BlockDatePicker>
+                     <p className="check">Check out</p>
+                     <p className="date">
+                        {defaultDate ? ResultChekout : getFutureDate()}
+                     </p>
+                  </BlockDatePicker>
+               </DatePickerStyle>
+               <Button
+                  variant="contained"
+                  width=" 28.375rem"
+                  padding=" 0.625rem 1rem"
+                  borderRadius="0.125rem"
+                  bgColor=" #DD8A08"
+                  color="#F7F7F7"
+                  fontSize=" 0.875rem"
+                  textTransform="uppercase"
+                  border="none"
+                  marginTop="2.63rem"
+                  onClick={openModalHandler}
+               >
+                  change the date
+               </Button>
+            </ContainerPayment>
+         )}
+      </div>
+   ) : (
+      <div>
+         {' '}
+         {toggleResult ? (
+            <ResultPaiment
+               valueChekin={valueChekin}
+               valueChekout={valueChekout}
+               openModalHandler={openModalHandler}
+               price={price}
+            />
+         ) : (
+            <PaymentInDarePicker
+               valueChekin={valueChekin}
+               setValueCheckin={setValueCheckin}
+               valueChekout={valueChekout}
+               setValueCheckout={setValueCheckout}
+               toggleHandler={toggleHandler}
+               methot={methot}
+               openModal
+               price={price}
+            />
+         )}
       </div>
    )
 }

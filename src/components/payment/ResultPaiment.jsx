@@ -48,7 +48,7 @@ export function ResultPaiment({
    const result = price * mines
 
    return (
-      <div>
+      <Container>
          <ContainerPayment>
             <ContainerDescription styles="book">
                <h2>Book your trip</h2>
@@ -88,10 +88,16 @@ export function ResultPaiment({
                />
             </Elements>
          </ContainerPayment>
-      </div>
+      </Container>
    )
 }
 
+const Container = styled('div')(() => ({
+   width: '29.625rem',
+   height: ' 31.875rem',
+   borderRadius: ' 0.125rem',
+   background: ' #FFF',
+}))
 const ContainerPayment = styled('div')(() => ({
    width: '105%',
    borderRadius: ' 0.125rem',

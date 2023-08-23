@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { styled } from '@mui/material'
+import axios from 'axios'
 import { Button } from '../UI/button/Button'
 
 export function ResultPaymentForm({
@@ -12,6 +13,23 @@ export function ResultPaymentForm({
    const [error, setError] = useState('')
    const stripe = useStripe()
    const elements = useElements()
+
+   const processPayment = async (price, token) => {
+      try {
+         const response = await axios.post('/create-payment-intent', {
+            amount: price * 100,
+            token,
+         })
+
+         if (response.status === 200) {
+            return response.data
+         }
+
+         return response.data
+      } catch (error) {
+         throw new Error('Ошибка при отправке запроса')
+      }
+   }
 
    const handleSubmit = async (event) => {
       event.preventDefault()
@@ -26,8 +44,12 @@ export function ResultPaymentForm({
 
          openModalHandler()
          console.log('Токен карты:', token, valueChekin, valueChekout, price)
+
+         const paymentData = await processPayment(price, token.id)
+
+         console.log('Данные платежа:', paymentData)
       } catch (error) {
-         setError('Ошибка при получении токена:', error)
+         setError('Ошибка при получении токена')
       }
    }
 

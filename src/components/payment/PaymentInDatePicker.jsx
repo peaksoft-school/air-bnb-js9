@@ -2,46 +2,103 @@ import React from 'react'
 import { styled } from '@mui/material'
 import DateePicker from '../UI/date-picker/Date-Picker'
 import { Button } from '../UI/button/Button'
+import { Like } from '../UI/likes/Like'
 
 export function PaymentInDarePicker({
+   price,
+   methot,
    openModal,
    toggleHandler,
    valueChekin,
-   setValueCheckin,
    valueChekout,
+   setValueCheckin,
    setValueCheckout,
 }) {
    return openModal ? (
-      <ContainerPayment>
-         <ContainerDay styles="day">
-            <h4>$26</h4>/ <h4 className="day">day</h4>
-         </ContainerDay>
-         <DatePickerStyle>
-            <BlockDatePicker>
-               <p className="check">Check in</p>
-               <DateePicker value={valueChekin} setValue={setValueCheckin} />
-            </BlockDatePicker>
-            <BlockDatePicker>
-               <p className="check">Check out</p>
-               <DateePicker value={valueChekout} setValue={setValueCheckout} />
-            </BlockDatePicker>
-         </DatePickerStyle>
-         <Button
-            onClick={toggleHandler}
-            variant="contained"
-            width=" 28.375rem"
-            padding=" 0.625rem 1rem"
-            borderRadius="0.125rem"
-            bgColor="  #DD8A08"
-            color="#F7F7F7"
-            fontSize=" 0.875rem"
-            textTransform="uppercase"
-            border="none"
-            marginTop="2.63rem"
-         >
-            request to book
-         </Button>
-      </ContainerPayment>
+      <div>
+         {methot === 'post' ? (
+            <ContainerPayment>
+               <ContainerDay styles="day">
+                  <h4>${price}</h4>/ <h4 className="day">day</h4>
+               </ContainerDay>
+               <DatePickerStyle>
+                  <BlockDatePicker>
+                     <p className="check">Check in</p>
+                     <DateePicker
+                        value={valueChekin}
+                        setValue={setValueCheckin}
+                     />
+                  </BlockDatePicker>
+                  <BlockDatePicker>
+                     <p className="check">Check out</p>
+                     <DateePicker
+                        value={valueChekout}
+                        setValue={setValueCheckout}
+                     />
+                  </BlockDatePicker>
+               </DatePickerStyle>
+               <Button
+                  onClick={toggleHandler}
+                  variant="contained"
+                  width=" 28.375rem"
+                  padding=" 0.625rem 1rem"
+                  borderRadius="0.125rem"
+                  bgColor="  #DD8A08"
+                  color="#F7F7F7"
+                  fontSize=" 0.875rem"
+                  textTransform="uppercase"
+                  border="none"
+                  marginTop="2.63rem"
+               >
+                  request to book
+               </Button>
+            </ContainerPayment>
+         ) : (
+            <ContainerPayment>
+               <ContainerDay styles="day">
+                  <h4>${price}</h4>/ <h4 className="day">day</h4>
+               </ContainerDay>
+               <ContainerDatePicker>
+                  <DatePickerStyle>
+                     <BlockDatePicker>
+                        <p className="check">Check in</p>
+                        <DateePicker
+                           value={valueChekin}
+                           setValue={setValueCheckin}
+                        />
+                     </BlockDatePicker>
+                     <BlockDatePicker>
+                        <p className="check">Check out</p>
+                        <DateePicker
+                           value={valueChekout}
+                           setValue={setValueCheckout}
+                        />
+                     </BlockDatePicker>
+                  </DatePickerStyle>
+                  <p>You have to be signed in to book a listing!</p>
+               </ContainerDatePicker>
+               <ContainerButton>
+                  <Button
+                     onClick={toggleHandler}
+                     variant="contained"
+                     width=" 23.4375rem"
+                     padding=" 0.625rem 1rem"
+                     borderRadius="0.125rem"
+                     bgColor="  #DD8A08"
+                     color="#F7F7F7"
+                     fontSize=" 0.875rem"
+                     textTransform="uppercase"
+                     border="none"
+                  >
+                     request to book
+                  </Button>
+                  <div className="iconLike">
+                     <Like />
+                  </div>
+               </ContainerButton>
+            </ContainerPayment>
+         )}
+      </div>
    ) : null
 }
 
@@ -94,5 +151,30 @@ export const BlockDatePicker = styled('div')(() => ({
       fontStyle: 'normal',
       fontWeight: 400,
       lineHeight: 'normal',
+   },
+}))
+const ContainerDatePicker = styled('div')(() => ({
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
+   gap: '1rem',
+}))
+const ContainerButton = styled('div')(() => ({
+   width: '28rem',
+   display: 'flex',
+   alignItems: 'center',
+   justifyContent: 'space-between',
+   margin: '2rem 0 0 0',
+   '.iconLike': {
+      width: '3.4375rem',
+      height: '2.6rem',
+      padding: ' 0.375rem 0.5rem',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '0.625rem',
+      borderRadius: '0.125rem',
+      border: '1px solid var(--secondary-brown, #DD8A08)',
    },
 }))
