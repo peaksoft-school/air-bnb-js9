@@ -1,61 +1,70 @@
 import { styled } from '@mui/material'
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
 import { Tabs } from '../tabs/Tabs'
 import Profile from '../UI/profile/Profile'
-import { getAnnouncement } from '../../store/profile/ProfileThunk'
 
-const data = [
-   {
-      photo: 'https://images.pexels.com/photos/16419036/pexels-photo-16419036/free-photo-of-directional-signs-with-distance-on-post.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      name: 'Gulzat',
-      contact: 'gmail.com',
-   },
-]
 export function UserProfile() {
+   const { data } = useSelector((state) => state.getannouncement)
+
    const logOut = () => {
       const navigate = ''
       console.log('navigate: ', navigate)
    }
-   const dispatch = useDispatch()
-   useEffect(() => {
-      dispatch(getAnnouncement())
-   }, [dispatch])
-   return (
-      <MainContainer>
-         <Header />
-         <NavContainer>
-            <Navigation>
-               {/* <Routes>
-                  <Route path="/" element={<UserLayout />} />
-               </Routes> */}
-               <p>Main /</p>
-               <p>Hotel /</p>
-               <p>Naryn /</p>
-               <p>Profile</p>
-            </Navigation>
-            <h3>Profile</h3>
-         </NavContainer>
-         <ProfileContainer>
-            {data.map((item) => {
-               return <Profile data={item} logOut={logOut} />
-            })}
-            <Tabs />
-         </ProfileContainer>
+   const userDetailProfile = {
+      photo: data.image,
+      contact: data.contact,
+      name: data.name,
+   }
 
-         <Footer />
-      </MainContainer>
+   return (
+      <div>
+         <MainContainer>
+            <Header />
+            <NavContainer>
+               <Navigation>
+                  <p>Main /</p>
+                  <p>Hotel /</p>
+                  <p>Naryn /</p>
+                  <p>Profile</p>
+               </Navigation>
+
+               <h3>Profile</h3>
+            </NavContainer>
+            <ProfileContainer>
+               <ProfileContainerTabs>
+                  <Profile data={userDetailProfile} logOut={logOut} />
+               </ProfileContainerTabs>
+               <ContainerTabs>
+                  <Tabs
+                     announcement={data.announcements}
+                     bookings={data.bookings}
+                  />
+               </ContainerTabs>
+            </ProfileContainer>
+            <Footer />
+         </MainContainer>
+      </div>
    )
 }
+
 const ProfileContainer = styled('div')`
    display: flex;
    justify-content: center;
-   gap: 180px;
-   padding-bottom: 146px;
+   width: 100%;
+   gap: 2rem;
 `
 
+const ContainerTabs = styled('div')`
+   width: 80%;
+   flex-wrap: wrap;
+   height: auto;
+`
+const ProfileContainerTabs = styled('div')`
+   height: 1100px;
+`
 const NavContainer = styled('div')`
    display: flex;
    flex-direction: column;
@@ -68,5 +77,5 @@ const Navigation = styled('div')`
 const MainContainer = styled('div')`
    background: #f7f7f7;
    width: 100%;
-   height: 900px;
+   height: 100px;
 `

@@ -1,10 +1,11 @@
 import React from 'react'
+// import { AppRoutes } from './routes/AppRoutes'
 import { UserProfile } from './components/Profile/Profile'
 
 function App() {
    return (
       <div>
-         {/* AirBnB */}
+         {/* <AppRoutes /> */}
          <UserProfile />
       </div>
    )

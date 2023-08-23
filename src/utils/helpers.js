@@ -23,9 +23,18 @@ export const homeType = [
    { id: 'option11', name: 'House' },
 ]
 
+export const homeTypeProfile = [
+   { id: 'option10', name: 'Apartment', value: 'APARTMENT' },
+   { id: 'option11', name: 'House', value: 'HOUSE' },
+]
+export const popularProfile = [
+   { id: 'option8', name: 'popular', value: 'LOW_TO_HIGH' },
+   { id: 'option9', name: 'un popular', value: 'HIGH_TO_LOW' },
+]
+
 export const price = [
-   { id: 'option12', name: 'Low to high' },
-   { id: 'option13', name: 'High to low' },
+   { id: 'option12', name: 'Low to high', value: 'LOW_TO_HIGH' },
+   { id: 'option13', name: 'High to low', value: 'HIGH_TO_LOW' },
 ]
 
 export const popularHouse = [

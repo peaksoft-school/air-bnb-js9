@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { styled } from '@mui/material'
 import React from 'react'
 import { NavLink, Route, Routes } from 'react-router-dom'
@@ -6,35 +5,15 @@ import { Bookings } from './Bookings'
 import { MyAnnouncement } from './MyAnnouncement'
 import { OnModeration } from './OnModeration'
 
-const bookings = [
-   {
-      id: 1,
-      title: 'Beku',
-   },
-   {
-      id: 2,
-      title: 'bookings',
-   },
-]
-const announcement = [
-   {
-      id: 3,
-      title: 'announcement',
-   },
-   {
-      id: 4,
-      title: 'Beku',
-   },
-]
 const moderation = [
    {
       id: 5,
       title: 'moderation',
    },
 ]
-export function Tabs() {
-   const BookingLength = bookings.length
-   const announcementLength = announcement.length
+export function Tabs({ announcement, bookings }) {
+   const BookingLength = bookings?.length
+   const announcementLength = announcement?.length
    const moderationLength = moderation.length
 
    return (
@@ -58,7 +37,9 @@ export function Tabs() {
 
             <Route
                path="/my-announcemen"
-               element={<MyAnnouncement moderation={announcement} />}
+               element={
+                  <MyAnnouncement announcement={announcement} select="true" />
+               }
             />
 
             <Route
