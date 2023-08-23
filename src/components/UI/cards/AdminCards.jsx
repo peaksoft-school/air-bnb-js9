@@ -1,4 +1,4 @@
-import { MenuItem, styled } from '@mui/material'
+import { MenuItem, styled, Tooltip } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
@@ -34,12 +34,12 @@ export function AdminCards({
       setCurrentImages(data.map(() => 0))
    }, [data])
 
-   // const truncateText = (text, maxLength) => {
-   //    if (text.length > maxLength) {
-   //       return `${text.slice(0, maxLength)}...`
-   //    }
-   //    return text
-   // }
+   const truncateText = (text, maxLength) => {
+      if (text.length > maxLength) {
+         return `${text.slice(0, maxLength)}...`
+      }
+      return text
+   }
 
    const handlePrevImage = (index) => {
       setCurrentImages((prevImages) => {
@@ -133,22 +133,24 @@ export function AdminCards({
                      </ContainerPrice>
                      <ContainerInformation>
                         <div className="title">
-                           <p>
-                              {item.description.length < 25
-                                 ? item.description
-                                 : `${item.description.slice(0, 25)}...`}
-                           </p>
+                           <Tooltip title={item.description}>
+                              {truncateText(item.description, 25)}
+                           </Tooltip>
                         </div>
                         <div className="location">
                            <AdminLocation />
                            <div>
-                              {item.address.length < 7
-                                 ? item.address
-                                 : `${item.address.slice(0, 7)}...`}
-                              , {` `}
-                              {item.province.length < 7
-                                 ? item.province
-                                 : `${item.province.slice(0, 7)}...`}
+                              <Tooltip title={item.address}>
+                                 {item.address.length > 7
+                                    ? truncateText(item.address, 7)
+                                    : item.address}
+                                 ,{' '}
+                              </Tooltip>
+                              <Tooltip title={item.province}>
+                                 {item.province.length > 7
+                                    ? truncateText(item.province, 7)
+                                    : item.province}
+                              </Tooltip>
                            </div>
                         </div>
                         <ContainerGuests>
