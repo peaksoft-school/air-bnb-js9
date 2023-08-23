@@ -5,8 +5,8 @@ import { applicationSlice } from './admin-application/ApplicationSlice'
 
 export const store = configureStore({
    reducer: {
-      [applicationSlice.name]: applicationSlice.reducer,
       [authSlice.name]: authSlice.reducer,
+      [applicationSlice.name]: applicationSlice.reducer,
       [adminUsersSlice.name]: adminUsersSlice.reducer,
    },
 })
