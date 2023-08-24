@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-// import { anouncementSlice } from './upload/anouncementSlice'
 import { authSlice } from './auth/authSlice'
 import { adminUsersSlice } from './admin-users/adminUsersSlice'
+import { applicationSlice } from './admin-application/ApplicationSlice'
 
 export const store = configureStore({
    reducer: {
-      // [anouncementSlice.name]: anouncementSlice.reducer,
-      [authSlice.name]: authSlice.reducer,
       [adminUsersSlice.name]: adminUsersSlice.reducer,
+      [authSlice.name]: authSlice.reducer,
+      [applicationSlice.name]: applicationSlice.reducer,
    },
 })

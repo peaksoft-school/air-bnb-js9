@@ -18,7 +18,7 @@ axiosInstance.interceptors.request.use((config) => {
    const updatedConfig = { ...config }
    const { token } = store.getState().auth
    if (token) {
-      updatedConfig.headers.Authorization = `Bearer ${token}`
+      updatedConfig.headers.Authorization = ` Bearer ${token}`
    }
    return updatedConfig
 })

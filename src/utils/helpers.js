@@ -88,33 +88,27 @@ export const Hotel = [
    },
 ]
 
-export const bookings = [
+export const booked = [
    {
-      urls: [
-         'https://images.pexels.com/photos/17428217/pexels-photo-17428217/free-photo-of-grand-hotel-on-sea-shore-in-llandudno.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      ],
-      location: 'ads asf asefafa faf ',
-      rating: 97,
-      title: 'afdvf asdf asf asf ',
-      checkin: '200.20.2012',
-      checkout: '1223.213.3123.',
-      price: 334,
-   },
-]
-export const announcement = [
-   {
-      id: 3,
-      title: 'announcement',
+      price: 26,
+      checkin: '02.02.22',
+      checkout: '02.02.22',
+      name: 'Anna Annova',
+      email: 'anna@gmail.com',
    },
    {
-      id: 4,
-      title: 'Beku',
+      price: 26,
+      checkin: '02.02.22',
+      checkout: '02.02.22',
+      name: 'Anna Annova',
+      email: 'anna@gmail.com',
    },
-]
-export const moderation = [
    {
-      id: 5,
-      title: 'moderation',
+      price: 26,
+      checkin: '02.02.22',
+      checkout: '02.02.22',
+      name: 'Anna Annova',
+      email: 'anna@gmail.com',
    },
 ]
 export const schema = yup.object().shape({
