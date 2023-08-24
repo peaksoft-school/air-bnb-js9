@@ -46,7 +46,7 @@ export function PopularHouse() {
          >
             {popularHouse.map((item) => {
                return (
-                  <HouseContainer>
+                  <HouseContainer key={item.id}>
                      <div
                         style={{
                            width: '24.6rem',

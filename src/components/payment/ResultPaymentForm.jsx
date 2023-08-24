@@ -1,36 +1,23 @@
 import React, { useState } from 'react'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { styled } from '@mui/material'
-import axios from 'axios'
+// import axios from 'axios'
 import { Button } from '../UI/button/Button'
 
 export function ResultPaymentForm({
    openModalHandler,
    // valueChekin,
    // valueChekout,
-   price,
+   // price,
 }) {
    const [error, setError] = useState('')
    const stripe = useStripe()
    const elements = useElements()
 
-   const processPayment = async (price, token) => {
-      console.log('token-post', token)
-      try {
-         const response = await axios.post(
-            'http://airbnb.peaksoftprojects.com/api/payments/charge',
-            {
-               amount: price,
-               token,
-            }
-         )
-         console.log('response', response.data)
+   // const processPayment = async (price, token) => {
+   //    console.log('token-post', token)
 
-         return response.data
-      } catch (error) {
-         throw new Error('Ошибка при отправке запроса')
-      }
-   }
+   // }
 
    const handleSubmit = async (event) => {
       event.preventDefault()
@@ -47,9 +34,9 @@ export function ResultPaymentForm({
          // console.log('Токен карты:', token, valueChekin, valueChekout, price)
          console.log('Токен карты:', token)
 
-         const paymentData = await processPayment(price, token.id)
+         // const paymentData = await processPayment(price, token.id)
 
-         console.log('Данные платежа:', paymentData)
+         // console.log('Данные платежа:', paymentData)
       } catch (error) {
          setError('Ошибка при получении токена')
       }

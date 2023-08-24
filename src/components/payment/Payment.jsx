@@ -2,7 +2,6 @@ import { styled } from '@mui/material'
 import React, { useState } from 'react'
 import { PaymentInDarePicker } from './PaymentInDatePicker'
 import { Button } from '../UI/button/Button'
-// import Modal from '../UI/modal/Modal'
 import { ResultPaiment } from './ResultPaiment'
 
 export function Payment({ state, openModalHandler, price, methot }) {
@@ -34,6 +33,18 @@ export function Payment({ state, openModalHandler, price, methot }) {
       const year = currentDate.getFullYear().toString().slice(-2)
       return `${day}.${month}.${year}`
    }
+
+   const bookedDates = []
+
+   const formattedCheckinDate = `${valueChekin.$y}-${valueChekin.$M + 1}-${
+      valueChekin.$D
+   }`
+   const formattedCheckoutDate = `${valueChekout.$y}-${valueChekout.$M + 1}-${
+      valueChekout.$D
+   }`
+
+   bookedDates.push(formattedCheckinDate, formattedCheckoutDate)
+
    return methot === 'post' ? (
       <div>
          {state ? (
@@ -56,6 +67,7 @@ export function Payment({ state, openModalHandler, price, methot }) {
                      toggleHandler={toggleHandler}
                      methot={methot}
                      price={price}
+                     bookedDates={bookedDates}
                   />
                )}
             </div>

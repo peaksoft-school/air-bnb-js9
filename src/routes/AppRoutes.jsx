@@ -42,7 +42,7 @@ export function AppRoutes() {
                      state={state}
                      openModalHandler={toggle}
                      price="40"
-                     methot="post"
+                     methot="put"
                   />
                }
             />

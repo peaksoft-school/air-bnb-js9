@@ -125,7 +125,7 @@ export default function PopularApartments({ state, func }) {
          </PopularApart>
          <>
             {popular.map((el) => (
-               <div>
+               <div key={el.id}>
                   <BlockHouse>
                      <ImageHouse src={el.img} alt={el.title} />
                      <BlockText>

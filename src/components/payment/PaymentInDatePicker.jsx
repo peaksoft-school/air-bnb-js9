@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from '@mui/material'
 import DateePicker from '../UI/date-picker/Date-Picker'
 import { Button } from '../UI/button/Button'
@@ -8,12 +8,37 @@ export function PaymentInDarePicker({
    price,
    methot,
    openModal,
-   toggleHandler,
+   bookedDates,
    valueChekin,
    valueChekout,
+   toggleHandler,
    setValueCheckin,
    setValueCheckout,
 }) {
+   const [selectedDates, setSelectedDates] = useState([])
+   const [like, setLike] = useState(false)
+
+   const handleCheckinChange = (newDate) => {
+      setValueCheckin(newDate)
+      setSelectedDates((prevDates) => [...prevDates, newDate])
+   }
+
+   const handleCheckoutChange = (newDate) => {
+      setValueCheckout(newDate)
+      setSelectedDates((prevDates) => [...prevDates, newDate])
+   }
+
+   const shouldDisableDate = (date) => {
+      const dateString = date.toISOString().split('T')[0]
+      return (
+         selectedDates.includes(dateString) || bookedDates.includes(dateString)
+      )
+   }
+
+   const likeHandler = () => {
+      setLike((prev) => !prev)
+   }
+
    return openModal ? (
       <div>
          {methot === 'post' ? (
@@ -26,14 +51,16 @@ export function PaymentInDarePicker({
                      <p className="check">Check in</p>
                      <DateePicker
                         value={valueChekin}
-                        setValue={setValueCheckin}
+                        setValue={handleCheckinChange}
+                        shouldDisableDate={shouldDisableDate}
                      />
                   </BlockDatePicker>
                   <BlockDatePicker>
                      <p className="check">Check out</p>
                      <DateePicker
                         value={valueChekout}
-                        setValue={setValueCheckout}
+                        setValue={handleCheckoutChange}
+                        shouldDisableDate={shouldDisableDate}
                      />
                   </BlockDatePicker>
                </DatePickerStyle>
@@ -49,6 +76,7 @@ export function PaymentInDarePicker({
                   textTransform="uppercase"
                   border="none"
                   marginTop="2.63rem"
+                  disabled={!valueChekin || !valueChekout}
                >
                   request to book
                </Button>
@@ -89,12 +117,17 @@ export function PaymentInDarePicker({
                      fontSize=" 0.875rem"
                      textTransform="uppercase"
                      border="none"
+                     disabled={!valueChekin || !valueChekout}
                   >
                      request to book
                   </Button>
-                  <div className="iconLike">
-                     <Like />
-                  </div>
+                  <button
+                     className="iconLike"
+                     onClick={likeHandler}
+                     type="button"
+                  >
+                     <Like like={like} onClick={likeHandler} />
+                  </button>
                </ContainerButton>
             </ContainerPayment>
          )}
@@ -168,6 +201,7 @@ const ContainerButton = styled('div')(() => ({
    '.iconLike': {
       width: '3.4375rem',
       height: '2.6rem',
+      backgroundColor: '#fff',
       padding: ' 0.375rem 0.5rem',
       display: 'flex',
       flexDirection: 'column',

@@ -9,12 +9,9 @@ import { styled } from '@mui/material'
 
 dayjs.locale('ru')
 
-export default function DateePicker({ value, setValue }) {
+export default function DateePicker({ value, setValue, shouldDisableDate }) {
    const today = dayjs()
-
-   const shouldDisableDate = (date) => {
-      return dayjs(date).isBefore(today)
-   }
+   console.log(today)
    return (
       <LocalizationProvider dateAdapter={AdapterDayjs}>
          <DemoContainer components={['DatePickers']}>
