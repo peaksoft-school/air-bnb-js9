@@ -112,7 +112,7 @@ export default function PopularApartments({ state, func }) {
    const ImageHouse = MUistyled('img')({
       width: '100%',
       maxWidth: '32.8rem',
-      height: 'auto',
+      height: '26rem',
       display: 'flex',
 
       '@media (min-width:48rem)': {
@@ -137,7 +137,7 @@ export default function PopularApartments({ state, func }) {
          <PopularApart>
             <Popular>{state ? 'THE LASTEST' : 'POPULAR APARTMENTS'}</Popular>
             <StyledNavlinkView
-               style={{ marginRight: '7rem' }}
+               style={{ marginRight: '7rem', marginBottom: '2rem' }}
                to="/"
                onClick={func}
             >
@@ -171,7 +171,7 @@ export default function PopularApartments({ state, func }) {
                   </StyledNavlink>
                   <StyledNavlinkView to="/">Read more</StyledNavlinkView>
                </BlockText>
-               <div>
+               <div style={{ marginTop: '-5rem' }}>
                   <MySlider
                      state={state}
                      lastestData={lastestData}
