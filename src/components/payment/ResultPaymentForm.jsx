@@ -6,8 +6,8 @@ import { Button } from '../UI/button/Button'
 
 export function ResultPaymentForm({
    openModalHandler,
-   valueChekin,
-   valueChekout,
+   // valueChekin,
+   // valueChekout,
    price,
 }) {
    const [error, setError] = useState('')
@@ -15,15 +15,16 @@ export function ResultPaymentForm({
    const elements = useElements()
 
    const processPayment = async (price, token) => {
+      console.log('token-post', token)
       try {
-         const response = await axios.post('/create-payment-intent', {
-            amount: price * 100,
-            token,
-         })
-
-         if (response.status === 200) {
-            return response.data
-         }
+         const response = await axios.post(
+            'http://airbnb.peaksoftprojects.com/api/payments/charge',
+            {
+               amount: price,
+               token,
+            }
+         )
+         console.log('response', response.data)
 
          return response.data
       } catch (error) {
@@ -43,7 +44,8 @@ export function ResultPaymentForm({
          )
 
          openModalHandler()
-         console.log('Токен карты:', token, valueChekin, valueChekout, price)
+         // console.log('Токен карты:', token, valueChekin, valueChekout, price)
+         console.log('Токен карты:', token)
 
          const paymentData = await processPayment(price, token.id)
 

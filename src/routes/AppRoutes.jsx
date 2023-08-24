@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { ProtectedRoutes } from './ProtectedRoutes'
@@ -9,6 +9,7 @@ import { Bookings } from '../components/tabs/Bookings'
 import { MyAnnouncement } from '../components/tabs/MyAnnouncement'
 import { ReusableTable } from '../components/table/Table'
 import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
+import { Payment } from '../components/payment/Payment'
 
 export function AppRoutes() {
    const role = useSelector((state) => state.auth.role)
@@ -17,7 +18,11 @@ export function AppRoutes() {
    const isAllowed = (roles) => {
       return roles.includes(role)
    }
+   const [state, setState] = useState(false)
 
+   const toggle = () => {
+      setState((prev) => !prev)
+   }
    return (
       <Routes>
          <Route
@@ -29,7 +34,19 @@ export function AppRoutes() {
                   fallbackPath="/admin"
                />
             }
-         />
+         >
+            <Route
+               path="/payment"
+               element={
+                  <Payment
+                     state={state}
+                     openModalHandler={toggle}
+                     price="40"
+                     methot="post"
+                  />
+               }
+            />
+         </Route>
          <Route
             path="/admin/"
             element={

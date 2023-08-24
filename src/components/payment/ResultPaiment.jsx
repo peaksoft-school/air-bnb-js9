@@ -3,11 +3,8 @@ import React from 'react'
 import { styled } from '@mui/material'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
+import { useSelector } from 'react-redux'
 import { ResultPaymentForm } from './ResultPaymentForm'
-
-const stripePromise = loadStripe(
-   'pk_test_51NYN0mBbVpyhSGy9ZskXVZmFK9RJkccBrsiOb2eeve0aYF5XdJ08fQJd3679hdlc4OI8RVnkcwhVdMgWdxGwam1Y00JFIanrmJ'
-)
 
 const getMonthName = (monthNumber) => {
    const months = [
@@ -33,6 +30,8 @@ export function ResultPaiment({
    openModalHandler,
    price,
 }) {
+   const { token } = useSelector((state) => state.auth)
+   console.log('token', token)
    const formattedValueChekin = `${getMonthName(valueChekin.$M)} ${
       valueChekin.$D
    },${valueChekin.$y}`
@@ -47,6 +46,9 @@ export function ResultPaiment({
 
    const result = price * mines
 
+   const stripePromise = loadStripe(
+      'pk_test_51Nax1gA8iPnSdqalkXzMcbIkR51rKA539eoRjaAHLIDoyRcE8KtaFUWrwmOwmqU3lxJRJZrd6PQO4GhT9AcH9KpD00x1MRpIhl'
+   )
    return (
       <Container>
          <ContainerPayment>
