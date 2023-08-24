@@ -6,7 +6,6 @@ import { AdminCards } from '../../components/UI/cards/AdminCards'
 import { Paginations } from '../../components/UI/pagination/Pagination'
 import { applicationSlice } from '../../store/admin-application/ApplicationSlice'
 import {
-   deleteAdminApplication,
    getAdminApplication,
    getApplicationById,
 } from '../../store/admin-application/ApplicationThunk'
@@ -18,6 +17,7 @@ export function Applications({
    setCurrenSize,
    currentPage,
    currentSize,
+   removeCard,
    setTitle,
    title,
 }) {
@@ -41,16 +41,6 @@ export function Applications({
    const toggleHandler = (id) => {
       dispatch(applicationSlice.actions.toggleHandler())
       dispatch(getApplicationById(id))
-   }
-
-   const removeCard = (id) => {
-      dispatch(deleteAdminApplication(id))
-
-      const current = {
-         currentPage,
-         currentSize,
-      }
-      dispatch(getAdminApplication(current))
    }
 
    const pagePagination = (value) => {

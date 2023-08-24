@@ -103,7 +103,7 @@ export function AdminCards({
             {data.map((item, index) => (
                <MapContainer status="dat" key={item.id}>
                   <ImageContainer
-                     to="/admin/application/Name"
+                     to="/admin/application/name"
                      onClick={() => toggleHandler(item.id)}
                   >
                      {item.images.length > 1 && (

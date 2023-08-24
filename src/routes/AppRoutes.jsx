@@ -9,7 +9,7 @@ import { AnnouncementAdminPage } from '../pages/admin/AnnouncementAdminPage'
 import { Applications } from '../pages/admin/Applications'
 import AddAnouncementForm from '../components/anouncement/Anouncement'
 import {
-   getAdminApplication,
+   deleteAdminApplication,
    postAcceptApplications,
    postRejectApplications,
 } from '../store/admin-application/ApplicationThunk'
@@ -28,54 +28,46 @@ export function AppRoutes() {
       return roles.includes(role)
    }
 
-   const acceptHandler = async (id) => {
-      try {
-         const object = {
-            status: 'accept',
-            id,
-         }
-         dispatch(postAcceptApplications(object))
-
-         const current = {
+   const acceptHandler = (id) => {
+      const object = {
+         id,
+         toastType,
+         status: 'accept',
+         current: {
             currentPage,
             currentSize,
-         }
-         dispatch(getAdminApplication(current))
-         toastType('success', 'Accepted :)', 'Moderation successfully passed')
-      } catch (error) {
-         toastType('error', error)
+         },
       }
+      dispatch(postAcceptApplications(object))
    }
 
    const rejectedHandler = (id) => {
       const object = {
-         status: 'reject',
-         title,
-         id,
+         toastType,
+         reject: {
+            status: 'reject',
+            title,
+            id,
+         },
+         current: {
+            currentPage,
+            currentSize,
+         },
       }
-
       dispatch(postRejectApplications(object))
-         .unwrap()
-         .then(() => {
-            toastType(
-               'success',
-               'Accepted :)',
-               'Moderation successfully passed'
-            )
-         })
-         .catch((error) => {
-            const errorMessage = error?.message || 'An error occurred'
-            toastType('error', 'Error', errorMessage)
-         })
       setTitle('')
-
-      const current = {
-         currentPage,
-         currentSize,
-      }
-      dispatch(getAdminApplication(current))
    }
-
+   const removeCard = (id) => {
+      const remove = {
+         id,
+         toastType,
+         current: {
+            currentPage,
+            currentSize,
+         },
+      }
+      dispatch(deleteAdminApplication(remove))
+   }
    return (
       <Routes>
          <Route
@@ -91,7 +83,7 @@ export function AppRoutes() {
          <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
 
          <Route
-            path="/admin/"
+            path="/admin"
             element={
                <ProtectedRoutes
                   isAllowed={isAllowed([userRoles.ADMIN])}
@@ -100,9 +92,9 @@ export function AppRoutes() {
                />
             }
          >
-            <Route path="/admin/" element={<Navigate to="application/" />} />
+            <Route path="/admin" element={<Navigate to="application" />} />
             <Route
-               path="application/"
+               path="application"
                element={
                   <Applications
                      acceptHandler={acceptHandler}
@@ -112,12 +104,13 @@ export function AppRoutes() {
                      setCurrenSize={setCurrenSize}
                      rejectedHandler={rejectedHandler}
                      setTitle={setTitle}
+                     removeCard={removeCard}
                      title={title}
                   />
                }
             >
                <Route
-                  path="Name"
+                  path="name"
                   element={
                      <AnnouncementAdminPage
                         roles="admin"

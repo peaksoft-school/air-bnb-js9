@@ -35,12 +35,20 @@ export const getApplicationById = createAsyncThunk(
 
 export const deleteAdminApplication = createAsyncThunk(
    'application/deleteAdminApplication',
-   async (id, { rejectWithValue }) => {
+   async ({ id, toastType, current }, { rejectWithValue, dispatch }) => {
       try {
          const response = await deleteAdminApplicationRequest(id)
 
+         dispatch(getAdminApplication(current))
+         toastType(
+            'success',
+            'Delete card :)',
+            'Moderation successfully passed'
+         )
+
          return response.data
       } catch (error) {
+         toastType('error', 'Delete card :(', error.message)
          return rejectWithValue(error.message)
       }
    }
@@ -48,12 +56,16 @@ export const deleteAdminApplication = createAsyncThunk(
 
 export const postRejectApplications = createAsyncThunk(
    'application/putRejectApplications',
-   async (payload, { rejectWithValue }) => {
+   async ({ toastType, reject, current }, { rejectWithValue, dispatch }) => {
       try {
-         const response = await postRejectApplicationsRequest(payload)
+         const response = await postRejectApplicationsRequest(reject)
+
+         toastType('success', 'Reject :)', 'Moderation successfully passed')
+         dispatch(getAdminApplication(current))
 
          return response.data
       } catch (error) {
+         toastType('error', 'Reject :(', error.message)
          return rejectWithValue(error.message)
       }
    }
@@ -61,12 +73,19 @@ export const postRejectApplications = createAsyncThunk(
 
 export const postAcceptApplications = createAsyncThunk(
    'application/putRejectApplications',
-   async (payload, { rejectWithValue }) => {
+   async (
+      { id, status, toastType, current },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
-         const response = await postAcceptApplicationsRequest(payload)
+         const response = await postAcceptApplicationsRequest({ id, status })
+
+         toastType('success', 'Accepted :)', 'Moderation successfully passed')
+         dispatch(getAdminApplication(current))
 
          return response.data
       } catch (error) {
+         toastType('error', 'Accepted :(', error.message)
          return rejectWithValue(error.message)
       }
    }
