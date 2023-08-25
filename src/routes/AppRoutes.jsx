@@ -14,15 +14,16 @@ import { Payment } from '../components/payment/Payment'
 export function AppRoutes() {
    const role = useSelector((state) => state.auth.role)
    const { data, bookings } = useSelector((state) => state.adminUsers)
+   const [state, setState] = useState(false)
 
    const isAllowed = (roles) => {
       return roles.includes(role)
    }
-   const [state, setState] = useState(false)
 
    const toggle = () => {
       setState((prev) => !prev)
    }
+
    return (
       <Routes>
          <Route

@@ -8,7 +8,7 @@ export function PaymentInDarePicker({
    price,
    methot,
    openModal,
-   bookedDates,
+   // bookedDates,
    valueChekin,
    valueChekout,
    toggleHandler,
@@ -28,11 +28,15 @@ export function PaymentInDarePicker({
       setSelectedDates((prevDates) => [...prevDates, newDate])
    }
 
+   const isPastDate = (date) => {
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      return date < today
+   }
+
    const shouldDisableDate = (date) => {
       const dateString = date.toISOString().split('T')[0]
-      return (
-         selectedDates.includes(dateString) || bookedDates.includes(dateString)
-      )
+      return selectedDates.includes(dateString) || isPastDate(date)
    }
 
    const likeHandler = () => {
@@ -46,6 +50,7 @@ export function PaymentInDarePicker({
                <ContainerDay styles="day">
                   <h4>${price}</h4>/ <h4 className="day">day</h4>
                </ContainerDay>
+
                <DatePickerStyle>
                   <BlockDatePicker>
                      <p className="check">Check in</p>
@@ -64,18 +69,19 @@ export function PaymentInDarePicker({
                      />
                   </BlockDatePicker>
                </DatePickerStyle>
+
                <Button
-                  onClick={toggleHandler}
-                  variant="contained"
-                  width=" 28.375rem"
-                  padding=" 0.625rem 1rem"
-                  borderRadius="0.125rem"
-                  bgColor="  #DD8A08"
-                  color="#F7F7F7"
-                  fontSize=" 0.875rem"
-                  textTransform="uppercase"
                   border="none"
+                  color="#F7F7F7"
+                  width=" 28.375rem"
                   marginTop="2.63rem"
+                  variant="contained"
+                  fontSize=" 0.875rem"
+                  bgColor="  #DD8A08"
+                  borderRadius="0.125rem"
+                  padding=" 0.625rem 1rem"
+                  textTransform="uppercase"
+                  onClick={toggleHandler}
                   disabled={!valueChekin || !valueChekout}
                >
                   request to book
@@ -92,14 +98,16 @@ export function PaymentInDarePicker({
                         <p className="check">Check in</p>
                         <DateePicker
                            value={valueChekin}
-                           setValue={setValueCheckin}
+                           setValue={handleCheckinChange}
+                           shouldDisableDate={shouldDisableDate}
                         />
                      </BlockDatePicker>
                      <BlockDatePicker>
                         <p className="check">Check out</p>
                         <DateePicker
                            value={valueChekout}
-                           setValue={setValueCheckout}
+                           setValue={handleCheckoutChange}
+                           shouldDisableDate={shouldDisableDate}
                         />
                      </BlockDatePicker>
                   </DatePickerStyle>
@@ -107,24 +115,24 @@ export function PaymentInDarePicker({
                </ContainerDatePicker>
                <ContainerButton>
                   <Button
-                     onClick={toggleHandler}
+                     border="none"
+                     color="#F7F7F7"
                      variant="contained"
                      width=" 23.4375rem"
-                     padding=" 0.625rem 1rem"
-                     borderRadius="0.125rem"
-                     bgColor="  #DD8A08"
-                     color="#F7F7F7"
                      fontSize=" 0.875rem"
+                     bgColor="  #DD8A08"
+                     borderRadius="0.125rem"
+                     padding=" 0.625rem 1rem"
                      textTransform="uppercase"
-                     border="none"
+                     onClick={toggleHandler}
                      disabled={!valueChekin || !valueChekout}
                   >
                      request to book
                   </Button>
                   <button
+                     type="button"
                      className="iconLike"
                      onClick={likeHandler}
-                     type="button"
                   >
                      <Like like={like} onClick={likeHandler} />
                   </button>
@@ -137,28 +145,28 @@ export function PaymentInDarePicker({
 
 export const ContainerPayment = styled('div')(() => ({
    width: '30.875rem',
-   borderRadius: ' 0.125rem',
-   background: ' #fff',
    padding: '1.25rem',
+   background: ' #fff',
+   borderRadius: ' 0.125rem',
    display: 'felx',
    flexDirection: 'column',
    alignItems: 'center',
 }))
 export const ContainerDay = styled('div')(({ styles }) => ({
    width: '28.375rem',
+   paddingBottom: '1.25rem',
+   borderBottom: '1px solid #C4C4C4',
    display: 'flex',
    justifyContent: 'center',
    alignItems: 'center',
-   borderBottom: '1px solid #C4C4C4',
-   paddingBottom: '1.25rem',
 
    '.day': {
-      color: styles === 'day' ? '#6C6C6C' : '#000',
+      fontWeight: 400,
+      fontStyle: 'normal',
       fontFamily: 'Inter',
       fontSize: ' 1.25rem',
-      fontStyle: 'normal',
-      fontWeight: 400,
       lineHeight: 'normal',
+      color: styles === 'day' ? '#6C6C6C' : '#000',
       textTransform: styles === 'day' ? 'none' : 'uppercase',
    },
 }))
@@ -171,19 +179,19 @@ export const DatePickerStyle = styled('div')(() => ({
 }))
 export const BlockDatePicker = styled('div')(() => ({
    width: '11.19rem',
+   paddingTop: '1.25rem',
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'flex-start',
    gap: '1.06rem',
-   paddingTop: '1.25rem',
 
    '.check': {
-      color: 'var(--tertiary-dark-gray, #646464)',
+      fontWeight: 400,
+      fontStyle: 'normal',
       fontFamily: 'Inter',
       fontSize: '0.875rem',
-      fontStyle: 'normal',
-      fontWeight: 400,
       lineHeight: 'normal',
+      color: 'var(--tertiary-dark-gray, #646464)',
    },
 }))
 const ContainerDatePicker = styled('div')(() => ({
@@ -194,21 +202,22 @@ const ContainerDatePicker = styled('div')(() => ({
 }))
 const ContainerButton = styled('div')(() => ({
    width: '28rem',
+   margin: '2rem 0 0 0',
    display: 'flex',
    alignItems: 'center',
    justifyContent: 'space-between',
-   margin: '2rem 0 0 0',
    '.iconLike': {
       width: '3.4375rem',
       height: '2.6rem',
       backgroundColor: '#fff',
       padding: ' 0.375rem 0.5rem',
+      borderRadius: '0.125rem',
+      border: '1px solid var(--secondary-brown, #DD8A08)',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
       gap: '0.625rem',
-      borderRadius: '0.125rem',
-      border: '1px solid var(--secondary-brown, #DD8A08)',
+      cursor: 'pointer',
    },
 }))

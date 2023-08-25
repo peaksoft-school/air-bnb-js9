@@ -3,7 +3,6 @@ import React from 'react'
 import { styled } from '@mui/material'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
-import { useSelector } from 'react-redux'
 import { ResultPaymentForm } from './ResultPaymentForm'
 
 const getMonthName = (monthNumber) => {
@@ -24,17 +23,23 @@ const getMonthName = (monthNumber) => {
    return months[monthNumber - 1] || ''
 }
 
+const stripePromise = loadStripe(
+   'pk_test_51NdWEALAAx1GCzR7MYd1i0ZdWiHVHXzC6OKrgkX1sys0xohhvYcbnWJYRjF2Zjh7oIaPMTcLNWYaWNdXg0P35upx00ivG01DcS'
+)
+
 export function ResultPaiment({
+   price,
+   methot,
    valueChekin,
    valueChekout,
+   ResultChekin,
+   ResultChekout,
    openModalHandler,
-   price,
 }) {
-   const { token } = useSelector((state) => state.auth)
-   console.log('token', token)
    const formattedValueChekin = `${getMonthName(valueChekin.$M)} ${
       valueChekin.$D
    },${valueChekin.$y}`
+
    const formattedValueChekout = `${getMonthName(valueChekout.$M)} ${
       valueChekout.$D
    }, ${valueChekout.$y}`
@@ -43,13 +48,9 @@ export function ResultPaiment({
    const formatedResultChekout = `${valueChekout.$D}.${valueChekout.$H}${valueChekout.$M}.${valueChekout.$y}`
 
    const mines = valueChekout.$D - valueChekin.$D
-
    const result = price * mines
 
-   const stripePromise = loadStripe(
-      'pk_test_51Nax1gA8iPnSdqalkXzMcbIkR51rKA539eoRjaAHLIDoyRcE8KtaFUWrwmOwmqU3lxJRJZrd6PQO4GhT9AcH9KpD00x1MRpIhl'
-   )
-   return (
+   return methot === 'post' ? (
       <Container>
          <ContainerPayment>
             <ContainerDescription styles="book">
@@ -83,10 +84,40 @@ export function ResultPaiment({
 
             <Elements stripe={stripePromise}>
                <ResultPaymentForm
-                  openModalHandler={openModalHandler}
-                  valueChekin={valueChekin}
-                  valueChekout={valueChekout}
                   price={price}
+                  methot={methot}
+                  openModalHandler={openModalHandler}
+               />
+            </Elements>
+         </ContainerPayment>
+      </Container>
+   ) : (
+      <Container>
+         <ContainerPayment>
+            <ContainerDescription styles="book">
+               <h2>Book your trip</h2>
+               <p className="book">
+                  The booking date has been changed, please pay an additional{' '}
+                  {mines} days in the period from {formattedValueChekin} to{' '}
+                  {formattedValueChekout} inclusive.
+               </p>
+            </ContainerDescription>
+
+            <ContainerSum>
+               <Result>
+                  ${price} x {mines} days = $ {result}
+               </Result>
+               <h3 className="total">
+                  Total = <h3>${result}</h3>
+               </h3>
+            </ContainerSum>
+
+            <Elements stripe={stripePromise}>
+               <ResultPaymentForm
+                  price={price}
+                  ResultChekin={ResultChekin}
+                  ResultChekout={ResultChekout}
+                  openModalHandler={openModalHandler}
                />
             </Elements>
          </ContainerPayment>
@@ -102,30 +133,30 @@ const Container = styled('div')(() => ({
 }))
 const ContainerPayment = styled('div')(() => ({
    width: '105%',
-   borderRadius: ' 0.125rem',
    padding: '1.25rem',
+   borderRadius: ' 0.125rem',
+   backgroundColor: '#fff',
    display: 'felx',
    flexDirection: 'column',
    alignItems: 'center',
-   backgroundColor: '#fff',
 }))
 
 const ContainerDescription = styled('div')(({ styles }) => ({
    width: '100%',
-   borderBottom: '1px solid#C4C4C4',
    padding: '1.35rem',
+   borderBottom: '1px solid#C4C4C4',
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'center',
    gap: '1.25rem',
 
    '.book': {
+      fontWeight: styles === 'book' ? 400 : 500,
       width: styles === 'book' ? ' 26.5rem' : '',
+      fontSize: styles === 'book' ? '1rem' : '1.125rem',
+      textTransform: styles === 'book' ? '' : 'uppercase',
       color:
          styles === 'book' ? ' var(--tertiary-middle-gray, #828282)' : '#000',
-      fontSize: styles === 'book' ? '1rem' : '1.125rem',
-      fontWeight: styles === 'book' ? 400 : 500,
-      textTransform: styles === 'book' ? '' : 'uppercase',
       fontFamily: 'Inter',
       fontStyle: 'normal',
       lineHeight: 'normal',
@@ -133,10 +164,10 @@ const ContainerDescription = styled('div')(({ styles }) => ({
    },
 }))
 const ResultContainer = styled('div')(() => ({
+   marginTop: '1.44rem',
    display: 'flex',
    flexDirection: 'column',
    gap: '1.12rem',
-   marginTop: '1.44rem',
    div: {
       display: 'flex',
       flexDirection: 'column',
@@ -144,24 +175,24 @@ const ResultContainer = styled('div')(() => ({
    },
 }))
 const ResultFrom = styled('p')(() => ({
-   color: 'var(--tertiary-light-gray, #C4C4C4)',
-   fontFamily: 'Inter',
    fontSize: '1rem',
-   fontStyle: 'normal',
    fontWeight: '400',
+   fontStyle: 'normal',
+   fontFamily: 'Inter',
    lineHeight: 'normal',
+   color: 'var(--tertiary-light-gray, #C4C4C4)',
 }))
 const Result = styled('p')(() => ({
-   color: ' var(--tertiary-dark-gray, #646464)',
-   fontFamily: 'Inter',
    fontSize: '1rem',
-   fontStyle: 'normal',
    fontWeight: '400',
+   fontFamily: 'Inter',
+   fontStyle: 'normal',
    lineHeight: 'normal',
+   color: ' var(--tertiary-dark-gray, #646464)',
    span: {
-      color: 'var(--primary-black, #363636)',
       fontWeight: '500',
       fontSize: '1.1rem',
+      color: 'var(--primary-black, #363636)',
    },
 }))
 const TotalContainer = styled('div')(() => ({
@@ -172,14 +203,13 @@ const TotalContainer = styled('div')(() => ({
    marginTop: '1.87rem',
 
    '.total': {
-      display: 'flex',
-      gap: '0.38rem',
-      color: ' var(--tertiary-middle-gray, #828282)',
+      fontWeight: '500',
+      fontStyle: 'normal',
       fontFamily: 'Inter',
       fontSize: '1.125rem',
-      fontStyle: 'normal',
-      fontWeight: '500',
       lineHeight: 'normal',
+      color: ' var(--tertiary-middle-gray, #828282)',
+      display: 'flex',
       h3: {
          fontWeight: '500',
       },
@@ -193,14 +223,23 @@ const TotalContainer = styled('div')(() => ({
       fontStyle: 'normal',
       fontWeight: '600',
       lineHeight: 'normal',
-      //   h3: {
-      //      fontWeight: '500',
-      //   },
    },
 }))
-// const ContainerButton = styled('div')(() => ({
-//    display: 'flex',
-//    flexDirection: 'column',
-//    gap: '1.38rem',
-//    marginTop: '1rem',
-// }))
+const ContainerSum = styled('div')(() => ({
+   marginTop: '1.5rem',
+   height: '7vh',
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
+   justifyContent: 'space-between',
+   '.total': {
+      display: 'flex',
+      gap: '0.38rem',
+      color: ' var(--primary-black, #363636)',
+      fontFamily: 'Inter',
+      fontSize: '1.125rem',
+      fontStyle: 'normal',
+      fontWeight: '600',
+      lineHeight: 'normal',
+   },
+}))

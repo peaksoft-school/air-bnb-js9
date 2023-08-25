@@ -5,18 +5,20 @@ import { Button } from '../UI/button/Button'
 import { ResultPaiment } from './ResultPaiment'
 
 export function Payment({ state, openModalHandler, price, methot }) {
-   const [toggleResult, setToggleResult] = useState(false)
-   const [defaultDate, setDefaultDate] = useState(false)
    const [valueChekin, setValueCheckin] = useState('')
+   const [defaultDate, setDefaultDate] = useState(false)
    const [valueChekout, setValueCheckout] = useState('')
+   const [toggleResult, setToggleResult] = useState(false)
 
    const toggleHandler = () => {
       setToggleResult((prev) => !prev)
       setDefaultDate(true)
    }
+
    const ResultChekin = `${valueChekin.$D}.${valueChekin.$H}${valueChekin.$M}.${valueChekin.$y}`
    const ResultChekout = `${valueChekout.$D}.${valueChekout.$H}${valueChekout.$M}.${valueChekout.$y}`
-
+   console.log(ResultChekin, 'ResultChekin')
+   console.log(valueChekin, 'valueChekin')
    const getCurrentDate = () => {
       const currentDate = new Date()
       const day = currentDate.getDate().toString().padStart(2, '0')
@@ -35,14 +37,12 @@ export function Payment({ state, openModalHandler, price, methot }) {
    }
 
    const bookedDates = []
-
    const formattedCheckinDate = `${valueChekin.$y}-${valueChekin.$M + 1}-${
       valueChekin.$D
    }`
    const formattedCheckoutDate = `${valueChekout.$y}-${valueChekout.$M + 1}-${
       valueChekout.$D
    }`
-
    bookedDates.push(formattedCheckinDate, formattedCheckoutDate)
 
    return methot === 'post' ? (
@@ -52,22 +52,23 @@ export function Payment({ state, openModalHandler, price, methot }) {
                {' '}
                {toggleResult ? (
                   <ResultPaiment
+                     price={price}
+                     methot={methot}
                      valueChekin={valueChekin}
                      valueChekout={valueChekout}
                      openModalHandler={openModalHandler}
-                     price={price}
                   />
                ) : (
                   <PaymentInDarePicker
-                     valueChekin={valueChekin}
-                     setValueCheckin={setValueCheckin}
-                     valueChekout={valueChekout}
-                     setValueCheckout={setValueCheckout}
-                     openModal={state}
-                     toggleHandler={toggleHandler}
-                     methot={methot}
                      price={price}
+                     methot={methot}
+                     openModal={state}
                      bookedDates={bookedDates}
+                     valueChekin={valueChekin}
+                     valueChekout={valueChekout}
+                     toggleHandler={toggleHandler}
+                     setValueCheckin={setValueCheckin}
+                     setValueCheckout={setValueCheckout}
                   />
                )}
             </div>
@@ -91,16 +92,16 @@ export function Payment({ state, openModalHandler, price, methot }) {
                   </BlockDatePicker>
                </DatePickerStyle>
                <Button
-                  variant="contained"
-                  width=" 28.375rem"
-                  padding=" 0.625rem 1rem"
-                  borderRadius="0.125rem"
-                  bgColor=" #DD8A08"
-                  color="#F7F7F7"
-                  fontSize=" 0.875rem"
-                  textTransform="uppercase"
                   border="none"
+                  color="#F7F7F7"
+                  width=" 28.375rem"
+                  variant="contained"
                   marginTop="2.63rem"
+                  fontSize=" 0.875rem"
+                  bgColor=" #DD8A08"
+                  borderRadius="0.125rem"
+                  padding=" 0.625rem 1rem"
+                  textTransform="uppercase"
                   onClick={openModalHandler}
                >
                   change the date
@@ -113,21 +114,23 @@ export function Payment({ state, openModalHandler, price, methot }) {
          {' '}
          {toggleResult ? (
             <ResultPaiment
+               price={price}
                valueChekin={valueChekin}
                valueChekout={valueChekout}
+               ResultChekin={ResultChekin}
+               ResultChekout={ResultChekout}
                openModalHandler={openModalHandler}
-               price={price}
             />
          ) : (
             <PaymentInDarePicker
-               valueChekin={valueChekin}
-               setValueCheckin={setValueCheckin}
-               valueChekout={valueChekout}
-               setValueCheckout={setValueCheckout}
-               toggleHandler={toggleHandler}
-               methot={methot}
                openModal
                price={price}
+               methot={methot}
+               valueChekin={valueChekin}
+               valueChekout={valueChekout}
+               toggleHandler={toggleHandler}
+               setValueCheckin={setValueCheckin}
+               setValueCheckout={setValueCheckout}
             />
          )}
       </div>

@@ -12,6 +12,7 @@ dayjs.locale('ru')
 export default function DateePicker({ value, setValue, shouldDisableDate }) {
    const today = dayjs()
    console.log(today)
+
    return (
       <LocalizationProvider dateAdapter={AdapterDayjs}>
          <DemoContainer components={['DatePickers']}>
