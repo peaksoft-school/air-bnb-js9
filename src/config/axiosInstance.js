@@ -13,7 +13,7 @@ export const injectStore = (_store) => {
 }
 const logoutAction = () => {}
 const token =
-   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTE5MTk0MjAsImlhdCI6MTY5MTY2MDIyMCwidXNlcm5hbWUiOiJlbWlyZHVpc2hvbmFsaWV2MjZAZ21haWwuY29tIn0.kd47peMDFb4vCEVxNq7I97QGQCy1WtETgvOgDOaQLag'
+   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTMyMTc2ODQsImlhdCI6MTY5Mjk1ODQ4NCwidXNlcm5hbWUiOiJhbGlzdGVyQGdtYWlsLmNvbSJ9.q2TWGYThSh3OvDWGUNpJfD416AbMoQkJsjZg3-OPUN8'
 axiosInstance.interceptors.request.use((config) => {
    const updatedConfig = { ...config }
    // const token = store.getState().login.accesToken
