@@ -1,10 +1,10 @@
 import React from 'react'
-import { Cards } from '../UI/cards/Cards'
+import { AdminCards } from '../UI/cards/AdminCards'
 
 export function Bookings({ bookings }) {
    return (
       <div>
-         <Cards
+         <AdminCards
             data={bookings}
             page="admin"
             justifyContent="start"

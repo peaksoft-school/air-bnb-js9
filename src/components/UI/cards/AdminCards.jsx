@@ -99,94 +99,103 @@ export function AdminCards({
                title={title}
                changeHandler={changeHandler}
             />
-
-            {data.map((item, index) => (
-               <MapContainer status="dat" key={item.id}>
-                  <ImageContainer
-                     to="/admin/application/name"
-                     onClick={() => toggleHandler(item.id)}
-                  >
-                     {item.images.length > 1 && (
-                        <div className="ImageNavigation">
-                           <StyledButton onClick={() => handlePrevImage(index)}>
-                              <ArrowleftIcon />
-                           </StyledButton>
-                           <StyledButton onClick={() => handleNextImage(index)}>
-                              <ArrowrightIcon />
-                           </StyledButton>
-                        </div>
-                     )}
-                     <img
-                        src={item.images[currentImages[index]]}
-                        alt={item.title}
-                     />
-                  </ImageContainer>
-                  <ContainerDescription>
-                     <ContainerPrice>
-                        <h4 className="price">
-                           ${item.price}/ <p className="day">day</p>
-                        </h4>
-                        <div className="rating">
-                           <Start1 />
-                           <p> {item.rating}</p>
-                        </div>
-                     </ContainerPrice>
-                     <ContainerInformation>
-                        <div className="title">
-                           <Tooltip title={item.description}>
-                              {truncateText(item.description, 25)}
-                           </Tooltip>
-                        </div>
-                        <div className="location">
-                           <AdminLocation />
-                           <div>
-                              <Tooltip title={item.address}>
-                                 {item.address.length > 7
-                                    ? truncateText(item.address, 7)
-                                    : item.address}
-                                 ,{' '}
-                              </Tooltip>
-                              <Tooltip title={item.province}>
-                                 {item.province.length > 7
-                                    ? truncateText(item.province, 7)
-                                    : item.province}
+            {data.length > 0 ? (
+               data.map((item, index) => (
+                  <MapContainer status="dat" key={item.id}>
+                     <ImageContainer
+                        to="/admin/application/name"
+                        onClick={() => toggleHandler(item.id)}
+                     >
+                        {item.images.length > 1 && (
+                           <div className="ImageNavigation">
+                              <StyledButton
+                                 onClick={() => handlePrevImage(index)}
+                              >
+                                 <ArrowleftIcon />
+                              </StyledButton>
+                              <StyledButton
+                                 onClick={() => handleNextImage(index)}
+                              >
+                                 <ArrowrightIcon />
+                              </StyledButton>
+                           </div>
+                        )}
+                        <img
+                           src={item.images[currentImages[index]]}
+                           alt={item.title}
+                        />
+                     </ImageContainer>
+                     <ContainerDescription>
+                        <ContainerPrice>
+                           <h4 className="price">
+                              ${item.price}/ <p className="day">day</p>
+                           </h4>
+                           <div className="rating">
+                              <Start1 />
+                              <p> {item.rating}</p>
+                           </div>
+                        </ContainerPrice>
+                        <ContainerInformation>
+                           <div className="title">
+                              <Tooltip title={item.description}>
+                                 {truncateText(item.description, 25)}
                               </Tooltip>
                            </div>
-                        </div>
-                        <ContainerGuests>
-                           <p>{item.maxGuests} guests</p>
+                           <div className="location">
+                              <AdminLocation />
+                              <div>
+                                 <Tooltip title={item.address}>
+                                    {item.address.length > 7
+                                       ? truncateText(item.address, 7)
+                                       : item.address}
+                                    ,{' '}
+                                 </Tooltip>
+                                 <Tooltip title={item.province}>
+                                    {item.province.length > 7
+                                       ? truncateText(item.province, 7)
+                                       : item.province}
+                                 </Tooltip>
+                              </div>
+                           </div>
+                           <ContainerGuests>
+                              <p>{item.maxGuests} guests</p>
 
-                           <AdminMenu
-                              style={{ cursor: 'pointer' }}
-                              onClick={(e) => handleMenuOpen(e, item.id)}
-                           />
-                           <MeatBalls
-                              anchorEl={currentEl}
-                              open={open}
-                              close={closeMeatBallsHeandler}
-                              id={idd}
-                              propsVertical="top"
-                              propsHorizontal="left"
-                              width="15%"
-                              height="16%"
-                           >
-                              <MenuItem onClick={() => acceptHandler(itemId)}>
-                                 Accept
-                              </MenuItem>
-                              <MenuItem
-                                 onClick={() => openModalHandler(itemId)}
+                              <AdminMenu
+                                 style={{ cursor: 'pointer' }}
+                                 onClick={(e) => handleMenuOpen(e, item.id)}
+                              />
+                              <MeatBalls
+                                 anchorEl={currentEl}
+                                 open={open}
+                                 close={closeMeatBallsHeandler}
+                                 id={idd}
+                                 propsVertical="top"
+                                 propsHorizontal="left"
+                                 width="15%"
+                                 height="16%"
                               >
-                                 Reject
-                              </MenuItem>
-                              <MenuItem onClick={() => removeCard(itemId)}>
-                                 Delete
-                              </MenuItem>
-                           </MeatBalls>
-                        </ContainerGuests>
-                     </ContainerInformation>
-                  </ContainerDescription>
-               </MapContainer>
-            ))}
+                                 <MenuItem
+                                    onClick={() => acceptHandler(itemId)}
+                                 >
+                                    Accept
+                                 </MenuItem>
+                                 <MenuItem
+                                    onClick={() => openModalHandler(itemId)}
+                                 >
+                                    Reject
+                                 </MenuItem>
+                                 <MenuItem onClick={() => removeCard(itemId)}>
+                                    Delete
+                                 </MenuItem>
+                              </MeatBalls>
+                           </ContainerGuests>
+                        </ContainerInformation>
+                     </ContainerDescription>
+                  </MapContainer>
+               ))
+            ) : (
+               <h2>No cards yet...</h2>
+            )}
          </div>
       </Container>
    )

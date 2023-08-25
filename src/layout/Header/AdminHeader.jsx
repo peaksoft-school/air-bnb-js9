@@ -32,7 +32,7 @@ export function AdminHeader() {
             <AirBNBIcon style={{ height: '4.5rem', width: '4.5rem' }} />
             <div className="nav">
                <StyleNavLink
-                  to="/application"
+                  to="/admin/application"
                   active={
                      location.pathname === '/admin/application' ||
                      location.pathname === '/admin/application/name'
@@ -46,7 +46,7 @@ export function AdminHeader() {
                <StyleNavLink
                   to="/admin/users"
                   active={
-                     location.pathname === '/admin/users' ||
+                     location.pathname === '/admin/users/' ||
                      location.pathname === `/admin/users/${userId}` ||
                      location.pathname === `/admin/users/${userId}/booking` ||
                      location.pathname ===

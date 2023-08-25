@@ -7,6 +7,7 @@ import { AdminLayout } from '../layout/adminLayout/AdminLayout'
 import { userRoles } from '../utils/constants'
 import { AnnouncementAdminPage } from '../pages/admin/AnnouncementAdminPage'
 import { Applications } from '../pages/admin/Applications'
+import { ReusableTable } from '../components/table/Table'
 import AddAnouncementForm from '../components/anouncement/Anouncement'
 import {
    deleteAdminApplication,
@@ -14,6 +15,9 @@ import {
    postRejectApplications,
 } from '../store/admin-application/ApplicationThunk'
 import { toastSnackbar } from '../components/UI/snackbar/Snackbar'
+import { Bookings } from '../components/tabs/Bookings'
+import { MyAnnouncement } from '../components/tabs/MyAnnouncement'
+import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
 
 export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
@@ -23,6 +27,7 @@ export function AppRoutes() {
    const { toastType } = toastSnackbar()
 
    const role = useSelector((state) => state.auth.role)
+   const { data, bookings } = useSelector((state) => state.adminUsers)
 
    const isAllowed = (roles) => {
       return roles.includes(role)
@@ -118,6 +123,20 @@ export function AppRoutes() {
                         acceptHandler={acceptHandler}
                         rejectedHandler={rejectedHandler}
                      />
+                  }
+               />
+            </Route>
+            <Route path="users/" element={<ReusableTable />} />
+            <Route path="users/:userId" element={<AdminUsersPage />}>
+               <Route
+                  index
+                  path="booking"
+                  element={<Bookings bookings={bookings} select="false" />}
+               />
+               <Route
+                  path="my-announcement"
+                  element={
+                     <MyAnnouncement announcement={data} select="false" />
                   }
                />
             </Route>
