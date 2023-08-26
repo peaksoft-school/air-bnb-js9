@@ -1,11 +1,10 @@
+/* eslint-disable no-nested-ternary */
 import React, { useRef, useState } from 'react'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { styled } from '@mui/material'
-import houseSlide from '../../assets/images/popularapartment.png'
-import houseSlides from '../../assets/images/apartments-slide.png'
-import houseSlidee from '../../assets/images/apartments-slide1.png'
+
 import {
    ArrowLeftDots,
    ArrowRightDots,
@@ -13,7 +12,7 @@ import {
    ArrowLeftBlack,
 } from '../../assets/icons'
 
-export function MySlider({ background, state }) {
+export function MySlider({ background, state, lastestData, apartmentData }) {
    const sliderRef = useRef(null)
    const [currentSlide, setCurrentSlide] = useState(0)
 
@@ -26,42 +25,44 @@ export function MySlider({ background, state }) {
       arrows: false,
       afterChange: (index) => setCurrentSlide(index),
    }
+   const imagesData = lastestData.images
 
    const slideImages = [
       {
-         image: houseSlides,
+         image: state
+            ? imagesData
+               ? imagesData[0]
+               : ''
+            : apartmentData.images,
          alt: 'Photo 1',
          id: 1,
       },
       {
-         image: houseSlide,
+         image: state
+            ? imagesData
+               ? imagesData[1]
+               : ''
+            : apartmentData.images,
          alt: 'Photo 2',
          id: 2,
       },
       {
-         image: houseSlidee,
+         image: state
+            ? imagesData
+               ? imagesData[2]
+               : ''
+            : apartmentData.images,
          alt: 'Photo 3',
          id: 3,
       },
       {
-         image: houseSlides,
+         image: state
+            ? imagesData
+               ? imagesData[3]
+               : ''
+            : apartmentData.images,
          alt: 'Photo 4',
          id: 4,
-      },
-      {
-         image: houseSlide,
-         alt: 'Photo 5',
-         id: 5,
-      },
-      {
-         image: houseSlidee,
-         alt: 'Photo 6',
-         id: 6,
-      },
-      {
-         image: houseSlides,
-         alt: 'Photo 7',
-         id: 7,
       },
    ]
    const totalSlides = slideImages.length
@@ -83,9 +84,9 @@ export function MySlider({ background, state }) {
    return (
       <ContainerImg background={background}>
          <Slider {...settings} ref={sliderRef}>
-            {slideImages.map((item) => (
-               <ImgBlock key={item.id}>
-                  <StyledImg src={item.image} alt={item.alt} />
+            {slideImages?.map((item) => (
+               <ImgBlock>
+                  <StyledImg src={item.image} />
                </ImgBlock>
             ))}
          </Slider>

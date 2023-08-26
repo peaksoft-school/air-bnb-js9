@@ -2,7 +2,7 @@ import { styled } from '@mui/material'
 import React from 'react'
 
 export function Booked({ item }) {
-   return (
+   return item.map((item) => (
       <div>
          <StyleMapContainer>
             <MainMapContainer>
@@ -36,12 +36,11 @@ export function Booked({ item }) {
             </UserStyle>
          </StyleMapContainer>
       </div>
-   )
+   ))
 }
 const StyleMapContainer = styled('div')`
    width: 28%;
    height: 15.8131%;
-   margin-left: 25%;
    display: flex;
    flex-direction: column;
    align-items: start;

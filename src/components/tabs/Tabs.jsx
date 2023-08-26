@@ -36,7 +36,7 @@ export function Tabs({ announcement, bookings }) {
          <Routes>
             <Route
                path="/bookings"
-               element={<Bookings bookings={bookings} />}
+               element={<Bookings bookings={bookings} onChange="true" />}
             />
             <Route
                path="/my-announcemen"

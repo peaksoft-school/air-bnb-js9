@@ -97,6 +97,43 @@ export const Hotel = [
    },
 ]
 
+export const booked = [
+   {
+      price: 26,
+      checkin: '02.02.22',
+      checkout: '02.02.22',
+      name: 'Anna Annova',
+      email: 'anna@gmail.com',
+   },
+   {
+      price: 26,
+      checkin: '02.02.22',
+      checkout: '02.02.22',
+      name: 'Anna Annova',
+      email: 'anna@gmail.com',
+   },
+   {
+      price: 26,
+      checkin: '02.02.22',
+      checkout: '02.02.22',
+      name: 'Anna Annova',
+      email: 'anna@gmail.com',
+   },
+]
+export const schema = yup.object().shape({
+   houseType: yup
+      .string()
+      .transform((value) => value.toUpperCase())
+      .required('Please select a home type'),
+   maxGuests: yup.string().required('Please enter the number of guests'),
+   price: yup.string().required('Please enter the price'),
+   title: yup.string().required('Please enter a title'),
+   description: yup.string().required('Please enter a description'),
+   region: yup.string().required('Please select the region'),
+   province: yup.string().required('Please enter the town'),
+   address: yup.string().required('Please enter the address'),
+})
+
 export const bookings = [
    {
       urls: [
@@ -126,16 +163,3 @@ export const moderation = [
       title: 'moderation',
    },
 ]
-export const schema = yup.object().shape({
-   houseType: yup
-      .string()
-      .transform((value) => value.toUpperCase())
-      .required('Please select a home type'),
-   maxGuests: yup.string().required('Please enter the number of guests'),
-   price: yup.string().required('Please enter the price'),
-   title: yup.string().required('Please enter a title'),
-   description: yup.string().required('Please enter a description'),
-   region: yup.string().required('Please select the region'),
-   province: yup.string().required('Please enter the town'),
-   address: yup.string().required('Please enter the address'),
-})

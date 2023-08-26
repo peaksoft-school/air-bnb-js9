@@ -1,6 +1,7 @@
 import { styled } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { AdminCards } from '../UI/cards/AdminCards'
 import { Select as MuiSelect } from '../UI/select/Select'
 import { filterHouseRequest } from '../../store/profile/ProfileThunk'
 // import { Cards } from '../UI/cards/Cards'
@@ -52,10 +53,11 @@ export function MyAnnouncement({ select, announcement }) {
    } else if (sortRating === 'LOW_TO_HIGH') {
       setSortRating('Popular')
    }
+   console.log(announcement, 'announcement')
    return (
       <div>
          <Container>
-            {select === 'true' && (
+            {select === 'true' ? (
                <div>
                   <SelectContainer>
                      <MuiSelect
@@ -104,15 +106,16 @@ export function MyAnnouncement({ select, announcement }) {
                      <ProfileCards data={announcement} announcement="true" />
                   </ContainerCards>
                </div>
+            ) : (
+               <div>
+                  <AdminCards
+                     data={announcement}
+                     page="admin"
+                     justifyContent="start"
+                     bgColor="white"
+                  />
+               </div>
             )}
-            <div>
-               {/* <Cards
-                  data={announcement}
-                  page="admin"
-                  justifyContent="start"
-                  bgColor="white"
-               /> */}
-            </div>
          </Container>
       </div>
    )
@@ -145,5 +148,5 @@ const SelectStyle = styled('p')`
    padding: 8px;
    justify-content: center;
    align-items: center;
-   gap: 8px;
+   gap: 3px;
 `

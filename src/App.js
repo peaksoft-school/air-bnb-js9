@@ -1,10 +1,12 @@
 import React from 'react'
-import { AppRoutes } from './routes/AppRoutes'
+import { UserProfile } from './components/Profile/Profile'
+// import { AppRoutes } from './routes/AppRoutes'
 
 function App() {
    return (
       <div>
-         <AppRoutes />
+         {/* <AppRoutes /> */}
+         <UserProfile />
       </div>
    )
 }

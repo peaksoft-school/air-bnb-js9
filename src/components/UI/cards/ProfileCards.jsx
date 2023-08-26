@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { IconButton, Menu, MenuItem, Tooltip, styled } from '@mui/material'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+import { MenuItem, Tooltip, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+   AdminMenu,
    ArrowleftIcon,
    ArrowrightIcon,
    Location,
@@ -15,6 +15,7 @@ import {
 } from '../../../store/profile/ProfileThunk'
 import ModalProfile from '../../Profile/ModalProfile'
 import { toastSnackbar } from '../snackbar/Snackbar'
+import { MeatBalls } from '../meat-balls/MeatBalls'
 
 export function ProfileCards({ data, announcement, ...props }) {
    const dispatch = useDispatch()
@@ -30,16 +31,17 @@ export function ProfileCards({ data, announcement, ...props }) {
    const [dataa, setData] = useState([])
 
    useEffect(() => {
-      setData(data?.map((item) => ({ ...item, open: false })))
+      setData(
+         data?.map((img) => {
+            return img.images
+         })
+      )
    }, [setData])
-
    const handleNextImage = (index) => {
       setCurrentImages((prevImages) => {
          const newImages = [...prevImages]
          newImages[index] =
-            newImages[index] === dataa[index].images.length - 1
-               ? 0
-               : newImages[index] + 1
+            newImages[index] === dataa.length - 1 ? 0 : newImages[index] + 1
          return newImages
       })
    }
@@ -55,9 +57,7 @@ export function ProfileCards({ data, announcement, ...props }) {
       setCurrentImages((prevImages) => {
          const newImages = [...prevImages]
          newImages[index] =
-            newImages[index] === 0
-               ? dataa[index].images.length - 1
-               : newImages[index] - 1
+            newImages[index] === 0 ? dataa.length - 1 : newImages[index] - 1
          return newImages
       })
    }
@@ -90,6 +90,8 @@ export function ProfileCards({ data, announcement, ...props }) {
    const openModal = () => {
       setModalVisible(true)
    }
+   const open = Boolean(anchorEl)
+   const idd = open ? 'simple-popover' : undefined
 
    useEffect(() => {
       dispatch(findAnnouncementById(itemId))
@@ -105,109 +107,106 @@ export function ProfileCards({ data, announcement, ...props }) {
                handleMenuClose={handleMenuClose}
             />
          )}
-         {data.length > 0
-            ? data?.map((item, index) => (
-                 <MapContainer key={item.id} status={item.status}>
-                    <div>
-                       {item.images.length > 1 && (
-                          <IconsContainer className="ImageNavigation">
-                             <StyledButton
-                                onClick={() => handlePrevImage(index)}
-                             >
-                                <ArrowleftIcon />
-                             </StyledButton>
-                             <StyledButton
-                                onClick={() => handleNextImage(index)}
-                             >
-                                <ArrowrightIcon />
-                             </StyledButton>
-                          </IconsContainer>
-                       )}
-                       <ImageContainer>
-                          <StyleImage src={item.images[0]} alt="home" />
-                       </ImageContainer>
-                    </div>
-                    <DayStartContainer onClick={props.dd}>
-                       <DayContainer>
-                          ${item.price}/ <DayStyle>day</DayStyle>{' '}
-                       </DayContainer>
+         {data.length > 0 ? (
+            data?.map((item, index) => (
+               <MapContainer key={item.id} status={item.status}>
+                  <div>
+                     {item.images.length > 1 && (
+                        <IconsContainer className="ImageNavigation">
+                           <StyledButton onClick={() => handlePrevImage(index)}>
+                              <ArrowleftIcon />
+                           </StyledButton>
+                           <StyledButton onClick={() => handleNextImage(index)}>
+                              <ArrowrightIcon />
+                           </StyledButton>
+                        </IconsContainer>
+                     )}
+                     <ImageContainer>
+                        <StyleImage src={item.images[0]} alt="home" />
+                     </ImageContainer>
+                  </div>
+                  <DayStartContainer onClick={props.dd}>
+                     <DayContainer>
+                        ${item.price}/ <DayStyle>day</DayStyle>{' '}
+                     </DayContainer>
 
-                       <StartContainer>
-                          <Start1 />
-                          <p>4/{item.rating}</p>
-                       </StartContainer>
-                    </DayStartContainer>
-                    <StyleTitle>
-                       <Tooltip title={item.title}>
-                          {truncateTitle(item.title || item.description)}
-                       </Tooltip>
-                    </StyleTitle>
-                    <LocationCantainerStyle>
-                       <Location />
-                       <p>{item.address}</p>
-                       <h4>{item.id}</h4>
-                    </LocationCantainerStyle>
-                    {announcement === 'true' ? (
-                       <StyledHorizIcon>
-                          <DayStyle>{item.maxGuests} guests</DayStyle>
-                          <div>
-                             <IconButtonStyled
-                                edge="start"
-                                color="inherit"
-                                aria-label="menu"
-                                onClick={(e) => handleMenuOpen(e, item.id)}
-                             >
-                                <MoreHorizIconStyled />
-                             </IconButtonStyled>
+                     <StartContainer>
+                        <Start1 />
+                        <p>{item.rating}.4</p>
+                     </StartContainer>
+                  </DayStartContainer>
+                  <StyleTitle>
+                     <Tooltip title={item.title}>
+                        {truncateTitle(item.title || item.description)}
+                     </Tooltip>
+                  </StyleTitle>
+                  <LocationCantainerStyle>
+                     <Location />
+                     <p>{item.address}</p>
+                     <h4>{item.id}</h4>
+                  </LocationCantainerStyle>
+                  {announcement === 'true' && (
+                     <StyledHorizIcon>
+                        <GuestContainer>{item.maxGuests} guests</GuestContainer>
 
-                             <StyledMenu
-                                anchorEl={anchorEl}
-                                open={Boolean(anchorEl)}
-                                onClose={handleMenuClose}
-                             >
-                                <MenuItem onClick={() => openModal(item)}>
-                                   Edit
-                                </MenuItem>
-                                <MenuItem
-                                   onClick={() => removeAnnouncements(itemId)}
-                                >
-                                   Delete
-                                </MenuItem>
-                                <MenuItem onClick={handleMenuClose}>
-                                   Cencel
-                                </MenuItem>
-                             </StyledMenu>
-                          </div>
-                       </StyledHorizIcon>
-                    ) : (
-                       <ButtonsContainer>
-                          <div>
-                             <DayStyleTrue>2 guests</DayStyleTrue>
-                             <CheckConainer>
-                                <div>
-                                   <Checkstyle>Check in</Checkstyle>
-                                   <Datestyle>{item.checkIn}</Datestyle>
-                                </div>
-                                <div>
-                                   <Checkstyle>Check out</Checkstyle>
-                                   <Datestyle>{item.checkOut}</Datestyle>
-                                </div>
-                             </CheckConainer>
-                             <Button
-                                bgColor="#DD8A08"
-                                color="#fff"
-                                width="100%"
-                                variant="contained"
-                             >
-                                {' '}
-                                change
-                             </Button>
-                          </div>
-                       </ButtonsContainer>
-                    )}
-                 </MapContainer>
-              ))
-            : null}
+                        <AdminMenu
+                           style={{ cursor: 'pointer' }}
+                           onClick={(e) => handleMenuOpen(e, item.id)}
+                        />
+                        <MeatBalls
+                           anchorEl={anchorEl}
+                           open={open}
+                           close={handleMenuClose}
+                           id={idd}
+                           propsVertical="top"
+                           propsHorizontal="left"
+                           onClick={(e) => handleMenuOpen(e, item.id)}
+                           width="15%"
+                           height="16%"
+                        >
+                           <MenuItem onClick={handleMenuClose}>Cencel</MenuItem>
+                           <MenuItem onClick={() => openModal(item)}>
+                              Edit
+                           </MenuItem>
+                           <MenuItem
+                              onClick={() => removeAnnouncements(itemId)}
+                           >
+                              Delete
+                           </MenuItem>
+                        </MeatBalls>
+                     </StyledHorizIcon>
+                  )}{' '}
+                  {announcement === 'false' && (
+                     <ButtonsContainer>
+                        <div>
+                           <DayStyleTrue>2 guests</DayStyleTrue>
+                           <CheckConainer>
+                              <div>
+                                 <Checkstyle>Check in</Checkstyle>
+                                 <Datestyle>{item.checkIn}</Datestyle>
+                              </div>
+                              <div>
+                                 <Checkstyle>Check out</Checkstyle>
+                                 <Datestyle>{item.checkOut}</Datestyle>
+                              </div>
+                           </CheckConainer>
+                           <Button
+                              bgColor="#DD8A08"
+                              color="#fff"
+                              width="16.2rem"
+                              variant="contained"
+                           >
+                              {' '}
+                              change
+                           </Button>
+                        </div>
+                     </ButtonsContainer>
+                  )}
+               </MapContainer>
+            ))
+         ) : (
+            <h2>No cards yet...</h2>
+         )}
       </MainContainer>
    )
 }
@@ -217,10 +216,7 @@ const Checkstyle = styled('p')`
    font-size: 0.875rem;
    line-height: 2rem;
 `
-const ImageContainer = styled('div')`
-   min-width: 45%;
-   width: 30%;
-`
+const ImageContainer = styled('div')``
 const Datestyle = styled('p')`
    color: var(--primary-black, #363636);
    font-family: Roboto;
@@ -232,12 +228,21 @@ const DayStyleTrue = styled('p')`
    font-size: 1rem;
    font-weight: 400;
    display: flex;
-   gap: 5px;
+   padding-left: 2rem;
+`
+const GuestContainer = styled('p')`
+   color: #6c6c6c;
+   font-size: 1rem;
+   font-weight: 400;
+   margin-left: 1.2rem;
+   width: 100px;
+   height: auto;
 `
 
 const CheckConainer = styled('div')`
    display: flex;
-   gap: 5rem;
+   justify-content: center;
+   gap: 3rem;
    line-height: 3rem;
 `
 const MainContainer = styled('div')`
@@ -247,16 +252,15 @@ const MainContainer = styled('div')`
    display: flex;
    flex-wrap: wrap;
    justify-content: space-around;
-   gap: 20px;
+   gap: 19px;
 `
 const IconsContainer = styled('div')``
 
-const MapContainer = styled('div')(({ status }) => ({
-   width: '28.9%',
-   height: '16%',
-   borderRadius: '4px',
-   outline: status === 'dates' ? '3px solid #ff0000' : 'none',
-   border: status === 'dates' ? '4px solid pink' : '1px solid  #C4C4C4',
+const MapContainer = styled('div')(() => ({
+   width: '16.25rem',
+   height: '32.rem',
+   borderRadius: '0.6rem 0.5rem 0 0 ',
+   border: '1px solid  #C4C4C4',
    display: 'flex',
    flexDirection: 'column',
 
@@ -273,7 +277,7 @@ const MapContainer = styled('div')(({ status }) => ({
          ziIdex: '9',
          display: 'flex',
          justifyContent: 'center',
-         gap: ' 13.5rem',
+         gap: ' 12.2rem',
          marginTop: '4.1rem',
       },
    },
@@ -344,8 +348,9 @@ const StyledButton = styled('button')`
 `
 
 const StyleImage = styled('img')`
-   width: 17.6rem;
-   height: 9rem;
+   width: 16.2rem;
+   height: 10rem;
+   border-radius: '0.6rem 0.5rem 0 0 ';
 `
 
 const StyleTitle = styled('p')`
@@ -353,59 +358,59 @@ const StyleTitle = styled('p')`
    display: flex;
    margin-left: 2.4rem;
 `
-const IconButtonStyled = styled(IconButton)(() => ({
-   padding: '0px',
-   margin: '0px',
-   width: ' 40px',
-   height: ' 40px',
-   '&.MuiIconButton-root:hover': {
-      boxShadow: 'none',
-      backgroundColor: '#ffff',
-   },
-   '&.MuiIconButton-root:active': {
-      boxShadow: 'none',
-      backgroundColor: '#ffff',
-   },
-}))
+// const IconButtonStyled = styled(IconButton)(() => ({
+//    padding: '0px',
+//    margin: '0px',
+//    width: ' 40px',
+//    height: ' 40px',
+//    '&.MuiIconButton-root:hover': {
+//       boxShadow: 'none',
+//       backgroundColor: '#ffff',
+//    },
+//    '&.MuiIconButton-root:active': {
+//       boxShadow: 'none',
+//       backgroundColor: '#ffff',
+//    },
+// }))
 
-const StyledMenu = styled(Menu)(() => ({
-   '& .MuiPaper-root': {
-      width: '16%',
-      height: '22%',
-      display: 'flex',
-      alignItems: 'center',
-      borderRadius: '0.125rem',
-      background: ' #FFF',
-      border: ' 1px solid var(--tertiary-light-gray, #C4C4C4)',
+// const StyledMenu = styled(Menu)(() => ({
+//    '& .MuiPaper-root': {
+//       width: '16%',
+//       height: '22%',
+//       display: 'flex',
+//       alignItems: 'center',
+//       borderRadius: '0.125rem',
+//       background: ' #FFF',
+//       border: ' 1px solid var(--tertiary-light-gray, #C4C4C4)',
 
-      boxShadow: 'none',
-   },
-   position: 'absolute',
-   top: '8.5rem',
-   left: ' 23rem',
-   transform: 'translate(-50%, -50%) ',
-}))
+//       boxShadow: 'none',
+//    },
+//    position: 'absolute',
+//    top: '8.5rem',
+//    left: ' 23rem',
+//    transform: 'translate(-50%, -50%) ',
+// }))
 
-const MoreHorizIconStyled = styled(MoreHorizIcon)(() => ({
-   '&.MuiSvgIcon-root': {
-      width: '50%',
-      height: '50%',
-      '& path:nth-of-type(1)': {
-         fill: '#C4C4C4',
-         width: '9rem',
-      },
-      '& path:nth-of-type(2)': {
-         fill: '#C4C4C4',
-      },
-      '& path:nth-of-type(3)': {
-         fill: '#C4C4C4',
-      },
-   },
-}))
+// const MoreHorizIconStyled = styled(MoreHorizIcon)(() => ({
+//    '&.MuiSvgIcon-root': {
+//       width: '50%',
+//       height: '50%',
+//       '& path:nth-of-type(1)': {
+//          fill: '#C4C4C4',
+//          width: '9rem',
+//       },
+//       '& path:nth-of-type(2)': {
+//          fill: '#C4C4C4',
+//       },
+//       '& path:nth-of-type(3)': {
+//          fill: '#C4C4C4',
+//       },
+//    },
+// }))
 const StyledHorizIcon = styled('div')`
    display: grid;
    grid-template-columns: auto 1fr;
    align-items: center;
-   gap: 9rem;
+   gap: 5rem;
    margin-left: 5%;
 `

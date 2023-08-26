@@ -1,6 +1,6 @@
 import React from 'react'
 import { IconButton, styled } from '@mui/material'
-import { ClickHeart2, Heart1 } from '../../../assets/icons'
+import { ClickHeart2, Heart1 } from '../../../assets/icons/index'
 
 export function ButtonIcon({ open, toggle, variant, ...props }) {
    return (

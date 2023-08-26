@@ -1,20 +1,28 @@
+import { styled } from '@mui/material'
 import React from 'react'
-import { Cards } from '../UI/cards/Cards'
+import { AdminCards } from '../UI/cards/AdminCards'
+import { ProfileCards } from '../UI/cards/ProfileCards'
 
-export function Bookings({ bookings }) {
+export function Bookings({ bookings, onChange }) {
    return (
       <div>
-         <Cards
-            data={bookings}
-            page="admin"
-            justifyContent="start"
-            bgColor="white"
-         />
+         {onChange === true ? (
+            <AdminCards
+               data={bookings}
+               page="admin"
+               justifyContent="start"
+               bgColor="white"
+            />
+         ) : (
+            <BookingContainer>
+               <ProfileCards data={bookings} announcement="false" />
+            </BookingContainer>
+         )}
       </div>
    )
 }
-// const BookingContainer = styled('div')`
-//    flex-wrap: wrap;
-//    padding-top: 2%;
-//    width: 100%;
-// `
+const BookingContainer = styled('div')`
+   flex-wrap: wrap;
+   padding-top: 3%;
+   width: 100%;
+`
