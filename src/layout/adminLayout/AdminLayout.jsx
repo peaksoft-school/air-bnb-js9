@@ -1,12 +1,13 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react'
-import { AnnouncementAdminPage } from '../../containers/admin/AnnouncementAdminPage'
+import { Outlet } from 'react-router'
 import { AdminHeader } from '../Header/AdminHeader'
 
 export function AdminLayout() {
    return (
       <div>
          <AdminHeader />
-         <AnnouncementAdminPage />
+         <Outlet />
       </div>
    )
 }

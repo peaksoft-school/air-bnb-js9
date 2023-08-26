@@ -11,37 +11,39 @@ const moderation = [
       title: 'moderation',
    },
 ]
+
 export function Tabs({ announcement, bookings }) {
    const BookingLength = bookings?.length
    const announcementLength = announcement?.length
-   const moderationLength = moderation.length
+   const moderationLength = moderation?.lenght
 
    return (
       <div>
          <StyleHead>
-            <StyleLink to="/">
-               <h3>Bookings({BookingLength})</h3>
+            <StyleLink to="/bookings">
+               <h3>Bookings ({BookingLength})</h3>
             </StyleLink>
 
             <StyleLink to="/my-announcemen">
-               <h3>My announcement({announcementLength})</h3>
+               <h3>My announcement ({announcementLength})</h3>
             </StyleLink>
 
             <StyleLink to="/on-moderation">
-               <h3>On moderation({moderationLength})</h3>
+               <h3>On moderation ({moderationLength})</h3>
             </StyleLink>
          </StyleHead>
 
          <Routes>
-            <Route path="/" element={<Bookings bookings={bookings} />} />
-
+            <Route
+               path="/bookings"
+               element={<Bookings bookings={bookings} />}
+            />
             <Route
                path="/my-announcemen"
                element={
                   <MyAnnouncement announcement={announcement} select="true" />
                }
             />
-
             <Route
                path="/on-moderation"
                element={<OnModeration moderation={moderation} />}

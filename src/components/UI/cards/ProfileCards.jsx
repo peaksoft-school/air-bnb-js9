@@ -1,26 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { IconButton, Menu, MenuItem, Tooltip, styled } from '@mui/material'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
-   ArrLeftIcon,
-   ArrRightIcon,
+   ArrowleftIcon,
+   ArrowrightIcon,
    Location,
    Start1,
 } from '../../../assets/icons/index'
 import { Button } from '../button/Button'
-import { deleteAnouncement } from '../../../store/profile/ProfileThunk'
+import {
+   deleteAnouncement,
+   findAnnouncementById,
+} from '../../../store/profile/ProfileThunk'
 import ModalProfile from '../../Profile/ModalProfile'
+import { toastSnackbar } from '../snackbar/Snackbar'
 
 export function ProfileCards({ data, announcement, ...props }) {
    const dispatch = useDispatch()
-   const [editData, setEditData] = useState()
+   const { toastType } = toastSnackbar()
    const [modalVisible, setModalVisible] = useState(false)
    const [itemId, setItemId] = useState('')
 
    const [, setCurrentImages] = useState(
       Array.isArray(data) ? Array(data.length).fill(0) : []
    )
+   const { idAnnouncement } = useSelector((state) => state.getannouncement)
 
    const [dataa, setData] = useState([])
 
@@ -69,23 +74,35 @@ export function ProfileCards({ data, announcement, ...props }) {
    }
 
    const removeAnnouncements = (id) => {
-      dispatch(deleteAnouncement(id))
-      handleMenuClose()
+      try {
+         dispatch(deleteAnouncement(id))
+         handleMenuClose()
+         toastType(
+            'success',
+            'successfully removed your announcement',
+            'success'
+         )
+      } catch (error) {
+         toastType('error!!!', error)
+      }
    }
 
-   const openModal = (data) => {
-      setEditData(data)
+   const openModal = () => {
       setModalVisible(true)
-      handleMenuClose()
    }
+
+   useEffect(() => {
+      dispatch(findAnnouncementById(itemId))
+   }, [dispatch, modalVisible])
 
    return (
       <MainContainer>
          {modalVisible && (
             <ModalProfile
                setModalVisible={setModalVisible}
-               data={editData}
                itemId={itemId}
+               data={idAnnouncement}
+               handleMenuClose={handleMenuClose}
             />
          )}
          {data.length > 0
@@ -97,12 +114,12 @@ export function ProfileCards({ data, announcement, ...props }) {
                              <StyledButton
                                 onClick={() => handlePrevImage(index)}
                              >
-                                <ArrLeftIcon />
+                                <ArrowleftIcon />
                              </StyledButton>
                              <StyledButton
                                 onClick={() => handleNextImage(index)}
                              >
-                                <ArrRightIcon />
+                                <ArrowrightIcon />
                              </StyledButton>
                           </IconsContainer>
                        )}
@@ -235,7 +252,7 @@ const MainContainer = styled('div')`
 const IconsContainer = styled('div')``
 
 const MapContainer = styled('div')(({ status }) => ({
-   width: '29.5%',
+   width: '28.9%',
    height: '16%',
    borderRadius: '4px',
    outline: status === 'dates' ? '3px solid #ff0000' : 'none',

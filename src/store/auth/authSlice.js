@@ -7,7 +7,6 @@ const getInitialState = () => {
 
    if (json) {
       const userData = JSON.parse(json)
-
       return {
          isAuthorization: true,
          isLoading: false,

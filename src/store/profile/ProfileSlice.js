@@ -9,6 +9,7 @@ import {
 const initialState = {
    data: {
       announcements: [],
+      bookings: [],
    },
    idAnnouncement: [],
    error: null,
@@ -31,15 +32,15 @@ export const announcementSlice = createSlice({
             state.error = action.error.message
          })
          .addCase(getAnnouncement.fulfilled, (state, action) => {
-            console.log('action1: ', action)
             state.status = 'success'
             state.data = action.payload
+            state.data.announcements = action.payload.announcements
+            state.data.bookings = action.payload.bookings
          })
          .addCase(filterHouseRequest.pending, (state) => {
             state.loading = true
          })
          .addCase(filterHouseRequest.fulfilled, (state, action) => {
-            console.log('action2: ', action)
             state.loading = false
             state.data.announcements = action.payload
          })
@@ -59,11 +60,6 @@ export const announcementSlice = createSlice({
             state.loading = false
             state.error = action.error.message
          })
-         .addCase(findAnnouncementById.pending, (state) => {
-            state.loading = true
-            state.selectedAnnouncement = null // Обнуляем выбранный анонс перед новым запросом
-         })
-
          .addCase(findAnnouncementById.fulfilled, (state, action) => {
             state.loading = false
             state.idAnnouncement = action.payload

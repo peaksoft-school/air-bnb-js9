@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
-import { useDispatch, useSelector } from 'react-redux'
-import { styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
+import {
+   FormControl,
+   FormControlLabel,
+   FormLabel,
+   Radio,
+   RadioGroup,
+   styled,
+} from '@mui/material'
 import * as Yup from 'yup'
 import Modal from '../UI/modal/Modal'
 import { Input } from '../UI/input/Input'
 import { Button } from '../UI/button/Button'
-import {
-   editAnouncement,
-   findAnnouncementById,
-} from '../../store/profile/ProfileThunk'
+import { editAnouncement } from '../../store/profile/ProfileThunk'
 import { Select } from '../UI/select/Select'
+import { toastSnackbar } from '../UI/snackbar/Snackbar'
 
 const validationSchema = Yup.object().shape({
    title: Yup.string().required('title is required'),
@@ -21,12 +26,13 @@ const validationSchema = Yup.object().shape({
    images: Yup.string().required('imgages is required'),
 })
 
-function ModalProfile({ setModalVisible, itemId }) {
-   const { idAnnouncement } = useSelector((state) => state.getannouncement)
-   const [object, setObject] = useState({})
+function ModalProfile({ setModalVisible, itemId, data, handleMenuClose }) {
    const dispatch = useDispatch()
-   const data = idAnnouncement
+   const { toastType } = toastSnackbar()
+
+   const [object, setObject] = useState({})
    const [valueSelect, setValueSelect] = useState(data.region || 'OSH')
+
    const dataOption = [
       { id: 'option1', name: 'BATKEN', value: 'BATKEN' },
       { id: 'option2', name: 'JALAL_ABAD', value: 'JALAL_ABAD' },
@@ -36,32 +42,17 @@ function ModalProfile({ setModalVisible, itemId }) {
       { id: 'option7', name: 'CHUI', value: 'CHUI' },
       { id: 'option5', name: 'OSH', value: 'OSH' },
    ]
-   useEffect(() => {
-      dispatch(findAnnouncementById(itemId))
-   }, [dispatch])
 
    const toggleHandler = () => {
       setModalVisible((prev) => !prev)
    }
+
    const onChangeHandler = (e) => {
       setValueSelect(e.target.value)
    }
-   const initialValues = {
-      maxGuests: data.maxGuests || '',
-      price: data.price || '',
-      title: data.title || '',
-      address: data.address || '',
-      province: data.province || '',
-      images: (data.images && data.images[0]) || '',
-      description: data.description || '',
-      houseType: data.houseType || '',
-      status: data.status || '',
-   }
-   console.log(data.region, 'rattttting')
-   // eslint-disable-next-line no-unused-vars
+
    const submitHandler = (values) => {
       const saveData = {
-         // eslint-disable-next-line no-use-before-define
          houseType: values.houseType,
          price: +values.price,
          region: valueSelect,
@@ -82,47 +73,84 @@ function ModalProfile({ setModalVisible, itemId }) {
       resetForm()
    }
    useEffect(() => {
-      if (object.saveData) {
-         dispatch(editAnouncement(object))
+      try {
+         if (object.saveData) {
+            dispatch(editAnouncement(object))
+            handleMenuClose()
+            toggleHandler()
+            toastType('success', 'successfully edited', 'success')
+         }
+      } catch (error) {
+         toastType('error!!!', error)
       }
-      toggleHandler()
    }, [object])
-   const { values, handleSubmit, handleChange, errors, touched } = useFormik({
-      initialValues,
-      validationSchema,
-      validateOnBlur: true,
-      onSubmit: (values) => {
-         submitHandler(values)
-      },
-   })
+
+   const { values, handleSubmit, handleChange, setValues, errors, touched } =
+      useFormik({
+         initialValues: {
+            maxGuests: data.maxGuests || '',
+            price: data.price || '',
+            title: data.title || '',
+            address: data.address || '',
+            province: data.province || '',
+            images: (data.images && data.images[0]) || '',
+            description: data.description || '',
+            houseType: data.houseType || '',
+            // status: data.status || '',
+         },
+         validationSchema,
+         validateOnBlur: true,
+         onSubmit: (values) => {
+            submitHandler(values)
+         },
+      })
+
+   useEffect(() => {
+      if (data) {
+         setValues({
+            maxGuests: data.maxGuests || '',
+            price: data.price || '',
+            title: data.title || '',
+            address: data.address || '',
+            province: data.province || '',
+            images: (data.images && data.images[0]) || '',
+            description: data.description || '',
+            houseType: data.houseType || '',
+            status: data.status || '',
+         })
+      }
+   }, [data])
 
    return (
-      <Modal width="60%" height="33rem" open={setModalVisible}>
+      <Modal width="50%" height="34rem" open={setModalVisible}>
          <form onSubmit={handleSubmit}>
             <StyleModalContainer>
                <InputContainer>
-                  <p>House type</p>
                   <StyleRadioContainer>
-                     <Input
-                        id="house-apartment"
-                        barsbek="nekrash"
-                        type="radio"
-                        name="houseType"
-                        value="APARTMENT"
-                        onChange={handleChange}
-                        checked
-                     />
-                     <label htmlFor="house-apartment">Apartment</label>
-                     <Input
-                        id="house-house"
-                        barsbek="nekrash"
-                        type="radio"
-                        name="houseType"
-                        value="HOUSE"
-                        checked={values.houseType === 'HOUSE'}
-                        onChange={handleChange}
-                     />
-                     <label htmlFor="house-house">House</label>
+                     <FormControl>
+                        <FormLabel id="demo-radio-buttons-group-label">
+                           House type
+                        </FormLabel>
+                        <RadioGroup
+                           aria-labelledby="demo-radio-buttons-group-label"
+                           value={values.houseType}
+                           name="houseType"
+                           onChange={handleChange}
+                           style={{ display: 'flex', flexDirection: 'row' }}
+                        >
+                           <FormControlLabel
+                              value="APARTMENT"
+                              defaultValue={values.houseType}
+                              control={<Radio />}
+                              label="APARTMENT"
+                           />
+                           <FormControlLabel
+                              value="HOUSE"
+                              control={<Radio />}
+                              label="HOUSE"
+                           />
+                        </RadioGroup>
+                     </FormControl>
                   </StyleRadioContainer>
                   <Input
                      label="title"
@@ -137,8 +165,8 @@ function ModalProfile({ setModalVisible, itemId }) {
                      name="images"
                      value={values.images}
                      onChange={handleChange}
-                     // error={touched.images && Boolean(errors.images)}
-                     // helperText={touched.images && errors.images}
+                     error={touched.images && Boolean(errors.images)}
+                     helperText={touched.images && errors.images}
                   />{' '}
                   <Input
                      label="address"
@@ -185,13 +213,7 @@ function ModalProfile({ setModalVisible, itemId }) {
                      error={touched.maxGuests && Boolean(errors.maxGuests)}
                      helperText={touched.maxGuests && errors.maxGuests}
                   />
-                  <Input
-                     label="status"
-                     name="status"
-                     value={values.status}
-                     error={touched.status && Boolean(errors.status)}
-                     helperText={touched.status && errors.status}
-                  />
+
                   <Input
                      label="province"
                      name="province"
@@ -236,6 +258,7 @@ function ModalProfile({ setModalVisible, itemId }) {
       </Modal>
    )
 }
+
 const SelectLabelName = styled('span')(() => ({
    color: '#C4C4C4',
 }))
@@ -245,8 +268,8 @@ const IsError = styled('span')(() => ({
 }))
 const RegionBlock = styled('div')(() => ({
    marginRight: '.625rem',
-   marginBottom: '.0625rem',
    height: '7.5rem',
+   paddingTop: '1rem',
 }))
 
 const StyledLabel = styled('label')(() => ({
@@ -264,7 +287,8 @@ const StyledLabel = styled('label')(() => ({
 
 const StyleModalContainer = styled('div')`
    display: flex;
-   justify-content: space-around;
+   justify-content: center;
+   gap: 6rem;
    align-items: center;
 `
 

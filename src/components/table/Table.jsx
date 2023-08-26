@@ -10,6 +10,7 @@ import {
    styled,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Delete } from '../../assets/icons'
 import { deleteUser, getAllUsers } from '../../api/userService'
 import Modal from '../UI/modal/Modal'
@@ -21,7 +22,7 @@ export function ReusableTable() {
    const [showModal, setShowModal] = useState(false)
    const [userToDelete, setUserToDeleteId] = useState(null)
    const { toastType } = toastSnackbar()
-
+   const navigate = useNavigate()
    const getUsers = async () => {
       try {
          const response = await getAllUsers()
@@ -51,6 +52,9 @@ export function ReusableTable() {
       } catch (error) {
          toastType('error', error)
       }
+   }
+   const getUsersById = (payload) => {
+      navigate(`${payload.id}`)
    }
 
    useEffect(() => {
@@ -95,7 +99,8 @@ export function ReusableTable() {
    ]
 
    return (
-      <div>
+      <div style={{ padding: '3.10rem 2.5rem 0 2.5rem' }}>
+         <h3 style={{ marginBottom: '1.25rem' }}>Users</h3>
          <StylePaper>
             {users.length > 0 ? (
                <TableContainer sx={{ maxHeight: 440 }}>
@@ -128,15 +133,17 @@ export function ReusableTable() {
                               role="checkbox"
                               tabIndex={-1}
                               key={user.id}
+                              onClick={() => getUsersById(user)}
+                              style={{ cursor: 'pointer' }}
                            >
                               <StyledTableCell>{user.id}</StyledTableCell>
                               <StyledTableCell>{user.fullName}</StyledTableCell>
                               <TableCell align="center">{user.email}</TableCell>
                               <TableCell align="right">
-                                 {user.announcements}
+                                 {user.bookings}
                               </TableCell>
                               <TableCell align="right">
-                                 {user.bookings}
+                                 {user.announcements}
                               </TableCell>
                               <TableCell align="right">
                                  <IconButton

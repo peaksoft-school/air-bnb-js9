@@ -28,8 +28,9 @@ import { ReactComponent as ArrowLeftBlack } from './GroupBlack.svg'
 import { ReactComponent as SeenPassword } from './seenPassword.svg'
 import { ReactComponent as HiddenPassword } from './hiddenPassword.svg'
 import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
-import { ReactComponent as ArrLeftIcon } from './arrleft.svg'
-import { ReactComponent as ArrRightIcon } from './arrfirght.svg'
+import { ReactComponent as ArrowrightIcon } from './arrfirght.svg'
+import { ReactComponent as ArrowleftIcon } from './arrleft.svg'
+import { ReactComponent as DeleteIcon } from './Х.svg'
 
 export {
    ArrowrightBlack,
@@ -62,6 +63,7 @@ export {
    SeenPassword,
    HiddenPassword,
    WhatsAppIcon,
-   ArrRightIcon,
-   ArrLeftIcon,
+   ArrowrightIcon,
+   ArrowleftIcon,
+   DeleteIcon,
 }

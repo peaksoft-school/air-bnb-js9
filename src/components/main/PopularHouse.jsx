@@ -44,9 +44,9 @@ export function PopularHouse() {
                gap: '1.2rem',
             }}
          >
-            {popularHouse.map((item) => {
+            {popularHouse?.map((item) => {
                return (
-                  <HouseContainer>
+                  <HouseContainer key={item.id}>
                      <div
                         style={{
                            width: '24.6rem',

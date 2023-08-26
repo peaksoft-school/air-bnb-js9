@@ -1,16 +1,20 @@
 import React from 'react'
-import { styled } from '@mui/material'
-import { ProfileCards } from '../UI/cards/ProfileCards'
+import { Cards } from '../UI/cards/Cards'
 
 export function Bookings({ bookings }) {
    return (
-      <BookingContainer>
-         <ProfileCards data={bookings} />
-      </BookingContainer>
+      <div>
+         <Cards
+            data={bookings}
+            page="admin"
+            justifyContent="start"
+            bgColor="white"
+         />
+      </div>
    )
 }
-const BookingContainer = styled('div')`
-   flex-wrap: wrap;
-   padding-top: 2%;
-   width: 100%;
-`
+// const BookingContainer = styled('div')`
+//    flex-wrap: wrap;
+//    padding-top: 2%;
+//    width: 100%;
+// `
