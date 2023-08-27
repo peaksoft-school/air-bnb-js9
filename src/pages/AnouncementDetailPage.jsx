@@ -19,8 +19,6 @@ export default function AnouncementDetailPage() {
    const [openModal, setOpenModal] = useState(false)
    const [showFullFeedback, setShowFullFeedback] = useState(false)
    const { datas } = useSelector((state) => state.getById)
-   console.log('datas: ', datas)
-   console.log('datasprice: ', datas.price)
 
    const dispatch = useDispatch()
 
@@ -72,7 +70,7 @@ export default function AnouncementDetailPage() {
                      <Payment
                         state={state}
                         openModalHandler={toggle}
-                        price="26"
+                        price={datas.price}
                      />
                   </HotelNamePaymentBlock>
                </HotelImgAndNameOfHotel>

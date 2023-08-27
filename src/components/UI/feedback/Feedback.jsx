@@ -5,20 +5,22 @@ import { MeatBalls } from '../meat-balls/MeatBalls'
 import { RatingStars } from '../rating/RatingStars'
 
 export default function Feedback({ data, onLike, onDislike }) {
+   const { avatar, comment, dislike, like, name, starRating } = data
+
    const [open, setOpen] = useState(false)
    const [showFullText, setShowFullText] = useState(false)
 
    const maxLength = 215
 
    const toggleText = () => {
-      if (data.comment.length <= maxLength) {
+      if (comment.length <= maxLength) {
          setShowFullText(false)
-      } else if (data.comment.length >= maxLength) {
+      } else if (comment.length >= maxLength) {
          setShowFullText(!showFullText)
       }
    }
 
-   const truncatedText = data.comment.substring(0, maxLength)
+   const truncatedText = comment.substring(0, maxLength)
 
    const toggle = () => {
       setOpen((prev) => !prev)
@@ -30,18 +32,18 @@ export default function Feedback({ data, onLike, onDislike }) {
                <div>
                   <Avatar
                      style={{ marginRight: '13px' }}
-                     src={data.avatar && data.avatar}
+                     src={avatar && avatar}
                   >
-                     {data.avatar || data.name[0]}
+                     {avatar || name[0]}
                   </Avatar>
                </div>
 
                <div>
                   <RatingAndNameBlock>
-                     <h4 style={{ marginRight: '10px' }}>{data.name}</h4>
+                     <h4 style={{ marginRight: '10px' }}>{name}</h4>
 
-                     <RatingStars starRating={data.starRating} />
-                     <StyledSpan>({data.starRating})</StyledSpan>
+                     <RatingStars starRating={starRating} />
+                     <StyledSpan>({starRating})</StyledSpan>
                   </RatingAndNameBlock>
 
                   <span style={{ color: '#828282' }}>28.04.22</span>
@@ -59,7 +61,7 @@ export default function Feedback({ data, onLike, onDislike }) {
          <CommentBlock>
             <p>
                {showFullText ? (
-                  <span> {data.comment} </span>
+                  <span> {comment} </span>
                ) : (
                   <span> {truncatedText}</span>
                )}
@@ -73,12 +75,12 @@ export default function Feedback({ data, onLike, onDislike }) {
          <GradeBlock>
             <StyledIconButton onClick={onLike}>
                <Like1 />
-               <p>{data.like}</p>
+               <p>{like}</p>
             </StyledIconButton>
 
             <StyledIconButton onClick={onDislike}>
                <Dislike />
-               <p> {data.dislike}</p>
+               <p> {dislike}</p>
             </StyledIconButton>
          </GradeBlock>
       </Container>

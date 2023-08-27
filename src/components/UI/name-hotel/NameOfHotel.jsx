@@ -11,6 +11,7 @@ export function NameOfHotel({
    acceptHandler,
    pages,
    roles,
+   buttons,
 }) {
    return (
       <Container>
@@ -35,60 +36,69 @@ export function NameOfHotel({
 
             <ProfileBlock>
                <div className="avatar" />
-               {dataById.user && (
+               {buttons === 'yes' ? (
                   <NameBlock>
                      <h4>{dataById.user.fullName}</h4>
                      <p>{dataById.user.email}</p>
                   </NameBlock>
+               ) : (
+                  <NameBlock>
+                     <h4>{dataById.userFullName}</h4>
+                     <p>{dataById.userEmail}</p>
+                  </NameBlock>
                )}
             </ProfileBlock>
          </DescriptionContainer>
-         <ContainerButtonTwo>
-            <Button
-               onClick={openModalHandler}
-               variant="contained"
-               width="12.25rem"
-               border-radius=" 0.125rem"
-               border=" 1px solid #DD8A08"
-               bgColor="#fff"
-               padding=" 0.625rem 1rem"
-               color="#DD8A08"
-               font-size="0.875rem"
-               font-weight="500"
-            >
-               {pages ? 'delete' : 'reject'}
-            </Button>
-            {roles === 'user' ? (
+         {buttons === 'yes' ? (
+            <ContainerButtonTwo>
                <Button
+                  onClick={openModalHandler}
                   variant="contained"
                   width="12.25rem"
                   border-radius=" 0.125rem"
                   border=" 1px solid #DD8A08"
-                  bgColor="#DD8A08"
+                  bgColor="#fff"
                   padding=" 0.625rem 1rem"
-                  color="#fff"
+                  color="#DD8A08"
                   font-size="0.875rem"
                   font-weight="500"
                >
-                  edit
+                  {pages ? 'delete' : 'reject'}
                </Button>
-            ) : (
-               <Button
-                  onClick={pages ? 'block' : () => acceptHandler(dataById.id)}
-                  variant="contained"
-                  width="12.25rem"
-                  border-radius=" 0.125rem"
-                  border=" 1px solid #DD8A08"
-                  bgColor="#DD8A08"
-                  padding=" 0.625rem 1rem"
-                  color="#fff"
-                  font-size="0.875rem"
-                  font-weight="500"
-               >
-                  {pages ? 'block' : 'accept'}
-               </Button>
-            )}
-         </ContainerButtonTwo>
+               {roles === 'user' ? (
+                  <Button
+                     variant="contained"
+                     width="12.25rem"
+                     border-radius=" 0.125rem"
+                     border=" 1px solid #DD8A08"
+                     bgColor="#DD8A08"
+                     padding=" 0.625rem 1rem"
+                     color="#fff"
+                     font-size="0.875rem"
+                     font-weight="500"
+                  >
+                     edit
+                  </Button>
+               ) : (
+                  <Button
+                     onClick={
+                        pages ? 'block' : () => acceptHandler(dataById.id)
+                     }
+                     variant="contained"
+                     width="12.25rem"
+                     border-radius=" 0.125rem"
+                     border=" 1px solid #DD8A08"
+                     bgColor="#DD8A08"
+                     padding=" 0.625rem 1rem"
+                     color="#fff"
+                     font-size="0.875rem"
+                     font-weight="500"
+                  >
+                     {pages ? 'block' : 'accept'}
+                  </Button>
+               )}
+            </ContainerButtonTwo>
+         ) : null}
       </Container>
    )
 }
