@@ -12,7 +12,7 @@ import {
    AirBNBIcon,
 } from '../../assets/icons/index'
 import { userRoles } from '../../utils/constants'
-import { MenuEditAndDelete } from '../../components/UI/menu/MenuEditAndDelete'
+import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
 
 import { authActions } from '../../store/auth/authSlice'
 import Modal from '../../components/UI/modal/Modal'
@@ -30,7 +30,6 @@ export function Header({ login }) {
    }
 
    const openModalHandler = () => {
-      console.log('click')
       setOpenModal((prev) => !prev)
    }
 
@@ -98,7 +97,7 @@ export function Header({ login }) {
                            >
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
-                           <MenuEditAndDelete
+                           <MeatBalls
                               open={meatBalls}
                               openHandler={toggleMeatBalls}
                               state="true"
@@ -114,7 +113,7 @@ export function Header({ login }) {
                               >
                                  log out
                               </Button>
-                           </MenuEditAndDelete>
+                           </MeatBalls>
                         </div>
                      </FavoriteDiv>
                   ) : (
@@ -189,7 +188,7 @@ export function Header({ login }) {
                            <Avatar sx={{ bgcolor: '#0298D9' }}>
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
-                           <MenuEditAndDelete
+                           <MeatBalls
                               open={meatBalls}
                               openHandler={toggleMeatBalls}
                               state="true"
@@ -205,7 +204,7 @@ export function Header({ login }) {
                               >
                                  log out
                               </Button>
-                           </MenuEditAndDelete>
+                           </MeatBalls>
                         </div>
                      </FavoriteDiv>
                   ) : null}

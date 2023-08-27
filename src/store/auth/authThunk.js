@@ -15,7 +15,7 @@ export const signInRequest = createAsyncThunk(
 
          return response.data
       } catch (error) {
-         return rejectWithValue(error.response.data.message)
+         return rejectWithValue(error.message)
       }
    }
 )

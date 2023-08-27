@@ -44,15 +44,11 @@ export function RatingChart({ starValue }) {
 }
 
 const Container = styled('div')(() => ({
-   width: ' 26.5rem',
-   height: ' 14.5rem',
-   borderRadius: '1rem',
-   '.rating': {
-      border: '1px solid gray',
-      borderRadius: '14px',
-      padding: '25px 30px 30px 10px',
-      width: '100%',
-   },
+   border: '1px solid gray',
+   borderRadius: '14px',
+   padding: '25px 30px 30px 10px',
+   width: '27%',
+   marginTop: '20px',
 }))
 
 const StarDiv = styled('div')(() => ({
