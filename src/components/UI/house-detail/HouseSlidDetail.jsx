@@ -21,7 +21,7 @@ export function HouseSlidDetail({ images }) {
 }
 
 const Container = styled('div')(() => ({
-   width: '35%',
+   width: '47%',
 }))
 const StyleImageGallery = styled(ImageGallery)(() => ({
    width: '100vw',

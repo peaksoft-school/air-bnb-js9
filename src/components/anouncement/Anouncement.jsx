@@ -263,7 +263,6 @@ const GlobalContainer = styled('div')(() => ({
 const Container = styled('form')(() => ({
    display: 'flex',
    flexDirection: 'column',
-   border: '1px solid black',
 
    h2: {
       color: '#363636',
