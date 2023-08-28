@@ -3,15 +3,11 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { Button } from '../UI/button/Button'
-import {
-   postPaymentRequest,
-   putBookRequest,
-} from '../../store/payment/PaymentThunk'
+import { postPaymentRequest } from '../../store/payment/PaymentThunk'
 import { toastSnackbar } from '../UI/snackbar/Snackbar'
 
 export function ResultPaymentForm({
    price,
-   methot,
    ResultChekin,
    ResultChekout,
    openModalHandler,
@@ -49,20 +45,8 @@ export function ResultPaymentForm({
       }
    }
 
-   const updateBook = (e) => {
-      e.preventDefault()
-
-      const data = {
-         announcementId: 256,
-         checkIn: ResultChekin,
-         checkOut: ResultChekout,
-         bookingId: 12,
-      }
-
-      dispatch(putBookRequest(data))
-   }
    return (
-      <ContainerFrom onSubmit={methot === 'post' ? handleSubmit : updateBook}>
+      <ContainerFrom onSubmit={handleSubmit}>
          <div className="block">
             <ContainerCartElement>
                <CardElement

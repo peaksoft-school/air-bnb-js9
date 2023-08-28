@@ -8,10 +8,10 @@ export function PaymentInDarePicker({
    price,
    methot,
    openModal,
-   // bookedDates,
+   postBookings,
    valueChekin,
    valueChekout,
-   toggleHandler,
+   updateBookings,
    setValueCheckin,
    setValueCheckout,
 }) {
@@ -81,7 +81,7 @@ export function PaymentInDarePicker({
                   borderRadius="0.125rem"
                   padding=" 0.625rem 1rem"
                   textTransform="uppercase"
-                  onClick={toggleHandler}
+                  onClick={updateBookings}
                   disabled={!valueChekin || !valueChekout}
                >
                   request to book
@@ -124,7 +124,7 @@ export function PaymentInDarePicker({
                      borderRadius="0.125rem"
                      padding=" 0.625rem 1rem"
                      textTransform="uppercase"
-                     onClick={toggleHandler}
+                     onClick={postBookings}
                      disabled={!valueChekin || !valueChekout}
                   >
                      request to book

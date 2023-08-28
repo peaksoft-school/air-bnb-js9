@@ -1,22 +1,23 @@
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { PaymentInDarePicker } from './PaymentInDatePicker'
 import { Button } from '../UI/button/Button'
 import { ResultPaiment } from './ResultPaiment'
+import {
+   postBookRequest,
+   putBookRequest,
+} from '../../store/payment/PaymentThunk'
 
 export function Payment({ state, openModalHandler, price, methot }) {
    const [valueChekin, setValueCheckin] = useState('')
    const [defaultDate, setDefaultDate] = useState(false)
    const [valueChekout, setValueCheckout] = useState('')
    const [toggleResult, setToggleResult] = useState(false)
+   const dispatch = useDispatch()
 
-   const toggleHandler = () => {
-      setToggleResult((prev) => !prev)
-      setDefaultDate(true)
-   }
-
-   const ResultChekin = `${valueChekin.$D}.${valueChekin.$H}${valueChekin.$M}.${valueChekin.$y}`
-   const ResultChekout = `${valueChekout.$D}.${valueChekout.$H}${valueChekout.$M}.${valueChekout.$y}`
+   const ResultChekin = `${valueChekin.$y}-${valueChekin.$H}${valueChekin.$M}-${valueChekin.$D}`
+   const ResultChekout = `${valueChekout.$y}-${valueChekout.$H}${valueChekout.$M}-${valueChekout.$D}`
    console.log(ResultChekin, 'ResultChekin')
    console.log(valueChekin, 'valueChekin')
    const getCurrentDate = () => {
@@ -45,6 +46,33 @@ export function Payment({ state, openModalHandler, price, methot }) {
    }`
    bookedDates.push(formattedCheckinDate, formattedCheckoutDate)
 
+   const postBookings = () => {
+      setToggleResult((prev) => !prev)
+      setDefaultDate(true)
+
+      const data = {
+         announcementId: 205,
+         checkIn: ResultChekin,
+         checkOut: ResultChekout,
+      }
+
+      dispatch(postBookRequest(data))
+   }
+
+   const updateBookings = () => {
+      setToggleResult((prev) => !prev)
+      setDefaultDate(true)
+
+      const data = {
+         announcementId: 224,
+         checkIn: ResultChekin,
+         checkOut: ResultChekout,
+         bookingId: 0,
+      }
+
+      dispatch(putBookRequest(data))
+   }
+
    return methot === 'post' ? (
       <div>
          {state ? (
@@ -66,7 +94,7 @@ export function Payment({ state, openModalHandler, price, methot }) {
                      bookedDates={bookedDates}
                      valueChekin={valueChekin}
                      valueChekout={valueChekout}
-                     toggleHandler={toggleHandler}
+                     updateBookings={updateBookings}
                      setValueCheckin={setValueCheckin}
                      setValueCheckout={setValueCheckout}
                   />
@@ -128,7 +156,7 @@ export function Payment({ state, openModalHandler, price, methot }) {
                methot={methot}
                valueChekin={valueChekin}
                valueChekout={valueChekout}
-               toggleHandler={toggleHandler}
+               postBookings={postBookings}
                setValueCheckin={setValueCheckin}
                setValueCheckout={setValueCheckout}
             />
