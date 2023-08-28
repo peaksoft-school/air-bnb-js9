@@ -32,7 +32,7 @@ export function UserProfile() {
 
    return (
       <MainContainer>
-         <Header />
+         <Header profile="true" />
          <NavContainer>
             <Navigation>
                <ButtonStyle type="button" onClick={() => navigate('/')}>

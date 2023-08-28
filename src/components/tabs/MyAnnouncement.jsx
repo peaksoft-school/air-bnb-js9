@@ -151,4 +151,5 @@ const SelectStyle = styled('p')`
    justify-content: center;
    align-items: center;
    gap: 3px;
+   cursor: pointer;
 `
