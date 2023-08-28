@@ -3,38 +3,46 @@ import { styled } from '@mui/material'
 import { Button } from '../button/Button'
 import { ModalNameHotel } from './ModalNameHotel'
 
-export function NameOfHotel({ hotel, openModal, openModalHandler }) {
+export function NameOfHotel({
+   dataById,
+   openModal,
+   openModalHandler,
+   rejectedCartd,
+   acceptHandler,
+   pages,
+   roles,
+}) {
    return (
       <Container>
          <ModalNameHotel
             openModal={openModal}
             openModalHandler={openModalHandler}
+            rejectedCartd={rejectedCartd}
          />
-         <ButtonContainerOne>
-            <div>Apartement</div>
-            <div>2 Guests</div>
-         </ButtonContainerOne>
-         {hotel.map((item) => {
-            return (
-               <DescriptionContainer>
-                  <NameHotel>
-                     <h3>{item.nameHotel}</h3>
-                     <p>{item.addresHotel}</p>
-                  </NameHotel>
+         <DescriptionContainer key={dataById.id}>
+            <ButtonContainerOne>
+               <div>{dataById.houseType}Apartment</div>
+               <div>{dataById.maxGuests} Guests</div>
+            </ButtonContainerOne>
+            <NameHotel>
+               <h3>{dataById.region}</h3>
+               <p>
+                  {dataById.address}, {dataById.province}
+               </p>
+            </NameHotel>
 
-                  <p className="description">{item.discriptionHotel}</p>
+            <p className="description">{dataById.description}</p>
 
-                  <ProfileBlock>
-                     <img src={item.hostAvatar} alt="#" />
-                     <NameBlock>
-                        <h4>{item.hostName}</h4>
-                        <p>{item.hostEmail}</p>
-                     </NameBlock>
-                  </ProfileBlock>
-               </DescriptionContainer>
-            )
-         })}
-
+            <ProfileBlock>
+               <div className="avatar" />
+               {dataById.user && (
+                  <NameBlock>
+                     <h4>{dataById.user.fullName}</h4>
+                     <p>{dataById.user.email}</p>
+                  </NameBlock>
+               )}
+            </ProfileBlock>
+         </DescriptionContainer>
          <ContainerButtonTwo>
             <Button
                onClick={openModalHandler}
@@ -42,27 +50,44 @@ export function NameOfHotel({ hotel, openModal, openModalHandler }) {
                width="12.25rem"
                border-radius=" 0.125rem"
                border=" 1px solid #DD8A08"
-               background="#fff"
+               bgColor="#fff"
                padding=" 0.625rem 1rem"
                color="#DD8A08"
                font-size="0.875rem"
                font-weight="500"
             >
-               reject
+               {pages ? 'delete' : 'reject'}
             </Button>
-            <Button
-               variant="contained"
-               width="12.25rem"
-               border-radius=" 0.125rem"
-               border=" 1px solid #DD8A08"
-               bgColor="#DD8A08"
-               padding=" 0.625rem 1rem"
-               color="#fff"
-               font-size="0.875rem"
-               font-weight="500"
-            >
-               accept
-            </Button>
+            {roles === 'user' ? (
+               <Button
+                  variant="contained"
+                  width="12.25rem"
+                  border-radius=" 0.125rem"
+                  border=" 1px solid #DD8A08"
+                  bgColor="#DD8A08"
+                  padding=" 0.625rem 1rem"
+                  color="#fff"
+                  font-size="0.875rem"
+                  font-weight="500"
+               >
+                  edit
+               </Button>
+            ) : (
+               <Button
+                  onClick={pages ? 'block' : () => acceptHandler(dataById.id)}
+                  variant="contained"
+                  width="12.25rem"
+                  border-radius=" 0.125rem"
+                  border=" 1px solid #DD8A08"
+                  bgColor="#DD8A08"
+                  padding=" 0.625rem 1rem"
+                  color="#fff"
+                  font-size="0.875rem"
+                  font-weight="500"
+               >
+                  {pages ? 'block' : 'accept'}
+               </Button>
+            )}
          </ContainerButtonTwo>
       </Container>
    )
@@ -131,10 +156,19 @@ const ProfileBlock = styled('div')(() => ({
    display: 'flex',
    gap: '1rem',
    marginBottom: '3.56rem',
-   img: {
+   '.avatar': {
       width: '40px',
       height: '40px',
       borderRadius: '50%',
+      background:
+         ' linear-gradient(194deg, rgba(157,157,157,1) 48%, rgba(0,0,0,1) 100%)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      h5: {
+         color: '#fff',
+         fontSize: 20,
+      },
    },
 }))
 const NameBlock = styled('div')(() => ({

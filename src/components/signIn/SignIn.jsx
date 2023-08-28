@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux'
 import { Input } from '../UI/input/Input'
 import { Button } from '../UI/button/Button'
 import { signInRequest } from '../../store/auth/authThunk'
-import { HiddenPassword, SeenPassword } from '../../assets/icons'
 import { toastSnackbar } from '../UI/snackbar/Snackbar'
+import { HiddenPassword, SeenPassword } from '../../assets/icons'
 
 export function SignIn({ moveToSigninAndSignUp }) {
    const [seePassword, setSeePassword] = useState(false)

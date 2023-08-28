@@ -7,7 +7,6 @@ export function OnModeration({ moderation }) {
             return (
                <div key={item.id}>
                   <h1>{item.title}</h1>
-                  <p>{item.age}</p>
                </div>
             )
          })}

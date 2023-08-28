@@ -1,5 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { initializeApp } from '@firebase/app'
-import { getAuth, GoogleAuthProvider } from 'firebase/auth'
+import { getAuth, GoogleAuthProvider } from '@firebase/auth'
 
 const firebaseConfig = {
    apiKey: 'AIzaSyAQY98QR0-2sOFIfMHvtvULSq5pL348XJg',
