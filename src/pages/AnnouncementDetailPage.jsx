@@ -90,9 +90,11 @@ export default function AnnouncementDetailPage() {
                              <Feedback data={feedback} />
                           ))}
 
-                     <ShowFullFeedbackText onClick={toggleFeedback}>
-                        {showFullFeedback ? 'Show less' : 'Show more'}
-                     </ShowFullFeedbackText>
+                     <ShowMoreBlock>
+                        <ShowFullFeedbackText onClick={toggleFeedback}>
+                           {showFullFeedback ? 'Show less' : 'Show more'}
+                        </ShowFullFeedbackText>
+                     </ShowMoreBlock>
                      <ButtonForFeedback
                         onClick={leaveFeedbackHandler}
                         style={{ width: '39.375rem', marginTop: '2.5rem' }}
@@ -178,13 +180,19 @@ const FeedbackAndRatingBlock = styled('div')(() => ({
    marginBottom: '6.63rem',
 }))
 
-const ShowFullFeedbackText = styled('span')(() => ({
+const ShowFullFeedbackText = styled('button')(() => ({
    color: '#000',
    fontFamily: 'Inter',
    fontSize: '1rem',
    fontWeight: '400',
    textDecorationLine: 'underline',
-   display: 'flex',
-   justifyContent: 'center',
    marginTop: '1rem',
+   cursor: 'pointer',
+   background: 'none',
+   border: ' none',
+}))
+
+const ShowMoreBlock = styled('div')(() => ({
+   display: 'flex',
+   justifyContent: ' center',
 }))

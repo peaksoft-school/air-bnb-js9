@@ -154,8 +154,12 @@ const CommentBlock = styled('div')(() => ({
    marginTop: '.5625rem',
 }))
 
-const ShowMoreAndLess = styled('span')(() => ({
+const ShowMoreAndLess = styled('button')(() => ({
    color: ' var(--tertiary-blue, #266BD3)',
    lineHeight: '130%',
    textDecorationLine: 'underline',
+   background: 'none',
+   border: 'none',
+   cursor: 'pointer',
+   fontSize: '1rem',
 }))
