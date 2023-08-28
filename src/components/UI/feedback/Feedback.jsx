@@ -1,4 +1,4 @@
-import { Avatar, IconButton, styled } from '@mui/material'
+import { Avatar, IconButton, MenuItem, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { Dislike, IconMenu, Like1 } from '../../../assets/icons'
 import { MeatBalls } from '../meat-balls/MeatBalls'
@@ -7,7 +7,7 @@ import { RatingStars } from '../rating/RatingStars'
 export default function Feedback({ data, onLike, onDislike }) {
    const { avatar, comment, dislike, like, name, starRating } = data
 
-   const [open, setOpen] = useState(false)
+   const [currentEl, setCurrentEl] = useState(null)
    const [showFullText, setShowFullText] = useState(false)
 
    const maxLength = 215
@@ -22,9 +22,16 @@ export default function Feedback({ data, onLike, onDislike }) {
 
    const truncatedText = comment.substring(0, maxLength)
 
-   const toggle = () => {
-      setOpen((prev) => !prev)
+   const toggle = (e) => {
+      setCurrentEl(e.currentTarget)
    }
+
+   const closeHandler = () => {
+      setCurrentEl(null)
+   }
+
+   const open = Boolean(currentEl)
+   const meatBallId = open ? 'simple-popover' : undefined
    return (
       <Container>
          <Block>
@@ -52,9 +59,16 @@ export default function Feedback({ data, onLike, onDislike }) {
 
             <div>
                <IconMenu onClick={toggle} />
-               <MeatBalls open={open} onClick={toggle}>
-                  <h3>Edit</h3>
-                  <h3>Delete</h3>
+               <MeatBalls
+                  anchorEl={currentEl}
+                  open={open}
+                  close={closeHandler}
+                  id={meatBallId}
+                  width=" 11.25rem"
+                  height="5.5rem"
+               >
+                  <MenuItem>Edit</MenuItem>
+                  <MenuItem>Delete</MenuItem>
                </MeatBalls>
             </div>
          </Block>

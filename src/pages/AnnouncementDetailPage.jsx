@@ -14,11 +14,13 @@ import { RatingChart } from '../components/UI/rating/RatingChart'
 import { LeaveFeedback } from '../components/leave-feedback/LeaveFeeadback'
 import { getByIdRequest } from '../store/anouncement/AnouncementThunk'
 
-export default function AnouncementDetailPage() {
+export default function AnnouncementDetailPage() {
    const [state, setState] = useState(false)
    const [openModal, setOpenModal] = useState(false)
    const [showFullFeedback, setShowFullFeedback] = useState(false)
-   const { datas } = useSelector((state) => state.getById)
+   const { announcementDataById } = useSelector(
+      (state) => state.announcementGetById
+   )
 
    const dispatch = useDispatch()
 
@@ -66,11 +68,14 @@ export default function AnouncementDetailPage() {
                <HotelImgAndNameOfHotel>
                   <HouseSlidDetail images={house} />
                   <HotelNamePaymentBlock>
-                     <NameOfHotel dataById={datas} buttons="no" />
+                     <NameOfHotel
+                        dataById={announcementDataById}
+                        buttons="no"
+                     />
                      <Payment
                         state={state}
                         openModalHandler={toggle}
-                        price={datas.price}
+                        price={announcementDataById.price}
                      />
                   </HotelNamePaymentBlock>
                </HotelImgAndNameOfHotel>
@@ -144,6 +149,7 @@ const StyledFeedback = styled('h4')(() => ({
    fontWeight: '500',
    textTransform: 'uppercase',
    marginBottom: '2.875rem',
+   cursor: 'pointer',
 }))
 
 const ButtonForFeedback = styled('button')(() => ({
@@ -156,6 +162,7 @@ const ButtonForFeedback = styled('button')(() => ({
    textTransform: 'uppercase',
    border: '.0625rem solid#828282',
    background: 'none ',
+   cursor: 'pointer',
 }))
 
 const HotelNamePaymentBlock = styled('div')(() => ({
