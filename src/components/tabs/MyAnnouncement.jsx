@@ -14,7 +14,6 @@ export function MyAnnouncement({ select, announcement }) {
    const [sortRating, setSortRating] = useState('')
    const [sort, setSort] = useState('')
    const dispatch = useDispatch()
-
    const changePriceHandler = (e) => {
       setSortPrice(e.target.value)
    }
@@ -34,6 +33,7 @@ export function MyAnnouncement({ select, announcement }) {
 
       dispatch(filterHouseRequest(params))
    }, [sortPrice, sortRating, sort, dispatch])
+
    const clearSort = (criteria) => {
       if (criteria === 'houseType') {
          setSort('')
@@ -53,6 +53,7 @@ export function MyAnnouncement({ select, announcement }) {
    } else if (sortRating === 'LOW_TO_HIGH') {
       setSortRating('Popular')
    }
+
    return (
       <div>
          <Container>
@@ -86,7 +87,9 @@ export function MyAnnouncement({ select, announcement }) {
                      {sortPrice && (
                         <SelectStyle>
                            <DeleteIcon onClick={() => clearSort('price')} />{' '}
-                           {sortPrice}
+                           {sortPrice === 'HIGH_TO_LOW'
+                              ? 'HIGH TO LOW'
+                              : 'LOW TO HIGH'}
                         </SelectStyle>
                      )}
                      {sortRating && (

@@ -14,8 +14,6 @@ export const getAnnouncement = createAsyncThunk(
       try {
          const response = await getMyAnnouncement()
 
-         console.log('response: ', response.data)
-
          return response.data
       } catch (error) {
          return rejectWithValue(error)
@@ -40,7 +38,6 @@ export const findAnnouncementById = createAsyncThunk(
    async (id, { rejectWithValue }) => {
       try {
          const response = await findannounByIdRequest(id)
-         console.log('response: ', response)
          return response.data
       } catch (error) {
          return rejectWithValue

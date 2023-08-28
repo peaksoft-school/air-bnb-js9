@@ -68,7 +68,7 @@ const NameAndContactBlock = styled('div')((props) => ({
    display: 'flex',
    flexDirection: 'column',
    gap: '0.94rem',
-
+   cursor: 'pointer',
    width: props.width,
    height: props.height,
    textAlign: props.textAlign,
@@ -89,4 +89,5 @@ const LogOut = styled('button')(() => ({
    lineHeight: 'normal',
    backgroundColor: 'white',
    border: 'none',
+   cursor: 'pointer',
 }))

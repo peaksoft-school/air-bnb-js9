@@ -7,6 +7,7 @@ import { Footer } from '../../layout/Footer/Footer'
 import { Tabs } from '../tabs/Tabs'
 import { Profile } from '../UI/profile/Profile'
 import { getAnnouncement } from '../../store/profile/ProfileThunk'
+import { authActions } from '../../store/auth/authSlice'
 
 export function UserProfile() {
    const dispatch = useDispatch()
@@ -15,8 +16,10 @@ export function UserProfile() {
    const { data } = useSelector((state) => state.getannouncement)
 
    const logOut = () => {
+      dispatch(authActions.logout())
       navigate('/')
    }
+
    const userDetailProfile = {
       photo: data.image,
       email: data.contact,
@@ -32,10 +35,18 @@ export function UserProfile() {
          <Header />
          <NavContainer>
             <Navigation>
-               <p>Main /</p>
-               <p>Hotel /</p>
-               <p>Naryn /</p>
-               <p>Profile</p>
+               <ButtonStyle type="button" onClick={() => navigate('/')}>
+                  Main /
+               </ButtonStyle>
+               <ButtonStyle type="button" onClick={() => navigate('/hotel')}>
+                  Hotel /
+               </ButtonStyle>
+               <ButtonStyle type="button" onClick={() => navigate('/naryn')}>
+                  Naryn /
+               </ButtonStyle>
+               <ButtonStyle type="button" onClick={() => navigate(`/Profile`)}>
+                  Profile
+               </ButtonStyle>
             </Navigation>
 
             <h3>Profile</h3>
@@ -60,6 +71,11 @@ export function UserProfile() {
       </MainContainer>
    )
 }
+const ButtonStyle = styled('button')`
+   cursor: pointer;
+   border: none;
+   background-color: white;
+`
 
 const ProfileContainer = styled('div')`
    display: flex;
@@ -84,8 +100,16 @@ const NavContainer = styled('div')`
 `
 const Navigation = styled('div')`
    display: flex;
+   justify-content: space-around;
    padding: 40px 0;
+   width: 200px;
+   :nth-child(4) {
+      color: black;
+      font-size: bold;
+      font-weight: 400;
+   }
 `
+
 const MainContainer = styled('div')`
    background: #f7f7f7;
    width: 100%;

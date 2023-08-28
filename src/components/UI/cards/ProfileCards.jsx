@@ -143,7 +143,6 @@ export function ProfileCards({ data, announcement, ...props }) {
                   <LocationCantainerStyle>
                      <Location />
                      <p>{item.address}</p>
-                     <h4>{item.id}</h4>
                   </LocationCantainerStyle>
                   {announcement === 'true' && (
                      <StyledHorizIcon>
