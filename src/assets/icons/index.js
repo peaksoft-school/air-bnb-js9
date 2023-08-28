@@ -33,6 +33,7 @@ import { ReactComponent as HiddenPassword } from './hiddenPassword.svg'
 import { ReactComponent as SeenPassword } from './seenPassword.svg'
 import { ReactComponent as AdminLocation } from './AdminLocation.svg'
 import { ReactComponent as AdminMenu } from './AdminMenu.svg'
+import { ReactComponent as IconMenu } from './IconMenu.svg'
 
 export {
    ArrowleftIcon,
@@ -69,4 +70,5 @@ export {
    SeenPassword,
    AdminLocation,
    AdminMenu,
+   IconMenu,
 }
