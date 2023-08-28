@@ -44,7 +44,12 @@ function AdminUsersPage() {
          <UserSide>
             <NavLink to="/admin/users/">
                Users
-               <span style={{ fontWeight: '700', color: '#363636' }}>
+               <span
+                  style={{
+                     fontWeight: '700',
+                     color: '#363636',
+                  }}
+               >
                   {' '}
                   / {userData.fullName}
                </span>
@@ -91,6 +96,7 @@ const Container = styled('div')(() => ({
    gap: '2rem',
    padding: '2.90rem 0rem 2.88rem 2.5rem',
    cursor: 'pointer',
+   marginTop: '5rem',
 }))
 
 const UserSide = styled('div')(() => ({

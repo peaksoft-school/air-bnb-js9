@@ -1,6 +1,7 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { styled } from '@mui/material'
 import React from 'react'
-import { signInWithPopup } from 'firebase/auth'
+import { signInWithPopup } from '@firebase/auth'
 import { useDispatch } from 'react-redux'
 import { Button } from '../UI/button/Button'
 import { Google } from '../../assets/icons'
@@ -14,6 +15,7 @@ export function JoinUs({ moveToSigninAndSignUp }) {
    const signInGoogleHandler = async () => {
       try {
          await signInWithPopup(auth, provider).then((data) => {
+            console.log(data.user.accessToken)
             dispatch(authWithGoogleRequest(data.user.accessToken)).unwrap()
             console.log('data: ', data.user.accessToken)
             toastType(

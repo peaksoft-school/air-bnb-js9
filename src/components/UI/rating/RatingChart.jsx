@@ -46,6 +46,7 @@ const Container = styled('div')(() => ({
    borderRadius: '14px',
    padding: '25px 30px 30px 10px',
    width: '27%',
+   marginTop: '20px',
 }))
 
 const StarDiv = styled('div')(() => ({
