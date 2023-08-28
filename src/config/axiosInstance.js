@@ -16,7 +16,9 @@ const logoutAction = () => {}
 
 axiosInstance.interceptors.request.use((config) => {
    const updatedConfig = { ...config }
-   const { token } = store.getState().auth
+   // const { token } = store.getState().auth
+   const token =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTM0ODMyMDIsImlhdCI6MTY5MzIyNDAwMiwidXNlcm5hbWUiOiJhbGlzdGVyQGdtYWlsLmNvbSJ9.-cTh_JH9fjYJaNtL1YZ4t3rn4X3zGMihFFGr3NoeTBs'
    if (token) {
       updatedConfig.headers.Authorization = ` Bearer ${token}`
    }
