@@ -8,7 +8,8 @@ import { ResultPaymentForm } from './ResultPaymentForm'
 const stripePromise = loadStripe(
    'pk_test_51NYN0mBbVpyhSGy9ZskXVZmFK9RJkccBrsiOb2eeve0aYF5XdJ08fQJd3679hdlc4OI8RVnkcwhVdMgWdxGwam1Y00JFIanrmJ'
 )
-
+const clientSecret =
+   'sk_test_51NYN0mBbVpyhSGy9TAmd8wM7C0L8hGp15nYondNkbh9OrCYvGx9yO7iVIDp7De590DoQhvVueJSlYQmVmBzdZij100iUx2V8f1   '
 const getMonthName = (monthNumber) => {
    const months = [
       'January',
@@ -79,7 +80,7 @@ export function ResultPaiment({
                </h3>
             </TotalContainer>
 
-            <Elements stripe={stripePromise}>
+            <Elements stripe={stripePromise} options={{ clientSecret }}>
                <ResultPaymentForm
                   openModalHandler={openModalHandler}
                   valueChekin={valueChekin}

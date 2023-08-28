@@ -1,67 +1,24 @@
 import { Checkbox, InputAdornment, styled } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
 import mainBackground from '../../assets/images/MainBackground.png'
 import { Header } from '../../layout/Header/Header'
 import { Input } from '../UI/input/Input'
 import { SearchIcon } from '../../assets/icons'
-import Modal from '../UI/modal/Modal'
-import { JoinUs } from '../signIn/JoinUs'
-import { SignIn } from '../signIn/SignIn'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
 export function MainPage() {
    const [userLogin, setUserLogin] = useState(false)
-   const [openModal, setOpenModal] = useState(false)
-   const [signIn, setSignIn] = useState(false)
-
-   const { isAuthorization } = useSelector((state) => state.auth)
-
-   const loginHandler = () => {
-      setUserLogin((prev) => !prev)
-   }
-
-   const openModalHandler = () => {
-      setOpenModal((prev) => !prev)
-   }
-
-   const moveToSigninAndSignUp = () => {
-      setSignIn((prev) => !prev)
-   }
-
-   useEffect(() => {
-      if (isAuthorization) {
-         setOpenModal(false)
-      }
-   }, [isAuthorization])
-
+   console.log('setUserLogin: ', setUserLogin)
    return (
       <div>
-         {openModal ? (
-            <Modal
-               open={openModal}
-               onClose={openModalHandler}
-               borderRadius="0.125rem"
-               border="none"
-            >
-               {signIn ? (
-                  <SignIn moveToSigninAndSignUp={moveToSigninAndSignUp} />
-               ) : (
-                  <JoinUs
-                     loginHandler={loginHandler}
-                     moveToSigninAndSignUp={moveToSigninAndSignUp}
-                  />
-               )}
-            </Modal>
-         ) : null}
          <StyleMain
             style={{
                background: `url(${mainBackground})`,
                backgroundSize: 'cover',
             }}
          >
-            <Header userLogin={userLogin} openModalHandler={openModalHandler} />
+            <Header login="true" />
             <Block>
                <h1>Find a place you ll love to stay at</h1>
                <BlockInput>

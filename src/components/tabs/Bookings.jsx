@@ -1,16 +1,15 @@
 import React from 'react'
+import { AdminCards } from '../UI/cards/AdminCards'
 
 export function Bookings({ bookings }) {
    return (
       <div>
-         {bookings.map((item) => {
-            return (
-               <div key={item.id}>
-                  <h1>{item.title}</h1>
-                  <p>{item.age}</p>
-               </div>
-            )
-         })}
+         <AdminCards
+            data={bookings}
+            page="admin"
+            justifyContent="start"
+            bgColor="white"
+         />
       </div>
    )
 }
