@@ -1,6 +1,6 @@
 import { Avatar, IconButton, styled } from '@mui/material'
 import React, { useState } from 'react'
-import { Dislike, Like1 } from '../../../assets/icons'
+import { Dislike, IconMenu, Like1 } from '../../../assets/icons'
 import { MeatBalls } from '../meat-balls/MeatBalls'
 import { RatingStars } from '../rating/RatingStars'
 
@@ -51,7 +51,8 @@ export default function Feedback({ data, onLike, onDislike }) {
             </UserInfoBlock>
 
             <div>
-               <MeatBalls open={open} openHandler={toggle}>
+               <IconMenu onClick={toggle} />
+               <MeatBalls open={open} onClick={toggle}>
                   <h3>Edit</h3>
                   <h3>Delete</h3>
                </MeatBalls>
