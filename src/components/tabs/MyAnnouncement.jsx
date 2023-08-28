@@ -53,7 +53,6 @@ export function MyAnnouncement({ select, announcement }) {
    } else if (sortRating === 'LOW_TO_HIGH') {
       setSortRating('Popular')
    }
-   console.log(announcement, 'announcement')
    return (
       <div>
          <Container>
