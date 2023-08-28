@@ -15,6 +15,7 @@ import { toastSnackbar } from '../snackbar/Snackbar'
 export function AdminCards({
    data,
    title,
+   image,
    removeCard,
    changeHandler,
    toggleHandler,
@@ -102,29 +103,53 @@ export function AdminCards({
             {data.length > 0 ? (
                data.map((item, index) => (
                   <MapContainer status="dat" key={item.id}>
-                     <ImageContainer
-                        to="/admin/application/name"
-                        onClick={() => toggleHandler(item.id)}
-                     >
-                        {item.images.length > 1 && (
-                           <div className="ImageNavigation">
-                              <StyledButton
-                                 onClick={() => handlePrevImage(index)}
-                              >
-                                 <ArrowleftIcon />
-                              </StyledButton>
-                              <StyledButton
-                                 onClick={() => handleNextImage(index)}
-                              >
-                                 <ArrowrightIcon />
-                              </StyledButton>
-                           </div>
-                        )}
-                        <img
-                           src={item.images[currentImages[index]]}
-                           alt={item.title}
-                        />
-                     </ImageContainer>
+                     {image === 'click' ? (
+                        <ImageContainer
+                           to="/admin/application/name"
+                           onClick={() => toggleHandler(item.id)}
+                        >
+                           {item.images.length > 1 && (
+                              <div className="ImageNavigation">
+                                 <StyledButton
+                                    onClick={() => handlePrevImage(index)}
+                                 >
+                                    <ArrowleftIcon />
+                                 </StyledButton>
+                                 <StyledButton
+                                    onClick={() => handleNextImage(index)}
+                                 >
+                                    <ArrowrightIcon />
+                                 </StyledButton>
+                              </div>
+                           )}
+                           <img
+                              src={item.images[currentImages[index]]}
+                              alt={item.title}
+                           />
+                        </ImageContainer>
+                     ) : (
+                        <ImageContainer>
+                           {item.images.length > 1 && (
+                              <div className="ImageNavigation">
+                                 <StyledButton
+                                    onClick={() => handlePrevImage(index)}
+                                 >
+                                    <ArrowleftIcon />
+                                 </StyledButton>
+                                 <StyledButton
+                                    onClick={() => handleNextImage(index)}
+                                 >
+                                    <ArrowrightIcon />
+                                 </StyledButton>
+                              </div>
+                           )}
+                           <img
+                              src={item.images[currentImages[index]]}
+                              alt={item.title}
+                           />
+                        </ImageContainer>
+                     )}
+
                      <ContainerDescription>
                         <ContainerPrice>
                            <h4 className="price">

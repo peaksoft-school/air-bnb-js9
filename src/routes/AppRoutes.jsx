@@ -18,6 +18,7 @@ import { toastSnackbar } from '../components/UI/snackbar/Snackbar'
 import { Bookings } from '../components/tabs/Bookings'
 import { MyAnnouncement } from '../components/tabs/MyAnnouncement'
 import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
+import { AllHousing } from '../pages/admin/all-housing/AllHousing'
 
 export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
@@ -87,6 +88,7 @@ export function AppRoutes() {
          />
          <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
 
+         {/* admin */}
          <Route
             path="/admin"
             element={
@@ -140,6 +142,7 @@ export function AppRoutes() {
                   }
                />
             </Route>
+            <Route path="all-housing" element={<AllHousing />} />
          </Route>
       </Routes>
    )

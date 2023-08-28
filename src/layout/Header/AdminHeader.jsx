@@ -59,9 +59,11 @@ export function AdminHeader() {
                </StyleNavLink>
 
                <StyleNavLink
-                  to="/all-housing"
+                  to="/admin/all-housing"
                   active={
-                     location.pathname === '/all-housing' ? 'true' : 'false'
+                     location.pathname === '/admin/all-housing'
+                        ? 'true'
+                        : 'false'
                   }
                >
                   <p>All housing</p>

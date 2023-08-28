@@ -60,6 +60,7 @@ export function Applications({
                <AdminCards
                   data={data}
                   title={title}
+                  image="click"
                   removeCard={removeCard}
                   toggleHandler={toggleHandler}
                   acceptHandler={acceptHandler}
