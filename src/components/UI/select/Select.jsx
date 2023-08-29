@@ -36,7 +36,6 @@ export function Select({
             label={labelName}
             onClick={toggle}
          >
-            {/* <MenuItem value="all">All</MenuItem> */}
             {data?.map((item) => (
                <MenuItem key={item.id} value={item.value}>
                   {item.name}

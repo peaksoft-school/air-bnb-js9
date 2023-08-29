@@ -25,10 +25,21 @@ export const homeType = [
    { id: 'option11', name: 'House', value: 'HOUSE' },
 ]
 
+export const homeTypeProfile = [
+   { id: 'option215', name: 'All', value: ' ' },
+   { id: 'option10', name: 'Apartment', value: 'APARTMENT' },
+   { id: 'option11', name: 'House', value: 'HOUSE' },
+]
+export const popularProfile = [
+   { id: 'option112', name: 'All', value: ' ' },
+   { id: 'option8', name: 'popular', value: 'LOW_TO_HIGH' },
+   { id: 'option9', name: 'un popular', value: 'HIGH_TO_LOW' },
+]
+
 export const price = [
-   { id: 'option20', name: 'All', value: ' ' },
-   { id: 'option12', name: 'Low to high', value: 'asc' },
-   { id: 'option13', name: 'High to low', value: 'desc' },
+   { id: 'option12', name: 'All', value: ' ' },
+   { id: 'option12', name: 'Low to high', value: 'LOW_TO_HIGH' },
+   { id: 'option13', name: 'High to low', value: 'HIGH_TO_LOW' },
 ]
 
 export const popularHouse = [
@@ -228,4 +239,9 @@ export const allHousingPopular = [
    { id: 'option19', name: 'All', value: ' ' },
    { id: 'option16', name: 'Popular', value: 'asc' },
    { id: 'option17', name: 'The lastest', value: 'desc' },
+]
+export const allPrice = [
+   { id: 'option20', name: 'All', value: ' ' },
+   { id: 'option12', name: 'Low to high', value: 'asc' },
+   { id: 'option13', name: 'High to low', value: 'desc' },
 ]

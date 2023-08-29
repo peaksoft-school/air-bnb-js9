@@ -7,7 +7,7 @@ import {
    allHousingBooked,
    allHousingPopular,
    homeType,
-   price,
+   allPrice,
 } from '../../../utils/helpers'
 
 export function AllHousingFilter() {
@@ -86,7 +86,7 @@ export function AllHousingFilter() {
             />
             <Select
                labelName="Filter by price:"
-               data={price}
+               data={allPrice}
                onChange={(selectedOption) =>
                   onChangeFilter('byPrice', selectedOption.target.value)
                }
