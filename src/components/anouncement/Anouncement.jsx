@@ -1,207 +1,255 @@
-import { useForm } from 'react-hook-form'
+/* eslint-disable consistent-return */
+import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Input } from '../UI/input/Input'
 import { Select } from '../UI/select/Select'
 import { Upload } from '../UI/upload-img/Upload'
+import { schema } from '../../utils/helpers'
+import { addAnouncement } from '../../api/anouncementService'
+import { toastSnackbar } from '../UI/snackbar/Snackbar'
+import { Header } from '../../layout/Header/Header'
+import { Footer } from '../../layout/Footer/Footer'
 
 const data = [
-   { id: 'option1', name: 'Batken' },
-   { id: 'option2', name: 'Jalal-Abad' },
-   { id: 'option3', name: 'Yssyk-Kol' },
-   { id: 'option4', name: 'Naryn' },
-   { id: 'option5', name: 'Osh' },
-   { id: 'option6', name: 'Talas' },
-   { id: 'option7', name: 'Chui' },
+   { id: 'option1', name: 'BATKEN' },
+   { id: 'option2', name: 'JALAL_ABAD' },
+   { id: 'option3', name: 'YSSYK-KOL' },
+   { id: 'option4', name: 'NARYN' },
+   { id: 'option5', name: 'OSH' },
+   { id: 'option6', name: 'TALAS' },
+   { id: 'option7', name: 'CHUI' },
 ]
 
 export default function AddAnouncementForm() {
    const [fileNames, setFileNames] = useState([])
-   const schema = yup.object().shape({
-      guests: yup.string().required('Please enter the number of guests'),
-      price: yup.string().required('Please enter the price'),
-      title: yup.string().required('Please enter a title'),
-      description: yup.string().required('Please enter a description'),
-      region: yup.string().required('Please select the region'),
-      town: yup.string().required('Please enter the town'),
-      address: yup.string().required('Please enter the address'),
-   })
+   const { toastType } = toastSnackbar()
+   const navigate = useNavigate()
+
+   const postAnouncementForm = async (payload) => {
+      try {
+         const response = await addAnouncement(payload)
+         toastType('success', 'Ad added successfully!')
+         navigate('/')
+
+         return response.data
+      } catch (error) {
+         toastType('error', 'Error!')
+      }
+   }
+
    const {
       register,
       handleSubmit,
       formState: { errors },
+      control,
    } = useForm({
       resolver: yupResolver(schema),
    })
 
+   const addImageForAnoucement = (data) => {
+      setFileNames([...fileNames, data])
+   }
+
    const onSubmit = (data) => {
-      console.log(data, 'data')
+      data.images = fileNames
+      postAnouncementForm(data)
    }
 
    return (
-      <GlobalContainer>
-         <Container onSubmit={handleSubmit(onSubmit)}>
-            <h2>Hi! Let`s get started listing your place.</h2>
-            <p>
-               In this form, we`ll collect some basic and additional information
-               about your listing.
-            </p>
-            <AddPhotoBlock>
-               <div>
-                  <StyledSpan>Image</StyledSpan>
-                  <QuantityForPhoto>Max 4 photo</QuantityForPhoto>
-               </div>
-               <div style={{ marginTop: '1.125rem' }}>
-                  <Upload
-                     maxWidth="16vw"
-                     fileNames={fileNames}
-                     setFileNames={setFileNames}
-                  />
-                  <AddPhotoInfo>
-                     <AddPhotoReview>Add photos to the review</AddPhotoReview>
-                     <UploadPhotoInfo>
-                        it will become more noticeable and even more useful.
-                        <br /> You can upload up to 4 photos.
-                     </UploadPhotoInfo>
-                  </AddPhotoInfo>
-               </div>
-            </AddPhotoBlock>
-            <HomeTypeBlock>
-               <StyledLabel>Home type</StyledLabel>
-               <ApartmentAndHouseBlock>
+      <>
+         <Header login="false" />
+         <GlobalContainer>
+            <Container onSubmit={handleSubmit(onSubmit)}>
+               <h2>Hi! Let`s get started listing your place.</h2>
+               <p>
+                  In this form, we`ll collect some basic and additional
+                  information about your listing.
+               </p>
+               <AddPhotoBlock>
+                  <div>
+                     <StyledSpan>Image</StyledSpan>
+                     <QuantityForPhoto>Max 4 photo</QuantityForPhoto>
+                  </div>
+                  <div style={{ marginTop: '1.125rem' }}>
+                     <Upload
+                        maxWidth="16vw"
+                        fileNames={fileNames}
+                        setFileNames={setFileNames}
+                        addImageForAnoucement={addImageForAnoucement}
+                     />
+                     <AddPhotoInfo>
+                        <AddPhotoReview>
+                           Add photos to the review
+                        </AddPhotoReview>
+                        <UploadPhotoInfo>
+                           it will become more noticeable and even more useful.
+                           <br /> You can upload up to 4 photos.
+                        </UploadPhotoInfo>
+                     </AddPhotoInfo>
+                  </div>
+               </AddPhotoBlock>
+               <HomeTypeBlock>
+                  <StyledLabel>Home type</StyledLabel>
+                  <ApartmentAndHouseBlock>
+                     <div className="checkboxContainer">
+                        <Controller
+                           name="houseType"
+                           control={control}
+                           render={({ field }) => (
+                              <Input
+                                 {...field}
+                                 id="apartment"
+                                 barsbek="nekrash"
+                                 type="radio"
+                                 value="apartment"
+                                 width="1.25rem"
+                                 marginLeft="-22.8125rem"
+                                 marginRight="2.rem"
+                              />
+                           )}
+                        />
+                        <StyledLabel htmlFor="apartment">Apartment</StyledLabel>
+                     </div>
+                     <div className="checkboxContainer">
+                        <Controller
+                           name="houseType"
+                           control={control}
+                           render={({ field }) => (
+                              <Input
+                                 {...field}
+                                 id="house"
+                                 barsbek="nekrash"
+                                 type="radio"
+                                 value="house"
+                                 marginLeft="2.5rem"
+                                 width="1.25rem"
+                              />
+                           )}
+                        />
+                        <StyledLabel htmlFor="house">House</StyledLabel>
+                     </div>
+                  </ApartmentAndHouseBlock>
+                  <IsError>{errors.houseType?.message}</IsError>
+               </HomeTypeBlock>
+               <FilterBlock>
+                  <GuestBlock>
+                     <StyledLabel htmlFor="maxGuests">
+                        Max of Guests
+                     </StyledLabel>
+                     <Input
+                        {...register('maxGuests')}
+                        size="small"
+                        type="number"
+                        placeholder="    0"
+                        width="15.3125rem"
+                        height="2.4375rem"
+                        id="guest"
+                        padding="0 0 0.625rem 0"
+                        error={!!errors.maxGuests}
+                     />
+                     <IsError>{errors.maxGuests?.message}</IsError>
+                  </GuestBlock>
+                  <PriceBlock>
+                     <StyledLabel htmlFor="price">Price</StyledLabel>
+                     <Input
+                        {...register('price')}
+                        size="small"
+                        type="number"
+                        placeholder="    $ 0"
+                        width="15.3125rem"
+                        height="2.4375rem"
+                        id="price"
+                        error={!!errors.price}
+                     />
+                     <IsError>{errors.price?.message}</IsError>
+                  </PriceBlock>
+               </FilterBlock>
+               <TitleBlock>
+                  <StyledLabel htmlFor="title">Title</StyledLabel>
                   <Input
-                     id="apartment"
-                     barsbek="nekrash"
-                     type="radio"
-                     name="type"
-                     width="1.25rem"
-                     marginLeft="-22.8125rem"
-                     marginRight="2.rem"
-                  />
-                  <StyledLabel htmlFor="apartment">Apartment</StyledLabel>
-                  <Input
-                     id="house"
-                     barsbek="nekrash"
-                     type="radio"
-                     name="type"
-                     marginLeft="2.5rem"
-                     width="1.25rem"
-                  />
-                  <StyledLabel htmlFor="house">House</StyledLabel>
-               </ApartmentAndHouseBlock>
-            </HomeTypeBlock>
-            <FilterBlock>
-               <GuestBlock>
-                  <StyledLabel htmlFor="guest">Max of Guests</StyledLabel>
-                  <Input
-                     {...register('guests')}
+                     {...register('title')}
+                     type="text"
+                     barsbek="krash"
                      size="small"
-                     type="number"
-                     placeholder="    0"
-                     width="15.3125rem"
+                     id="title"
+                     width="100%"
                      height="2.4375rem"
-                     id="guest"
-                     padding="0 0 0.625rem 0"
-                     error={!!errors.guests}
+                     placeholder=" "
+                     error={!!errors.title}
                   />
-                  <IsError>{errors.guests?.message}</IsError>
-               </GuestBlock>
-               <PriceBlock>
-                  <StyledLabel htmlFor="price">Price</StyledLabel>
+                  <IsError>{errors.title?.message}</IsError>
+               </TitleBlock>
+               <DescriptionBlock>
+                  <StyledLabel htmlFor="description">
+                     Description of listing
+                  </StyledLabel>
+                  <StyledTextArea
+                     {...register('description')}
+                     id="description"
+                     style={{
+                        border: errors.description
+                           ? '1px solid red'
+                           : '1px solid gray',
+                     }}
+                  />
+                  <IsError>{errors.description?.message}</IsError>
+               </DescriptionBlock>
+               <RegionBlock>
+                  <StyledLabel htmlFor="region">Region</StyledLabel>
+                  <Select
+                     register={register}
+                     data={data}
+                     width="100%"
+                     id="region"
+                     error={!!errors.region}
+                     labelName={
+                        <SelectLabelName>
+                           Please select the region
+                        </SelectLabelName>
+                     }
+                  />
+                  <IsError>{errors.region?.message}</IsError>
+               </RegionBlock>
+               <TownBlock>
+                  <StyledLabel htmlFor="province">Town / Province</StyledLabel>
                   <Input
-                     {...register('price')}
-                     size="small"
-                     type="number"
-                     placeholder="    $ 0"
-                     width="15.3125rem"
+                     {...register('province')}
+                     id="province"
+                     type="text"
+                     barsbek="krash"
+                     width="100%"
                      height="2.4375rem"
-                     id="price"
-                     error={!!errors.price}
+                     size="small"
+                     error={!!errors.province}
+                     placeholder=" "
                   />
-                  <IsError>{errors.price?.message}</IsError>
-               </PriceBlock>
-            </FilterBlock>
-            <TitleBlock>
-               <StyledLabel htmlFor="title">Title</StyledLabel>
-               <Input
-                  {...register('title')}
-                  type="text"
-                  barsbek="krash"
-                  size="small"
-                  id="title"
-                  width="100%"
-                  height="2.4375rem"
-                  placeholder=" "
-                  error={!!errors.title}
-               />
-               <IsError>{errors.title?.message}</IsError>
-            </TitleBlock>
-            <DescriptionBlock>
-               <StyledLabel htmlFor="description">
-                  Description of listing
-               </StyledLabel>
-               <StyledTextArea
-                  {...register('description')}
-                  id="description"
-                  style={{
-                     border: errors.description
-                        ? '1px solid red'
-                        : '1px solid gray',
-                  }}
-               />
-               <IsError>{errors.description?.message}</IsError>
-            </DescriptionBlock>
-            <RegionBlock>
-               <StyledLabel htmlFor="region">Region</StyledLabel>
-               <Select
-                  register={register}
-                  data={data}
-                  width="100%"
-                  id="region"
-                  error={!!errors.region}
-                  labelName={
-                     <SelectLabelName>Please select the region</SelectLabelName>
-                  }
-               />
-               <IsError>{errors.region?.message}</IsError>
-            </RegionBlock>
-            <TownBlock>
-               <StyledLabel htmlFor="town">Town / Province</StyledLabel>
-               <Input
-                  {...register('town')}
-                  id="town"
-                  type="text"
-                  barsbek="krash"
-                  width="100%"
-                  height="2.4375rem"
-                  size="small"
-                  error={!!errors.town}
-                  placeholder=" "
-               />
-               <IsError>{errors.town?.message}</IsError>
-            </TownBlock>
-            <AddressBlock>
-               <StyledLabel htmlFor="address">Address</StyledLabel>
-               <Input
-                  {...register('address')}
-                  id="address"
-                  type="text"
-                  size="small"
-                  barsbek="krash"
-                  width="100%"
-                  height="2.4375rem"
-                  error={!!errors.address}
-                  placeholder="  "
-               />
-               <IsError>{errors.address?.message}</IsError>
-            </AddressBlock>
-            <ButtonBlock>
-               <SubmitInput type="submit" value="Submit" />
-            </ButtonBlock>
-         </Container>
-      </GlobalContainer>
+                  <IsError>{errors.province?.message}</IsError>
+               </TownBlock>
+               <AddressBlock>
+                  <StyledLabel htmlFor="address">Address</StyledLabel>
+                  <Input
+                     {...register('address')}
+                     id="address"
+                     type="text"
+                     size="small"
+                     barsbek="krash"
+                     width="100%"
+                     height="2.4375rem"
+                     error={!!errors.address}
+                     placeholder="  "
+                  />
+                  <IsError>{errors.address?.message}</IsError>
+               </AddressBlock>
+               <ButtonBlock>
+                  <SubmitInput type="submit" value="Submit" />
+               </ButtonBlock>
+            </Container>
+         </GlobalContainer>
+         <Footer />
+      </>
    )
 }
 
@@ -290,6 +338,7 @@ const UploadPhotoInfo = styled('span')(() => ({
 const HomeTypeBlock = styled('div')(() => ({
    marginTop: '1.75rem',
    marginBottom: '.9375rem',
+   height: '5.3125rem',
 }))
 
 const StyledLabel = styled('label')(() => ({
@@ -311,7 +360,14 @@ const SelectLabelName = styled('span')(() => ({
 
 const ApartmentAndHouseBlock = styled('div')(() => ({
    display: 'flex',
-   justifyContent: 'center',
+   justifyContent: 'flex-start',
+   gap: '2.5rem',
+
+   '.checkboxContainer': {
+      width: '20%',
+      display: 'flex',
+      justifyContent: 'flex-start',
+   },
 }))
 
 const FilterBlock = styled('div')(() => ({

@@ -9,7 +9,6 @@ import { JoinUs } from '../signIn/JoinUs'
 import { SignIn } from '../signIn/SignIn'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
-
 export function MainPage() {
    const [userLogin, setUserLogin] = useState(false)
    const [openModal, setOpenModal] = useState(false)
@@ -19,15 +18,12 @@ export function MainPage() {
    const loginHandler = () => {
       setUserLogin((prev) => !prev)
    }
-
    const openModalHandler = () => {
       setOpenModal((prev) => !prev)
    }
-
    const moveToSigninAndSignUp = () => {
       setSignIn((prev) => !prev)
    }
-
    return (
       <div>
          {openModal ? (
@@ -100,7 +96,6 @@ export function MainPage() {
       </div>
    )
 }
-
 const StyleMain = styled('div')(() => ({
    width: '100%',
    height: '100vh',
@@ -108,7 +103,6 @@ const StyleMain = styled('div')(() => ({
    flexDirection: 'column',
    gap: '17.69rem',
 }))
-
 const Block = styled('div')(() => ({
    width: '100%',
    minHeight: '10vh',

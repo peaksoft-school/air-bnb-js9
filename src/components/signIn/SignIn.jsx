@@ -1,11 +1,21 @@
-import React from 'react'
-import { styled } from '@mui/material'
+import React, { useState } from 'react'
+import { InputAdornment, styled } from '@mui/material'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
+import { useDispatch } from 'react-redux'
 import { Input } from '../UI/input/Input'
 import { Button } from '../UI/button/Button'
+import { signInRequest } from '../../store/auth/authThunk'
+import { toastSnackbar } from '../UI/snackbar/Snackbar'
+import { HiddenPassword, SeenPassword } from '../../assets/icons'
 
 export function SignIn({ moveToSigninAndSignUp }) {
+   const [seePassword, setSeePassword] = useState(false)
+   const { toastType } = toastSnackbar()
+
+   const seePasswordHandler = () => {
+      setSeePassword((prev) => !prev)
+   }
    const validationSchema = Yup.object().shape({
       email: Yup.string().required('Required').email('It is not an email'),
       password: Yup.string()
@@ -13,8 +23,21 @@ export function SignIn({ moveToSigninAndSignUp }) {
          .min(8, 'Password must be more than 8 symbols'),
    })
 
+   const dispatch = useDispatch()
+
    const handleSubmit = (values) => {
-      console.log(values)
+      dispatch(signInRequest(values))
+         .unwrap()
+         .then(() => {
+            toastType(
+               'success',
+               'Successfully logIn as ADMIN',
+               'Вы только что выполнили вход на наш сайт как Админ'
+            )
+         })
+         .catch((error) => {
+            toastType('error', error)
+         })
    }
 
    return (
@@ -27,13 +50,12 @@ export function SignIn({ moveToSigninAndSignUp }) {
          >
             {({ errors, touched, values, handleChange }) => (
                <FormStyled>
-                  <div style={{ marginBottom: '1rem' }}>
+                  <InputContainer>
                      <Input
                         type="text"
                         name="email"
                         barsbek="krash"
                         size="small"
-                        height="45px"
                         placeholder="Login"
                         value={values.email}
                         onChange={handleChange}
@@ -42,24 +64,44 @@ export function SignIn({ moveToSigninAndSignUp }) {
                      {errors.email && touched.email && (
                         <p style={{ color: 'red' }}>{errors.email}</p>
                      )}
-                  </div>
+                  </InputContainer>
 
-                  <div style={{ marginBottom: '1rem' }}>
+                  <InputContainer>
                      <Input
-                        type="password"
+                        type={seePassword ? 'text' : 'password'}
                         name="password"
                         barsbek="krash"
                         size="small"
-                        height="45px"
                         placeholder="Password"
                         value={values.password}
                         error={touched.password && !!errors.password}
                         onChange={handleChange}
+                        InputProps={{
+                           endAdornment: (
+                              <InputAdornment position="end">
+                                 {seePassword ? (
+                                    <SeenPassword
+                                       style={{
+                                          cursor: 'pointer',
+                                       }}
+                                       onClick={seePasswordHandler}
+                                    />
+                                 ) : (
+                                    <HiddenPassword
+                                       style={{
+                                          cursor: 'pointer',
+                                       }}
+                                       onClick={seePasswordHandler}
+                                    />
+                                 )}
+                              </InputAdornment>
+                           ),
+                        }}
                      />
                      {errors.password && touched.password && (
                         <p style={{ color: 'red' }}>{errors.password}</p>
                      )}
-                  </div>
+                  </InputContainer>
 
                   <Button
                      type="submit"
@@ -102,8 +144,23 @@ const StyledAhref = styled('a')(() => ({
    fontWeight: ' 400',
    marginTop: '1.8rem',
    textDecoration: 'underline',
+   cursor: 'pointer',
 }))
 
-const FormStyled = styled(Form)(() => ({
-   width: '100%',
+const FormStyled = styled(Form)`
+   width: 100%;
+
+   svg {
+      path {
+         fill: gray;
+      }
+   }
+`
+const InputContainer = styled('div')(() => ({
+   height: '5vh',
+   display: 'flex',
+   flexDirection: 'column',
+   justifyContent: 'space-between',
+   gap: '0.3rem',
+   marginBottom: '2rem',
 }))

@@ -12,9 +12,13 @@ export const routes = {
    },
 }
 export const userRoles = {
-   ADMIN: 'admin',
-   USER: 'user',
-   GUEST: 'guest',
+   ADMIN: 'ADMIN',
+   USER: 'USER',
+   GUEST: 'GUEST',
 }
 
-export const roles = userRoles.USER
+export const role = userRoles.ADMIN
+
+export const STORAGE_KEY = {
+   AIRBNB_AUTH: ' AUTH_AIRBNB',
+}

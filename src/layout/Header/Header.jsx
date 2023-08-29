@@ -1,22 +1,22 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from 'react'
 import { useDebounce } from 'use-debounce'
-import { Button, InputAdornment, styled } from '@mui/material'
-import { useDispatch } from 'react-redux'
+import { Avatar, Button, InputAdornment, styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import { Input } from '../../components/UI/input/Input'
 import {
    BlackAirBNBIcon,
-   GroupIcon,
    SearchIcon,
    AirBNBIcon,
 } from '../../assets/icons/index'
 import { getGlobalSearch } from '../../store/search/searchThunk'
 import { getAllCards } from '../../store/card/cardThunk'
+import { userRoles } from '../../utils/constants'
 
 export function Header({ userLogin, openModalHandler, login, setLogin }) {
    const [searchText, setSearchText] = useState('')
    const dispatch = useDispatch()
    const [searchedValue] = useDebounce(searchText, 1000)
+   const { email } = useSelector((state) => state.auth)
 
    const onChangeRegions = (e) => {
       setSearchText(e.target.value)
@@ -39,6 +39,7 @@ export function Header({ userLogin, openModalHandler, login, setLogin }) {
       <Container>
          {login ? (
             <StyleHeader login={login}>
+               {' '}
                {userLogin ? (
                   <AirBNBIcon />
                ) : (
@@ -59,7 +60,9 @@ export function Header({ userLogin, openModalHandler, login, setLogin }) {
                   {userLogin ? (
                      <FavoriteDiv>
                         <StyleLink>leave an ad</StyleLink>
-                        <GroupIcon />
+                        <Avatar sx={{ bgcolor: '#0298D9' }}>
+                           {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
+                        </Avatar>
                      </FavoriteDiv>
                   ) : null}
                </InputDiv>
@@ -70,7 +73,6 @@ export function Header({ userLogin, openModalHandler, login, setLogin }) {
                   <BlackAirBNBIcon />
                   <LeaveAnAd>leave an ad</LeaveAnAd>
                </div>
-
                <SearchDiv>
                   <div className="blockCheckbox">
                      <ChecboxStyled
@@ -104,19 +106,16 @@ export function Header({ userLogin, openModalHandler, login, setLogin }) {
       </Container>
    )
 }
-
 const Container = styled('div')(() => ({
    display: 'flex',
    width: '100%',
    justifyContent: 'space-between',
 }))
-
 const InputDiv = styled('div')(() => ({
    display: 'flex',
    gap: '2rem',
    alignItems: 'center',
 }))
-
 const StateBlock = styled('div')(() => ({
    width: '100%',
    display: 'flex',
@@ -136,7 +135,6 @@ const StyleLink = styled('a')(() => ({
    fontWeight: '500',
    lineHeight: 'normal',
 }))
-
 const StyledButton = styled(Button)(() => ({
    width: '13rem',
    backgroundColor: '#DD8A08',
@@ -144,13 +142,11 @@ const StyledButton = styled(Button)(() => ({
    fontFamily: 'Inter',
    fontWeight: '500',
 }))
-
 const FavoriteDiv = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
    gap: '3rem',
 }))
-
 const StyleHeader = styled('header')((props) => ({
    width: '100%',
    height: ' 5.5rem',
@@ -158,7 +154,7 @@ const StyleHeader = styled('header')((props) => ({
    display: 'flex',
    justifyContent: 'space-between',
    alignItems: 'center',
-   padding: '1rem 7.25rem',
+   padding: '1rem 6.25rem',
 
    '.headerIcon': {
       display: 'flex',
