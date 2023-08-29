@@ -12,6 +12,7 @@ export function Select({
    onChange,
    labelName,
    register,
+   value,
    error,
    ...props
 }) {
@@ -28,10 +29,11 @@ export function Select({
             onChange={onChange}
             displayEmpty
             label={labelName}
+            value={value}
          >
-            <MenuItem value="all">All</MenuItem>
+            <MenuItem value=" ">All</MenuItem>
             {data?.map((item) => (
-               <MenuItem key={item.id} value={item.name}>
+               <MenuItem key={item.id} value={item.value}>
                   {item.name}
                </MenuItem>
             ))}
