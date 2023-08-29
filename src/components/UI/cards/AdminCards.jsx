@@ -31,11 +31,11 @@ export function AdminCards({
 
    useEffect(() => {
       setData(data?.map((item) => ({ ...item, open: false })))
-      setCurrentImages(data.map(() => 0))
+      setCurrentImages(data?.map(() => 0))
    }, [data])
 
    const truncateText = (text, maxLength) => {
-      if (text.length > maxLength) {
+      if (text?.length > maxLength) {
          return `${text.slice(0, maxLength)}...`
       }
       return text
@@ -151,7 +151,7 @@ export function AdminCards({
                                     ,{' '}
                                  </Tooltip>
                                  <Tooltip title={item.province}>
-                                    {item.province.length > 7
+                                    {item.province?.length > 7
                                        ? truncateText(item.province, 7)
                                        : item.province}
                                  </Tooltip>
