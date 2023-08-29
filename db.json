@@ -100,6 +100,16 @@
          "title": "Beautiful and picturesque 2 sto",
          "price": "26",
          "rating": "2.3",
+         "location": "12 Morris Ave, Toronto, ON, CA",
+         "status": "dates"
+      },
+      {
+         "urls": [
+            "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+         ],
+         "title": "Beautiful and picturesque 2 sto",
+         "price": "26",
+         "rating": "2.3",
          "location": "12 Morris Ave, Toronto, ON, CA"
       },
       {
