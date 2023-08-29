@@ -1,16 +1,21 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/button-has-type */
 import React, { useEffect, useState } from 'react'
-import { styled } from '@mui/material'
+import { Link, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
-import Link from '@mui/material/Link'
+import { useNavigate, useParams } from 'react-router-dom'
 import Pagination from '@mui/material/Pagination'
 import { Header } from '../../layout/Header/Header'
 import { FilterSelect } from '../filter-select/FilterSelect'
 import { Cards } from '../UI/cards/Cards'
 import { getAllCards } from '../../store/card/cardThunk'
 import Skeleto from '../UI/cards/Skeleto'
+import Modal from '../UI/modal/Modal'
+import { SignIn } from '../signIn/SignIn'
+import { JoinUs } from '../signIn/JoinUs'
 
 function AnnouncementGetAll() {
    const [login, setLogin] = useState(false)
@@ -20,7 +25,9 @@ function AnnouncementGetAll() {
    const [selectedPopular, setSelectedPopular] = useState('')
    const [selectedHomeType, setSelectedHomeType] = useState('')
    const [selectedPrice, setSelectedPrice] = useState('')
-
+   const [openModal, setOpenModal] = useState(false)
+   const [signIn, setSignIn] = useState(false)
+   const params = useParams()
    useEffect(() => {
       const params = {
          region: selectedRegion,
@@ -38,47 +45,80 @@ function AnnouncementGetAll() {
    ])
 
    useEffect(() => {
-      // dispatch(getAllCards())
+      dispatch(getAllCards())
    }, [dispatch])
    const todosLength = search.length
-   function handleClick(event) {
-      event.preventDefault()
-      console.info('You clicked a breadcrumb.')
-   }
-   const onChangeRegions = (selectedOption) => {
-      setSelectedRegion(selectedOption.target.value)
+
+   const onChangeRegions = (e) => {
+      setSelectedRegion(e.target.value)
    }
 
-   const onChangePopular = (selectedOption) => {
-      setSelectedPopular(selectedOption.target.value)
+   const onChangePopular = (e) => {
+      setSelectedPopular(e.target.value)
    }
 
-   const onChangeHomeType = (selectedOption) => {
-      setSelectedHomeType(selectedOption.target.value)
+   const onChangeHomeType = (e) => {
+      setSelectedHomeType(e.target.value)
    }
 
-   const onChangePrice = (selectedOption) => {
-      setSelectedPrice(selectedOption.target.value)
+   const onChangePrice = (e) => {
+      setSelectedPrice(e.target.value)
    }
+   const openModalHandler = () => {
+      setOpenModal((prev) => !prev)
+   }
+   const moveToSigninAndSignUp = () => {
+      setSignIn((prev) => !prev)
+   }
+   const clearSelectedRegion = () => {
+      setSelectedRegion('')
+   }
+   const clearSelectedPopular = () => {
+      setSelectedPopular('')
+   }
+   const clearSelectedPrice = () => {
+      setSelectedPrice('')
+   }
+   const clearSelectedType = () => {
+      setSelectedHomeType('')
+   }
+
+   console.log(Object.values(params))
+   const navigate = useNavigate()
    return (
       <WrapperContainer>
-         <Header login={login} setLogin={setLogin} />
-         <div
-            style={{ margin: '1rem 8rem' }}
-            role="presentation"
-            onClick={handleClick}
-         >
+         <Header
+            login={login}
+            setLogin={setLogin}
+            openHandler={openModalHandler}
+         />
+         {openModal ? (
+            <Modal open={openModal} onClose={openModalHandler}>
+               {signIn ? (
+                  <SignIn moveToSigninAndSignUp={moveToSigninAndSignUp} />
+               ) : (
+                  <JoinUs moveToSigninAndSignUp={moveToSigninAndSignUp} />
+               )}
+            </Modal>
+         ) : null}
+         <div style={{ margin: '1rem 8rem' }} role="presentation">
             <Breadcrumbs aria-label="breadcrumb">
-               <Link underline="hover" color="inherit" href="/">
+               <Link
+                  underline="hover"
+                  color="inherit"
+                  href="/main"
+                  onClick={() => navigate('/main')}
+               >
                   Main
                </Link>
                <Typography
                   underline="hover"
                   color="text.primary"
-                  href="/material-ui/react-breadcrumbs/"
                   aria-current="page"
                >
-                  Yssyk-Kol
+                  {selectedRegion === ''
+                     ? Object.values(params)
+                     : selectedRegion}
                </Typography>
             </Breadcrumbs>
          </div>
@@ -97,15 +137,25 @@ function AnnouncementGetAll() {
                   marginLeft: '15px',
                }}
             >
-               Yssyk-Kol ({todosLength})
+               {selectedRegion === '' ? Object.values(params) : selectedRegion}(
+               {todosLength})
             </h4>
             <FilterSelect
+               selectedRegion={selectedRegion}
                onChangeRegions={onChangeRegions}
                onChangePopular={onChangePopular}
                onChangeHomeType={onChangeHomeType}
                onChangePrice={onChangePrice}
             />
          </div>
+
+         <div>
+            <button onClick={clearSelectedRegion}>{selectedRegion}</button>
+            <button onClick={clearSelectedPopular}>{selectedPopular}</button>
+            <button onClick={clearSelectedType}>{selectedHomeType}</button>
+            <button onClick={clearSelectedPrice}>{selectedPrice}</button>
+         </div>
+
          {isLoading ? (
             <div>
                <Skeleto />
