@@ -6,8 +6,8 @@ export function ProtectedRoutes({
    fallbackPath,
    isAllowed,
 }) {
-   if (isAllowed) {
-      return <Component />
+   if (!isAllowed) {
+      return <Navigate to={fallbackPath} />
    }
-   return <Navigate to={fallbackPath} />
+   return <Component />
 }

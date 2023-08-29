@@ -4,62 +4,21 @@ import mainBackground from '../../assets/images/MainBackground.png'
 import { Header } from '../../layout/Header/Header'
 import { Input } from '../UI/input/Input'
 import { SearchIcon } from '../../assets/icons'
-import Modal from '../UI/modal/Modal'
-import { JoinUs } from '../signIn/JoinUs'
-import { SignIn } from '../signIn/SignIn'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
 export function MainPage() {
    const [userLogin, setUserLogin] = useState(false)
-   const [openModal, setOpenModal] = useState(false)
-   const [signIn, setSignIn] = useState(false)
-   const [login, setLogin] = useState(true)
-
-   const loginHandler = () => {
-      setUserLogin((prev) => !prev)
-   }
-
-   const openModalHandler = () => {
-      setOpenModal((prev) => !prev)
-   }
-
-   const moveToSigninAndSignUp = () => {
-      setSignIn((prev) => !prev)
-   }
-
+   console.log('setUserLogin: ', setUserLogin)
    return (
       <div>
-         {openModal ? (
-            <Modal
-               open={openModal}
-               onClose={openModalHandler}
-               width="35vw"
-               borderRadius="0.125rem"
-               border="none"
-            >
-               {signIn ? (
-                  <SignIn moveToSigninAndSignUp={moveToSigninAndSignUp} />
-               ) : (
-                  <JoinUs
-                     loginHandler={loginHandler}
-                     moveToSigninAndSignUp={moveToSigninAndSignUp}
-                  />
-               )}
-            </Modal>
-         ) : null}
          <StyleMain
             style={{
                background: `url(${mainBackground})`,
                backgroundSize: 'cover',
             }}
          >
-            <Header
-               userLogin={userLogin}
-               openModalHandler={openModalHandler}
-               login={login}
-               setLogin={setLogin}
-            />
+            <Header login="true" />
             <Block>
                <h1>Find a place you ll love to stay at</h1>
                <BlockInput>

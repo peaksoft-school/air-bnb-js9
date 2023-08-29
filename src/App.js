@@ -1,10 +1,10 @@
 import React from 'react'
-import AnnouncementGetAll from './components/anouncement/AnnouncementGetAll'
+import { AppRoutes } from './routes/AppRoutes'
 
 function App() {
    return (
       <div>
-         <AnnouncementGetAll />
+         <AppRoutes />
       </div>
    )
 }

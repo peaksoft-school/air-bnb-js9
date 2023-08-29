@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { styled } from '@mui/material'
 import React from 'react'
 import { NavLink, Route, Routes } from 'react-router-dom'
@@ -6,61 +5,45 @@ import { Bookings } from './Bookings'
 import { MyAnnouncement } from './MyAnnouncement'
 import { OnModeration } from './OnModeration'
 
-const bookings = [
-   {
-      id: 1,
-      title: 'Beku',
-   },
-   {
-      id: 2,
-      title: 'bookings',
-   },
-]
-const announcement = [
-   {
-      id: 3,
-      title: 'announcement',
-   },
-   {
-      id: 4,
-      title: 'Beku',
-   },
-]
 const moderation = [
    {
       id: 5,
       title: 'moderation',
    },
 ]
-export function Tabs() {
-   const BookingLength = bookings.length
-   const announcementLength = announcement.length
-   const moderationLength = moderation.length
+
+export function Tabs({ announcement, bookings }) {
+   const BookingLength = bookings?.length
+   const announcementLength = announcement?.length
+   const moderationLength = moderation?.lenght
 
    return (
       <div>
          <StyleHead>
-            <StyleLink to="/">
-               <h3>Bookings({BookingLength})</h3>
+            <StyleLink to="/bookings">
+               <h3>Bookings ({BookingLength})</h3>
             </StyleLink>
 
             <StyleLink to="/my-announcemen">
-               <h3>My announcement({announcementLength})</h3>
+               <h3>My announcement ({announcementLength})</h3>
             </StyleLink>
 
             <StyleLink to="/on-moderation">
-               <h3>On moderation({moderationLength})</h3>
+               <h3>On moderation ({moderationLength})</h3>
             </StyleLink>
          </StyleHead>
 
          <Routes>
-            <Route path="/" element={<Bookings bookings={bookings} />} />
-
+            <Route
+               path="/bookings"
+               element={<Bookings bookings={bookings} onChange="true" />}
+            />
             <Route
                path="/my-announcemen"
-               element={<MyAnnouncement moderation={announcement} />}
+               element={
+                  <MyAnnouncement announcement={announcement} select="true" />
+               }
             />
-
             <Route
                path="/on-moderation"
                element={<OnModeration moderation={moderation} />}

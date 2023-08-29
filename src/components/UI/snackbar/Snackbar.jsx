@@ -12,7 +12,7 @@ export const toastSnackbar = () => {
          </>,
          {
             position: 'top-right',
-            autoClose: false,
+            autoClose: 2000,
             closeOnClick: true,
             theme: 'colored',
          }
