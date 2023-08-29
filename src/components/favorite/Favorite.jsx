@@ -1,7 +1,7 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable import/no-extraneous-dependencies */
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { styled } from '@mui/material'
-import React, { useEffect, useState } from 'react'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
 import { getFavorite } from '../../api/favorite/Favorite'

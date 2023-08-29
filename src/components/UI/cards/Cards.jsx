@@ -132,7 +132,7 @@ export function Cards({
                   </LocationCantainerStyle>
                   {item.status === 'dates' ? (
                      <StyledHorizIcon>
-                        <DayStyle>2 guests</DayStyle>
+                        <DayStyle>{item.guest}</DayStyle>
                         <div>
                            <IconButtonStyled
                               edge="start"
@@ -162,7 +162,7 @@ export function Cards({
                      </StyledHorizIcon>
                   ) : (
                      <ButtonsContainer>
-                        <DayStyle>2 guests</DayStyle>
+                        <DayStyle>{item.guest}</DayStyle>
                         <Button
                            variant="contained"
                            height="20%"
@@ -190,7 +190,6 @@ export function Cards({
 
 const MainContainer = styled('div')`
    line-height: 2rem;
-   /* background: #f7f7f7; */
    margin-left: 2%;
    display: flex;
    flex-wrap: wrap;
