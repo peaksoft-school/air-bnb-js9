@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigate } from 'react-router'
 import { styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
@@ -13,7 +14,6 @@ export function Favorite() {
       const getAllFavorites = async () => {
          try {
             const response = await getFavorite()
-            console.log(response.data)
             const transformedData = response.data.map((data) => ({
                images: [data.image],
                rating: data.rating,
@@ -21,29 +21,27 @@ export function Favorite() {
                price: data.price,
                location: data.address,
                guest: data.maxGuests,
+               id: data.id,
+               favorite: data.favorite,
             }))
             setFavoriteData(transformedData)
-            console.log('favoriteData: ', favoriteData)
          } catch (error) {
-            console.log('you made mistakes')
+            console.log('you make mistakes')
          }
       }
 
       getAllFavorites()
    }, [])
-
-   console.log(favoriteData)
+   const favoriteLenght = favoriteData.length
    return (
       <MainCotnainer>
          <Header />
          <NavContainer>
-            <LijnkContainer>
-               <button type="button" onClick={() => navigate('/')}>
-                  Main /
-               </button>
-               <p>Favorite</p>
-            </LijnkContainer>
-            <h2>Favorite()</h2>
+            <LinkContainer>
+               <NavigateStyle onClick={() => navigate('/')}>Main</NavigateStyle>
+               <p onClick={() => navigate('/favorite')}>/ Favorite</p>
+            </LinkContainer>
+            <h2>Favorite({favoriteLenght})</h2>
          </NavContainer>
          <Container>
             <Cards data={favoriteData} />
@@ -67,14 +65,16 @@ const NavContainer = styled('div')`
    flex-direction: column;
    gap: 2.5rem;
    justify-content: center;
-   margin-left: 7rem;
+   margin-left: 6.5rem;
    margin-top: 2.5rem;
-   :nth-child(1) {
-      border: none;
-   }
 `
-const LijnkContainer = styled('div')`
+const LinkContainer = styled('div')`
    display: flex;
-   gap: 0.4rem;
    cursor: pointer;
+   gap: 0.4rem;
+`
+const NavigateStyle = styled('p')`
+   color: var(--tertiary-light-gray, #c4c4c4);
+   font-size: 0.875rem;
+   font-weight: 400;
 `

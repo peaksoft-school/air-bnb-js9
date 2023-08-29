@@ -2,14 +2,14 @@ import React from 'react'
 import { IconButton, styled } from '@mui/material'
 import { ClickHeart2, Heart1 } from '../../../assets/icons/index'
 
-export function ButtonIcon({ open, toggle, variant, ...props }) {
+export function ButtonIcon({ open, onClick, favorite, variant, ...props }) {
    return (
-      <IconButtonStyle onDoubleClick={toggle} variant={variant} props={props}>
+      <IconButtonStyle onClick={onClick} variant={variant} props={props}>
          {open ? (
-            <ClickHeart2 />
+            <Heart1 />
          ) : (
             <div>
-               <Heart1 />
+               <ClickHeart2 />
             </div>
          )}
       </IconButtonStyle>
