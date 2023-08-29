@@ -42,8 +42,8 @@ export function Cards({
    }
 
    const truncateTitle = (title) => {
-      const words = title.split(' ')
-      if (words.length > 7) {
+      const words = title?.split(' ')
+      if (words?.length > 7) {
          return `${words.slice(0, 4).join(' ')}`
       }
       return title
@@ -92,10 +92,12 @@ export function Cards({
                            </StyledButton>
                         </div>
                      )}
-                     <StyleImage
-                        src={item.images[currentImages[index]]}
-                        alt="home"
-                     />
+                     <StyleImageContainer>
+                        <StyleImage
+                           src={item.images[currentImages[index]]}
+                           alt="home"
+                        />
+                     </StyleImageContainer>
                   </div>
                   <DayStartContainer onClick={props.dd}>
                      <DayContainer>
@@ -104,7 +106,7 @@ export function Cards({
 
                      <StartContainer>
                         <Start1 />
-                        <p>{item.rating}</p>
+                        <p>{item.rating}.4</p>
                      </StartContainer>
                   </DayStartContainer>
                   <StyleTitle>
@@ -118,7 +120,7 @@ export function Cards({
                   </LocationCantainerStyle>
                   {item.status === 'dates' ? (
                      <StyledHorizIcon>
-                        <DayStyle>2 guests</DayStyle>
+                        <DayStyle>{item.guest} guests</DayStyle>
                         <div>
                            <IconButtonStyled
                               edge="start"
@@ -148,7 +150,7 @@ export function Cards({
                      </StyledHorizIcon>
                   ) : (
                      <ButtonsContainer>
-                        <DayStyle>2 guests</DayStyle>
+                        <DayStyle>{item.guest} guests</DayStyle>
                         <Button
                            variant="contained"
                            height="20%"
@@ -171,10 +173,12 @@ export function Cards({
       </MainContainer>
    )
 }
+const StyleImageContainer = styled('div')`
+   width: 100%;
+`
 
 const MainContainer = styled('div')`
    line-height: 2rem;
-   background: #f7f7f7;
    margin-left: 2%;
    display: flex;
    flex-wrap: wrap;
@@ -257,11 +261,11 @@ const DayStyle = styled('p')`
 const LocationCantainerStyle = styled('section')`
    display: flex;
    color: var(--tertiary-middle-gray, #828282);
-   font-family: Inter;
    font-size: 0.875rem;
    font-weight: 400;
    line-height: normal;
    margin-top: 0.5rem;
+   margin-right: 11.5rem;
 `
 
 const ButtonsContainer = styled('section')`
