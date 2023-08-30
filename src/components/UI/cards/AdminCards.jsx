@@ -100,7 +100,7 @@ export function AdminCards({
                changeHandler={changeHandler}
             />
             {data.length > 0 ? (
-               data.map((item, index) => (
+               data?.map((item, index) => (
                   <MapContainer status="dat" key={item.id}>
                      <ImageContainer
                         to="/admin/application/name"
