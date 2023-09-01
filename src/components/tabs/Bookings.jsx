@@ -4,9 +4,13 @@ import { AdminCards } from '../UI/cards/AdminCards'
 import { ProfileCards } from '../UI/cards/ProfileCards'
 
 export function Bookings({ bookings, onChange }) {
+   console.log('bookings: ', bookings)
    return (
       <div>
-         {onChange === true ? (
+         {onChange === 'true' ? (
+            // <BookingContainer>
+            //    <ProfileCards data={bookings} announcement="false" />
+            // </BookingContainer>
             <AdminCards
                data={bookings}
                page="admin"
@@ -14,6 +18,12 @@ export function Bookings({ bookings, onChange }) {
                bgColor="white"
             />
          ) : (
+            // <AdminCards
+            //    data={bookings}
+            //    page="admin"
+            //    justifyContent="start"
+            //    bgColor="white"
+            // />
             <BookingContainer>
                <ProfileCards data={bookings} announcement="false" />
             </BookingContainer>

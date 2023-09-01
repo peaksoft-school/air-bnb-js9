@@ -20,26 +20,26 @@ export function Tabs({
    return state === 'true' ? (
       <div>
          <StyleHead>
-            <StyleLink to="/bookings">
+            <StyleLink to="/profile/bookings">
                <h3>Bookings ({BookingLength})</h3>
             </StyleLink>
 
-            <StyleLink to="/my-announcemen">
+            <StyleLink to="/profile/my-announcement">
                <h3>My announcement ({announcementLength})</h3>
             </StyleLink>
 
-            <StyleLink to="/on-moderation">
+            <StyleLink to="/profile/on-moderation">
                <h3>On moderation ({moderationLength})</h3>
             </StyleLink>
          </StyleHead>
 
          <Routes>
             <Route
-               path="/bookings"
+               path="/profile/bookings"
                element={<Bookings bookings={bookings} onChange="true" />}
             />
             <Route
-               path="/my-announcemen"
+               path="/my-announcement"
                element={
                   <MyAnnouncement announcement={announcement} select="true" />
                }

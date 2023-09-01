@@ -44,7 +44,7 @@ export function UserProfile() {
                <ButtonStyle type="button" onClick={() => navigate('/naryn')}>
                   Naryn /
                </ButtonStyle>
-               <ButtonStyle type="button" onClick={() => navigate(`/Profile`)}>
+               <ButtonStyle type="button" onClick={() => navigate(`/profile`)}>
                   Profile
                </ButtonStyle>
             </Navigation>
@@ -62,6 +62,7 @@ export function UserProfile() {
             </ProfileContainerTabs>
             <ContainerTabs>
                <Tabs
+                  state="true"
                   announcement={data.announcements}
                   bookings={data.bookings}
                />

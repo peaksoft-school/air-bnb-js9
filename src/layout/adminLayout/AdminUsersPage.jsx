@@ -108,13 +108,7 @@ const CardSide = styled('div')(() => ({
    paddingTop: '4.7rem',
 }))
 
-<<<<<<< HEAD
-// const StyledNavlink = styled(NavLink)(() => ({
-//    marginBottom: '2.5rem',
-// }))
-=======
 const StyledNavlink = styled(NavLink)(() => ({
    color: '#C4C4C4',
 }))
->>>>>>> 69f3e85a50d349d22e2d781cc8e5daf720ba7385
 export default AdminUsersPage

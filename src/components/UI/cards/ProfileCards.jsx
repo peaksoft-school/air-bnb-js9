@@ -251,7 +251,9 @@ const MainContainer = styled('div')`
    display: flex;
    flex-wrap: wrap;
    justify-content: space-around;
-   gap: 19px;
+   gap: 40px;
+   justify-content: start;
+   margin-left: 7%;
 `
 const IconsContainer = styled('div')``
 

@@ -217,7 +217,7 @@ export function Header({ login, profile }) {
                               {profile === 'true' ? (
                                  <>
                                     <MenuItem
-                                       onClick={() => navigate('/Prifile')}
+                                       onClick={() => navigate('/profile')}
                                     >
                                        My prifile
                                     </MenuItem>

@@ -9,11 +9,11 @@ import {
 
 export function Select({
    data,
+   value,
+   error,
    onChange,
    labelName,
    register,
-   value,
-   error,
    ...props
 }) {
    return (
