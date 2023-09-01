@@ -24,9 +24,18 @@ export const homeType = [
    { id: 'option11', name: 'House' },
 ]
 
+export const homeTypeProfile = [
+   { id: 'option10', name: 'Apartment', value: 'APARTMENT' },
+   { id: 'option11', name: 'House', value: 'HOUSE' },
+]
+export const popularProfile = [
+   { id: 'option8', name: 'popular', value: 'LOW_TO_HIGH' },
+   { id: 'option9', name: 'un popular', value: 'HIGH_TO_LOW' },
+]
+
 export const price = [
-   { id: 'option12', name: 'Low to high' },
-   { id: 'option13', name: 'High to low' },
+   { id: 'option12', name: 'Low to high', value: 'LOW_TO_HIGH' },
+   { id: 'option13', name: 'High to low', value: 'HIGH_TO_LOW' },
 ]
 
 export const popularHouse = [
@@ -124,6 +133,67 @@ export const schema = yup.object().shape({
    province: yup.string().required('Please enter the town'),
    address: yup.string().required('Please enter the address'),
 })
+
+export const data = [
+   {
+      name: 'Bars Barsov',
+      comment:
+         'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
+      starRating: 2,
+      like: 4,
+      dislike: 2,
+      avatar:
+         'https://ca.slack-edge.com/T023L1WBFLH-U04553S5F4Y-b3857864c0e6-512',
+   },
+   {
+      name: 'Beku Bekov',
+      comment:
+         'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
+      starRating: 3,
+      like: 1,
+      dislike: 5,
+      avatar: '',
+   },
+   {
+      name: 'Aziret Aziretov',
+      comment:
+         'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
+      starRating: 4,
+      like: 5,
+      dislike: 3,
+      avatar:
+         'https://ca.slack-edge.com/T023L1WBFLH-U03E00N1USF-0fc4b2f5d54e-512',
+   },
+   {
+      name: 'Emir Emirov',
+      comment:
+         'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
+      starRating: 5,
+      like: 4,
+      dislike: 1,
+      avatar: '',
+   },
+   {
+      name: 'Aziret Aziretov',
+      comment:
+         'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
+      starRating: 4,
+      like: 5,
+      dislike: 3,
+      avatar:
+         'https://ca.slack-edge.com/T023L1WBFLH-U03E00N1USF-0fc4b2f5d54e-512',
+   },
+   {
+      name: 'Bars Barsov',
+      comment:
+         'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
+      starRating: 2,
+      like: 4,
+      dislike: 2,
+      avatar:
+         'https://ca.slack-edge.com/T023L1WBFLH-U04553S5F4Y-b3857864c0e6-512',
+   },
+]
 
 export const bookings = [
    {

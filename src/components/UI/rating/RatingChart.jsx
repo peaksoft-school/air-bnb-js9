@@ -23,30 +23,44 @@ export function RatingChart({ starValue }) {
 
    return (
       <Container>
-         <StarDiv>
-            <StyledPtag>{starValue}</StyledPtag>
-            <Star />
-         </StarDiv>
-         {rating.map((item) => {
-            return (
-               <RatingChartBar
-                  key={item.label}
-                  label={item.label}
-                  currentRating={item.currentRating}
-                  maximumRating={maximumRating}
-               />
-            )
-         })}
+         <div className="rating">
+            <StarDiv>
+               <StyledPtag>{starValue}</StyledPtag>
+               <Star />
+            </StarDiv>
+            {rating.map((item) => {
+               return (
+                  <RatingChartBar
+                     key={item.label}
+                     label={item.label}
+                     currentRating={item.currentRating}
+                     maximumRating={maximumRating}
+                  />
+               )
+            })}
+         </div>
       </Container>
    )
 }
 
 const Container = styled('div')(() => ({
+<<<<<<< HEAD
    border: '1px solid gray',
    borderRadius: '14px',
    padding: '25px 30px 30px 10px',
    width: '27%',
    marginTop: '20px',
+=======
+   width: ' 26.5rem',
+   height: ' 14.5rem',
+   borderRadius: '1rem',
+   '.rating': {
+      border: '1px solid gray',
+      borderRadius: '14px',
+      padding: '25px 30px 30px 10px',
+      width: '100%',
+   },
+>>>>>>> 69f3e85a50d349d22e2d781cc8e5daf720ba7385
 }))
 
 const StarDiv = styled('div')(() => ({
