@@ -18,6 +18,8 @@ import { toastSnackbar } from '../components/UI/snackbar/Snackbar'
 import { Bookings } from '../components/tabs/Bookings'
 import { MyAnnouncement } from '../components/tabs/MyAnnouncement'
 import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
+import { Favorite } from '../components/favorite/Favorite'
+import { UserProfile } from '../components/Profile/Profile'
 
 export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
@@ -84,7 +86,10 @@ export function AppRoutes() {
                   fallbackPath="/admin"
                />
             }
-         />
+         >
+            <Route path="favorites" element={<Favorite />} />
+            <Route path="profile" element={<UserProfile />} />
+         </Route>
          <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
 
          <Route

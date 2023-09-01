@@ -35,26 +35,40 @@ export function Favorite() {
    const favoriteLenght = favoriteData.length
    return (
       <MainCotnainer>
-         <Header />
-         <NavContainer>
-            <LinkContainer>
-               <NavigateStyle onClick={() => navigate('/')}>Main</NavigateStyle>
-               <p onClick={() => navigate('/favorite')}>/ Favorite</p>
-            </LinkContainer>
-            <h2>Favorite({favoriteLenght})</h2>
-         </NavContainer>
-         <Container>
-            <Cards data={favoriteData} />
-         </Container>
-         <Footer />
+         <div>
+            <Header favoriteLenght={favoriteLenght} favorite="true" />
+            <NavContainer>
+               <LinkContainer>
+                  <NavigateStyle onClick={() => navigate('/')}>
+                     Main
+                  </NavigateStyle>
+                  <p onClick={() => navigate('/favorites')}>/ Favorite</p>
+               </LinkContainer>
+               <h2>Favorite({favoriteLenght})</h2>
+            </NavContainer>
+            <Container>
+               {favoriteData.length > 0 ? (
+                  <Cards data={favoriteData} />
+               ) : (
+                  <h1>No cards yet...</h1>
+               )}
+            </Container>
+            <Footer />
+         </div>
       </MainCotnainer>
    )
 }
+
 const Container = styled('div')`
    margin: 2.5rem 0px;
    flex-wrap: wrap;
    width: 100%;
+   h1 {
+      display: flex;
+      justify-content: center;
+   }
 `
+
 const MainCotnainer = styled('div')`
    display: flex;
    flex-direction: column;

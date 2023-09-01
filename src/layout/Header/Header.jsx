@@ -18,7 +18,7 @@ import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
 import { authActions } from '../../store/auth/authSlice'
 import Modal from '../../components/UI/modal/Modal'
 
-export function Header({ login, profile }) {
+export function Header({ login, profile, favoriteLenght, favorite }) {
    // const [meatBalls, setMeatBalls] = useState(false)
    const { isAuthorization, email } = useSelector((state) => state.auth)
 
@@ -190,6 +190,9 @@ export function Header({ login, profile }) {
                   >
                      {isAuthorization ? 'SUBMIT AN AD' : 'JOIN US'}
                   </Button>
+                  {favorite === 'true' && (
+                     <FavoriteStyle>Favorite({favoriteLenght})</FavoriteStyle>
+                  )}
                   {isAuthorization ? (
                      <FavoriteDiv>
                         {/* <StyleLink>leave an ad</StyleLink> */}
@@ -243,6 +246,15 @@ export function Header({ login, profile }) {
       </Container>
    )
 }
+const FavoriteStyle = styled('p')`
+   color: #000;
+   font-family: Inter;
+   font-size: 1rem;
+   font-style: normal;
+   font-weight: 400;
+   line-height: normal;
+   text-transform: uppercase;
+`
 
 const Container = styled('div')(() => ({
    display: 'flex',

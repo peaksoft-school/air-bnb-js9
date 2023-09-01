@@ -190,18 +190,20 @@ export function Cards({
 
 const MainContainer = styled('div')`
    line-height: 2rem;
-   margin-left: 2%;
+   margin-left: 6.5%;
+   width: 100%;
    display: flex;
    flex-wrap: wrap;
-   justify-content: center;
+   justify-content: start;
    align-items: center;
+   align-items: start;
    gap: 20px;
    flex-wrap: wrap;
    margin-top: 2.5rem;
 `
 
 const MapContainer = styled('div')(({ status }) => ({
-   width: '20.2%',
+   width: '19.8%',
    height: status === 'dates' ? '16%' : '16%',
    borderRadius: '4px',
    outline: status === 'dates' ? '3px solid #ff0000' : 'none',
@@ -235,7 +237,7 @@ const MapContainer = styled('div')(({ status }) => ({
 const StartContainer = styled('section')`
    display: flex;
    align-items: center;
-   justify-content: center;
+   justify-content: start;
    border-radius: 0.125rem;
    background: var(--tertiary-middle-gray, #828282);
    width: 3.875rem;
