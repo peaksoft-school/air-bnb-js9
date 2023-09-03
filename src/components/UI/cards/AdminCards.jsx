@@ -16,19 +16,22 @@ export function AdminCards({
    data,
    title,
    image,
+   meatballs,
    removeCard,
    changeHandler,
    toggleHandler,
-   rejectedHandler,
    acceptHandler,
+   rejectedHandler,
 }) {
    const [currentImages, setCurrentImages] = useState([])
-   const [dataa, setData] = useState([])
-   const [currentEl, setCurrentEl] = useState(null)
    const [openModal, setOpenModal] = useState(false)
-   const [id, setId] = useState(null)
+   const [currentEl, setCurrentEl] = useState(null)
    const [itemId, setItemId] = useState('')
+   const [dataa, setData] = useState([])
+   const [id, setId] = useState(null)
    const { toastType } = toastSnackbar()
+
+   console.log(data)
 
    useEffect(() => {
       setData(data?.map((item) => ({ ...item, open: false })))
@@ -52,6 +55,7 @@ export function AdminCards({
          return newImages
       })
    }
+
    const handleNextImage = (index) => {
       setCurrentImages((prevImages) => {
          const newImages = [...prevImages]
@@ -62,6 +66,7 @@ export function AdminCards({
          return newImages
       })
    }
+
    const handleMenuOpen = (e, id) => {
       setCurrentEl(e.currentTarget)
       setItemId(id)
@@ -196,22 +201,48 @@ export function AdminCards({
                                  id={idd}
                                  propsVertical="top"
                                  propsHorizontal="left"
-                                 width="15%"
-                                 height="16%"
+                                 width={
+                                    meatballs === 'application' ? '15%' : '10%'
+                                 }
+                                 height={
+                                    meatballs === 'application' ? '16%' : '12%'
+                                 }
                               >
-                                 <MenuItem
-                                    onClick={() => acceptHandler(itemId)}
-                                 >
-                                    Accept
-                                 </MenuItem>
-                                 <MenuItem
-                                    onClick={() => openModalHandler(itemId)}
-                                 >
-                                    Reject
-                                 </MenuItem>
-                                 <MenuItem onClick={() => removeCard(itemId)}>
-                                    Delete
-                                 </MenuItem>
+                                 {meatballs === 'application' ? (
+                                    <>
+                                       <MenuItem
+                                          onClick={() => acceptHandler(itemId)}
+                                       >
+                                          Accept
+                                       </MenuItem>
+                                       <MenuItem
+                                          onClick={() =>
+                                             openModalHandler(itemId)
+                                          }
+                                       >
+                                          Reject
+                                       </MenuItem>
+                                       <MenuItem
+                                          onClick={() => removeCard(itemId)}
+                                       >
+                                          Delete
+                                       </MenuItem>
+                                    </>
+                                 ) : (
+                                    <>
+                                       {' '}
+                                       <MenuItem
+                                          onClick={() => removeCard(itemId)}
+                                       >
+                                          Delete
+                                       </MenuItem>
+                                       <MenuItem
+                                          onClick={() => acceptHandler(itemId)}
+                                       >
+                                          Update
+                                       </MenuItem>
+                                    </>
+                                 )}
                               </MeatBalls>
                            </ContainerGuests>
                         </ContainerInformation>
@@ -231,7 +262,7 @@ const Container = styled('div')(() => ({
 
    '.block': {
       display: 'flex',
-      justifyContent: 'space-around',
+      justifyContent: 'flex-start',
       flexWrap: 'wrap',
       gap: '1.25rem',
    },
@@ -242,9 +273,11 @@ const MapContainer = styled('div')((props) => ({
    height: ' 17.8125rem',
    borderRadius: '0.6rem 0.5rem 0 0 ',
    border: props.status === 'dates' ? '3px solid #ff0000' : 'none',
+   boxShadow: '  0px 0px 8px 7px rgba(135, 132, 129, 0.2)',
+
    '&:hover': {
       opacity: 1,
-      boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
+      boxShadow: ' 0px 0px 8px 7px rgba(0, 0, 0, 0.2)',
    },
 }))
 

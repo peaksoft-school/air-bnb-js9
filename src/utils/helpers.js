@@ -20,7 +20,7 @@ export const popular = [
    { id: 'option9', name: 'un popular' },
 ]
 export const homeType = [
-   { id: 'option21', name: 'All', value: ' ' },
+   { id: 'option21', name: 'All', value: 'all' },
    { id: 'option10', name: 'Apartment', value: 'APARTMENT' },
    { id: 'option11', name: 'House', value: 'HOUSE' },
 ]
@@ -230,18 +230,19 @@ export const moderation = [
 ]
 
 export const allHousingBooked = [
-   { id: 'option18', name: 'All', value: ' ' },
+   { id: 'option18', name: 'All', value: 'all' },
    { id: 'option14', name: 'Booked', value: 'BOOKED' },
    { id: 'option15', name: 'Not booked', value: 'NOT_BOOKED' },
 ]
 
 export const allHousingPopular = [
-   { id: 'option19', name: 'All', value: ' ' },
+   { id: 'option19', name: 'All', value: 'all' },
    { id: 'option16', name: 'Popular', value: 'asc' },
    { id: 'option17', name: 'The lastest', value: 'desc' },
 ]
+
 export const allPrice = [
-   { id: 'option20', name: 'All', value: ' ' },
+   { id: 'option20', name: 'All', value: 'all' },
    { id: 'option12', name: 'Low to high', value: 'asc' },
    { id: 'option13', name: 'High to low', value: 'desc' },
 ]

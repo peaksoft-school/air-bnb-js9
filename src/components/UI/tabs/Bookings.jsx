@@ -1,7 +1,7 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { AdminCards } from '../UI/cards/AdminCards'
-import { ProfileCards } from '../UI/cards/ProfileCards'
+import { AdminCards } from '../cards/AdminCards'
+import { ProfileCards } from '../cards/ProfileCards'
 
 export function Bookings({ bookings, onChange }) {
    return (

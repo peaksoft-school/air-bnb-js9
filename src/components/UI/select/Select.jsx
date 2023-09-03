@@ -36,11 +36,14 @@ export function Select({
             label={labelName}
             onClick={toggle}
          >
-            {data?.map((item) => (
-               <MenuItem key={item.id} value={item.value}>
-                  {item.name}
-               </MenuItem>
-            ))}
+            {data?.map((item) => {
+               console.log('item.value', item.value)
+               return (
+                  <MenuItem key={item.id} value={item.value}>
+                     {item.name}
+                  </MenuItem>
+               )
+            })}
          </MuiSelect>
       </StyledFormControl>
    )

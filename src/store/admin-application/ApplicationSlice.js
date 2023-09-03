@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+
 import {
    deleteAdminApplication,
    getAdminApplication,
@@ -33,3 +34,4 @@ export const applicationSlice = createSlice({
          })
    },
 })
+export const ActionsApplication = applicationSlice.actions

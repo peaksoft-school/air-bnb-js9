@@ -26,7 +26,42 @@ export function AllHousingFilter() {
 
    const { byBooked, byPopular, byHomeType, byPrice } = filters
    const { stateBooked, statePopular, stateType, statePrice } = toggleStates
-
+   const filterOptions = [
+      {
+         id: 1,
+         label: 'Filter by:',
+         data: allHousingBooked,
+         onChangeFilter: 'byBooked',
+         state: stateBooked,
+         toggle: 'stateBooked',
+      },
+      {
+         id: 2,
+         label: 'Sort by:',
+         data: allHousingPopular,
+         onChangeFilter: 'byPopular',
+         state: statePopular,
+         toggle: 'statePopular',
+      },
+      {
+         id: 3,
+         label: 'Filter by home type:',
+         data: homeType,
+         onChangeFilter: 'byHomeType',
+         state: stateType,
+         toggle: 'stateType',
+      },
+      {
+         id: 4,
+         label: 'Filter by price:',
+         data: allPrice,
+         onChangeFilter: 'byPrice',
+         state: statePrice,
+         toggle: 'statePrice',
+      },
+   ]
+   console.log(byBooked, 'byBooked')
+   console.log(byPopular, 'byPopular')
    const dispatch = useDispatch()
    useEffect(() => {
       const data = {
@@ -57,42 +92,21 @@ export function AllHousingFilter() {
       <Container>
          <h1>All housing</h1>
          <div>
-            <Select
-               labelName="Filter by:"
-               data={allHousingBooked}
-               onChange={(selectedOption) =>
-                  onChangeFilter('byBooked', selectedOption.target.value)
-               }
-               state={stateBooked}
-               toggle={() => toggle('stateBooked')}
-            />
-            <Select
-               labelName="Sort by:"
-               data={allHousingPopular}
-               onChange={(selectedOption) =>
-                  onChangeFilter(' byPopular', selectedOption.target.value)
-               }
-               state={statePopular}
-               toggle={() => toggle('statePopular')}
-            />
-            <Select
-               labelName="Filter by home type:"
-               data={homeType}
-               onChange={(selectedOption) =>
-                  onChangeFilter('byHomeType', selectedOption.target.value)
-               }
-               state={stateType}
-               toggle={() => toggle('stateType')}
-            />
-            <Select
-               labelName="Filter by price:"
-               data={allPrice}
-               onChange={(selectedOption) =>
-                  onChangeFilter('byPrice', selectedOption.target.value)
-               }
-               state={statePrice}
-               toggle={() => toggle('statePrice')}
-            />
+            {filterOptions.map((item) => (
+               <Select
+                  key={item.id}
+                  labelName={item.label}
+                  data={item.data}
+                  onChange={(selectedOption) =>
+                     onChangeFilter(
+                        item.onChangeFilter,
+                        selectedOption.target.value
+                     )
+                  }
+                  state={item.state}
+                  toggle={() => toggle(item.toggle)}
+               />
+            ))}
          </div>
       </Container>
    )
@@ -104,6 +118,11 @@ const Container = styled('div')(() => ({
    justifyContent: 'space-between',
    alignItems: 'center',
 
+   '@media (min-width:1000px) and (max-width: 1416px) ': {
+      width: '80%',
+      padding: '2.5rem',
+   },
+
    h1: {
       color: ' #000',
       fontFamily: 'Inter',
@@ -112,6 +131,9 @@ const Container = styled('div')(() => ({
       fontWeight: 500,
       lineHeight: 'normal',
       textTransform: 'uppercase',
+      '@media (min-width:1000px) and (max-width: 1416px) ': {
+         fontSize: '1.25rem',
+      },
    },
 
    div: {
