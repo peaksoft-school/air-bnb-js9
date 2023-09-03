@@ -1,22 +1,18 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
-// import { getAllCards } from './cardThunk'
+import { getAllCards } from './cardThunk'
 
 const initialState = {
-   data: [],
-   isLoading: false,
+   cards: [],
 }
 
 export const cardSlice = createSlice({
    name: 'card',
    initialState,
    reducers: {},
-   extraReducers: () => {
-      // builder.addCase(getAllCards.pending, (state) => {
-      //    state.isLoading = true
-      // })
-      // builder.addCase(getAllCards.rejected, (state) => {
-      //    state.isLoading = false
-      // })
+   extraReducers: (builder) => {
+      builder.addCase(getAllCards.fulfilled, (state, action) => {
+         state.cards = action.payload
+      })
    },
 })

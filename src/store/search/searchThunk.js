@@ -6,7 +6,7 @@ export const getGlobalSearch = createAsyncThunk(
    async (params, { rejectWithValue }) => {
       try {
          const response = await getGlobalSearchRequest(params)
-         console.log(response.data, 'responsesss')
+
          return response.data.announcementResponses
       } catch (error) {
          return rejectWithValue(error?.response.message)

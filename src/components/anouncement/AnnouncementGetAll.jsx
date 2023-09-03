@@ -1,33 +1,31 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/button-has-type */
 import React, { useEffect, useState } from 'react'
 import { Link, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import { useNavigate, useParams } from 'react-router-dom'
-import Pagination from '@mui/material/Pagination'
 import { Header } from '../../layout/Header/Header'
 import { FilterSelect } from '../filter-select/FilterSelect'
 import { Cards } from '../UI/cards/Cards'
 import { getAllCards } from '../../store/card/cardThunk'
 import Skeleto from '../UI/cards/Skeleto'
-import Modal from '../UI/modal/Modal'
-import { SignIn } from '../signIn/SignIn'
-import { JoinUs } from '../signIn/JoinUs'
+import { XIcon } from '../UI/icon/XIcon'
 
 function AnnouncementGetAll() {
-   const [login, setLogin] = useState(false)
-   const dispatch = useDispatch()
    const { search, isLoading } = useSelector((state) => state.global)
-   const [selectedRegion, setSelectedRegion] = useState('')
-   const [selectedPopular, setSelectedPopular] = useState('')
+   const { cards } = useSelector((state) => state.card)
+
    const [selectedHomeType, setSelectedHomeType] = useState('')
+   const [selectedPopular, setSelectedPopular] = useState('')
+   const [selectedRegion, setSelectedRegion] = useState('')
    const [selectedPrice, setSelectedPrice] = useState('')
-   const [openModal, setOpenModal] = useState(false)
-   const [signIn, setSignIn] = useState(false)
+   const [mapCards, setMapCards] = useState(false)
+   const [login, setLogin] = useState(true)
+
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
    const params = useParams()
+
    useEffect(() => {
       const params = {
          region: selectedRegion,
@@ -44,9 +42,6 @@ function AnnouncementGetAll() {
       selectedPrice,
    ])
 
-   useEffect(() => {
-      dispatch(getAllCards())
-   }, [dispatch])
    const todosLength = search.length
 
    const onChangeRegions = (e) => {
@@ -64,43 +59,41 @@ function AnnouncementGetAll() {
    const onChangePrice = (e) => {
       setSelectedPrice(e.target.value)
    }
-   const openModalHandler = () => {
-      setOpenModal((prev) => !prev)
-   }
-   const moveToSigninAndSignUp = () => {
-      setSignIn((prev) => !prev)
-   }
-   const clearSelectedRegion = () => {
-      setSelectedRegion('')
-   }
-   const clearSelectedPopular = () => {
-      setSelectedPopular('')
-   }
-   const clearSelectedPrice = () => {
-      setSelectedPrice('')
-   }
-   const clearSelectedType = () => {
-      setSelectedHomeType('')
+
+   const toggleMapCards = () => {
+      setMapCards((prev) => !prev)
    }
 
-   console.log(Object.values(params))
-   const navigate = useNavigate()
+   const clearSort = (criteria) => {
+      if (criteria === 'region') {
+         setSelectedRegion('')
+      } else if (criteria === 'popular') {
+         setSelectedPopular('')
+      } else if (criteria === 'homeType') {
+         setSelectedHomeType('')
+      } else if (criteria === 'price') {
+         setSelectedPrice('')
+      }
+   }
+   const clearAllFilters = () => {
+      setSelectedHomeType('')
+      setSelectedPopular('')
+      setSelectedRegion('')
+      setSelectedPrice('')
+   }
+
+   if (selectedPopular === 'asc') {
+      setSelectedPopular('The latest')
+   } else if (selectedPopular === 'desc') {
+      setSelectedPopular('Popular')
+   }
    return (
       <WrapperContainer>
          <Header
             login={login}
             setLogin={setLogin}
-            openHandler={openModalHandler}
+            toggleMapCards={toggleMapCards}
          />
-         {openModal ? (
-            <Modal open={openModal} onClose={openModalHandler}>
-               {signIn ? (
-                  <SignIn moveToSigninAndSignUp={moveToSigninAndSignUp} />
-               ) : (
-                  <JoinUs moveToSigninAndSignUp={moveToSigninAndSignUp} />
-               )}
-            </Modal>
-         ) : null}
          <div style={{ margin: '1rem 8rem' }} role="presentation">
             <Breadcrumbs aria-label="breadcrumb">
                <Link
@@ -149,23 +142,54 @@ function AnnouncementGetAll() {
             />
          </div>
 
-         <div>
-            <button onClick={clearSelectedRegion}>{selectedRegion}</button>
-            <button onClick={clearSelectedPopular}>{selectedPopular}</button>
-            <button onClick={clearSelectedType}>{selectedHomeType}</button>
-            <button onClick={clearSelectedPrice}>{selectedPrice}</button>
-         </div>
+         <ContainerSelect>
+            {selectedRegion && (
+               <SelectStyle>
+                  <XIcon onClick={() => clearSort('region')} />
+                  {selectedRegion}
+               </SelectStyle>
+            )}
+
+            {selectedPopular && (
+               <SelectStyle>
+                  <XIcon onClick={() => clearSort('popular')} />{' '}
+                  {selectedPopular}
+               </SelectStyle>
+            )}
+
+            {selectedHomeType && (
+               <SelectStyle>
+                  <XIcon onClick={() => clearSort('homeType')} />
+                  {selectedHomeType}
+               </SelectStyle>
+            )}
+
+            {selectedPrice && (
+               <SelectStyle>
+                  <XIcon onClick={() => clearSort('price')} />{' '}
+                  {selectedPrice === 'HIGH_TO_LOW'
+                     ? 'HIGH TO LOW'
+                     : 'LOW TO HIGH'}
+               </SelectStyle>
+            )}
+
+            {selectedHomeType ||
+            selectedPrice ||
+            selectedPopular ||
+            selectedRegion ? (
+               <SelectStyle onClick={clearAllFilters}>Clear all</SelectStyle>
+            ) : null}
+         </ContainerSelect>
 
          {isLoading ? (
             <div>
                <Skeleto />
             </div>
          ) : (
-            <Cards data={search} />
+            <div>
+               {mapCards ? <Cards data={search} /> : <Cards data={cards} />}
+            </div>
          )}
-         <PaginationStack spacing={2}>
-            <Pagination count={37} color="secondary" />
-         </PaginationStack>
       </WrapperContainer>
    )
 }
@@ -175,9 +199,31 @@ export default AnnouncementGetAll
 const WrapperContainer = styled('div')({
    width: '100%',
 })
-const PaginationStack = styled(Stack)({
+const ContainerSelect = styled('div')`
+   display: flex;
+   gap: 1rem;
+   margin-left: 4rem;
+`
+
+const SelectStyle = styled('div')(() => ({
+   color: 'var(--tertiary-middle-gray, #636060)',
+   background: ' var(--tertiary-the-lightest-gray, #f3f3f3)',
+   padding: '8px',
+   fontSize: '16px',
+   fontWeight: '400',
+   cursor: 'pointer',
    display: 'flex',
    justifyContent: 'center',
    alignItems: 'center',
-   marginTop: '20px',
-})
+   gap: '3px',
+   '&:hover': {
+      background: 'var(--tertiary-light-gray, #C4C4C4)',
+      color: '#fff',
+   },
+   svg: {
+      transition: ' fill 0.3s ease',
+      '&:hover': {
+         fill: '#fff',
+      },
+   },
+}))

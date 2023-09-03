@@ -22,3 +22,14 @@ export const role = userRoles.ADMIN
 export const STORAGE_KEY = {
    AIRBNB_AUTH: ' AUTH_AIRBNB',
 }
+
+export const regionPath = {
+   chuiPath: 'Chui',
+   batkenPath: 'Batken',
+   jalalAbadPath: 'Jalal-Abad',
+   narynPath: 'Naryn',
+   issykKulPath: 'Issyk-Kul',
+   talasPath: 'Talas',
+   bishkekPath: 'Bishkek',
+   oshPath: 'Osh',
+}

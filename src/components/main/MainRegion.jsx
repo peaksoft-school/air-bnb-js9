@@ -1,6 +1,8 @@
 import { styled } from '@mui/material'
 import { useEffect, React } from 'react'
 import AOS from 'aos'
+import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import chui from '../../assets/images/chui.png'
 import batken from '../../assets/images/batken.png'
 import jalalabat from '../../assets/images/jalalAbad.png'
@@ -10,8 +12,10 @@ import bishkek from '../../assets/images/bishkek.png'
 import osh from '../../assets/images/osh.png'
 import naryn from '../../assets/images/naryn.png'
 import 'aos/dist/aos.css'
+import { ActionToggleHandelr } from '../../store/toggle/ToggleSlice'
 
 export function MainRegion() {
+   const dispatch = useDispatch()
    useEffect(() => {
       AOS.init({
          duration: 1000,
@@ -19,6 +23,11 @@ export function MainRegion() {
          once: false,
       })
    }, [])
+
+   const toggleRegion = (path) => {
+      dispatch(ActionToggleHandelr.togglePathHandler(path))
+   }
+
    return (
       <GlobalConteiner>
          <MainContainer>
@@ -35,10 +44,12 @@ export function MainRegion() {
                      data-aos="fade-right"
                      data-aos-offset="300"
                      data-aos-easing="ease-in-sine"
+                     to="Chui"
                      style={{
                         background: `url(${chui})`,
                         backgroundSize: 'cover',
                      }}
+                     onClick={() => toggleRegion('Chui')}
                   >
                      <StyleName>CHUI</StyleName>
                   </ChuiAndOshCard>
@@ -49,10 +60,12 @@ export function MainRegion() {
                            data-aos="fade-down"
                            data-aos-easing="linear"
                            data-aos-duration="1000"
+                           to="Batken"
                            style={{
                               background: `url(${batken})`,
                               backgroundSize: 'cover',
                            }}
+                           onClick={() => toggleRegion('Batken')}
                         >
                            <StyleName>batken</StyleName>
                         </ItemRegionCard>
@@ -60,10 +73,12 @@ export function MainRegion() {
                            data-aos="fade-left"
                            data-aos-easing="linear"
                            data-aos-duration="1000"
+                           to="Jalal-Abad"
                            style={{
                               background: `url(${jalalabat})`,
                               backgroundSize: 'cover',
                            }}
+                           onClick={() => toggleRegion('Jalal-Abad')}
                         >
                            <StyleName>Jalalabat</StyleName>
                         </ItemRegionCard>
@@ -73,10 +88,12 @@ export function MainRegion() {
                         data-aos-anchor="#example-anchor"
                         data-aos-offset="1000"
                         data-aos-duration="1000"
+                        to="Naryn"
                         style={{
                            background: `url(${naryn})`,
                            backgroundSize: 'cover',
                         }}
+                        onClick={() => toggleRegion('Naryn')}
                      >
                         <StyleName>naryn</StyleName>
                      </NarynAndBihkek>
@@ -89,19 +106,23 @@ export function MainRegion() {
                         <ItemRegionCard
                            data-aos="flip-left"
                            data-aos-duration="1000"
+                           to="Issyk-Kul"
                            style={{
                               background: `url(${IssykKul})`,
                               backgroundSize: 'cover',
                            }}
+                           onClick={() => toggleRegion('Issyk-Kul')}
                         >
                            <StyleName>Issyk-kul</StyleName>
                         </ItemRegionCard>
                         <ItemRegionCard
                            data-aos="flip-up"
+                           to="Talas"
                            style={{
                               background: `url(${talas})`,
                               backgroundSize: 'cover',
                            }}
+                           onClick={() => toggleRegion('Talas')}
                         >
                            <StyleName>talas</StyleName>
                         </ItemRegionCard>
@@ -109,20 +130,24 @@ export function MainRegion() {
                      <NarynAndBihkek
                         data-aos="flip-left"
                         data-aos-duration="1500"
+                        to="Bishkek"
                         style={{
                            background: `url(${bishkek})`,
                            backgroundSize: 'cover',
                         }}
+                        onClick={() => toggleRegion('Bishkek')}
                      >
                         <StyleName>bishkek</StyleName>
                      </NarynAndBihkek>
                   </div>
                   <ChuiAndOshCard
                      data-aos="fade-down-left"
+                     to="Osh"
                      style={{
                         background: `url(${osh})`,
                         backgroundSize: 'cover',
                      }}
+                     onClick={() => toggleRegion('Osh')}
                   >
                      <StyleName>osh</StyleName>
                   </ChuiAndOshCard>
@@ -215,19 +240,19 @@ const StyleName = styled('p')(() => ({
    cursor: 'pointer',
 }))
 
-const ChuiAndOshCard = styled('div')(() => ({
+const ChuiAndOshCard = styled(Link)(() => ({
    width: '31.5625rem',
    height: ' 38.09rem',
    padding: '36rem 0 0 1.25rem',
    cursor: 'pointer',
 }))
-const ItemRegionCard = styled('div')(() => ({
+const ItemRegionCard = styled(Link)(() => ({
    width: ' 21.6875rem',
    height: '18.875rem',
    padding: '16rem 0 0 1.25rem',
    cursor: 'pointer',
 }))
-const NarynAndBihkek = styled('div')(() => ({
+const NarynAndBihkek = styled(Link)(() => ({
    width: ' 44.6875rem',
    height: '18rem',
    background: `url(${bishkek})`,

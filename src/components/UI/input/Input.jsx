@@ -11,6 +11,7 @@ export const Input = forwardRef(
          name,
          placeholder,
          onChange,
+         onClick,
          value,
          width,
          height,
@@ -34,6 +35,7 @@ export const Input = forwardRef(
             error={error}
             checked={checked}
             defaultChecked={defaultChecked}
+            onClick={onClick}
             {...props}
          />
       )

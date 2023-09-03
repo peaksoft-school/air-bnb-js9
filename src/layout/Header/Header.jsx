@@ -22,7 +22,7 @@ import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
 import { authActions } from '../../store/auth/authSlice'
 import Modal from '../../components/UI/modal/Modal'
 
-export function Header({ profile, login }) {
+export function Header({ profile, login, toggleMapCards }) {
    // const [meatBalls, setMeatBalls] = useState(false)
    const { isAuthorization, email } = useSelector((state) => state.auth)
 
@@ -30,24 +30,49 @@ export function Header({ profile, login }) {
    const [openModal, setOpenModal] = useState(false)
    const [signIn, setSignIn] = useState(false)
    const [currentEl, setCurrentEl] = useState(null)
-
+   const [isChecked, setIsChecked] = useState(false)
    const [searchText, setSearchText] = useState('')
-   const dispatch = useDispatch()
    const [searchedValue] = useDebounce(searchText, 1000)
+   const [location, setLocation] = useState(null)
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
 
    const onChangeRegions = (e) => {
       setSearchText(e.target.value)
    }
-   useEffect(() => {
-      const params = {
-         word: searchedValue,
-      }
-      if (searchedValue.trim().length > 0) {
-         dispatch(getGlobalSearch(params))
+
+   function getUserLocation() {
+      if ('geolocation' in navigator) {
+         navigator.geolocation.getCurrentPosition((position) => {
+            const { latitude, longitude } = position.coords
+            setLocation({ latitude, longitude })
+         })
       } else {
-         dispatch(getAllCards())
+         console.error('Браузер не поддерживает геолокацию.')
       }
-   }, [searchedValue])
+   }
+
+   useEffect(() => {
+      getUserLocation()
+   }, [])
+
+   useEffect(() => {
+      if (location) {
+         const params = {
+            word: searchedValue,
+            isNearby: isChecked,
+            latitude: location.latitude,
+            longitude: location.longitude,
+         }
+
+         if (searchedValue.trim().length > 0) {
+            dispatch(getGlobalSearch(params))
+         } else {
+            dispatch(getAllCards())
+         }
+      }
+   }, [location, searchedValue, isChecked])
+
    const loginHandler = () => {
       setUserLogin((prev) => !prev)
    }
@@ -81,8 +106,10 @@ export function Header({ profile, login }) {
    const closeMeatBallsHeandler = () => {
       setCurrentEl(null)
    }
-   const navigate = useNavigate()
 
+   const handleCheckboxChange = (event) => {
+      setIsChecked(event.target.checked)
+   }
    const open = Boolean(currentEl)
    const idd = open ? 'simple-popover' : undefined
 
@@ -177,9 +204,14 @@ export function Header({ profile, login }) {
                   <LeaveAnAd>leave an ad</LeaveAnAd>
                </div>
 
-               <SearchDiv>
+               <SearchDiv onClick={toggleMapCards}>
                   <div className="blockCheckbox">
-                     <ChecboxStyled type="checkbox" id="search" />
+                     <ChecboxStyled
+                        type="checkbox"
+                        id="search"
+                        checked={isChecked}
+                        onChange={handleCheckboxChange}
+                     />
                      <StyledLabel htmlFor="search">Search nearby</StyledLabel>
                   </div>
                   <Input

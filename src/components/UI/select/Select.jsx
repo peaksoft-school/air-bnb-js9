@@ -31,7 +31,7 @@ export function Select({
             label={labelName}
             value={value}
          >
-            <MenuItem value=" ">All</MenuItem>
+            {/* <MenuItem value=" ">All</MenuItem> */}
             {data?.map((item) => (
                <MenuItem key={item.id} value={item.value}>
                   {item.name}

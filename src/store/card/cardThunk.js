@@ -6,6 +6,7 @@ export const getAllCards = createAsyncThunk(
    async (params, { rejectWithValue }) => {
       try {
          const response = await getAllCardsRequest(params)
+
          return response.data
       } catch (error) {
          return rejectWithValue(error?.response.message)

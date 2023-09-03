@@ -18,6 +18,7 @@ import { toastSnackbar } from '../components/UI/snackbar/Snackbar'
 import { Bookings } from '../components/tabs/Bookings'
 import { MyAnnouncement } from '../components/tabs/MyAnnouncement'
 import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
+import AnnouncementGetAll from '../components/anouncement/AnnouncementGetAll'
 
 export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
@@ -28,6 +29,7 @@ export function AppRoutes() {
 
    const role = useSelector((state) => state.auth.role)
    const { data, bookings } = useSelector((state) => state.adminUsers)
+   const { path } = useSelector((state) => state.toggle)
 
    const isAllowed = (roles) => {
       return roles.includes(role)
@@ -75,13 +77,24 @@ export function AppRoutes() {
    }
    return (
       <Routes>
+         <Route path="/" element={<Navigate to="/main" />} />
          <Route
-            path="/"
+            path="/main"
             element={
                <ProtectedRoutes
                   isAllowed={isAllowed([userRoles.GUEST, userRoles.USER])}
                   component={UserLayout}
                   fallbackPath="/admin"
+               />
+            }
+         />
+         <Route
+            path={`/main/:${path}`}
+            element={
+               <AnnouncementGetAll
+                  currentPage={currentPage}
+                  currentSize={currentSize}
+                  setCurrentPage={setCurrentPage}
                />
             }
          />
