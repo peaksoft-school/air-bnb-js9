@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react'
-import { Outlet } from 'react-router'
+import { Outlet } from 'react-router-dom'
 import { MainPages } from '../../pages/MainPages'
 
 export function UserLayout() {
@@ -8,6 +8,7 @@ export function UserLayout() {
       <div>
          <Outlet />
          <MainPages />
+         <Outlet />
       </div>
    )
 }

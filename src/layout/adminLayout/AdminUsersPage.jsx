@@ -42,13 +42,18 @@ function AdminUsersPage() {
    return (
       <Container>
          <UserSide>
-            <NavLink to="/admin/users/">
+            <StyledNavlink to="/admin/users/">
                Users
-               <span style={{ fontWeight: '700', color: '#363636' }}>
+               <span
+                  style={{
+                     fontWeight: '700',
+                     color: '#363636',
+                  }}
+               >
                   {' '}
                   / {userData.fullName}
                </span>
-            </NavLink>
+            </StyledNavlink>
             <h3 style={{ marginBottom: '1.40rem', marginTop: '2.5rem' }}>
                {userData.fullName}
             </h3>
@@ -91,6 +96,7 @@ const Container = styled('div')(() => ({
    gap: '2rem',
    padding: '2.90rem 0rem 2.88rem 2.5rem',
    cursor: 'pointer',
+   marginTop: '5rem',
 }))
 
 const UserSide = styled('div')(() => ({
@@ -102,7 +108,7 @@ const CardSide = styled('div')(() => ({
    paddingTop: '4.7rem',
 }))
 
-// const StyledNavlink = styled(NavLink)(() => ({
-//    marginBottom: '2.5rem',
-// }))
+const StyledNavlink = styled(NavLink)(() => ({
+   color: '#C4C4C4',
+}))
 export default AdminUsersPage
