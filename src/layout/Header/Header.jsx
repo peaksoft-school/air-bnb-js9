@@ -254,6 +254,7 @@ const FavoriteStyle = styled('p')`
    font-weight: 400;
    line-height: normal;
    text-transform: uppercase;
+   cursor: pointer;
 `
 
 const Container = styled('div')(() => ({

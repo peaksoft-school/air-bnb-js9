@@ -4,6 +4,7 @@ import { adminUsersSlice } from './admin-users/adminUsersSlice'
 import { announcementSlice } from './profile/ProfileSlice'
 import { applicationSlice } from './admin-application/ApplicationSlice'
 import { getByIdSlice } from './anouncement/AnouncementSlice'
+import { favoriteSlice } from './favorite/FavoriteSlice'
 
 export const store = configureStore({
    reducer: {
@@ -13,5 +14,6 @@ export const store = configureStore({
       [authSlice.name]: authSlice.reducer,
       [applicationSlice.name]: applicationSlice.reducer,
       [getByIdSlice.name]: getByIdSlice.reducer,
+      [favoriteSlice.name]: favoriteSlice.reducer,
    },
 })

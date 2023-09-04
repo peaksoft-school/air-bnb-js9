@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { IconButton, Menu, MenuItem, Tooltip, styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
    ArrowleftIcon,
    ArrowrightIcon,
@@ -11,7 +10,7 @@ import {
 } from '../../../assets/icons/index'
 import { Button } from '../button/Button'
 import { ButtonIcon } from '../IconButton/IconButton'
-import { postFavorite } from '../../../api/favorite/Favorite'
+import { postLike } from '../../../store/favorite/FavoriteThunk'
 
 export function Cards({
    data,
@@ -24,15 +23,20 @@ export function Cards({
    accerptHandler,
    ...props
 }) {
-   const [currentImages, setCurrentImages] = useState([])
+   const [currentImages, setCurrentImages] = useState(
+      Array.isArray(data) ? Array(data.length).fill(0) : []
+   )
    const [dataa, setData] = useState([])
    const [anchorEl, setAnchorEl] = useState(null)
    const dispatch = useDispatch()
 
    useEffect(() => {
-      setData(data?.map((item) => ({ ...item, open: false })))
-      setCurrentImages(data.map(() => 0))
-   }, [data])
+      setData(
+         data?.map((img) => {
+            return img.images
+         })
+      )
+   }, [setData])
 
    const handleNextImage = (index) => {
       setCurrentImages((prevImages) => {
@@ -63,21 +67,15 @@ export function Cards({
          return newImages
       })
    }
-   const postLike = createAsyncThunk(
-      'post/postLike',
-      async (id, { rejectWithValue }) => {
-         try {
-            const response = await postFavorite(id)
 
-            return response.data
-         } catch (error) {
-            return rejectWithValue(error)
+   const toggle = ({ id }) => {
+      const newData = data.map((item) => {
+         if (item.id === id) {
+            return { ...item, open: !item.open }
          }
-      }
-   )
-   const toggle = ({ index, id }) => {
-      const newData = [...data]
-      newData[index].open = !newData[index].open
+         return item
+      })
+
       setData(newData)
       dispatch(postLike(id))
    }
@@ -91,113 +89,122 @@ export function Cards({
    }
 
    return (
-      <MainContainer>
-         {dataa.map((item, index) => {
-            return (
-               <MapContainer key={item.id} status={item.status} state={page}>
-                  <div>
-                     {item.images.length > 1 && (
-                        <div className="ImageNavigation">
-                           <StyledButton onClick={() => handlePrevImage(index)}>
-                              <ArrowleftIcon />
-                           </StyledButton>
-                           <StyledButton onClick={() => handleNextImage(index)}>
-                              <ArrowrightIcon />
-                           </StyledButton>
-                        </div>
-                     )}
-                     <StyleImage
-                        src={item.images[currentImages[index]]}
-                        alt="home"
-                     />
-                  </div>
-                  <DayStartContainer onClick={props.dd}>
-                     <DayContainer>
-                        ${item.price}/ <DayStyle>day</DayStyle>{' '}
-                     </DayContainer>
-
-                     <StartContainer>
-                        <Start1 />
-                        <p>{item.rating}.4</p>
-                     </StartContainer>
-                  </DayStartContainer>
-                  <StyleTitle>
-                     <Tooltip title={item.title}>
-                        {truncateTitle(item.title)}
-                     </Tooltip>
-                  </StyleTitle>
-                  <LocationCantainerStyle>
-                     <Location />
-                     <p>{item.location}</p>
-                  </LocationCantainerStyle>
-                  {item.status === 'dates' ? (
-                     <StyledHorizIcon>
-                        <DayStyle>{item.guest} guest</DayStyle>
-                        <div>
-                           <IconButtonStyled
-                              edge="start"
-                              color="inherit"
-                              aria-label="menu"
-                              onClick={handleMenuOpen}
-                           >
-                              <MoreHorizIconStyled />
-                           </IconButtonStyled>
-
-                           <StyledMenu
-                              anchorEl={anchorEl}
-                              open={anchorEl}
-                              onClose={handleMenuClose}
-                           >
-                              <MenuItem onClick={handleMenuClose}>
-                                 Accept
-                              </MenuItem>
-                              <MenuItem onClick={handleMenuClose}>
-                                 Reject
-                              </MenuItem>
-                              <MenuItem onClick={handleMenuClose}>
-                                 Delete
-                              </MenuItem>
-                           </StyledMenu>
-                        </div>
-                     </StyledHorizIcon>
-                  ) : (
-                     <ButtonsContainer>
-                        <DayStyle>{item.guest} guest</DayStyle>
-                        <Button
-                           variant="contained"
-                           height="20%"
-                           bgColor="#DD8A08"
-                           s
-                           color="white"
-                           width="6.4375rem"
-                        >
-                           Book
-                        </Button>
-                        <ButtonIcon
-                           width="10%"
-                           open={item.open}
-                           onClick={() => toggle({ index, id: item.id })}
-                           favorite={item.favorite}
+      <Container>
+         <MainContainer>
+            {data?.map((item, index) => {
+               return (
+                  <MapContainer key={item.id} status={item.status} state={page}>
+                     <div>
+                        {item.images.length > 1 && (
+                           <div className="ImageNavigation">
+                              <StyledButton
+                                 onClick={() => handlePrevImage(index)}
+                              >
+                                 <ArrowleftIcon />
+                              </StyledButton>
+                              <StyledButton
+                                 onClick={() => handleNextImage(index)}
+                              >
+                                 <ArrowrightIcon />
+                              </StyledButton>
+                           </div>
+                        )}
+                        <StyleImage
+                           src={item.images[currentImages[index]]}
+                           alt="home"
                         />
-                     </ButtonsContainer>
-                  )}
-               </MapContainer>
-            )
-         })}
-      </MainContainer>
+                     </div>
+                     <DayStartContainer onClick={props.dd}>
+                        <DayContainer>
+                           ${item.price}/ <DayStyle>day</DayStyle>{' '}
+                        </DayContainer>
+
+                        <StartContainer>
+                           <Start1 />
+                           <p>{item.rating}.4</p>
+                           <h2>{item.id}</h2>
+                        </StartContainer>
+                     </DayStartContainer>
+                     <StyleTitle>
+                        <Tooltip title={item.title}>
+                           {truncateTitle(item.title)}
+                        </Tooltip>
+                     </StyleTitle>
+                     <LocationCantainerStyle>
+                        <Location />
+                        <p>{item.location}</p>
+                     </LocationCantainerStyle>
+                     {item.status === 'dates' ? (
+                        <StyledHorizIcon>
+                           <DayStyle>{item.guest} guest</DayStyle>
+                           <div>
+                              <IconButtonStyled
+                                 edge="start"
+                                 color="inherit"
+                                 aria-label="menu"
+                                 onClick={handleMenuOpen}
+                              >
+                                 <MoreHorizIconStyled />
+                              </IconButtonStyled>
+
+                              <StyledMenu
+                                 anchorEl={anchorEl}
+                                 open={anchorEl}
+                                 onClose={handleMenuClose}
+                              >
+                                 <MenuItem onClick={handleMenuClose}>
+                                    Accept
+                                 </MenuItem>
+                                 <MenuItem onClick={handleMenuClose}>
+                                    Reject
+                                 </MenuItem>
+                                 <MenuItem onClick={handleMenuClose}>
+                                    Delete
+                                 </MenuItem>
+                              </StyledMenu>
+                           </div>
+                        </StyledHorizIcon>
+                     ) : (
+                        <ButtonsContainer>
+                           <DayStyle>{item.guest} guest</DayStyle>
+                           <Button
+                              variant="contained"
+                              height="20%"
+                              bgColor="#DD8A08"
+                              s
+                              color="white"
+                              width="6.4375rem"
+                           >
+                              Book
+                           </Button>
+                           <ButtonIcon
+                              width="10%"
+                              open={item.favorite}
+                              onClick={() => toggle({ id: item.id })}
+                              favorite={item.favorite}
+                           />
+                        </ButtonsContainer>
+                     )}
+                  </MapContainer>
+               )
+            })}
+         </MainContainer>
+      </Container>
    )
 }
+const Container = styled('div')`
+   padding-left: 6.5%;
+`
 
 const MainContainer = styled('div')`
    line-height: 2rem;
-   margin-left: 6.5%;
    width: 100%;
    display: flex;
    flex-wrap: wrap;
    justify-content: start;
    align-items: center;
    align-items: start;
-   gap: 20px;
+   gap: 60px;
    flex-wrap: wrap;
    margin-top: 2.5rem;
 `
@@ -237,7 +244,7 @@ const MapContainer = styled('div')(({ status }) => ({
 const StartContainer = styled('section')`
    display: flex;
    align-items: center;
-   justify-content: start;
+   justify-content: center;
    border-radius: 0.125rem;
    background: var(--tertiary-middle-gray, #828282);
    width: 3.875rem;
@@ -307,7 +314,7 @@ const StyledButton = styled('button')`
 `
 
 const StyleImage = styled('img')`
-   width: 18.8rem;
+   width: 17.6rem;
    height: 11.5rem;
 `
 

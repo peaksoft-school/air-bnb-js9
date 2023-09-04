@@ -1,38 +1,35 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
+import { useDispatch, useSelector } from 'react-redux'
+
 import { styled } from '@mui/material'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
-import { getFavorite } from '../../api/favorite/Favorite'
 import { Cards } from '../UI/cards/Cards'
+import { getAllFavorites } from '../../store/favorite/FavoriteThunk'
 
 export function Favorite() {
-   const [favoriteData, setFavoriteData] = useState([])
-   const navigate = useNavigate()
-   useEffect(() => {
-      const getAllFavorites = async () => {
-         try {
-            const response = await getFavorite()
-            const transformedData = response.data.map((data) => ({
-               images: [data.image],
-               rating: data.rating,
-               title: data.description,
-               price: data.price,
-               location: data.address,
-               guest: data.maxGuests,
-               id: data.id,
-               favorite: data.favorite,
-            }))
-            setFavoriteData(transformedData)
-         } catch (error) {
-            console.log('you make mistakes')
-         }
-      }
+   const { favorites } = useSelector((state) => state.favorite)
+   const dispatch = useDispatch()
 
-      getAllFavorites()
+   const navigate = useNavigate()
+
+   const transformedData = favorites?.map((data) => ({
+      images: [data.image],
+      rating: data.rating,
+      title: data.description,
+      price: data.price,
+      location: data.address,
+      guest: data.maxGuests,
+      id: data.id,
+      favorite: data.favorite,
+   }))
+
+   useEffect(() => {
+      dispatch(getAllFavorites())
    }, [])
-   const favoriteLenght = favoriteData.length
+   const favoriteLenght = transformedData.length
    return (
       <MainCotnainer>
          <div>
@@ -47,8 +44,11 @@ export function Favorite() {
                <h2>Favorite({favoriteLenght})</h2>
             </NavContainer>
             <Container>
-               {favoriteData.length > 0 ? (
-                  <Cards data={favoriteData} />
+               {transformedData.length > 0 ? (
+                  <Cards
+                     data={transformedData}
+                     getAllFavorites={getAllFavorites}
+                  />
                ) : (
                   <h1>No cards yet...</h1>
                )}
@@ -73,6 +73,7 @@ const MainCotnainer = styled('div')`
    display: flex;
    flex-direction: column;
    border: 1px solid yellowgreen;
+   background: #f7f7f7;
 `
 const NavContainer = styled('div')`
    display: flex;

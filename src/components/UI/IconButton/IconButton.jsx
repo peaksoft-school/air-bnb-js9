@@ -6,10 +6,10 @@ export function ButtonIcon({ open, onClick, favorite, variant, ...props }) {
    return (
       <IconButtonStyle onClick={onClick} variant={variant} props={props}>
          {open ? (
-            <Heart1 />
+            <ClickHeart2 />
          ) : (
             <div>
-               <ClickHeart2 />
+               <Heart1 />
             </div>
          )}
       </IconButtonStyle>

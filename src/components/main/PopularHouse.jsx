@@ -35,7 +35,7 @@ export function PopularHouse() {
          <ImageDiv>
             {houseData.map(({ image, rating, title, address, price }) => {
                return (
-                  <HouseContainer>
+                  <HouseContainer key={image}>
                      <ImageStarDiv image={image}>
                         <StarDiv>
                            <Start1 />
