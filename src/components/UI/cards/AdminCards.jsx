@@ -22,6 +22,7 @@ export function AdminCards({
    toggleHandler,
    acceptHandler,
    rejectedHandler,
+   removeAllHousing,
 }) {
    const [currentImages, setCurrentImages] = useState([])
    const [openModal, setOpenModal] = useState(false)
@@ -232,7 +233,9 @@ export function AdminCards({
                                     <>
                                        {' '}
                                        <MenuItem
-                                          onClick={() => removeCard(itemId)}
+                                          onClick={() =>
+                                             removeAllHousing(itemId)
+                                          }
                                        >
                                           Delete
                                        </MenuItem>

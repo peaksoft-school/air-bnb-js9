@@ -14,3 +14,8 @@ export const getAllHousingRequest = ({ status, houseType, rating, price }) => {
       `/api/announcements/announcements-filter?status=${status}&houseType=${houseType}&rating=${rating}&price=${price}`
    )
 }
+
+export const deleteAllHousingRequest = (id) => {
+   console.log(id, 'id service')
+   return axiosInstance.delete(`/api/announcements/${id}`)
+}
