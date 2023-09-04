@@ -31,7 +31,7 @@ export function ResultPaymentForm({
             elements.getElement(CardElement)
          )
          openModalHandler()
-
+         console.log(token)
          const data = {
             amount: +price,
             token: token.id,
