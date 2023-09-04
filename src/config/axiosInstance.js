@@ -13,13 +13,12 @@ export const injectStore = (_store) => {
 }
 
 const logoutAction = () => {}
-const token =
-   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTM3NjAzNzksImlhdCI6MTY5MzUwMTE3OSwidXNlcm5hbWUiOiJhbGlzdGVyQGdtYWlsLmNvbSJ9.F2DbNosBJEjYxEcMngbLrhcrIU80tlfexlTM9kQks9E'
+
 axiosInstance.interceptors.request.use((config) => {
    const updatedConfig = { ...config }
-   // const token = store.getState().login.accesToken
+   const token = store.getState().auth
    if (token) {
-      updatedConfig.headers.Authorization = ` Bearer ${token}`
+      updatedConfig.headers.Authorization = `Bearer ${token}`
    }
    return updatedConfig
 })
