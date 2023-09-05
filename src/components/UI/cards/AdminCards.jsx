@@ -184,10 +184,7 @@ export function AdminCards({
                            </h4>
                            <div className="rating">
                               <Start1 />
-                              <p>
-                                 {' '}
-                                 {item.rating}/id:{item.id}
-                              </p>
+                              <p>{item.rating}</p>
                            </div>
                         </ContainerPrice>
                         <ContainerInformation>
