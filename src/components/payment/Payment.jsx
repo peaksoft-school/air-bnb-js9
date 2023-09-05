@@ -18,8 +18,7 @@ export function Payment({ state, openModalHandler, price, methot }) {
 
    const ResultChekin = `${valueChekin.$y}-${valueChekin.$H}${valueChekin.$M}-${valueChekin.$D}`
    const ResultChekout = `${valueChekout.$y}-${valueChekout.$H}${valueChekout.$M}-${valueChekout.$D}`
-   console.log(ResultChekin, 'ResultChekin')
-   console.log(valueChekin, 'valueChekin')
+
    const getCurrentDate = () => {
       const currentDate = new Date()
       const day = currentDate.getDate().toString().padStart(2, '0')

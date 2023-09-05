@@ -32,6 +32,7 @@ export function ResultPaymentForm({
          )
          openModalHandler()
          console.log(token)
+
          const data = {
             amount: +price,
             token: token.id,
