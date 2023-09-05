@@ -11,6 +11,7 @@ import {
 import { Button } from '../button/Button'
 import { ButtonIcon } from '../IconButton/IconButton'
 import { postLike } from '../../../store/favorite/FavoriteThunk'
+import { toastSnackbar } from '../snackbar/Snackbar'
 
 export function Cards({
    data,
@@ -29,6 +30,7 @@ export function Cards({
    const [dataa, setData] = useState([])
    const [anchorEl, setAnchorEl] = useState(null)
    const dispatch = useDispatch()
+   const { toastType } = toastSnackbar()
 
    useEffect(() => {
       setData(
@@ -73,11 +75,21 @@ export function Cards({
          if (item.id === id) {
             return { ...item, open: !item.open }
          }
+
          return item
       })
-
-      setData(newData)
-      dispatch(postLike(id))
+      try {
+         setData(newData)
+         dispatch(postLike(id))
+         toastType(
+            'success',
+            'Announcement  was deleted from your favorite',
+            'success'
+         )
+      } catch (error) {
+         return toastType('error!!!', error)
+      }
+      return {}
    }
 
    const handleMenuOpen = (event) => {
@@ -122,7 +134,6 @@ export function Cards({
                         <StartContainer>
                            <Start1 />
                            <p>{item.rating}.4</p>
-                           <h2>{item.id}</h2>
                         </StartContainer>
                      </DayStartContainer>
                      <StyleTitle>

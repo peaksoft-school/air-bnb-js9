@@ -87,9 +87,10 @@ export function AppRoutes() {
                />
             }
          >
-            <Route path="favorites" element={<Favorite />} />
             <Route path="profile" element={<UserProfile />} />
          </Route>
+         <Route path="favorites" element={<Favorite />} />
+
          <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
 
          <Route

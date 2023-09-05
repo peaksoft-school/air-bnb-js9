@@ -26,8 +26,8 @@ const IconButtonStyle = styled(IconButton)((props) => ({
       alignItems: 'center',
       gap: '10px',
       flexShrink: '0',
+      border: '1px solid  #f7f6f6',
       borderRadius: '2px',
-      border: 'none',
    },
    '&:hover': {
       border: '1px solid #DD8A08',
