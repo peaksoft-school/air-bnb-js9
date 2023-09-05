@@ -3,17 +3,31 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AdminCards } from '../../../components/UI/cards/AdminCards'
 import { LoadingAirbnb } from '../../../components/UI/loading/LoadingAirbnb'
-import { deleteAllHousing } from '../../../store/admin-all-housing/AllHousingThunk'
+import { toastSnackbar } from '../../../components/UI/snackbar/Snackbar'
+import {
+   deleteAllHousing,
+   // updateAllHousing,
+} from '../../../store/admin-all-housing/AllHousingThunk'
 import { AllHousingFilter } from './AllHousingFilter'
 
 export function AllHousing() {
    const { allHouseData, loading } = useSelector((state) => state.allHousing)
-   const dispatch = useDispatch()
 
+   const dispatch = useDispatch()
+   const { toastType } = toastSnackbar()
    const removeAllHousing = (id) => {
-      console.log(id, 'id all Housing')
-      dispatch(deleteAllHousing(id))
+      dispatch(deleteAllHousing({ id, toastType }))
    }
+
+   // const editAllHousing = (id) => {
+   //    const data = {
+   //       id,
+   //       toastType,
+   //       editData: false,
+   //    }
+   //    dispatch(updateAllHousing(data))
+   // }
+
    return (
       <Container>
          <AllHousingFilter />

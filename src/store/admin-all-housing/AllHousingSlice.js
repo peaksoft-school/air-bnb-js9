@@ -4,15 +4,22 @@ import { getAllHousing } from './AllHousingThunk'
 const initialState = {
    allHouseData: [],
    loading: false,
+   openModal: false,
+   editCardId: '',
 }
 export const allHousingSlice = createSlice({
    name: 'allHousing',
    initialState,
-   reducers: {},
+   reducers: {
+      modalHandler: (state) => {
+         return { ...state, openModal: true }
+      },
+   },
    extraReducers: (builder) => {
       builder
          .addCase(getAllHousing.fulfilled, (state, action) => {
             state.allHouseData = action.payload
+            state.editCardId = action.payload.map((item) => item.id)
             state.loading = false
          })
          .addCase(getAllHousing.pending, (state) => {
@@ -23,3 +30,5 @@ export const allHousingSlice = createSlice({
          })
    },
 })
+
+export const allHousingActions = allHousingSlice.actions

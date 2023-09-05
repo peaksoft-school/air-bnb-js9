@@ -1,5 +1,6 @@
 import { MenuItem, styled, Tooltip } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import {
    AdminLocation,
@@ -8,6 +9,7 @@ import {
    ArrowrightIcon,
    Start1,
 } from '../../../assets/icons'
+import ModalProfile from '../../Profile/ModalProfile'
 import { MeatBalls } from '../meat-balls/MeatBalls'
 import { ModalNameHotel } from '../name-hotel/ModalNameHotel'
 import { toastSnackbar } from '../snackbar/Snackbar'
@@ -31,6 +33,12 @@ export function AdminCards({
    const [dataa, setData] = useState([])
    const [id, setId] = useState(null)
    const { toastType } = toastSnackbar()
+
+   const { idAnnouncement } = useSelector((state) => state.getannouncement)
+   console.log(idAnnouncement, 'idAnnouncement AdminCArd')
+
+   const [idAllHousing, setIdAllHousing] = useState('')
+   const [openAllHouseModal, setOpenAllHouseModal] = useState(false)
 
    console.log(data)
 
@@ -92,13 +100,36 @@ export function AdminCards({
          toastType('error', error)
       }
    }
-
+   const openModalAllHousing = (id) => {
+      console.log(id, 'click id ')
+      setOpenAllHouseModal(true)
+      setIdAllHousing(id)
+   }
    const open = Boolean(currentEl)
    const idd = open ? 'simple-popover' : undefined
 
+   const newData = data.map((item) => ({
+      maxGuests: item.maxGuests,
+      price: item.price,
+      title: item.title,
+      address: item.address,
+      province: item.province,
+      images: item.images && item.images[0],
+      description: item.description,
+      houseType: item.houseType,
+   }))
+   console.log(newData, 'newData')
    return (
       <Container>
          <div className="block">
+            {openAllHouseModal ? (
+               <ModalProfile
+                  data={idAnnouncement}
+                  itemId={idAllHousing}
+                  setModalVisible={setOpenAllHouseModal}
+                  handleMenuClose={closeMeatBallsHeandler}
+               />
+            ) : null}
             <ModalNameHotel
                openModal={openModal}
                openModalHandler={openModalHandler}
@@ -240,7 +271,9 @@ export function AdminCards({
                                           Delete
                                        </MenuItem>
                                        <MenuItem
-                                          onClick={() => acceptHandler(itemId)}
+                                          onClick={() =>
+                                             openModalAllHousing(itemId)
+                                          }
                                        >
                                           Update
                                        </MenuItem>

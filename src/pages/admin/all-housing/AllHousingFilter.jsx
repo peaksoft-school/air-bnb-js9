@@ -60,8 +60,7 @@ export function AllHousingFilter() {
          toggle: 'statePrice',
       },
    ]
-   console.log(byBooked, 'byBooked')
-   console.log(byPopular, 'byPopular')
+
    const dispatch = useDispatch()
    useEffect(() => {
       const data = {

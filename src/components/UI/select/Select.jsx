@@ -37,7 +37,6 @@ export function Select({
             onClick={toggle}
          >
             {data?.map((item) => {
-               console.log('item.value', item.value)
                return (
                   <MenuItem key={item.id} value={item.value}>
                      {item.name}

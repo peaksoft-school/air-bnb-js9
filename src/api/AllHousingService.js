@@ -1,7 +1,6 @@
 import { axiosInstance } from '../config/axiosInstance'
 
 export const getAllHousingRequest = ({ status, houseType, rating, price }) => {
-   console.log(rating, 'rating')
    if (
       status === 'all' ||
       houseType === 'all' ||
@@ -16,6 +15,9 @@ export const getAllHousingRequest = ({ status, houseType, rating, price }) => {
 }
 
 export const deleteAllHousingRequest = (id) => {
-   console.log(id, 'id service')
    return axiosInstance.delete(`/api/announcements/${id}`)
+}
+
+export const updateAllHousingRequest = ({ id, data }) => {
+   return axiosInstance.put(`/api/announcements/${id}`, data)
 }
