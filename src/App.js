@@ -1,18 +1,14 @@
 import React from 'react'
-// import { ReusableTable } from './components/table/Table'
-// import { LeaveFeedback } from './components/leave-feedback/LeaveFeeadback'
-// import AddAnouncementForm from './components/anouncement/Anouncement'
-// import AnnouncementDetailPage from './pages/AnnouncementDetailPage'
+// import { NotFound } from './components/UI/404/NotFound'
+// import { LoadingAirbnb } from './components/UI/loading/LoadingAirbnb'
 import { AppRoutes } from './routes/AppRoutes'
 
 function App() {
    return (
       <div>
+         {/* <NotFound /> */}
          <AppRoutes />
-         {/* <ReusableTable /> */}
-         {/* <AnnouncementDetailPage /> */}
-         {/* <AddAnouncementForm /> */}
-         {/* <LeaveFeedback openModal="true" /> */}
+         {/* <LoadingAirbnb /> */}
       </div>
    )
 }
