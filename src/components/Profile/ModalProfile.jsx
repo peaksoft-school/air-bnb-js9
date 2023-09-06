@@ -29,7 +29,8 @@ const validationSchema = Yup.object().shape({
 function ModalProfile({ setModalVisible, itemId, data, handleMenuClose }) {
    const dispatch = useDispatch()
    const { toastType } = toastSnackbar()
-
+   console.log(itemId, 'iidd')
+   console.log(data, 'data')
    const [object, setObject] = useState({})
    const [valueSelect, setValueSelect] = useState(data.region || 'OSH')
 
@@ -122,7 +123,12 @@ function ModalProfile({ setModalVisible, itemId, data, handleMenuClose }) {
    }, [data])
 
    return (
-      <Modal width="50%" height="34rem" open={setModalVisible}>
+      <Modal
+         width="50%"
+         height="34rem"
+         open={setModalVisible}
+         onClose={toggleHandler}
+      >
          <form onSubmit={handleSubmit}>
             <StyleModalContainer>
                <InputContainer>

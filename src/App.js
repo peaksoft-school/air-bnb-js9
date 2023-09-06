@@ -1,16 +1,14 @@
 import React from 'react'
-// import { LeaveFeedback } from './components/leave-feedback/LeaveFeeadback'
-// import AddAnouncementForm from './components/anouncement/Anouncement'
-import AnnouncementDetailPage from './pages/AnnouncementDetailPage'
-// import { AppRoutes } from './routes/AppRoutes'
+// import { NotFound } from './components/UI/404/NotFound'
+// import { LoadingAirbnb } from './components/UI/loading/LoadingAirbnb'
+import { AppRoutes } from './routes/AppRoutes'
 
 function App() {
    return (
       <div>
-         {/* <AppRoutes /> */}
-         <AnnouncementDetailPage />
-         {/* <AddAnouncementForm /> */}
-         {/* <LeaveFeedback openModal="true" /> */}
+         {/* <NotFound /> */}
+         <AppRoutes />
+         {/* <LoadingAirbnb /> */}
       </div>
    )
 }
