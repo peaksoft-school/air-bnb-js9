@@ -103,7 +103,7 @@ export function ReusableTable() {
          <h3 style={{ marginBottom: '1.25rem' }}>Users</h3>
          <StylePaper>
             {users.length > 0 ? (
-               <TableContainer sx={{ maxHeight: 440 }}>
+               <TableContainer sx={{ maxHeight: '100vw' }}>
                   <Table stickyHeader aria-label="sticky table">
                      <TableHead>
                         <TableRow sx={{ height: '2%' }}>
@@ -133,12 +133,20 @@ export function ReusableTable() {
                               role="checkbox"
                               tabIndex={-1}
                               key={user.id}
-                              onClick={() => getUsersById(user)}
                               style={{ cursor: 'pointer' }}
                            >
                               <StyledTableCell>{user.id}</StyledTableCell>
-                              <StyledTableCell>{user.fullName}</StyledTableCell>
-                              <TableCell align="center">{user.email}</TableCell>
+                              <StyledTableCell
+                                 onClick={() => getUsersById(user)}
+                              >
+                                 {user.fullName}
+                              </StyledTableCell>
+                              <TableCell
+                                 align="center"
+                                 onClick={() => getUsersById(user)}
+                              >
+                                 {user.email}
+                              </TableCell>
                               <TableCell align="right">
                                  {user.bookings}
                               </TableCell>
@@ -194,7 +202,7 @@ export function ReusableTable() {
 }
 
 const StylePaper = styled(Paper)`
-   width: '90%';
+   width: ' 90%';
    align-content: 'center';
 `
 
