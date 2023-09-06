@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import { MainPages } from '../../pages/MainPages'
+import { MainPages } from '../../pages/user/MainPages'
 
 export function UserLayout() {
    return (

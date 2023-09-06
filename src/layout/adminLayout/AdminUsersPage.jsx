@@ -4,7 +4,7 @@ import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../components/UI/button/Button'
 import { Profile } from '../../components/UI/profile/Profile'
-import { Tabs } from '../../components/tabs/Tabs'
+import { Tabs } from '../../components/UI/tabs/Tabs'
 import { getAdminUsersCardsIdRequest } from '../../api/adminUsersServise'
 import {
    getAdminUsersCardsId,

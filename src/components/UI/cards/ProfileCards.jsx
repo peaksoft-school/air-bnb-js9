@@ -27,15 +27,18 @@ export function ProfileCards({ data, announcement, ...props }) {
       Array.isArray(data) ? Array(data.length).fill(0) : []
    )
    const { idAnnouncement } = useSelector((state) => state.getannouncement)
+   console.log(idAnnouncement, 'idAnnouncement profileCArd')
 
    const [dataa, setData] = useState([])
 
    useEffect(() => {
-      setData()
-      data?.map((img) => {
-         return img.images
-      })
+      setData(
+         data?.map((img) => {
+            return img.images
+         })
+      )
    }, [setData])
+
    const handleNextImage = (index) => {
       setCurrentImages((prevImages) => {
          const newImages = [...prevImages]
@@ -106,7 +109,7 @@ export function ProfileCards({ data, announcement, ...props }) {
                handleMenuClose={handleMenuClose}
             />
          )}
-         {data?.length > 0 ? (
+         {data.length > 0 ? (
             data?.map((item, index) => (
                <MapContainer key={item.id} status={item.status}>
                   <div>

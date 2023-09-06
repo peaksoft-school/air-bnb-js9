@@ -70,6 +70,6 @@ export {
    AdminLocation,
    AdminMenu,
    HiddenPassword,
-   SeenPassword,
    IconMenu,
+   SeenPassword,
 }
