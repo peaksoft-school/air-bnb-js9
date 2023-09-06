@@ -1,25 +1,38 @@
 import React, { useState } from 'react'
 import { Breadcrumbs, Link, styled, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { HouseSlidDetail } from '../../components/UI/house-detail/HouseSlidDetail'
 import { NameOfHotel } from '../../components/UI/name-hotel/NameOfHotel'
 import { house, Hotel, booked } from '../../utils/helpers'
 import Feedback from '../../components/UI/feedback/Feedback'
-import { RatingChart } from '../../components/UI/rating/RatingChart'
 import { Booked } from '../../components/UI/booked/Booked'
 import { Favorites } from '../../components/UI/favorites/Favorites'
 import { applicationSlice } from '../../store/admin-application/ApplicationSlice'
+import { RatingChart } from '../../components/UI/rating/RatingChart'
+// import { getAdminUsersAnnouncementById } from '../../api/adminUserAnnouncementById'
 
 export function AnnouncementAdminPage({
    roles,
    pages,
    acceptHandler,
-   rejectedHandler,
+   // rejectedHandler,
 }) {
    const [openModal, setOpenModal] = useState(false)
-   const { dataById } = useSelector((state) => state.application)
+   // const [announcement, setAnnouncement] = useState(false)
+   // const { dataById } = useSelector((state) => state.application)
    const dispatch = useDispatch()
+
+   // const getAnnouncementById = async (id) => {
+   //    try {
+   //       const response = await getAdminUsersAnnouncementById(id)
+
+   //       setAnnouncement(response.data)
+   //    } catch (error) {
+   //       console.log('error: ', error)
+   //    }
+   // }
+
    const data = [
       {
          name: 'Bars Barsov',
@@ -72,7 +85,7 @@ export function AnnouncementAdminPage({
    }
 
    const rejectedCartd = () => {
-      rejectedHandler(dataById.id)
+      // rejectedHandler(dataById.id)
       setOpenModal(false)
    }
 
@@ -96,7 +109,7 @@ export function AnnouncementAdminPage({
                      <Main>
                         <HouseSlidDetail images={house} />
                         <NameOfHotel
-                           dataById={dataById}
+                           dataById={Hotel}
                            openModal={openModal}
                            openModalHandler={openModalHandler}
                            acceptHandler={acceptHandler}
@@ -134,7 +147,8 @@ export function AnnouncementAdminPage({
                         <HouseSlidDetail images={house} />
                         <NameOfHotel
                            pages={pages}
-                           hotel={Hotel}
+                           buttons="yes"
+                           dataById={Hotel}
                            openModal={openModal}
                            openModalHandler={openModalHandler}
                         />
@@ -178,9 +192,9 @@ export function AnnouncementAdminPage({
                <Main>
                   <HouseSlidDetail images={house} />
                   <NameOfHotel
-                     roles={roles}
                      pages="users"
-                     hotel={Hotel}
+                     roles={roles}
+                     dataById={Hotel}
                      openModal={openModal}
                      openModalHandler={openModalHandler}
                   />

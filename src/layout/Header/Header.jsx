@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Avatar, InputAdornment, styled } from '@mui/material'
+import { Link, useNavigate } from 'react-router-dom'
+import { Avatar, InputAdornment, MenuItem, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../components/UI/button/Button'
 import { JoinUs } from '../../components/signIn/JoinUs'
@@ -10,6 +10,7 @@ import {
    BlackAirBNBIcon,
    SearchIcon,
    AirBNBIcon,
+   SelectionIcon,
 } from '../../assets/icons/index'
 import { userRoles } from '../../utils/constants'
 import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
@@ -17,13 +18,14 @@ import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
 import { authActions } from '../../store/auth/authSlice'
 import Modal from '../../components/UI/modal/Modal'
 
-export function Header({ login }) {
-   const [meatBalls, setMeatBalls] = useState(false)
+export function Header({ login, profile }) {
+   // const [meatBalls, setMeatBalls] = useState(false)
    const { isAuthorization, email } = useSelector((state) => state.auth)
 
    const [userLogin, setUserLogin] = useState(false)
    const [openModal, setOpenModal] = useState(false)
    const [signIn, setSignIn] = useState(false)
+   const [currentEl, setCurrentEl] = useState(null)
 
    const loginHandler = () => {
       setUserLogin((prev) => !prev)
@@ -45,13 +47,26 @@ export function Header({ login }) {
 
    const dispatch = useDispatch()
 
-   const toggleMeatBalls = () => {
-      setMeatBalls(!meatBalls)
-   }
+   // const toggleMeatBalls = () => {
+   //    setMeatBalls(!meatBalls)
+   // }
 
    const logoutHnadler = () => {
       dispatch(authActions.logout())
    }
+
+   const handleMenuOpen = (e) => {
+      setCurrentEl(e.currentTarget)
+   }
+
+   const closeMeatBallsHeandler = () => {
+      setCurrentEl(null)
+   }
+   const navigate = useNavigate()
+
+   const open = Boolean(currentEl)
+   const idd = open ? 'simple-popover' : undefined
+
    return (
       <Container>
          {openModal ? (
@@ -60,6 +75,7 @@ export function Header({ login }) {
                onClose={openModalHandler}
                borderRadius="0.125rem"
                border="none"
+               width="35%"
             >
                {signIn ? (
                   <SignIn moveToSigninAndSignUp={moveToSigninAndSignUp} />
@@ -98,14 +114,14 @@ export function Header({ login }) {
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
                            <MeatBalls
-                              open={meatBalls}
-                              openHandler={toggleMeatBalls}
-                              state="true"
-                              right="6.5vw"
-                              top="10vh"
-                              padding="0.4rem 0.3rem"
-                              minHeight="0%"
-                              minWidth="0%"
+                              anchorEl={currentEl}
+                              open={open}
+                              close={closeMeatBallsHeandler}
+                              id={idd}
+                              propsVertical="top"
+                              propsHorizontal="left"
+                              width="15%"
+                              height="16%"
                            >
                               <Button
                                  onClick={logoutHnadler}
@@ -188,22 +204,36 @@ export function Header({ login }) {
                            <Avatar sx={{ bgcolor: '#0298D9' }}>
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
+                           <SelectionIcon onClick={handleMenuOpen} />
                            <MeatBalls
-                              open={meatBalls}
-                              openHandler={toggleMeatBalls}
-                              state="true"
-                              right="6.5vw"
-                              top="10vh"
-                              padding="0.4rem 0.3rem"
-                              minHeight="0%"
-                              minWidth="0%"
+                              anchorEl={currentEl}
+                              open={open}
+                              close={closeMeatBallsHeandler}
+                              id={idd}
+                              propsVertical="bottom"
+                              propsHorizontal="left"
+                              width="11.25rem"
+                              height=" 5.5rem"
                            >
-                              <Button
-                                 onClick={logoutHnadler}
-                                 variant="outlined"
-                              >
-                                 log out
-                              </Button>
+                              {profile === 'true' ? (
+                                 <>
+                                    <MenuItem
+                                       onClick={() => navigate('/Prifile')}
+                                    >
+                                       My prifile
+                                    </MenuItem>
+                                    <MenuItem onClick={logoutHnadler}>
+                                       log out{' '}
+                                    </MenuItem>
+                                 </>
+                              ) : (
+                                 <Button
+                                    onClick={logoutHnadler}
+                                    variant="outlined"
+                                 >
+                                    log out
+                                 </Button>
+                              )}
                            </MeatBalls>
                         </div>
                      </FavoriteDiv>

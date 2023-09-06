@@ -100,7 +100,7 @@ export function ReusableTable() {
 
    return (
       <div style={{ padding: '3.10rem 2.5rem 0 2.5rem' }}>
-         <h3 style={{ marginBottom: '1.25rem' }}>Users</h3>
+         <h3 style={{ marginTop: '5rem', marginBottom: '1.25rem' }}>USERS</h3>
          <StylePaper>
             {users.length > 0 ? (
                <TableContainer sx={{ maxHeight: 440 }}>

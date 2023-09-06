@@ -20,6 +20,7 @@ export function AdminCards({
    toggleHandler,
    rejectedHandler,
    acceptHandler,
+   path,
 }) {
    const [currentImages, setCurrentImages] = useState([])
    const [dataa, setData] = useState([])
@@ -31,11 +32,11 @@ export function AdminCards({
 
    useEffect(() => {
       setData(data?.map((item) => ({ ...item, open: false })))
-      setCurrentImages(data.map(() => 0))
+      setCurrentImages(data?.map(() => 0))
    }, [data])
 
    const truncateText = (text, maxLength) => {
-      if (text.length > maxLength) {
+      if (text?.length > maxLength) {
          return `${text.slice(0, maxLength)}...`
       }
       return text
@@ -103,7 +104,7 @@ export function AdminCards({
                data?.map((item, index) => (
                   <MapContainer status="dat" key={item.id}>
                      <ImageContainer
-                        to="/admin/application/name"
+                        to={path}
                         onClick={() => toggleHandler(item.id)}
                      >
                         {item.images.length > 1 && (
@@ -151,7 +152,7 @@ export function AdminCards({
                                     ,{' '}
                                  </Tooltip>
                                  <Tooltip title={item.province}>
-                                    {item.province.length > 7
+                                    {item.province?.length > 7
                                        ? truncateText(item.province, 7)
                                        : item.province}
                                  </Tooltip>

@@ -23,6 +23,7 @@ export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
    const [currentSize, setCurrenSize] = useState(18)
    const [title, setTitle] = useState('')
+   const [stat, setState] = useState('')
    const dispatch = useDispatch()
    const { toastType } = toastSnackbar()
 
@@ -98,6 +99,7 @@ export function AppRoutes() {
             }
          >
             <Route path="/admin" element={<Navigate to="application" />} />
+
             <Route
                path="application"
                element={
@@ -127,7 +129,14 @@ export function AppRoutes() {
                />
             </Route>
             <Route path="users/" element={<ReusableTable />} />
-            <Route path="users/:userId" element={<AdminUsersPage />}>
+            <Route
+               path={`users/${stat}/`}
+               element={<Navigate to="booking" />}
+            />
+            <Route
+               path="users/:userId/"
+               element={<AdminUsersPage setState={setState} />}
+            >
                <Route
                   index
                   path="booking"
@@ -138,6 +147,10 @@ export function AppRoutes() {
                   element={
                      <MyAnnouncement announcement={data} select="false" />
                   }
+               />
+               <Route
+                  path="surname"
+                  element={<AnnouncementAdminPage roles="admin" pages="user" />}
                />
             </Route>
          </Route>

@@ -9,7 +9,7 @@ export const getAdminUsersCardsId = createAsyncThunk(
    async (payload, { rejectWithValue }) => {
       try {
          const response = await getMyAnnouncementRequest(payload)
-         console.log('response: ', response.data)
+         console.log('response.announcement: ', response.data)
 
          return response.data.announcementResponses
       } catch (error) {
@@ -22,8 +22,8 @@ export const getBookings = createAsyncThunk(
    async (payload, { rejectWithValue }) => {
       try {
          const response = await getBookingsRequest(payload)
-         console.log('response.booking: ', response.data.bookingUser)
-         return response.data.bookingUser
+         console.log('response.booking: ', response.data)
+         return response.data
       } catch (error) {
          return rejectWithValue(error)
       }
