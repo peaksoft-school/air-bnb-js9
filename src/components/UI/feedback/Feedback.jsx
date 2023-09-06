@@ -1,6 +1,6 @@
 import { Avatar, IconButton, MenuItem, styled } from '@mui/material'
 import React, { useState } from 'react'
-import { Dislike, IconMenu, Like1 } from '../../../assets/icons'
+import { Dislike, IconMenu, Like1 } from '../../../assets/icons/index'
 import { MeatBalls } from '../meat-balls/MeatBalls'
 import { RatingStars } from '../rating/RatingStars'
 
