@@ -1,22 +1,25 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
 import DateePicker from '../UI/date-picker/Date-Picker'
 import { Button } from '../UI/button/Button'
 import { Like } from '../UI/likes/Like'
+import { paymentActions } from '../../store/payment/PaymentSlice'
 
 export function PaymentInDarePicker({
    price,
    methot,
    openModal,
-   postBookings,
+   // postBookings,
    valueChekin,
    valueChekout,
-   updateBookings,
+   // updateBookings,
    setValueCheckin,
    setValueCheckout,
 }) {
    const [selectedDates, setSelectedDates] = useState([])
    const [like, setLike] = useState(false)
+   const dispatch = useDispatch()
 
    const handleCheckinChange = (newDate) => {
       setValueCheckin(newDate)
@@ -41,6 +44,11 @@ export function PaymentInDarePicker({
 
    const likeHandler = () => {
       setLike((prev) => !prev)
+   }
+
+   const toggleInPaymentForm = () => {
+      console.log('click')
+      dispatch(paymentActions.setToggleResult())
    }
 
    return openModal ? (
@@ -81,7 +89,7 @@ export function PaymentInDarePicker({
                   borderRadius="0.125rem"
                   padding=" 0.625rem 1rem"
                   textTransform="uppercase"
-                  onClick={updateBookings}
+                  onClick={toggleInPaymentForm}
                   disabled={!valueChekin || !valueChekout}
                >
                   request to book
@@ -124,7 +132,7 @@ export function PaymentInDarePicker({
                      borderRadius="0.125rem"
                      padding=" 0.625rem 1rem"
                      textTransform="uppercase"
-                     onClick={postBookings}
+                     onClick={toggleInPaymentForm}
                      disabled={!valueChekin || !valueChekout}
                   >
                      request to book

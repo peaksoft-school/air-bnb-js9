@@ -1,20 +1,24 @@
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { PaymentInDarePicker } from './PaymentInDatePicker'
 import { Button } from '../UI/button/Button'
 import { ResultPaiment } from './ResultPaiment'
-import {
-   postBookRequest,
-   putBookRequest,
-} from '../../store/payment/PaymentThunk'
+// import {
+//    postBookRequest,
+//    putBookRequest,
+// } from '../../store/payment/PaymentThunk'
 
 export function Payment({ state, openModalHandler, price, methot }) {
    const [valueChekin, setValueCheckin] = useState('')
-   const [defaultDate, setDefaultDate] = useState(false)
+   // const [defaultDate, setDefaultDate] = useState(false)
    const [valueChekout, setValueCheckout] = useState('')
-   const [toggleResult, setToggleResult] = useState(false)
-   const dispatch = useDispatch()
+   // const [toggleResult, setToggleResult] = useState(false)
+   // const dispatch = useDispatch()
+   const { postToggleResult, putToggleResult, defaultDate } = useSelector(
+      (state) => state.payment
+   )
 
    const ResultChekin = `${valueChekin.$y}-${valueChekin.$H}${valueChekin.$M}-${valueChekin.$D}`
    const ResultChekout = `${valueChekout.$y}-${valueChekout.$H}${valueChekout.$M}-${valueChekout.$D}`
@@ -45,39 +49,39 @@ export function Payment({ state, openModalHandler, price, methot }) {
    }`
    bookedDates.push(formattedCheckinDate, formattedCheckoutDate)
 
-   const postBookings = () => {
-      setToggleResult((prev) => !prev)
-      setDefaultDate(true)
+   // const postBookings = () => {
+   //    setToggleResult((prev) => !prev)
+   //    setDefaultDate(true)
 
-      const data = {
-         announcementId: 205,
-         checkIn: ResultChekin,
-         checkOut: ResultChekout,
-      }
+   //    const data = {
+   //       announcementId: 205,
+   //       checkIn: ResultChekin,
+   //       checkOut: ResultChekout,
+   //    }
 
-      dispatch(postBookRequest(data))
-   }
+   //    dispatch(postBookRequest(data))
+   // }
 
-   const updateBookings = () => {
-      setToggleResult((prev) => !prev)
-      setDefaultDate(true)
+   // const updateBookings = () => {
+   //    setToggleResult((prev) => !prev)
+   //    setDefaultDate(true)
 
-      const data = {
-         announcementId: 224,
-         checkIn: ResultChekin,
-         checkOut: ResultChekout,
-         bookingId: 0,
-      }
+   //    const data = {
+   //       announcementId: 224,
+   //       checkIn: ResultChekin,
+   //       checkOut: ResultChekout,
+   //       bookingId: 0,
+   //    }
 
-      dispatch(putBookRequest(data))
-   }
+   //    dispatch(putBookRequest(data))
+   // }
 
    return methot === 'post' ? (
       <div>
          {state ? (
             <div>
                {' '}
-               {toggleResult ? (
+               {postToggleResult ? (
                   <ResultPaiment
                      price={price}
                      methot={methot}
@@ -93,7 +97,7 @@ export function Payment({ state, openModalHandler, price, methot }) {
                      bookedDates={bookedDates}
                      valueChekin={valueChekin}
                      valueChekout={valueChekout}
-                     updateBookings={updateBookings}
+                     // updateBookings={updateBookings}
                      setValueCheckin={setValueCheckin}
                      setValueCheckout={setValueCheckout}
                   />
@@ -139,7 +143,7 @@ export function Payment({ state, openModalHandler, price, methot }) {
    ) : (
       <div>
          {' '}
-         {toggleResult ? (
+         {putToggleResult ? (
             <ResultPaiment
                price={price}
                valueChekin={valueChekin}
@@ -155,7 +159,7 @@ export function Payment({ state, openModalHandler, price, methot }) {
                methot={methot}
                valueChekin={valueChekin}
                valueChekout={valueChekout}
-               postBookings={postBookings}
+               // postBookings={postBookings}
                setValueCheckin={setValueCheckin}
                setValueCheckout={setValueCheckout}
             />
