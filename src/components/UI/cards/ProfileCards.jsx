@@ -27,6 +27,7 @@ export function ProfileCards({ data, announcement, ...props }) {
       Array.isArray(data) ? Array(data.length).fill(0) : []
    )
    const { idAnnouncement } = useSelector((state) => state.getannouncement)
+   console.log(idAnnouncement, 'idAnnouncement profileCArd')
 
    const [dataa, setData] = useState([])
 
@@ -37,6 +38,7 @@ export function ProfileCards({ data, announcement, ...props }) {
          })
       )
    }, [setData])
+
    const handleNextImage = (index) => {
       setCurrentImages((prevImages) => {
          const newImages = [...prevImages]
@@ -45,6 +47,7 @@ export function ProfileCards({ data, announcement, ...props }) {
          return newImages
       })
    }
+
    const truncateTitle = (title) => {
       const words = title.split(' ')
       if (words.length > 6) {

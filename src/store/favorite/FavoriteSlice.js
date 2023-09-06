@@ -3,7 +3,7 @@ import { getAllFavorites } from './FavoriteThunk'
 
 const initialState = {
    favorites: [],
-   loading: false,
+   status: false,
    error: null,
 }
 export const favoriteSlice = createSlice({
@@ -13,15 +13,15 @@ export const favoriteSlice = createSlice({
    extraReducers: (builder) => {
       builder
          .addCase(getAllFavorites.pending, (state) => {
-            state.loading = true
+            state.status = true
             state.error = null
          })
          .addCase(getAllFavorites.fulfilled, (state, action) => {
-            state.loading = false
+            state.status = false
             state.favorites = action.payload
          })
          .addCase(getAllFavorites.rejected, (state, action) => {
-            state.loading = false
+            state.status = false
             state.error = action.payload
          })
    },

@@ -4,17 +4,23 @@ import { useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { styled } from '@mui/material'
+import { PulseLoader } from 'react-spinners'
+import { css } from '@emotion/react'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
 import { Cards } from '../UI/cards/Cards'
 import { getAllFavorites } from '../../store/favorite/FavoriteThunk'
 
 export function Favorite() {
-   const { favorites } = useSelector((state) => state.favorite)
+   const { favorites, status } = useSelector((state) => state.favorite)
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
-
+   const override = css`
+      display: block;
+      margin: 0 auto;
+      border-color: red;
+   `
    const transformedData = favorites?.map((data) => ({
       images: [data.image],
       rating: data.rating,
@@ -32,8 +38,8 @@ export function Favorite() {
    const favoriteLenght = transformedData.length
    return (
       <MainCotnainer>
-         <div>
-            <Header favoriteLenght={favoriteLenght} favorite="true" />
+         <Header favoriteLenght={favoriteLenght} favorite="true" />
+         <ContainerCardNav>
             <NavContainer>
                <LinkContainer>
                   <NavigateStyle onClick={() => navigate('/')}>
@@ -44,20 +50,53 @@ export function Favorite() {
                <h2>Favorite({favoriteLenght})</h2>
             </NavContainer>
             <Container>
-               {transformedData.length > 0 ? (
-                  <Cards
-                     data={transformedData}
-                     getAllFavorites={getAllFavorites}
-                  />
+               {status ? (
+                  <SpinerContainer>
+                     <PulseLoader color="#DD8A08" css={override} size={15} />
+                  </SpinerContainer>
                ) : (
-                  <h1>No cards yet...</h1>
+                  <div>
+                     {favoriteLenght ? (
+                        <Cards
+                           data={transformedData}
+                           getAllFavorites={getAllFavorites}
+                        />
+                     ) : (
+                        <HeaderConainer>
+                           <StyleParagraph>
+                              you dont have favorite announcements
+                           </StyleParagraph>
+                        </HeaderConainer>
+                     )}
+                  </div>
                )}
             </Container>
-            <Footer />
-         </div>
+         </ContainerCardNav>
+
+         <Footer />
       </MainCotnainer>
    )
 }
+const ContainerCardNav = styled('div')`
+   width: auto;
+   min-height: 90vh;
+`
+const HeaderConainer = styled('div')`
+   display: flex;
+   justify-content: center;
+   height: 100%;
+`
+const StyleParagraph = styled('p')`
+   color: var(--primary-black, #363636);
+   font-size: 1.25rem;
+   font-weight: 500;
+   text-transform: uppercase;
+`
+const SpinerContainer = styled('div')`
+   display: flex;
+   justify-content: center;
+   height: auto;
+`
 
 const Container = styled('div')`
    margin: 2.5rem 0px;
@@ -72,7 +111,7 @@ const Container = styled('div')`
 const MainCotnainer = styled('div')`
    display: flex;
    flex-direction: column;
-   border: 1px solid yellowgreen;
+   justify-content: space-between;
    background: #f7f7f7;
 `
 const NavContainer = styled('div')`

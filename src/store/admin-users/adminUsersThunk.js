@@ -21,7 +21,7 @@ export const getBookings = createAsyncThunk(
    async (payload, { rejectWithValue }) => {
       try {
          const response = await getBookingsRequest(payload)
-         console.log('response.booking: ', response.data.bookingUser)
+
          return response.data.bookingUser
       } catch (error) {
          return rejectWithValue(error)

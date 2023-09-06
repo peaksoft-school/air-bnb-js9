@@ -106,7 +106,7 @@ export function Cards({
             {data?.map((item, index) => {
                return (
                   <MapContainer key={item.id} status={item.status} state={page}>
-                     <div>
+                     <ImageStyleContainer>
                         {item.images.length > 1 && (
                            <div className="ImageNavigation">
                               <StyledButton
@@ -121,81 +121,92 @@ export function Cards({
                               </StyledButton>
                            </div>
                         )}
-                        <StyleImage
-                           src={item.images[currentImages[index]]}
-                           alt="home"
-                        />
-                     </div>
-                     <DayStartContainer onClick={props.dd}>
-                        <DayContainer>
-                           ${item.price}/ <DayStyle>day</DayStyle>{' '}
-                        </DayContainer>
-
-                        <StartContainer>
-                           <Start1 />
-                           <p>{item.rating}.4</p>
-                        </StartContainer>
-                     </DayStartContainer>
-                     <StyleTitle>
-                        <Tooltip title={item.title}>
-                           {truncateTitle(item.title)}
-                        </Tooltip>
-                     </StyleTitle>
-                     <LocationCantainerStyle>
-                        <Location />
-                        <p>{item.location}</p>
-                     </LocationCantainerStyle>
-                     {item.status === 'dates' ? (
-                        <StyledHorizIcon>
-                           <DayStyle>{item.guest} guest</DayStyle>
-                           <div>
-                              <IconButtonStyled
-                                 edge="start"
-                                 color="inherit"
-                                 aria-label="menu"
-                                 onClick={handleMenuOpen}
-                              >
-                                 <MoreHorizIconStyled />
-                              </IconButtonStyled>
-
-                              <StyledMenu
-                                 anchorEl={anchorEl}
-                                 open={anchorEl}
-                                 onClose={handleMenuClose}
-                              >
-                                 <MenuItem onClick={handleMenuClose}>
-                                    Accept
-                                 </MenuItem>
-                                 <MenuItem onClick={handleMenuClose}>
-                                    Reject
-                                 </MenuItem>
-                                 <MenuItem onClick={handleMenuClose}>
-                                    Delete
-                                 </MenuItem>
-                              </StyledMenu>
-                           </div>
-                        </StyledHorizIcon>
-                     ) : (
-                        <ButtonsContainer>
-                           <DayStyle>{item.guest} guest</DayStyle>
-                           <Button
-                              variant="contained"
-                              height="20%"
-                              bgColor="#DD8A08"
-                              s
-                              color="white"
-                              width="6.4375rem"
-                           >
-                              Book
-                           </Button>
-                           <ButtonIcon
-                              width="10%"
-                              open={item.favorite}
-                              onClick={() => toggle({ id: item.id })}
-                              favorite={item.favorite}
+                        <div className="images">
+                           <StyleImage
+                              src={item.images[currentImages[index]]}
+                              alt="home"
                            />
-                        </ButtonsContainer>
-                     )}
+                        </div>
+                     </ImageStyleContainer>
+                     <ContainerDescription>
+                        <ContainerPrice>
+                           <p className="price">
+                              ${item.price}/ <p className="day">day</p>{' '}
+                           </p>
+                           <p onClick={props.dd} className="rating">
+                              <StartContainer>
+                                 <Start1 />
+                                 <p>{item.rating}.4</p>
+                              </StartContainer>
+                           </p>
+                        </ContainerPrice>
+                        <ContainerInformation>
+                           <div className="title">
+                              <Tooltip title={item.title}>
+                                 {truncateTitle(item.title)}
+                              </Tooltip>
+                           </div>
+                           <div className="location">
+                              <Location />
+                              <p>{item.location}</p>
+                           </div>
+                           {item.status === 'dates' ? (
+                              <ContainerGuests>
+                                 <StyledHorizIcon>
+                                    <DayStyle>{item.guest} guest</DayStyle>
+                                    <div>
+                                       <IconButtonStyled
+                                          edge="start"
+                                          color="inherit"
+                                          aria-label="menu"
+                                          onClick={handleMenuOpen}
+                                       >
+                                          <MoreHorizIconStyled />
+                                       </IconButtonStyled>
+
+                                       <StyledMenu
+                                          anchorEl={anchorEl}
+                                          open={anchorEl}
+                                          onClose={handleMenuClose}
+                                       >
+                                          <MenuItem onClick={handleMenuClose}>
+                                             Accept
+                                          </MenuItem>
+                                          <MenuItem onClick={handleMenuClose}>
+                                             Reject
+                                          </MenuItem>
+                                          <MenuItem onClick={handleMenuClose}>
+                                             Delete
+                                          </MenuItem>
+                                       </StyledMenu>
+                                    </div>
+                                 </StyledHorizIcon>
+                              </ContainerGuests>
+                           ) : (
+                              <ButtonsContainer>
+                                 <DayStyle>{item.guest} guest</DayStyle>
+                                 <Button
+                                    variant="contained"
+                                    height="20%"
+                                    bgColor="#DD8A08"
+                                    s
+                                    color="white"
+                                    width="6.4375rem"
+                                 >
+                                    Book
+                                 </Button>
+                                 <div>
+                                    <ButtonIcon
+                                       width="10%"
+                                       open={item.favorite}
+                                       onClick={() => toggle({ id: item.id })}
+                                       favorite={item.favorite}
+                                    />
+                                 </div>
+                              </ButtonsContainer>
+                           )}
+                        </ContainerInformation>
+                     </ContainerDescription>
                   </MapContainer>
                )
             })}
@@ -203,35 +214,142 @@ export function Cards({
       </Container>
    )
 }
+const ContainerGuests = styled('div')(() => ({
+   width: '100%',
+   display: 'flex',
+   justifyContent: 'space-between',
+   alignItems: 'center',
+}))
+const ContainerInformation = styled('div')(() => ({
+   width: '100%',
+   display: 'flex',
+   flexDirection: 'column',
+   gap: '0.5rem',
+   '.title': {
+      width: '11.625rem',
+      color: '#2B2B2B',
+      fontFamily: 'Inter',
+      fontSize: '0.875rem',
+      fontStyle: 'normal',
+      fontWeight: 400,
+      lineHeight: 'normal',
+   },
+   '.location': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.38rem',
+      p: {
+         width: '100%',
+         color: ' var(--tertiary-middle-gray, #828282)',
+         fontFamily: 'Inter',
+         fontSize: '0.875rem',
+         fontStyle: 'normal',
+         fontWeight: 400,
+         lineHeight: 'normal',
+      },
+   },
+}))
+
+const ContainerPrice = styled('div')(() => ({
+   width: '100%',
+   display: 'flex',
+   justifyContent: 'space-between',
+   alignItems: 'center',
+   '.price': {
+      color: ' var(--primary-black, #363636)',
+      fontFamily: 'Inter',
+      fontSize: ' 1.125rem',
+      fontStyle: 'normal',
+      fontweight: 400,
+      lineHeight: 'normal',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.19rem',
+
+      '.day': {
+         color: '  #6C6C6C',
+         fontFamily: 'Inter',
+         fontSize: ' 1rem',
+         fontStyle: 'normal',
+         fontweight: 400,
+         lineHeight: 'normal',
+      },
+   },
+   '.rating': {
+      width: ' 3.875rem',
+      height: '1.5625rem',
+      borderRadius: '0.125rem',
+      background: ' var(--tertiary-middle-gray, #828282)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '0.25rem',
+      p: {
+         color: '#fff',
+      },
+   },
+}))
+const ButtonsContainer = styled('section')`
+   width: 100%;
+   padding-bottom: 20px;
+   display: flex;
+   align-items: center;
+   gap: 1.6rem;
+`
+const ContainerDescription = styled('div')(() => ({
+   width: '100%',
+   display: 'flex',
+   flexDirection: 'column',
+   padding: '0.75rem',
+   gap: '1rem',
+}))
 const Container = styled('div')`
-   padding-left: 6.5%;
+   padding-left: 8%;
+   display: flex;
+   flex-direction: column;
+   flex-wrap: wrap;
+`
+const ImageStyleContainer = styled('div')`
+   display: 'inline-block';
+   width: ' 100%';
+   height: ' 8.5rem';
+   .images {
+      width: 18.4375rem;
+      height: 11.9375rem;
+      border-radius: 0.25rem 0.25rem 0rem 0rem;
+   }
 `
 
 const MainContainer = styled('div')`
-   line-height: 2rem;
    width: 100%;
    display: flex;
    flex-wrap: wrap;
    justify-content: start;
    align-items: center;
-   align-items: start;
    gap: 60px;
-   flex-wrap: wrap;
    margin-top: 2.5rem;
+`
+const StyleImage = styled('img')`
+   width: 100%;
+   height: 100%;
+   border-radius: 0.25rem 0.25rem 0rem 0rem;
 `
 
 const MapContainer = styled('div')(({ status }) => ({
-   width: '19.8%',
+   width: '18.4375rem',
    height: status === 'dates' ? '16%' : '16%',
    borderRadius: '4px',
    outline: status === 'dates' ? '3px solid #ff0000' : 'none',
-   border: status === 'dates' ? '4px solid pink' : 'none',
+   border: status === 'dates' ? '4px solid pink' : ' none',
+   flexWrap: 'wrap',
    display: 'flex',
    position: 'relative',
    flexDirection: 'column',
    alignItems: 'center',
    justifyContent: 'center',
    lineHeight: '2rem',
+
+   boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
 
    '.ImageNavigation': {
       display: 'none',
@@ -263,20 +381,6 @@ const StartContainer = styled('section')`
    color: #ffff;
 `
 
-const DayContainer = styled('div')`
-   display: flex;
-   justify-content: center;
-   align-items: center;
-`
-
-const DayStartContainer = styled('div')`
-   width: 100%;
-   padding: 0rem 1rem 0.5rem 1rem;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-`
-
 const DayStyle = styled('p')`
    color: #6c6c6c;
    font-family: Inter;
@@ -287,26 +391,6 @@ const DayStyle = styled('p')`
    line-height: normal;
    display: flex;
    gap: 5px;
-`
-
-const LocationCantainerStyle = styled('section')`
-   display: flex;
-   align-items: center;
-   color: var(--tertiary-middle-gray, #828282);
-   font-family: Inter;
-   font-size: 0.875rem;
-   font-weight: 400;
-   line-height: normal;
-
-   margin: 0.5rem 9rem 1rem 0rem;
-`
-
-const ButtonsContainer = styled('section')`
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   gap: 2rem;
-   margin-bottom: 20px;
 `
 
 const StyledButton = styled('button')`
@@ -324,18 +408,10 @@ const StyledButton = styled('button')`
    }
 `
 
-const StyleImage = styled('img')`
-   width: 17.6rem;
-   height: 11.5rem;
-`
-
-const StyleTitle = styled('p')`
-   width: 16.4375rem;
-`
 const IconButtonStyled = styled(IconButton)(() => ({
    padding: '0px',
    margin: '0px',
-   marginLeft: '5rem',
+   // marginLeft: '5rem',
    width: '70%',
 
    '&.MuiIconButton-root:hover': {
