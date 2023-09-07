@@ -72,5 +72,4 @@ export {
    HiddenPassword,
    IconMenu,
    SeenPassword,
-   IconMenu,
 }
