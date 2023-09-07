@@ -1,17 +1,45 @@
-import { Avatar, IconButton, MenuItem, styled } from '@mui/material'
+/* eslint-disable consistent-return */
+import { Avatar, IconButton, MenuItem, Tooltip, styled } from '@mui/material'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Dislike, IconMenu, Like1 } from '../../../assets/icons'
 import { MeatBalls } from '../meat-balls/MeatBalls'
 import { RatingStars } from '../rating/RatingStars'
+import { axiosInstance } from '../../../config/axiosInstance'
+import { ModalForEditFeedback } from './ModalForEditFeedback'
+import { likeOrDislike } from '../../../api/feedbackService'
+import { feedbackGetByIdRequest } from '../../../store/feedback/feedbackThunk'
 
-export default function Feedback({ data, onLike, onDislike }) {
-   const { avatar, comment, dislike, like, name, starRating } = data
+export default function Feedback({ data, announcementBooked }) {
+   const {
+      feedbackUserImage,
+      feedbackUserFullName,
+      rating,
+      comment,
+      images,
+      createdAt,
+      likeCount,
+      disLikeCount,
+      id,
+   } = data
+
+   const parts = createdAt.split('-')
+   const formattedDate = `${parts[0]}.${parts[1]}.${parts[2]}`
 
    const [currentEl, setCurrentEl] = useState(null)
    const [showFullText, setShowFullText] = useState(false)
-
+   const [openModal, setOpenModal] = useState(false)
+   const [ratingValue, setRatingValue] = useState(rating)
    const maxLength = 215
 
+   const dispatch = useDispatch()
+
+   const truncateText = (text, maxLength) => {
+      if (text?.length > maxLength) {
+         return `${text.slice(0, maxLength)}...`
+      }
+      return text
+   }
    const toggleText = () => {
       if (comment.length <= maxLength) {
          setShowFullText(false)
@@ -30,75 +58,203 @@ export default function Feedback({ data, onLike, onDislike }) {
       setCurrentEl(null)
    }
 
+   const deleteFeedback = async (feedbackId) => {
+      try {
+         const response = await axiosInstance.delete(
+            `/api/feedbacks/${feedbackId}`
+         )
+         dispatch(feedbackGetByIdRequest())
+         return response.data
+      } catch (error) {
+         console.error(error)
+      }
+   }
+
+   const editFeedback = () => {
+      setOpenModal((prev) => !prev)
+   }
+
+   const likeHandler = async (like) => {
+      try {
+         const response = await likeOrDislike(id, like)
+         dispatch(feedbackGetByIdRequest())
+         return response.data
+      } catch (error) {
+         console.error(error)
+      }
+   }
+
    const open = Boolean(currentEl)
    const meatBallId = open ? 'simple-popover' : undefined
    return (
-      <Container>
-         <Block>
-            <UserInfoBlock>
-               <div>
-                  <Avatar
-                     style={{ marginRight: '13px' }}
-                     src={avatar && avatar}
-                  >
-                     {avatar || name[0]}
-                  </Avatar>
-               </div>
+      <div>
+         {announcementBooked.booked ? (
+            <Container>
+               <Block>
+                  <UserInfoBlockForBooked>
+                     <AvatarAndNameBlock>
+                        <Avatar
+                           style={{ marginRight: '13px' }}
+                           src={feedbackUserImage && feedbackUserImage}
+                        >
+                           {feedbackUserImage || feedbackUserFullName[0]}
+                        </Avatar>
+                        <h4
+                           style={{
+                              marginRight: '10px',
+                           }}
+                        >
+                           <Tooltip title={feedbackUserFullName}>
+                              {truncateText(feedbackUserFullName, 20)}
+                           </Tooltip>
+                        </h4>
+                     </AvatarAndNameBlock>
+
+                     <RatingAndNameBlock>
+                        <RatingStars
+                           ratingValue={ratingValue}
+                           setRatingValue={setRatingValue}
+                        />
+                        <StyledSpan>{ratingValue}</StyledSpan>
+                     </RatingAndNameBlock>
+                  </UserInfoBlockForBooked>
+               </Block>
+
+               <CommentBlock>
+                  <p>
+                     {showFullText ? (
+                        <span> {comment} </span>
+                     ) : (
+                        <span> {truncatedText}</span>
+                     )}
+
+                     <ShowMoreAndLess onClick={toggleText}>
+                        {showFullText ? 'See less' : 'See more'}
+                     </ShowMoreAndLess>
+                  </p>
+               </CommentBlock>
 
                <div>
-                  <RatingAndNameBlock>
-                     <h4 style={{ marginRight: '10px' }}>{name}</h4>
-
-                     <RatingStars starRating={starRating} />
-                     <StyledSpan>({starRating})</StyledSpan>
-                  </RatingAndNameBlock>
-
-                  <span style={{ color: '#828282' }}>28.04.22</span>
+                  {images.map((houseImg) => (
+                     <StyledImg src={houseImg} alt="house" />
+                  ))}
                </div>
-            </UserInfoBlock>
 
-            <div>
-               <IconMenu onClick={toggle} />
-               <MeatBalls
-                  anchorEl={currentEl}
-                  open={open}
-                  close={closeHandler}
-                  id={meatBallId}
-                  width=" 11.25rem"
-                  height="5.5rem"
-               >
-                  <MenuItem>Edit</MenuItem>
-                  <MenuItem>Delete</MenuItem>
-               </MeatBalls>
-            </div>
-         </Block>
+               <GradeBlockForBooked>
+                  <div>
+                     <span style={{ color: '#828282' }}>{formattedDate}</span>
+                  </div>
 
-         <CommentBlock>
-            <p>
-               {showFullText ? (
-                  <span> {comment} </span>
-               ) : (
-                  <span> {truncatedText}</span>
-               )}
+                  <div style={{ display: 'flex' }}>
+                     <StyledIconButton onClick={() => likeHandler('like')}>
+                        <Like1 />
+                        <p>{likeCount}</p>
+                     </StyledIconButton>
 
-               <ShowMoreAndLess onClick={toggleText}>
-                  {showFullText ? 'See less' : 'See more'}
-               </ShowMoreAndLess>
-            </p>
-         </CommentBlock>
+                     <StyledIconButton onClick={() => likeHandler('DisLike')}>
+                        <Dislike />
+                        <p> {disLikeCount}</p>
+                     </StyledIconButton>
+                  </div>
+               </GradeBlockForBooked>
+            </Container>
+         ) : (
+            <Container>
+               <Block>
+                  <UserInfoBlock>
+                     <div>
+                        <Avatar
+                           style={{ marginRight: '13px' }}
+                           src={feedbackUserImage && feedbackUserImage}
+                        >
+                           {feedbackUserImage || feedbackUserFullName[0]}
+                        </Avatar>
+                     </div>
 
-         <GradeBlock>
-            <StyledIconButton onClick={onLike}>
-               <Like1 />
-               <p>{like}</p>
-            </StyledIconButton>
+                     <div>
+                        <RatingAndNameBlock>
+                           <h4 style={{ marginRight: '10px' }}>
+                              <Tooltip title={feedbackUserFullName}>
+                                 {truncateText(feedbackUserFullName, 20)}
+                              </Tooltip>
+                           </h4>
 
-            <StyledIconButton onClick={onDislike}>
-               <Dislike />
-               <p> {dislike}</p>
-            </StyledIconButton>
-         </GradeBlock>
-      </Container>
+                           <RatingStars
+                              ratingValue={ratingValue}
+                              setRatingValue={setRatingValue}
+                           />
+                           <StyledSpan>({ratingValue})</StyledSpan>
+                        </RatingAndNameBlock>
+
+                        <span style={{ color: '#828282' }}>
+                           {formattedDate}
+                        </span>
+                     </div>
+                  </UserInfoBlock>
+
+                  <div>
+                     <IconMenu onClick={toggle} />
+                     <MeatBalls
+                        anchorEl={currentEl}
+                        open={open}
+                        close={closeHandler}
+                        id={meatBallId}
+                        width=" 11.25rem"
+                        height="5.5rem"
+                     >
+                        <MenuItem onClick={editFeedback}>Edit</MenuItem>
+                        <MenuItem onClick={() => deleteFeedback(id)}>
+                           Delete
+                        </MenuItem>
+                     </MeatBalls>
+                  </div>
+                  {openModal && (
+                     <ModalForEditFeedback
+                        openModal={openModal}
+                        setOpenModal={setOpenModal}
+                        feedbackComment={comment}
+                        feedbackImages={images}
+                        id={id}
+                     />
+                  )}
+               </Block>
+
+               <CommentBlock>
+                  <p>
+                     {showFullText ? (
+                        <span> {comment} </span>
+                     ) : (
+                        <span> {truncatedText}</span>
+                     )}
+
+                     <ShowMoreAndLess onClick={toggleText}>
+                        {showFullText ? 'See less' : 'See more'}
+                     </ShowMoreAndLess>
+                  </p>
+               </CommentBlock>
+
+               <div>
+                  {images.length > 0
+                     ? images.map((houseImg) => (
+                          <StyledImg src={houseImg} alt="house" />
+                       ))
+                     : null}
+               </div>
+
+               <GradeBlock>
+                  <StyledIconButton onClick={() => likeHandler('like')}>
+                     <Like1 />
+                     <p>{likeCount} </p>
+                  </StyledIconButton>
+
+                  <StyledIconButton onClick={() => likeHandler('DisLike')}>
+                     <Dislike />
+                     <p> {disLikeCount}</p>
+                  </StyledIconButton>
+               </GradeBlock>
+            </Container>
+         )}
+      </div>
    )
 }
 
@@ -124,10 +280,16 @@ const UserInfoBlock = styled('div')(() => ({
    justifyContent: 'space-around',
    marginBottom: '0.9375rem',
 }))
+const UserInfoBlockForBooked = styled('div')(() => ({
+   width: '100%',
+   display: 'flex',
+   justifyContent: 'space-between',
+   alignItems: 'center',
+   marginBottom: '0.9375rem',
+}))
 
 const RatingAndNameBlock = styled('div')(() => ({
    display: 'flex',
-   justifyContent: 'space-between',
    alignItems: 'center',
    gap: '0.625rems ',
 }))
@@ -143,6 +305,14 @@ const GradeBlock = styled('div')(() => ({
    justifyContent: 'space-between',
    alignItems: 'center',
    marginTop: '1.25rem',
+}))
+const GradeBlockForBooked = styled('div')(() => ({
+   width: '7.1875rem',
+   display: 'flex',
+   justifyContent: 'space-between',
+   alignItems: 'center',
+   marginTop: '1.25rem',
+   gap: '27.6875rem',
 }))
 
 const StyledIconButton = styled(IconButton)(() => ({
@@ -162,4 +332,17 @@ const ShowMoreAndLess = styled('button')(() => ({
    border: 'none',
    cursor: 'pointer',
    fontSize: '1rem',
+}))
+
+const AvatarAndNameBlock = styled('div')(() => ({
+   display: 'flex',
+   alignItems: 'center',
+   justifyContent: 'space-between',
+}))
+
+const StyledImg = styled('img')(() => ({
+   width: '5rem',
+   height: '5rem',
+   marginTop: '1rem',
+   marginLeft: '0.13rem',
 }))

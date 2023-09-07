@@ -6,13 +6,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Header } from '../layout/Header/Header'
 import { HouseSlidDetail } from '../components/UI/house-detail/HouseSlidDetail'
 import { NameOfHotel } from '../components/UI/name-hotel/NameOfHotel'
-import { data, house } from '../utils/helpers'
+import { house } from '../utils/helpers'
 import Feedback from '../components/UI/feedback/Feedback'
 import { Payment } from '../components/payment/Payment'
 import { Footer } from '../layout/Footer/Footer'
 import { RatingChart } from '../components/UI/rating/RatingChart'
 import { LeaveFeedback } from '../components/leave-feedback/LeaveFeeadback'
 import { getByIdRequest } from '../store/anouncement/AnouncementThunk'
+import {
+   countRatingGetByIdRequest,
+   feedbackGetByIdRequest,
+} from '../store/feedback/feedbackThunk'
+import { uploadActions } from '../store/Upload'
 
 export default function AnnouncementDetailPage() {
    const [state, setState] = useState(false)
@@ -22,21 +27,27 @@ export default function AnnouncementDetailPage() {
       (state) => state.announcementGetById
    )
 
+   const { feedbackDataById, countRatingDataById } = useSelector(
+      (state) => state.feedback
+   )
+
    const dispatch = useDispatch()
 
    useEffect(() => {
+      dispatch(feedbackGetByIdRequest())
       dispatch(getByIdRequest())
+      dispatch(countRatingGetByIdRequest())
    }, [dispatch])
 
    const toggleFeedback = () => {
-      if (data.length <= 3) {
+      if (feedbackDataById.length <= 3) {
          setShowFullFeedback(false)
-      } else if (data.length >= 3) {
+      } else if (feedbackDataById.length >= 3) {
          setShowFullFeedback(!showFullFeedback)
       }
    }
 
-   const truncatedFeedback = data.slice(0, 3)
+   const truncatedFeedback = feedbackDataById.slice(0, 3)
 
    const leaveFeedbackHandler = () => {
       setOpenModal((prev) => !prev)
@@ -85,9 +96,17 @@ export default function AnnouncementDetailPage() {
                <FeedbackAndRatingBlock>
                   <div>
                      {showFullFeedback
-                        ? data.map((feedback) => <Feedback data={feedback} />)
+                        ? feedbackDataById.map((feedback) => (
+                             <Feedback
+                                data={feedback}
+                                announcementBooked={announcementDataById}
+                             />
+                          ))
                         : truncatedFeedback.map((feedback) => (
-                             <Feedback data={feedback} />
+                             <Feedback
+                                data={feedback}
+                                announcementBooked={announcementDataById}
+                             />
                           ))}
 
                      <ShowMoreBlock>
@@ -103,12 +122,16 @@ export default function AnnouncementDetailPage() {
                      </ButtonForFeedback>
                   </div>
                   <div>
-                     <RatingChart starValue="4.4" />
+                     <RatingChart
+                        countRatingDataById={countRatingDataById}
+                        starValue={countRatingDataById.averageRating}
+                     />
                      <ButtonForFeedback onClick={leaveFeedbackHandler}>
                         leave feedback
                      </ButtonForFeedback>
                      {openModal && (
                         <LeaveFeedback
+                           onClick={dispatch(uploadActions.resetImages())}
                            openModal={openModal}
                            setOpenModal={setOpenModal}
                         />
