@@ -18,6 +18,8 @@ import { toastSnackbar } from '../components/UI/snackbar/Snackbar'
 import { Bookings } from '../components/UI/tabs/Bookings'
 import { MyAnnouncement } from '../components/UI/tabs/MyAnnouncement'
 import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
+import { Favorite } from '../components/favorite/Favorite'
+import { UserProfile } from '../components/Profile/Profile'
 import { AllHousing } from '../pages/admin/all-housing/AllHousing'
 import { NotFound } from '../components/UI/404/NotFound'
 
@@ -87,7 +89,11 @@ export function AppRoutes() {
                   fallbackPath="/admin"
                />
             }
-         />
+         >
+            <Route path="profile" element={<UserProfile />} />
+         </Route>
+         <Route path="favorites" element={<Favorite />} />
+
          <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
 
          {/* admin */}

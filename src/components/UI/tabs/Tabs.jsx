@@ -24,7 +24,7 @@ export function Tabs({ announcement, bookings }) {
                <h3>Bookings ({BookingLength})</h3>
             </StyleLink>
 
-            <StyleLink to="/my-announcemen">
+            <StyleLink to="/my-announcement">
                <h3>My announcement ({announcementLength})</h3>
             </StyleLink>
 
@@ -39,7 +39,7 @@ export function Tabs({ announcement, bookings }) {
                element={<Bookings bookings={bookings} onChange="true" />}
             />
             <Route
-               path="/my-announcemen"
+               path="/my-announcement"
                element={
                   <MyAnnouncement announcement={announcement} select="true" />
                }

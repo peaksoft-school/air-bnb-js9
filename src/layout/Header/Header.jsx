@@ -19,7 +19,8 @@ import { authActions } from '../../store/auth/authSlice'
 import Modal from '../../components/UI/modal/Modal'
 import { DarkModeActions } from '../../store/dark-mode/DarkModeSlice'
 
-export function Header({ login, profile, notFound }) {
+export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
+   // const [meatBalls, setMeatBalls] = useState(false)
    const { isAuthorization, email } = useSelector((state) => state.auth)
 
    const [userLogin, setUserLogin] = useState(false)
@@ -185,6 +186,9 @@ export function Header({ login, profile, notFound }) {
                   >
                      {isAuthorization ? 'SUBMIT AN AD' : 'JOIN US'}
                   </Button>
+                  {favorite === 'true' && (
+                     <FavoriteStyle>Favorite({favoriteLenght})</FavoriteStyle>
+                  )}
                   {isAuthorization ? (
                      <FavoriteDiv>
                         {/* <StyleLink>leave an ad</StyleLink> */}
@@ -232,6 +236,16 @@ export function Header({ login, profile, notFound }) {
       </Container>
    )
 }
+const FavoriteStyle = styled('p')`
+   color: #000;
+   font-family: Inter;
+   font-size: 1rem;
+   font-style: normal;
+   font-weight: 400;
+   line-height: normal;
+   text-transform: uppercase;
+   cursor: pointer;
+`
 
 const Container = styled('div')(() => ({
    display: 'flex',
