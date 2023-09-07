@@ -84,6 +84,8 @@ export default function Feedback({ data, announcementBooked }) {
       }
    }
 
+   console.log('images:', images)
+
    const open = Boolean(currentEl)
    const meatBallId = open ? 'simple-popover' : undefined
    return (

@@ -8,6 +8,7 @@ import {
    ArrowrightIcon,
    Start1,
 } from '../../../assets/icons'
+import ModalProfile from '../../Profile/ModalProfile'
 import { MeatBalls } from '../meat-balls/MeatBalls'
 import { ModalNameHotel } from '../name-hotel/ModalNameHotel'
 import { toastSnackbar } from '../snackbar/Snackbar'
@@ -15,27 +16,35 @@ import { toastSnackbar } from '../snackbar/Snackbar'
 export function AdminCards({
    data,
    title,
+   image,
+   meatballs,
    removeCard,
    changeHandler,
    toggleHandler,
-   rejectedHandler,
    acceptHandler,
+   rejectedHandler,
+   removeAllHousing,
 }) {
    const [currentImages, setCurrentImages] = useState([])
-   const [dataa, setData] = useState([])
-   const [currentEl, setCurrentEl] = useState(null)
    const [openModal, setOpenModal] = useState(false)
-   const [id, setId] = useState(null)
+   const [currentEl, setCurrentEl] = useState(null)
    const [itemId, setItemId] = useState('')
+   const [dataa, setData] = useState([])
+   const [id, setId] = useState(null)
    const { toastType } = toastSnackbar()
+
+   const [idAllHousing, setIdAllHousing] = useState('')
+   const [openAllHouseModal, setOpenAllHouseModal] = useState(false)
+
+   console.log(data)
 
    useEffect(() => {
       setData(data?.map((item) => ({ ...item, open: false })))
-      setCurrentImages(data.map(() => 0))
+      setCurrentImages(data?.map(() => 0))
    }, [data])
 
    const truncateText = (text, maxLength) => {
-      if (text.length > maxLength) {
+      if (text?.length > maxLength) {
          return `${text.slice(0, maxLength)}...`
       }
       return text
@@ -51,6 +60,7 @@ export function AdminCards({
          return newImages
       })
    }
+
    const handleNextImage = (index) => {
       setCurrentImages((prevImages) => {
          const newImages = [...prevImages]
@@ -61,6 +71,7 @@ export function AdminCards({
          return newImages
       })
    }
+
    const handleMenuOpen = (e, id) => {
       setCurrentEl(e.currentTarget)
       setItemId(id)
@@ -85,13 +96,30 @@ export function AdminCards({
          toastType('error', error)
       }
    }
-
+   const openModalAllHousing = (itemId) => {
+      data.map((item) => {
+         if (item.id === itemId) {
+            setIdAllHousing(item)
+            return item
+         }
+         return item
+      })
+      setOpenAllHouseModal(true)
+   }
    const open = Boolean(currentEl)
    const idd = open ? 'simple-popover' : undefined
 
    return (
       <Container>
          <div className="block">
+            {openAllHouseModal ? (
+               <ModalProfile
+                  data={idAllHousing}
+                  itemId={idAllHousing.id}
+                  setModalVisible={setOpenAllHouseModal}
+                  handleMenuClose={closeMeatBallsHeandler}
+               />
+            ) : null}
             <ModalNameHotel
                openModal={openModal}
                openModalHandler={openModalHandler}
@@ -102,29 +130,53 @@ export function AdminCards({
             {data.length > 0 ? (
                data.map((item, index) => (
                   <MapContainer status="dat" key={item.id}>
-                     <ImageContainer
-                        to="/admin/application/name"
-                        onClick={() => toggleHandler(item.id)}
-                     >
-                        {item.images.length > 1 && (
-                           <div className="ImageNavigation">
-                              <StyledButton
-                                 onClick={() => handlePrevImage(index)}
-                              >
-                                 <ArrowleftIcon />
-                              </StyledButton>
-                              <StyledButton
-                                 onClick={() => handleNextImage(index)}
-                              >
-                                 <ArrowrightIcon />
-                              </StyledButton>
-                           </div>
-                        )}
-                        <img
-                           src={item.images[currentImages[index]]}
-                           alt={item.title}
-                        />
-                     </ImageContainer>
+                     {image === 'click' ? (
+                        <ImageContainer
+                           to="/admin/application/name"
+                           onClick={() => toggleHandler(item.id)}
+                        >
+                           {item.images.length > 1 && (
+                              <div className="ImageNavigation">
+                                 <StyledButton
+                                    onClick={() => handlePrevImage(index)}
+                                 >
+                                    <ArrowleftIcon />
+                                 </StyledButton>
+                                 <StyledButton
+                                    onClick={() => handleNextImage(index)}
+                                 >
+                                    <ArrowrightIcon />
+                                 </StyledButton>
+                              </div>
+                           )}
+                           <img
+                              src={item.images[currentImages[index]]}
+                              alt={item.title}
+                           />
+                        </ImageContainer>
+                     ) : (
+                        <ImageContainer>
+                           {item.images.length > 1 && (
+                              <div className="ImageNavigation">
+                                 <StyledButton
+                                    onClick={() => handlePrevImage(index)}
+                                 >
+                                    <ArrowleftIcon />
+                                 </StyledButton>
+                                 <StyledButton
+                                    onClick={() => handleNextImage(index)}
+                                 >
+                                    <ArrowrightIcon />
+                                 </StyledButton>
+                              </div>
+                           )}
+                           <img
+                              src={item.images[currentImages[index]]}
+                              alt={item.title}
+                           />
+                        </ImageContainer>
+                     )}
+
                      <ContainerDescription>
                         <ContainerPrice>
                            <h4 className="price">
@@ -132,7 +184,7 @@ export function AdminCards({
                            </h4>
                            <div className="rating">
                               <Start1 />
-                              <p> {item.rating}</p>
+                              <p>{item.rating}</p>
                            </div>
                         </ContainerPrice>
                         <ContainerInformation>
@@ -151,7 +203,7 @@ export function AdminCards({
                                     ,{' '}
                                  </Tooltip>
                                  <Tooltip title={item.province}>
-                                    {item.province.length > 7
+                                    {item.province?.length > 7
                                        ? truncateText(item.province, 7)
                                        : item.province}
                                  </Tooltip>
@@ -171,22 +223,52 @@ export function AdminCards({
                                  id={idd}
                                  propsVertical="top"
                                  propsHorizontal="left"
-                                 width="15%"
-                                 height="16%"
+                                 width={
+                                    meatballs === 'application' ? '15%' : '10%'
+                                 }
+                                 height={
+                                    meatballs === 'application' ? '16%' : '12%'
+                                 }
                               >
-                                 <MenuItem
-                                    onClick={() => acceptHandler(itemId)}
-                                 >
-                                    Accept
-                                 </MenuItem>
-                                 <MenuItem
-                                    onClick={() => openModalHandler(itemId)}
-                                 >
-                                    Reject
-                                 </MenuItem>
-                                 <MenuItem onClick={() => removeCard(itemId)}>
-                                    Delete
-                                 </MenuItem>
+                                 {meatballs === 'application' ? (
+                                    <>
+                                       <MenuItem
+                                          onClick={() => acceptHandler(itemId)}
+                                       >
+                                          Accept
+                                       </MenuItem>
+                                       <MenuItem
+                                          onClick={() =>
+                                             openModalHandler(itemId)
+                                          }
+                                       >
+                                          Reject
+                                       </MenuItem>
+                                       <MenuItem
+                                          onClick={() => removeCard(itemId)}
+                                       >
+                                          Delete
+                                       </MenuItem>
+                                    </>
+                                 ) : (
+                                    <>
+                                       {' '}
+                                       <MenuItem
+                                          onClick={() =>
+                                             removeAllHousing(itemId)
+                                          }
+                                       >
+                                          Delete
+                                       </MenuItem>
+                                       <MenuItem
+                                          onClick={() =>
+                                             openModalAllHousing(itemId)
+                                          }
+                                       >
+                                          Update
+                                       </MenuItem>
+                                    </>
+                                 )}
                               </MeatBalls>
                            </ContainerGuests>
                         </ContainerInformation>
@@ -206,7 +288,7 @@ const Container = styled('div')(() => ({
 
    '.block': {
       display: 'flex',
-      justifyContent: 'space-around',
+      justifyContent: 'flex-start',
       flexWrap: 'wrap',
       gap: '1.25rem',
    },
@@ -217,9 +299,11 @@ const MapContainer = styled('div')((props) => ({
    height: ' 17.8125rem',
    borderRadius: '0.6rem 0.5rem 0 0 ',
    border: props.status === 'dates' ? '3px solid #ff0000' : 'none',
+   boxShadow: '  0px 0px 8px 7px rgba(135, 132, 129, 0.2)',
+
    '&:hover': {
       opacity: 1,
-      boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
+      boxShadow: ' 0px 0px 8px 7px rgba(0, 0, 0, 0.2)',
    },
 }))
 

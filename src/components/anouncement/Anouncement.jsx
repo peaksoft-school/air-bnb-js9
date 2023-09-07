@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
@@ -39,6 +38,7 @@ export default function AddAnouncementForm() {
       } catch (error) {
          toastType('error', 'Error!')
       }
+      return payload
    }
 
    const {
@@ -104,8 +104,6 @@ export default function AddAnouncementForm() {
                                  type="radio"
                                  value="apartment"
                                  width="1.25rem"
-                                 marginLeft="-22.8125rem"
-                                 marginRight="2.rem"
                               />
                            )}
                         />
@@ -122,7 +120,6 @@ export default function AddAnouncementForm() {
                                  barsbek="nekrash"
                                  type="radio"
                                  value="house"
-                                 marginLeft="2.5rem"
                                  width="1.25rem"
                               />
                            )}

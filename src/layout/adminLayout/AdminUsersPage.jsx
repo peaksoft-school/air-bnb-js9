@@ -4,7 +4,7 @@ import { styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { Button } from '../../components/UI/button/Button'
 import { Profile } from '../../components/UI/profile/Profile'
-import { Tabs } from '../../components/tabs/Tabs'
+import { Tabs } from '../../components/UI/tabs/Tabs'
 import { getAdminUsersCardsIdRequest } from '../../api/adminUsersServise'
 import {
    getAdminUsersCardsId,
@@ -42,7 +42,7 @@ function AdminUsersPage() {
    return (
       <Container>
          <UserSide>
-            <NavLink to="/admin/users/">
+            <StyledNavlink to="/admin/users/">
                Users
                <span
                   style={{
@@ -53,7 +53,7 @@ function AdminUsersPage() {
                   {' '}
                   / {userData.fullName}
                </span>
-            </NavLink>
+            </StyledNavlink>
             <h3 style={{ marginBottom: '1.40rem', marginTop: '2.5rem' }}>
                {userData.fullName}
             </h3>
@@ -108,7 +108,7 @@ const CardSide = styled('div')(() => ({
    paddingTop: '4.7rem',
 }))
 
-// const StyledNavlink = styled(NavLink)(() => ({
-//    marginBottom: '2.5rem',
-// }))
+const StyledNavlink = styled(NavLink)(() => ({
+   color: '#C4C4C4',
+}))
 export default AdminUsersPage

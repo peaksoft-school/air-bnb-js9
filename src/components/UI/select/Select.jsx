@@ -9,16 +9,22 @@ import {
 
 export function Select({
    data,
+   state,
+   error,
+   toggle,
+   register,
    onChange,
    labelName,
-   register,
-   error,
    ...props
 }) {
+   let dynamicLabel = labelName
+   if (state === 'All') {
+      dynamicLabel = ''
+   }
    return (
       <StyledFormControl sx={{ m: 0, minWidth: 271 }} {...props}>
          <InputLabel id="filter-label" style={{ color: 'black' }}>
-            {labelName}
+            {dynamicLabel}
          </InputLabel>
          <MuiSelect
             error={error}
@@ -28,13 +34,15 @@ export function Select({
             onChange={onChange}
             displayEmpty
             label={labelName}
+            onClick={toggle}
          >
-            <MenuItem value="all">All</MenuItem>
-            {data?.map((item) => (
-               <MenuItem key={item.id} value={item.name}>
-                  {item.name}
-               </MenuItem>
-            ))}
+            {data?.map((item) => {
+               return (
+                  <MenuItem key={item.id} value={item.value}>
+                     {item.name}
+                  </MenuItem>
+               )
+            })}
          </MuiSelect>
       </StyledFormControl>
    )

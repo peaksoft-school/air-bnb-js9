@@ -80,7 +80,7 @@ export function Upload({ width, height, maxWidth, setFileNames, fileNames }) {
 
    return (
       <Container>
-         <Form>
+         <Block>
             <ImageContainer maxWidth={maxWidth}>
                {images.map((img, index) => (
                   <ImageWrapper>
@@ -104,7 +104,7 @@ export function Upload({ width, height, maxWidth, setFileNames, fileNames }) {
                   </DropzoneContainer>
                ) : null}
             </ImageContainer>
-         </Form>
+         </Block>
       </Container>
    )
 }
@@ -132,7 +132,7 @@ const CameraIcon = styled(UploadImg)(({ width, height }) => ({
    height: height || '30px',
 }))
 
-const Form = styled('form')(() => ({
+const Block = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
    justifyContent: 'center',

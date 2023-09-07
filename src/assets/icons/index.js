@@ -6,8 +6,8 @@ import { ReactComponent as Dislike2 } from './dislike2.svg'
 import { ReactComponent as Card } from './card.svg'
 import { ReactComponent as Exist } from './exist.svg'
 import { ReactComponent as InstagramIcon } from './instagram.svg'
-import { ReactComponent as Like1 } from './like1.svg'
-import { ReactComponent as Like2 } from './like2.svg'
+import { ReactComponent as Like1 } from './Like1.svg'
+import { ReactComponent as Like2 } from './Like2.svg'
 import { ReactComponent as Location } from './location.svg'
 import { ReactComponent as Radio1 } from './radio1.svg'
 import { ReactComponent as Radio2 } from './radio 2.svg'
@@ -21,16 +21,16 @@ import { ReactComponent as UploadImg } from './Camera Icon.svg'
 import { ReactComponent as AirBNBIcon } from './airbnb.svg'
 import { ReactComponent as BlackAirBNBIcon } from './blackairbnb.svg'
 import { ReactComponent as SearchIcon } from './search.svg'
-// import { ReactComponent as GroupIcon } from './Group.svg'
 import { ReactComponent as Google } from './google.svg'
 import { ReactComponent as GeoIcon } from './geoIcon.svg'
 import { ReactComponent as ArrowrightBlack } from './arrowrightBlack.svg'
 import { ReactComponent as ArrowLeftBlack } from './GroupBlack.svg'
-import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
-import { ReactComponent as ArrowleftIcon } from './arrleft.svg'
-import { ReactComponent as ArrowrightIcon } from './arrfirght.svg'
-import { ReactComponent as HiddenPassword } from './hiddenPassword.svg'
 import { ReactComponent as SeenPassword } from './seenPassword.svg'
+import { ReactComponent as HiddenPassword } from './hiddenPassword.svg'
+import { ReactComponent as WhatsAppIcon } from './whatsapp.svg'
+import { ReactComponent as ArrowrightIcon } from './arrfirght.svg'
+import { ReactComponent as ArrowleftIcon } from './arrleft.svg'
+import { ReactComponent as DeleteIcon } from './Х.svg'
 import { ReactComponent as AdminLocation } from './AdminLocation.svg'
 import { ReactComponent as AdminMenu } from './AdminMenu.svg'
 import { ReactComponent as IconMenu } from './IconMenu.svg'
@@ -66,9 +66,11 @@ export {
    Google,
    GeoIcon,
    WhatsAppIcon,
-   HiddenPassword,
-   SeenPassword,
+   DeleteIcon,
    AdminLocation,
    AdminMenu,
+   HiddenPassword,
+   IconMenu,
+   SeenPassword,
    IconMenu,
 }
