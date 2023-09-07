@@ -34,6 +34,7 @@ export function ResultPaiment({
    valueChekout,
    ResultChekin,
    ResultChekout,
+   announcementId,
    openModalHandler,
 }) {
    const formattedValueChekin = `${getMonthName(valueChekin.$M)} ${
@@ -49,8 +50,9 @@ export function ResultPaiment({
 
    const mines = valueChekout.$D - valueChekin.$D
    const result = price * mines
+   console.log(methot, 'methot in resultPayment  ')
 
-   return methot === 'post' ? (
+   return methot === 'put' ? (
       <Container>
          <ContainerPayment>
             <ContainerDescription styles="book">
@@ -84,8 +86,11 @@ export function ResultPaiment({
 
             <Elements stripe={stripePromise}>
                <ResultPaymentForm
-                  price={price}
                   methot={methot}
+                  result={result}
+                  ResultChekin={ResultChekin}
+                  ResultChekout={ResultChekout}
+                  announcementId={announcementId}
                   openModalHandler={openModalHandler}
                />
             </Elements>
@@ -114,9 +119,11 @@ export function ResultPaiment({
 
             <Elements stripe={stripePromise}>
                <ResultPaymentForm
-                  price={price}
+                  methot={methot}
+                  result={result}
                   ResultChekin={ResultChekin}
                   ResultChekout={ResultChekout}
+                  announcementId={announcementId}
                   openModalHandler={openModalHandler}
                />
             </Elements>

@@ -1,24 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import DateePicker from '../UI/date-picker/Date-Picker'
 import { Button } from '../UI/button/Button'
 import { Like } from '../UI/likes/Like'
 import { paymentActions } from '../../store/payment/PaymentSlice'
+import { postFavoriteInPayment } from '../../store/payment/PaymentThunk'
+import { toastSnackbar } from '../UI/snackbar/Snackbar'
 
 export function PaymentInDarePicker({
    price,
    methot,
    openModal,
-   // postBookings,
    valueChekin,
    valueChekout,
-   // updateBookings,
+   announcementId,
    setValueCheckin,
    setValueCheckout,
 }) {
    const [selectedDates, setSelectedDates] = useState([])
    const [like, setLike] = useState(false)
+   const { toastType } = toastSnackbar()
    const dispatch = useDispatch()
 
    const handleCheckinChange = (newDate) => {
@@ -42,18 +44,31 @@ export function PaymentInDarePicker({
       return selectedDates.includes(dateString) || isPastDate(date)
    }
 
-   const likeHandler = () => {
-      setLike((prev) => !prev)
+   useEffect(() => {
+      const storedLike = JSON.parse(localStorage.getItem('likeItem'))
+      if (storedLike !== null) {
+         setLike(storedLike)
+      }
+   }, [])
+
+   const postLikeHandler = () => {
+      setLike(true)
+      localStorage.setItem('likeItem', JSON.stringify(true))
+      dispatch(postFavoriteInPayment({ id: announcementId, toastType }))
+   }
+
+   const closeLikeHandler = () => {
+      setLike(false)
+      localStorage.setItem('likeItem', JSON.stringify(false))
    }
 
    const toggleInPaymentForm = () => {
-      console.log('click')
       dispatch(paymentActions.setToggleResult())
    }
 
    return openModal ? (
       <div>
-         {methot === 'post' ? (
+         {methot === 'put' ? (
             <ContainerPayment>
                <ContainerDay styles="day">
                   <h4>${price}</h4>/ <h4 className="day">day</h4>
@@ -137,12 +152,12 @@ export function PaymentInDarePicker({
                   >
                      request to book
                   </Button>
-                  <button
-                     type="button"
-                     className="iconLike"
-                     onClick={likeHandler}
-                  >
-                     <Like like={like} onClick={likeHandler} />
+                  <button type="button" className="iconLike">
+                     <Like
+                        like={like}
+                        postLikeHandler={postLikeHandler}
+                        closeLikeHandler={closeLikeHandler}
+                     />
                   </button>
                </ContainerButton>
             </ContainerPayment>

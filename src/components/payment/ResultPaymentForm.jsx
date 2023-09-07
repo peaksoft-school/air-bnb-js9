@@ -3,13 +3,18 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { Button } from '../UI/button/Button'
-import { postPaymentRequest } from '../../store/payment/PaymentThunk'
+import {
+   postBookRequest,
+   putBookRequest,
+} from '../../store/payment/PaymentThunk'
 import { toastSnackbar } from '../UI/snackbar/Snackbar'
 
 export function ResultPaymentForm({
-   price,
+   methot,
+   result,
    ResultChekin,
    ResultChekout,
+   announcementId,
    openModalHandler,
 }) {
    const [error, setError] = useState('')
@@ -17,31 +22,43 @@ export function ResultPaymentForm({
    const elements = useElements()
    const dispatch = useDispatch()
    const { toastType } = toastSnackbar()
-
-   console.log(' ResultChekin', ResultChekin)
-   console.log('ResultChekout', ResultChekout)
-
+   console.log(ResultChekin, 'ResultChekin')
+   console.log(ResultChekout, 'ResultChekout')
+   console.log(methot, 'methot   ')
    const handleSubmit = async (event) => {
       event.preventDefault()
       try {
          if (!stripe || !elements) {
             return
          }
+
          const { token } = await stripe.createToken(
             elements.getElement(CardElement)
          )
          openModalHandler()
-         console.log(token)
 
-         const data = {
-            amount: +price,
-            token: token.id,
+         if (methot === 'post') {
+            const postBookData = {
+               announcementId,
+               checkIn: ResultChekin,
+               checkOut: ResultChekout,
+               amount: +result,
+               token: token.id,
+            }
+
+            dispatch(postBookRequest({ postBookData, toastType }))
+         } else {
+            const updateBookingData = {
+               amount: +result,
+               announcementId,
+               checkIn: ResultChekin,
+               checkOut: ResultChekout,
+               bookingId: 9,
+               token: token.id,
+            }
+            dispatch(putBookRequest({ updateBookingData, toastType }))
          }
-         dispatch(postPaymentRequest(data))
-
-         toastType('success', 'Payment :)', 'The house was successfully booked')
       } catch (error) {
-         toastType('success', 'Payment :(', error.message)
          setError('Ошибка при получении токена')
       }
    }

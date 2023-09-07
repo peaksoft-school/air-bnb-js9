@@ -1,28 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../config/axiosInstance'
 
-export const postPaymentRequest = createAsyncThunk(
-   'payment/postPaymentRequest',
-   async (data, { rejectWithValue }) => {
-      try {
-         const response = await axiosInstance.post('/api/payments/charge', data)
-
-         return response.data
-      } catch (error) {
-         return rejectWithValue(error.message)
-      }
-   }
-)
-
 export const postBookRequest = createAsyncThunk(
    'book/postBookRequest',
-   async (data, { rejectWithValue }) => {
+   async ({ postBookData, toastType }, { rejectWithValue }) => {
       try {
-         console.log('data-post', data)
-         const response = await axiosInstance.post('/api/vendor', data)
+         console.log(postBookData, 'postBookData')
 
+         const response = await axiosInstance.post('/api/vendor', postBookData)
+         console.log(response.data, '  return response.data')
+
+         toastType('success', 'Payment :)', 'The house was successfully booked')
          return response.data
       } catch (error) {
+         toastType('error', 'Payment :(', error.message)
          return rejectWithValue(error.message)
       }
    }
@@ -30,13 +21,36 @@ export const postBookRequest = createAsyncThunk(
 
 export const putBookRequest = createAsyncThunk(
    'book/putBookRequest',
-   async (data, { rejectWithValue }) => {
+   async ({ updateBookingData, toastType }, { rejectWithValue }) => {
       try {
-         console.log('data-put', data)
-         const response = await axiosInstance.put('/api/vendor', data)
+         const response = await axiosInstance.put(
+            '/api/vendor',
+            updateBookingData
+         )
+
+         toastType('success', 'Payment :)', 'The house was successfully booked')
 
          return response.data
       } catch (error) {
+         toastType('error', 'Payment :)', 'The house was successfully booked')
+
+         return rejectWithValue(error.message)
+      }
+   }
+)
+
+export const postFavoriteInPayment = createAsyncThunk(
+   'book/postFavoriteInPayment',
+   async ({ id, toastType }, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.post(`/api/favorites/${id}`)
+
+         toastType('success', 'favorite :)', response.data.message)
+         return response.data
+      } catch (error) {
+         console.log(error, 'error')
+         toastType('error', 'favorite :)', error.message)
+
          return rejectWithValue(error.message)
       }
    }

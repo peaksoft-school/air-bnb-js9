@@ -40,10 +40,11 @@ export function AppRoutes() {
                path="/payment"
                element={
                   <Payment
-                     state={state}
-                     openModalHandler={toggle}
                      price="41"
                      methot="post"
+                     state={state}
+                     announcementId="12"
+                     openModalHandler={toggle}
                   />
                }
             />

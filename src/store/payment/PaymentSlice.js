@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { postBookRequest } from './PaymentThunk'
 
 const initialState = {
    postToggleResult: false,
    putToggleResult: false,
    defaultDate: false,
+   message: '',
 }
 
 export const paymentSlice = createSlice({
@@ -20,6 +22,11 @@ export const paymentSlice = createSlice({
       setDefaultDate: (state) => {
          return { ...state, defaultDate: true }
       },
+   },
+   extraReducers: (builder) => {
+      builder.addCase(postBookRequest.fulfilled, (state, action) => {
+         state.message = action.payload
+      })
    },
 })
 
