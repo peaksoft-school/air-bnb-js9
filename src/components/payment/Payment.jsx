@@ -1,23 +1,19 @@
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { PaymentInDarePicker } from './PaymentInDatePicker'
 import { Button } from '../UI/button/Button'
 import { ResultPaiment } from './ResultPaiment'
+import { paymentActions } from '../../store/payment/PaymentSlice'
 
-export function Payment({
-   price,
-   state,
-   methot,
-   announcementId,
-   openModalHandler,
-}) {
+export function Payment({ price, state, methot, announcementId }) {
    const [valueChekin, setValueCheckin] = useState('')
    const [valueChekout, setValueCheckout] = useState('')
    const { postToggleResult, putToggleResult, defaultDate } = useSelector(
       (state) => state.payment
    )
 
+   const dispatch = useDispatch()
    const ResultChekin = `${valueChekin.$y}-${valueChekin.$H}${valueChekin.$M}-${valueChekin.$D}`
    const ResultChekout = `${valueChekout.$y}-${valueChekout.$H}${valueChekout.$M}-${valueChekout.$D}`
 
@@ -47,6 +43,10 @@ export function Payment({
    }`
    bookedDates.push(formattedCheckinDate, formattedCheckoutDate)
 
+   const openPaymentHandler = () => {
+      dispatch(paymentActions.openPayment())
+   }
+
    return methot === 'put' ? (
       <div>
          {state ? (
@@ -61,7 +61,7 @@ export function Payment({
                      ResultChekin={ResultChekin}
                      ResultChekout={ResultChekout}
                      announcementId={announcementId}
-                     openModalHandler={openModalHandler}
+                     openPaymentHandler={openPaymentHandler}
                   />
                ) : (
                   <PaymentInDarePicker
@@ -107,7 +107,7 @@ export function Payment({
                   borderRadius="0.125rem"
                   padding=" 0.625rem 1rem"
                   textTransform="uppercase"
-                  onClick={openModalHandler}
+                  onClick={openPaymentHandler}
                >
                   change the date
                </Button>
@@ -126,7 +126,7 @@ export function Payment({
                ResultChekin={ResultChekin}
                ResultChekout={ResultChekout}
                announcementId={announcementId}
-               openModalHandler={openModalHandler}
+               openPaymentHandler={openPaymentHandler}
             />
          ) : (
             <PaymentInDarePicker

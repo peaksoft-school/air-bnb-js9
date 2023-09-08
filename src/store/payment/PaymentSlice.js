@@ -5,6 +5,7 @@ const initialState = {
    postToggleResult: false,
    putToggleResult: false,
    defaultDate: false,
+   openPayment: false,
    message: '',
 }
 
@@ -21,6 +22,9 @@ export const paymentSlice = createSlice({
       },
       setDefaultDate: (state) => {
          return { ...state, defaultDate: true }
+      },
+      openPayment: (state) => {
+         return { ...state, openPayment: !state.openPayment }
       },
    },
    extraReducers: (builder) => {

@@ -15,7 +15,7 @@ export function ResultPaymentForm({
    ResultChekin,
    ResultChekout,
    announcementId,
-   openModalHandler,
+   openPaymentHandler,
 }) {
    const [error, setError] = useState('')
    const stripe = useStripe()
@@ -35,7 +35,7 @@ export function ResultPaymentForm({
          const { token } = await stripe.createToken(
             elements.getElement(CardElement)
          )
-         openModalHandler()
+         openPaymentHandler()
 
          if (methot === 'post') {
             const postBookData = {

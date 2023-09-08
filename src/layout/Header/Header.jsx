@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Avatar, InputAdornment, MenuItem, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import Brightness7Icon from '@mui/icons-material/Brightness7'
+import Brightness4Icon from '@mui/icons-material/Brightness4'
 import { Button } from '../../components/UI/button/Button'
 import { JoinUs } from '../../components/signIn/JoinUs'
 import { SignIn } from '../../components/signIn/SignIn'
@@ -19,7 +21,8 @@ import { authActions } from '../../store/auth/authSlice'
 import Modal from '../../components/UI/modal/Modal'
 import { DarkModeActions } from '../../store/dark-mode/DarkModeSlice'
 
-export function Header({ login, profile, notFound }) {
+export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
+   // const [meatBalls, setMeatBalls] = useState(false)
    const { isAuthorization, email } = useSelector((state) => state.auth)
 
    const [userLogin, setUserLogin] = useState(false)
@@ -90,7 +93,14 @@ export function Header({ login, profile, notFound }) {
          {login === 'true' ? (
             <StyleHeader login={login} notFound={notFound} darkMode={darkMode}>
                <StateBlock>
-                  <StyledAirBNBIcon onClick={toggleHandler} />
+                  <StyledAirBNBIcon onClick={() => navigate('/')} />
+                  <StyledButtons
+                     onClick={toggleHandler}
+                     type="button"
+                     color="white"
+                  >
+                     {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+                  </StyledButtons>
                </StateBlock>
                <InputDiv>
                   {isAuthorization ? (
@@ -147,13 +157,20 @@ export function Header({ login, profile, notFound }) {
          ) : (
             <StyleHeader background="#ffffff">
                <div className="headerIcon">
-                  <BlackAirBNBIcon onClick={toggleHandler} />{' '}
-                  {login === 'true' ? (
-                     <StyleLink to="/AddAnouncementForm">leave an ad</StyleLink>
-                  ) : null}
+                  <BlackAirBNBIcon onClick={() => navigate('/')} />
+                  <StyledButtons
+                     onClick={toggleHandler}
+                     type="button"
+                     color="black"
+                  >
+                     {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+                  </StyledButtons>
                </div>
 
                <SearchDiv>
+                  {login === 'true' ? (
+                     <StyleLink to="/AddAnouncementForm">leave an ad</StyleLink>
+                  ) : null}
                   <div className="blockCheckbox">
                      <ChecboxStyled type="checkbox" id="search" />
                      <StyledLabel htmlFor="search">Search nearby</StyledLabel>
@@ -185,6 +202,9 @@ export function Header({ login, profile, notFound }) {
                   >
                      {isAuthorization ? 'SUBMIT AN AD' : 'JOIN US'}
                   </Button>
+                  {favorite === 'true' && (
+                     <FavoriteStyle>Favorite({favoriteLenght})</FavoriteStyle>
+                  )}
                   {isAuthorization ? (
                      <FavoriteDiv>
                         {/* <StyleLink>leave an ad</StyleLink> */}
@@ -232,6 +252,16 @@ export function Header({ login, profile, notFound }) {
       </Container>
    )
 }
+const FavoriteStyle = styled('p')`
+   color: #000;
+   font-family: Inter;
+   font-size: 1rem;
+   font-style: normal;
+   font-weight: 400;
+   line-height: normal;
+   text-transform: uppercase;
+   cursor: pointer;
+`
 
 const Container = styled('div')(() => ({
    display: 'flex',
@@ -274,6 +304,7 @@ const InputDiv = styled('div')(() => ({
 const StateBlock = styled('div')(() => ({
    width: '100%',
    display: 'flex',
+   gap: '1.5rem',
 }))
 const StyleLink = styled(Link)(() => ({
    width: '100px',
@@ -297,15 +328,6 @@ const FavoriteDiv = styled('div')(() => ({
    gap: '4rem',
 }))
 
-// const LeaveAnAd = styled('p')(() => ({
-//    color: '#FFBE58',
-//    fontFamily: 'Inter',
-//    fontSize: '1.125rem',
-//    fontStyle: 'normal',
-//    fontWeight: '500',
-//    lineHeight: 'normal',
-//    cursor: 'pointer',
-// }))
 const SearchDiv = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
@@ -334,4 +356,13 @@ const LogOut = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
    gap: '0.7rem',
+}))
+
+const StyledButtons = styled('button')(({ color }) => ({
+   border: 'none',
+   backgroundColor: 'rgba(0,0,0,0.0)',
+   svg: {
+      color: color === 'black' ? '#000' : '#fff',
+      fontSize: '2rem',
+   },
 }))

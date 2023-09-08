@@ -1,14 +1,12 @@
 import React from 'react'
-// import { NotFound } from './components/UI/404/NotFound'
-// import { LoadingAirbnb } from './components/UI/loading/LoadingAirbnb'
 import { AppRoutes } from './routes/AppRoutes'
+import { Payment } from './components/payment/Payment'
 
 function App() {
    return (
       <div>
-         {/* <NotFound /> */}
+         <Payment methot="post" price="50" announcementId="9" />
          <AppRoutes />
-         {/* <LoadingAirbnb /> */}
       </div>
    )
 }

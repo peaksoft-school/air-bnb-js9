@@ -11,7 +11,7 @@ import { toastSnackbar } from '../UI/snackbar/Snackbar'
 export function PaymentInDarePicker({
    price,
    methot,
-   openModal,
+   openPayment,
    valueChekin,
    valueChekout,
    announcementId,
@@ -66,7 +66,7 @@ export function PaymentInDarePicker({
       dispatch(paymentActions.setToggleResult())
    }
 
-   return openModal ? (
+   return openPayment ? (
       <div>
          {methot === 'put' ? (
             <ContainerPayment>

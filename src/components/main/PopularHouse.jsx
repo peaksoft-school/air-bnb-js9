@@ -1,10 +1,12 @@
 import { styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { GeoIcon, Start1 } from '../../assets/icons'
 import { axiosInstance } from '../../config/axiosInstance'
 
 export function PopularHouse() {
    const [houseData, setHouseData] = useState([])
+   const { darkMode } = useSelector((state) => state.darkMode)
 
    const getPopularHouse = async () => {
       try {
@@ -21,11 +23,11 @@ export function PopularHouse() {
       getPopularHouse()
    }, [])
    return (
-      <Container>
+      <Container darkMode={darkMode}>
          <DescriptionDiv>
-            <PopularHouseDiv>
+            <PopularHouseDiv darkMode={darkMode}>
                <h2>POPULAR HOUSE</h2>
-               <DescriptionPtag>
+               <DescriptionPtag darkMode={darkMode}>
                   Helping you make the best decisions in buying, selling, &
                   renting your last minute locations.
                </DescriptionPtag>
@@ -35,7 +37,7 @@ export function PopularHouse() {
          <ImageDiv>
             {houseData.map(({ image, rating, title, address, price }) => {
                return (
-                  <HouseContainer key={image}>
+                  <HouseContainer key={image} darkMode={darkMode}>
                      <ImageStarDiv image={image}>
                         <StarDiv>
                            <Start1 />
@@ -59,17 +61,21 @@ export function PopularHouse() {
    )
 }
 
-const Container = styled('div')(() => ({
+const Container = styled('div')(({ darkMode }) => ({
    width: '100%',
    padding: '10.62rem 6rem 0 6.25rem',
    display: 'flex',
    flexDirection: 'column',
    gap: '3rem',
    fontFamily: 'Inter',
+   background: darkMode
+      ? 'linear-gradient(277deg, rgba(152,152,152,1) 15%, rgba(0,0,0,1) 100%);'
+      : '#fff',
 }))
 
-const HouseContainer = styled('div')(() => ({
-   width: '100%',
+const HouseContainer = styled('div')(({ darkMode }) => ({
+   width: '26rem',
+   background: darkMode ? '#fff' : '#fff',
 }))
 
 const DescriptionDiv = styled('div')(() => ({
@@ -77,11 +83,12 @@ const DescriptionDiv = styled('div')(() => ({
    justifyContent: 'space-between',
 }))
 
-const PopularHouseDiv = styled('div')(() => ({
+const PopularHouseDiv = styled('div')(({ darkMode }) => ({
    display: 'flex',
    flexDirection: 'column',
    gap: '1rem',
    fontWeight: '500',
+   color: darkMode ? '#fff' : '#000',
 }))
 
 const StarDiv = styled('div')(() => ({
@@ -103,14 +110,15 @@ const StyledAhref = styled('a')(() => ({
    textDecoration: 'underline',
 }))
 
-const DescriptionPtag = styled('p')(() => ({
-   color: '--primary-black, #363636',
+const DescriptionPtag = styled('p')(({ darkMode }) => ({
+   color: darkMode ? '#fff' : '--primary-black, #363636',
 }))
 
 const ImageDiv = styled('div')(() => ({
    display: 'flex',
    width: '100%',
    gap: '1.2rem',
+   padding: '1rem',
 }))
 
 const ImageStarDiv = styled('div')(({ image }) => ({
@@ -126,6 +134,7 @@ const AboutHouseDiv = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
    marginTop: '14px',
+   padding: '0 0 1rem 1rem',
    gap: '10px',
 }))
 

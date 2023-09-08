@@ -87,7 +87,7 @@ export function Upload({
          <Block>
             <ImageContainer maxWidth={maxWidth}>
                {images.map((img, index) => (
-                  <ImageWrapper>
+                  <ImageWrapper key={img}>
                      <Image src={img} alt={fileNames[index]} />
 
                      <ExistIcon onClick={() => deleteImage(img)} />

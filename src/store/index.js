@@ -8,6 +8,7 @@ import { getByIdSlice } from './anouncement/AnouncementSlice'
 import { paymentSlice } from './payment/PaymentSlice'
 import { DarkModeSlice } from './dark-mode/DarkModeSlice'
 import { ModalSlice } from './ModalSlice'
+import { favoriteSlice } from './favorite/FavoriteSlice'
 
 export const store = configureStore({
    reducer: {
@@ -21,5 +22,6 @@ export const store = configureStore({
       [paymentSlice.name]: paymentSlice.reducer,
       [DarkModeSlice.name]: DarkModeSlice.reducer,
       [ModalSlice.name]: ModalSlice.reducer,
+      [favoriteSlice.name]: favoriteSlice.reducer,
    },
 })

@@ -35,7 +35,7 @@ export function ResultPaiment({
    ResultChekin,
    ResultChekout,
    announcementId,
-   openModalHandler,
+   openPaymentHandler,
 }) {
    const formattedValueChekin = `${getMonthName(valueChekin.$M)} ${
       valueChekin.$D
@@ -91,7 +91,7 @@ export function ResultPaiment({
                   ResultChekin={ResultChekin}
                   ResultChekout={ResultChekout}
                   announcementId={announcementId}
-                  openModalHandler={openModalHandler}
+                  openPaymentHandler={openPaymentHandler}
                />
             </Elements>
          </ContainerPayment>
@@ -124,7 +124,7 @@ export function ResultPaiment({
                   ResultChekin={ResultChekin}
                   ResultChekout={ResultChekout}
                   announcementId={announcementId}
-                  openModalHandler={openModalHandler}
+                  openPaymentHandler={openPaymentHandler}
                />
             </Elements>
          </ContainerPayment>
