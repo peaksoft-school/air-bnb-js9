@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { IconButton, Menu, MenuItem, Tooltip, styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import {
    ArrowleftIcon,
@@ -9,6 +10,8 @@ import {
 } from '../../../assets/icons/index'
 import { Button } from '../button/Button'
 import { ButtonIcon } from '../IconButton/IconButton'
+import { postLike } from '../../../store/favorite/FavoriteThunk'
+import { toastSnackbar } from '../snackbar/Snackbar'
 
 export function Cards({
    data,
@@ -21,14 +24,21 @@ export function Cards({
    accerptHandler,
    ...props
 }) {
-   const [currentImages, setCurrentImages] = useState([])
+   const [currentImages, setCurrentImages] = useState(
+      Array.isArray(data) ? Array(data.length).fill(0) : []
+   )
    const [dataa, setData] = useState([])
    const [anchorEl, setAnchorEl] = useState(null)
+   const dispatch = useDispatch()
+   const { toastType } = toastSnackbar()
 
    useEffect(() => {
-      setData(data?.map((item) => ({ ...item, open: false })))
-      setCurrentImages(data.map(() => 0))
-   }, [data])
+      setData(
+         data?.map((img) => {
+            return img.images
+         })
+      )
+   }, [setData])
 
    const handleNextImage = (index) => {
       setCurrentImages((prevImages) => {
@@ -60,12 +70,26 @@ export function Cards({
       })
    }
 
-   const toggle = (index) => {
-      setData((prevData) => {
-         const newData = [...prevData]
-         newData[index] = { ...newData[index], open: !newData[index].open }
-         return newData
+   const toggle = ({ id }) => {
+      const newData = data.map((item) => {
+         if (item.id === id) {
+            return { ...item, open: !item.open }
+         }
+
+         return item
       })
+      try {
+         setData(newData)
+         dispatch(postLike(id))
+         toastType(
+            'success',
+            'Announcement  was deleted from your favorite',
+            'success'
+         )
+      } catch (error) {
+         return toastType('error!!!', error)
+      }
+      return {}
    }
 
    const handleMenuOpen = (event) => {
@@ -77,126 +101,255 @@ export function Cards({
    }
 
    return (
-      <MainContainer>
-         {dataa.map((item, index) => {
-            return (
-               <MapContainer key={item.id} status={item.status} state={page}>
-                  <div>
-                     {item.images.length > 1 && (
-                        <div className="ImageNavigation">
-                           <StyledButton onClick={() => handlePrevImage(index)}>
-                              <ArrowleftIcon />
-                           </StyledButton>
-                           <StyledButton onClick={() => handleNextImage(index)}>
-                              <ArrowrightIcon />
-                           </StyledButton>
+      <Container>
+         <MainContainer>
+            {data?.map((item, index) => {
+               return (
+                  <MapContainer key={item.id} status={item.status} state={page}>
+                     <ImageStyleContainer>
+                        {item.images.length > 1 && (
+                           <div className="ImageNavigation">
+                              <StyledButton
+                                 onClick={() => handlePrevImage(index)}
+                              >
+                                 <ArrowleftIcon />
+                              </StyledButton>
+                              <StyledButton
+                                 onClick={() => handleNextImage(index)}
+                              >
+                                 <ArrowrightIcon />
+                              </StyledButton>
+                           </div>
+                        )}
+                        <div className="images">
+                           <StyleImage
+                              src={item.images[currentImages[index]]}
+                              alt="home"
+                           />
                         </div>
-                     )}
-                     <StyleImage
-                        src={item.images[currentImages[index]]}
-                        alt="home"
-                     />
-                  </div>
-                  <DayStartContainer onClick={props.dd}>
-                     <DayContainer>
-                        ${item.price}/ <DayStyle>day</DayStyle>{' '}
-                     </DayContainer>
+                     </ImageStyleContainer>
+                     <ContainerDescription>
+                        <ContainerPrice>
+                           <p className="price">
+                              ${item.price}/ <p className="day">day</p>{' '}
+                           </p>
+                           <p onClick={props.dd} className="rating">
+                              <StartContainer>
+                                 <Start1 />
+                                 <p>{item.rating}.4</p>
+                              </StartContainer>
+                           </p>
+                        </ContainerPrice>
+                        <ContainerInformation>
+                           <div className="title">
+                              <Tooltip title={item.title}>
+                                 {truncateTitle(item.title)}
+                              </Tooltip>
+                           </div>
+                           <div className="location">
+                              <Location />
+                              <p>{item.location}</p>
+                           </div>
+                           {item.status === 'dates' ? (
+                              <ContainerGuests>
+                                 <StyledHorizIcon>
+                                    <DayStyle>{item.guest} guest</DayStyle>
+                                    <div>
+                                       <IconButtonStyled
+                                          edge="start"
+                                          color="inherit"
+                                          aria-label="menu"
+                                          onClick={handleMenuOpen}
+                                       >
+                                          <MoreHorizIconStyled />
+                                       </IconButtonStyled>
 
-                     <StartContainer>
-                        <Start1 />
-                        <p>{item.rating}</p>
-                     </StartContainer>
-                  </DayStartContainer>
-                  <StyleTitle>
-                     <Tooltip title={item.title}>
-                        {truncateTitle(item.title)}
-                     </Tooltip>
-                  </StyleTitle>
-                  <LocationCantainerStyle>
-                     <Location />
-                     <p>{item.location}</p>
-                  </LocationCantainerStyle>
-                  {item.status === 'dates' ? (
-                     <StyledHorizIcon>
-                        <DayStyle>2 guests</DayStyle>
-                        <div>
-                           <IconButtonStyled
-                              edge="start"
-                              color="inherit"
-                              aria-label="menu"
-                              onClick={handleMenuOpen}
-                           >
-                              <MoreHorizIconStyled />
-                           </IconButtonStyled>
-
-                           <StyledMenu
-                              anchorEl={anchorEl}
-                              open={anchorEl}
-                              onClose={handleMenuClose}
-                           >
-                              <MenuItem onClick={handleMenuClose}>
-                                 Accept
-                              </MenuItem>
-                              <MenuItem onClick={handleMenuClose}>
-                                 Reject
-                              </MenuItem>
-                              <MenuItem onClick={handleMenuClose}>
-                                 Delete
-                              </MenuItem>
-                           </StyledMenu>
-                        </div>
-                     </StyledHorizIcon>
-                  ) : (
-                     <ButtonsContainer>
-                        <DayStyle>2 guests</DayStyle>
-                        <Button
-                           variant="contained"
-                           height="20%"
-                           bgColor="#DD8A08"
-                           color="white"
-                           width="6.4375rem"
-                        >
-                           Book
-                        </Button>
-                        <ButtonIcon
-                           width="10%"
-                           open={item.open}
-                           toggle={() => toggle(index)}
-                        />
-                     </ButtonsContainer>
-                  )}
-               </MapContainer>
-            )
-         })}
-      </MainContainer>
+                                       <StyledMenu
+                                          anchorEl={anchorEl}
+                                          open={anchorEl}
+                                          onClose={handleMenuClose}
+                                       >
+                                          <MenuItem onClick={handleMenuClose}>
+                                             Accept
+                                          </MenuItem>
+                                          <MenuItem onClick={handleMenuClose}>
+                                             Reject
+                                          </MenuItem>
+                                          <MenuItem onClick={handleMenuClose}>
+                                             Delete
+                                          </MenuItem>
+                                       </StyledMenu>
+                                    </div>
+                                 </StyledHorizIcon>
+                              </ContainerGuests>
+                           ) : (
+                              <ButtonsContainer>
+                                 <DayStyle>{item.guest} guest</DayStyle>
+                                 <Button
+                                    variant="contained"
+                                    height="20%"
+                                    bgColor="#DD8A08"
+                                    s
+                                    color="white"
+                                    width="6.4375rem"
+                                 >
+                                    Book
+                                 </Button>
+                                 <div>
+                                    <ButtonIcon
+                                       width="10%"
+                                       open={item.favorite}
+                                       onClick={() => toggle({ id: item.id })}
+                                       favorite={item.favorite}
+                                    />
+                                 </div>
+                              </ButtonsContainer>
+                           )}
+                        </ContainerInformation>
+                     </ContainerDescription>
+                  </MapContainer>
+               )
+            })}
+         </MainContainer>
+      </Container>
    )
 }
+const ContainerGuests = styled('div')(() => ({
+   width: '100%',
+   display: 'flex',
+   justifyContent: 'space-between',
+   alignItems: 'center',
+}))
+const ContainerInformation = styled('div')(() => ({
+   width: '100%',
+   display: 'flex',
+   flexDirection: 'column',
+   gap: '0.5rem',
+   '.title': {
+      width: '11.625rem',
+      color: '#2B2B2B',
+      fontFamily: 'Inter',
+      fontSize: '0.875rem',
+      fontStyle: 'normal',
+      fontWeight: 400,
+      lineHeight: 'normal',
+   },
+   '.location': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.38rem',
+      p: {
+         width: '100%',
+         color: ' var(--tertiary-middle-gray, #828282)',
+         fontFamily: 'Inter',
+         fontSize: '0.875rem',
+         fontStyle: 'normal',
+         fontWeight: 400,
+         lineHeight: 'normal',
+      },
+   },
+}))
+
+const ContainerPrice = styled('div')(() => ({
+   width: '100%',
+   display: 'flex',
+   justifyContent: 'space-between',
+   alignItems: 'center',
+   '.price': {
+      color: ' var(--primary-black, #363636)',
+      fontFamily: 'Inter',
+      fontSize: ' 1.125rem',
+      fontStyle: 'normal',
+      fontweight: 400,
+      lineHeight: 'normal',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.19rem',
+
+      '.day': {
+         color: '  #6C6C6C',
+         fontFamily: 'Inter',
+         fontSize: ' 1rem',
+         fontStyle: 'normal',
+         fontweight: 400,
+         lineHeight: 'normal',
+      },
+   },
+   '.rating': {
+      width: ' 3.875rem',
+      height: '1.5625rem',
+      borderRadius: '0.125rem',
+      background: ' var(--tertiary-middle-gray, #828282)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '0.25rem',
+      p: {
+         color: '#fff',
+      },
+   },
+}))
+const ButtonsContainer = styled('section')`
+   width: 100%;
+   padding-bottom: 20px;
+   display: flex;
+   align-items: center;
+   gap: 1.6rem;
+`
+const ContainerDescription = styled('div')(() => ({
+   width: '100%',
+   display: 'flex',
+   flexDirection: 'column',
+   padding: '0.75rem',
+   gap: '1rem',
+}))
+const Container = styled('div')`
+   padding-left: 8%;
+   display: flex;
+   flex-direction: column;
+   flex-wrap: wrap;
+`
+const ImageStyleContainer = styled('div')`
+   display: 'inline-block';
+   width: ' 100%';
+   height: ' 8.5rem';
+   .images {
+      width: 18.4375rem;
+      height: 11.9375rem;
+      border-radius: 0.25rem 0.25rem 0rem 0rem;
+   }
+`
 
 const MainContainer = styled('div')`
-   line-height: 2rem;
-   background: #f7f7f7;
-   margin-left: 2%;
+   width: 100%;
    display: flex;
    flex-wrap: wrap;
-   justify-content: center;
+   justify-content: start;
    align-items: center;
-   gap: 20px;
-   flex-wrap: wrap;
+   gap: 60px;
    margin-top: 2.5rem;
+`
+const StyleImage = styled('img')`
+   width: 100%;
+   height: 100%;
+   border-radius: 0.25rem 0.25rem 0rem 0rem;
 `
 
 const MapContainer = styled('div')(({ status }) => ({
-   width: '20.2%',
+   width: '18.4375rem',
    height: status === 'dates' ? '16%' : '16%',
    borderRadius: '4px',
    outline: status === 'dates' ? '3px solid #ff0000' : 'none',
-   border: status === 'dates' ? '4px solid pink' : 'none',
+   border: status === 'dates' ? '4px solid pink' : ' none',
+   flexWrap: 'wrap',
    display: 'flex',
    position: 'relative',
    flexDirection: 'column',
    alignItems: 'center',
    justifyContent: 'center',
    lineHeight: '2rem',
+
+   boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
 
    '.ImageNavigation': {
       display: 'none',
@@ -228,20 +381,6 @@ const StartContainer = styled('section')`
    color: #ffff;
 `
 
-const DayContainer = styled('div')`
-   display: flex;
-   justify-content: center;
-   align-items: center;
-`
-
-const DayStartContainer = styled('div')`
-   width: 100%;
-   padding: 0rem 1rem 0.5rem 1rem;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-`
-
 const DayStyle = styled('p')`
    color: #6c6c6c;
    font-family: Inter;
@@ -252,24 +391,6 @@ const DayStyle = styled('p')`
    line-height: normal;
    display: flex;
    gap: 5px;
-`
-
-const LocationCantainerStyle = styled('section')`
-   display: flex;
-   color: var(--tertiary-middle-gray, #828282);
-   font-family: Inter;
-   font-size: 0.875rem;
-   font-weight: 400;
-   line-height: normal;
-   margin-top: 0.5rem;
-`
-
-const ButtonsContainer = styled('section')`
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   gap: 2rem;
-   margin-bottom: 20px;
 `
 
 const StyledButton = styled('button')`
@@ -287,18 +408,10 @@ const StyledButton = styled('button')`
    }
 `
 
-const StyleImage = styled('img')`
-   width: 18.8rem;
-   height: 11.5rem;
-`
-
-const StyleTitle = styled('p')`
-   width: 16.4375rem;
-`
 const IconButtonStyled = styled(IconButton)(() => ({
    padding: '0px',
    margin: '0px',
-   marginLeft: '5rem',
+   // marginLeft: '5rem',
    width: '70%',
 
    '&.MuiIconButton-root:hover': {

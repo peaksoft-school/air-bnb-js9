@@ -85,7 +85,7 @@ export function MySlider({ background, state, lastestData, apartmentData }) {
       <ContainerImg background={background}>
          <Slider {...settings} ref={sliderRef}>
             {slideImages?.map((item) => (
-               <ImgBlock>
+               <ImgBlock key={item.id}>
                   <StyledImg src={item.image} />
                </ImgBlock>
             ))}

@@ -27,7 +27,6 @@ export default function PopularApartments({ state, func }) {
          const response = await axiosInstance.get(
             '/api/announcements/latestAnnouncement'
          )
-         console.log('response: ', response.data.images)
 
          setLastestData(response.data)
       } catch (error) {
