@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
-import { Tabs } from '../tabs/Tabs'
 import { Profile } from '../UI/profile/Profile'
 import { getAnnouncement } from '../../store/profile/ProfileThunk'
 import { authActions } from '../../store/auth/authSlice'
+import { Tabs } from '../UI/tabs/Tabs'
 
 export function UserProfile() {
    const dispatch = useDispatch()

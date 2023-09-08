@@ -2,9 +2,9 @@ import React from 'react'
 import { IconButton, styled } from '@mui/material'
 import { ClickHeart2, Heart1 } from '../../../assets/icons/index'
 
-export function ButtonIcon({ open, toggle, variant, ...props }) {
+export function ButtonIcon({ open, onClick, favorite, variant, ...props }) {
    return (
-      <IconButtonStyle onDoubleClick={toggle} variant={variant} props={props}>
+      <IconButtonStyle onClick={onClick} variant={variant} props={props}>
          {open ? (
             <ClickHeart2 />
          ) : (
@@ -26,8 +26,8 @@ const IconButtonStyle = styled(IconButton)((props) => ({
       alignItems: 'center',
       gap: '10px',
       flexShrink: '0',
+      border: '1px solid  #f7f6f6',
       borderRadius: '2px',
-      border: 'none',
    },
    '&:hover': {
       border: '1px solid #DD8A08',
