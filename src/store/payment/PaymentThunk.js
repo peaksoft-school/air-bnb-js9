@@ -23,6 +23,7 @@ export const putBookRequest = createAsyncThunk(
    'book/putBookRequest',
    async ({ updateBookingData, toastType }, { rejectWithValue }) => {
       try {
+         console.log(updateBookingData, 'updateBookingData')
          const response = await axiosInstance.put(
             '/api/vendor',
             updateBookingData

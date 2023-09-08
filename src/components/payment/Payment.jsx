@@ -6,7 +6,13 @@ import { Button } from '../UI/button/Button'
 import { ResultPaiment } from './ResultPaiment'
 import { paymentActions } from '../../store/payment/PaymentSlice'
 
-export function Payment({ price, state, methot, announcementId }) {
+export function Payment({
+   price,
+   state,
+   methot,
+   announcementId,
+   openModalHandler,
+}) {
    const [valueChekin, setValueCheckin] = useState('')
    const [valueChekout, setValueCheckout] = useState('')
    const { postToggleResult, putToggleResult, defaultDate } = useSelector(
@@ -46,8 +52,34 @@ export function Payment({ price, state, methot, announcementId }) {
    const openPaymentHandler = () => {
       dispatch(paymentActions.openPayment())
    }
-
-   return methot === 'put' ? (
+   return methot === 'post' ? (
+      <div>
+         {' '}
+         {putToggleResult ? (
+            <ResultPaiment
+               price={price}
+               methot={methot}
+               valueChekin={valueChekin}
+               valueChekout={valueChekout}
+               ResultChekin={ResultChekin}
+               ResultChekout={ResultChekout}
+               announcementId={announcementId}
+               openPaymentHandler={openPaymentHandler}
+            />
+         ) : (
+            <PaymentInDarePicker
+               openModal
+               price={price}
+               methot={methot}
+               valueChekin={valueChekin}
+               valueChekout={valueChekout}
+               setValueCheckin={setValueCheckin}
+               announcementId={announcementId}
+               setValueCheckout={setValueCheckout}
+            />
+         )}
+      </div>
+   ) : (
       <div>
          {state ? (
             <div>
@@ -107,37 +139,11 @@ export function Payment({ price, state, methot, announcementId }) {
                   borderRadius="0.125rem"
                   padding=" 0.625rem 1rem"
                   textTransform="uppercase"
-                  onClick={openPaymentHandler}
+                  onClick={openModalHandler}
                >
                   change the date
                </Button>
             </ContainerPayment>
-         )}
-      </div>
-   ) : (
-      <div>
-         {' '}
-         {putToggleResult ? (
-            <ResultPaiment
-               price={price}
-               methot={methot}
-               valueChekin={valueChekin}
-               valueChekout={valueChekout}
-               ResultChekin={ResultChekin}
-               ResultChekout={ResultChekout}
-               announcementId={announcementId}
-               openPaymentHandler={openPaymentHandler}
-            />
-         ) : (
-            <PaymentInDarePicker
-               openModal
-               price={price}
-               valueChekin={valueChekin}
-               valueChekout={valueChekout}
-               setValueCheckin={setValueCheckin}
-               announcementId={announcementId}
-               setValueCheckout={setValueCheckout}
-            />
          )}
       </div>
    )

@@ -22,9 +22,7 @@ export function ResultPaymentForm({
    const elements = useElements()
    const dispatch = useDispatch()
    const { toastType } = toastSnackbar()
-   console.log(ResultChekin, 'ResultChekin')
-   console.log(ResultChekout, 'ResultChekout')
-   console.log(methot, 'methot   ')
+
    const handleSubmit = async (event) => {
       event.preventDefault()
       try {

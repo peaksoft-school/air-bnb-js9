@@ -50,9 +50,41 @@ export function ResultPaiment({
 
    const mines = valueChekout.$D - valueChekin.$D
    const result = price * mines
-   console.log(methot, 'methot in resultPayment  ')
 
-   return methot === 'put' ? (
+   return methot === 'post' ? (
+      <Container>
+         <ContainerPayment>
+            <ContainerDescription styles="book">
+               <h2>Book your trip</h2>
+               <p className="book">
+                  The booking date has been changed, please pay an additional{' '}
+                  {mines} days in the period from {formattedValueChekin} to{' '}
+                  {formattedValueChekout} inclusive.
+               </p>
+            </ContainerDescription>
+
+            <ContainerSum>
+               <Result>
+                  ${price} x {mines} days = $ {result}
+               </Result>
+               <h3 className="total">
+                  Total = <h3>${result}</h3>
+               </h3>
+            </ContainerSum>
+
+            <Elements stripe={stripePromise}>
+               <ResultPaymentForm
+                  methot={methot}
+                  result={result}
+                  ResultChekin={ResultChekin}
+                  ResultChekout={ResultChekout}
+                  announcementId={announcementId}
+                  openPaymentHandler={openPaymentHandler}
+               />
+            </Elements>
+         </ContainerPayment>
+      </Container>
+   ) : (
       <Container>
          <ContainerPayment>
             <ContainerDescription styles="book">
@@ -83,39 +115,6 @@ export function ResultPaiment({
                   Payment amount = <h3>${result}</h3>
                </h3>
             </TotalContainer>
-
-            <Elements stripe={stripePromise}>
-               <ResultPaymentForm
-                  methot={methot}
-                  result={result}
-                  ResultChekin={ResultChekin}
-                  ResultChekout={ResultChekout}
-                  announcementId={announcementId}
-                  openPaymentHandler={openPaymentHandler}
-               />
-            </Elements>
-         </ContainerPayment>
-      </Container>
-   ) : (
-      <Container>
-         <ContainerPayment>
-            <ContainerDescription styles="book">
-               <h2>Book your trip</h2>
-               <p className="book">
-                  The booking date has been changed, please pay an additional{' '}
-                  {mines} days in the period from {formattedValueChekin} to{' '}
-                  {formattedValueChekout} inclusive.
-               </p>
-            </ContainerDescription>
-
-            <ContainerSum>
-               <Result>
-                  ${price} x {mines} days = $ {result}
-               </Result>
-               <h3 className="total">
-                  Total = <h3>${result}</h3>
-               </h3>
-            </ContainerSum>
 
             <Elements stripe={stripePromise}>
                <ResultPaymentForm
