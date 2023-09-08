@@ -6,7 +6,7 @@ import { ProfileCards } from '../cards/ProfileCards'
 export function Bookings({ bookings, onChange }) {
    return (
       <div>
-         {onChange === true ? (
+         {onChange === 'true' ? (
             <AdminCards
                data={bookings}
                page="admin"
