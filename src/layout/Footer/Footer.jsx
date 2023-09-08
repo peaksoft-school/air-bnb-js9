@@ -7,10 +7,10 @@ import {
    WhatsAppIcon,
 } from '../../assets/icons'
 
-export function Footer() {
+export function Footer({ state }) {
    return (
-      <Container>
-         <StyledDiv>
+      <Container state={state}>
+         <StyledDiv state={state}>
             <SsylkaDiv>
                <Ssylka href="***">Regions </Ssylka>
                <Ssylka href="***">leave an ad</Ssylka>
@@ -31,21 +31,21 @@ export function Footer() {
       </Container>
    )
 }
-const Container = styled('div')(() => ({
+const Container = styled('div')((props) => ({
    background: '#1C2E20',
    width: '100%',
-   padding: '4rem 6rem 1rem 6rem',
+   padding: props.state ? '1rem 1rem 1rem 1rem' : '4rem 6rem 1rem 6rem',
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'center',
 }))
 
-const StyledDiv = styled('div')(() => ({
+const StyledDiv = styled('div')((props) => ({
    width: '100%',
    display: 'flex',
    justifyContent: 'space-between',
    alignItems: 'center',
-   marginBottom: '3rem',
+   marginBottom: props.state ? '0' : '3rem',
 }))
 
 const SocialDiv = styled('div')(() => ({

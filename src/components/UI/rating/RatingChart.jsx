@@ -3,14 +3,15 @@ import { styled } from '@mui/material'
 import { RatingChartBar } from './RatingChartBar'
 import { Start1 } from '../../../assets/icons'
 
-export function RatingChart({ starValue }) {
-   const maximumRating = 8
+export function RatingChart({ starValue, countRatingDataById }) {
+   const maximumRating = 80
+   const { five, four, one, three, two } = countRatingDataById
    const rating = [
-      { label: '5', currentRating: 0 },
-      { label: '4', currentRating: 0 },
-      { label: '3', currentRating: 0 },
-      { label: '2', currentRating: 0 },
-      { label: '1', currentRating: 0 },
+      { label: '5', currentRating: five },
+      { label: '4', currentRating: four },
+      { label: '3', currentRating: three },
+      { label: '2', currentRating: two },
+      { label: '1', currentRating: one },
    ]
 
    for (let i = 0; i < rating.length; i += 1) {
@@ -23,30 +24,36 @@ export function RatingChart({ starValue }) {
 
    return (
       <Container>
-         <StarDiv>
-            <StyledPtag>{starValue}</StyledPtag>
-            <Star />
-         </StarDiv>
-         {rating.map((item) => {
-            return (
-               <RatingChartBar
-                  key={item.label}
-                  label={item.label}
-                  currentRating={item.currentRating}
-                  maximumRating={maximumRating}
-               />
-            )
-         })}
+         <div className="rating">
+            <StarDiv>
+               <StyledPtag>{starValue}</StyledPtag>
+               <Star />
+            </StarDiv>
+            {rating.map((item) => {
+               return (
+                  <RatingChartBar
+                     key={item.label}
+                     label={item.label}
+                     currentRating={item.currentRating}
+                     maximumRating={maximumRating}
+                  />
+               )
+            })}
+         </div>
       </Container>
    )
 }
 
 const Container = styled('div')(() => ({
-   border: '1px solid gray',
-   borderRadius: '14px',
-   padding: '25px 30px 30px 10px',
-   width: '27%',
-   marginTop: '20px',
+   width: ' 26.5rem',
+   height: ' 14.5rem',
+   borderRadius: '1rem',
+   '.rating': {
+      border: '1px solid gray',
+      borderRadius: '14px',
+      padding: '25px 30px 30px 10px',
+      width: '100%',
+   },
 }))
 
 const StarDiv = styled('div')(() => ({

@@ -16,7 +16,6 @@ const Container = styled('div')(() => ({
    width: '100%',
    display: 'flex',
    justifyContent: 'center',
-   // alignItems: 'center',
    zIndex: '99009',
    backgroundColor: 'rgba(44, 40, 28, 0.75)',
 }))

@@ -3,7 +3,9 @@ import React, { useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { styled } from '@mui/material'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
 import { Exist, UploadImg } from '../../../assets/icons'
+import { uploadActions } from '../../../store/Upload'
 
 export function Upload({
    width,
@@ -16,6 +18,7 @@ export function Upload({
    const [images, setImages] = useState([])
    const [showCamera, setShowCamera] = useState(true)
    // const [uploadImage, setUploadImage] = useState('')
+   const dispatch = useDispatch()
 
    const postImage = async (data) => {
       try {
@@ -29,9 +32,9 @@ export function Upload({
             }
          )
          const uploadedimgUrl = response.data.Link
-         // setUploadImage(uploadedimgUry
+         // setUploadImage(uploadedimgUrl)
+         dispatch(uploadActions.addUploadImg(uploadedimgUrl))
 
-         addImageForAnoucement(uploadedimgUrl)
          return response.data
       } catch (error) {
          console.error('Upload error', error)
@@ -84,7 +87,7 @@ export function Upload({
 
    return (
       <Container>
-         <Form>
+         <Block>
             <ImageContainer maxWidth={maxWidth}>
                {images.map((img, index) => (
                   <ImageWrapper>
@@ -108,7 +111,7 @@ export function Upload({
                   </DropzoneContainer>
                ) : null}
             </ImageContainer>
-         </Form>
+         </Block>
       </Container>
    )
 }
@@ -136,7 +139,7 @@ const CameraIcon = styled(UploadImg)(({ width, height }) => ({
    height: height || '30px',
 }))
 
-const Form = styled('form')(() => ({
+const Block = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
    justifyContent: 'center',

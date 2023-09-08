@@ -1,34 +1,60 @@
+/* eslint-disable consistent-return */
 import React, { useState } from 'react'
 import { styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import { RatingStars } from '../UI/rating/RatingStars'
 import { TextArea } from '../UI/textarea/TextArea'
 import { Button } from '../UI/button/Button'
 import { Upload } from '../UI/upload-img/Upload'
 import Modal from '../UI/modal/Modal'
+import { leaveFeedback } from '../../api/feedbackService'
+import { toastSnackbar } from '../UI/snackbar/Snackbar'
+import {
+   countRatingGetByIdRequest,
+   feedbackGetByIdRequest,
+} from '../../store/feedback/feedbackThunk'
 
 export function LeaveFeedback({ openModal, setOpenModal }) {
    const [usersFeedback, setUsersFeedback] = useState('')
    const [fileNames, setFileNames] = useState([])
    const [ratingValue, setRatingValue] = useState('')
+   const { toastType } = toastSnackbar()
 
-   const submitHandler = (e) => {
-      e.preventDefault()
-      console.log(
-         'comments:',
-         usersFeedback,
-         'images: ',
-         fileNames,
-         'rating: ',
-         ratingValue
-      )
-      setUsersFeedback('')
-      setFileNames([])
-      setRatingValue('')
+   const { images } = useSelector((state) => state.uploadImg)
+
+   const dispatch = useDispatch()
+
+   const postLeaveFeedback = async (data) => {
+      try {
+         const response = await leaveFeedback(data)
+         toastType('success', 'Review successfully submitted')
+         dispatch(feedbackGetByIdRequest())
+         dispatch(countRatingGetByIdRequest())
+         return response.data
+      } catch (error) {
+         toastType('error', 'ERROR! ')
+      }
    }
 
    const openModalHandler = () => {
       setOpenModal((prev) => !prev)
    }
+
+   const submitHandler = (e) => {
+      e.preventDefault()
+
+      const feedback = {
+         comment: usersFeedback,
+         rating: ratingValue,
+         images,
+      }
+      postLeaveFeedback(feedback)
+
+      setUsersFeedback('')
+      setFileNames([])
+      setRatingValue('')
+   }
+
    return (
       <div>
          {openModal && (
