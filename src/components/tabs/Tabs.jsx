@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { NavLink, Route, Routes } from 'react-router-dom'
+import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { Bookings } from './Bookings'
 import { MyAnnouncement } from './MyAnnouncement'
 import { OnModeration } from './OnModeration'
@@ -13,6 +13,7 @@ const moderation = [
 ]
 
 export function Tabs({ announcement, bookings }) {
+   const location = useLocation()
    const BookingLength = bookings?.length
    const announcementLength = announcement?.length
    const moderationLength = moderation?.lenght
@@ -20,15 +21,34 @@ export function Tabs({ announcement, bookings }) {
    return (
       <div>
          <StyleHead>
-            <StyleLink to="/bookings">
+            <StyleLink
+               to="bookings"
+               active={
+                  location.pathname === '/Profile/bookings' ? 'true' : 'false'
+               }
+            >
                <h3>Bookings ({BookingLength})</h3>
             </StyleLink>
 
-            <StyleLink to="/my-announcemen">
+            <StyleLink
+               to="my-announcement"
+               active={
+                  location.pathname === '/Profile/my-announcement'
+                     ? 'true'
+                     : 'false'
+               }
+            >
                <h3>My announcement ({announcementLength})</h3>
             </StyleLink>
 
-            <StyleLink to="/on-moderation">
+            <StyleLink
+               to="on-moderation"
+               active={
+                  location.pathname === '/Profile/on-moderation'
+                     ? 'true'
+                     : 'false'
+               }
+            >
                <h3>On moderation ({moderationLength})</h3>
             </StyleLink>
          </StyleHead>
@@ -36,10 +56,10 @@ export function Tabs({ announcement, bookings }) {
          <Routes>
             <Route
                path="/bookings"
-               element={<Bookings bookings={bookings} onChange="true" />}
+               element={<Bookings bookings={bookings} />}
             />
             <Route
-               path="/my-announcemen"
+               path="/my-announcement"
                element={
                   <MyAnnouncement announcement={announcement} select="true" />
                }
@@ -62,13 +82,14 @@ const StyleHead = styled('div')(() => ({
    gap: '3.125rem',
 }))
 
-const StyleLink = styled(NavLink)(() => ({
-   color: ' #6C6C6C',
+const StyleLink = styled(NavLink)(({ active }) => ({
+   color: active === 'true' ? '#000' : ' #6C6C6C',
    fontFamily: 'Inter',
    fontSize: '1.125rem',
    fontStyle: 'normal',
    fontWeight: '400',
    lineHeight: 'normal',
+   borderBottom: active === 'true' ? '2px solid #000' : '',
    '&:hover': {
       color: ' var(--primary-black, #363636)',
       fontWeight: '600',
@@ -76,7 +97,7 @@ const StyleLink = styled(NavLink)(() => ({
    '&:focus': {
       color: 'var(--primary-black, #363636)',
       fontWeight: '600',
-      borderBottom: '2px solid #000',
+      // borderBottom: active === 'true' ? '2px solid #000' : '',
    },
    h3: {
       marginBottom: '0.5156rem',

@@ -215,7 +215,12 @@ const Checkstyle = styled('p')`
    font-size: 0.875rem;
    line-height: 2rem;
 `
-const ImageContainer = styled('div')``
+const ImageContainer = styled('div')`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 16.25rem;
+`
 const Datestyle = styled('p')`
    color: var(--primary-black, #363636);
    font-family: Roboto;
@@ -250,8 +255,9 @@ const MainContainer = styled('div')`
    height: 47%;
    display: flex;
    flex-wrap: wrap;
-   justify-content: space-around;
-   gap: 19px;
+   justify-content: start;
+   gap: 22px;
+   padding-left: 4rem;
 `
 const IconsContainer = styled('div')``
 
@@ -259,9 +265,9 @@ const MapContainer = styled('div')(() => ({
    width: '16.25rem',
    height: '32.rem',
    borderRadius: '0.6rem 0.5rem 0 0 ',
-   border: '1px solid  #C4C4C4',
    display: 'flex',
    flexDirection: 'column',
+   boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
 
    '.ImageNavigation': {
       display: 'none',
@@ -269,7 +275,6 @@ const MapContainer = styled('div')(() => ({
 
    '&:hover': {
       opacity: 1,
-      boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
 
       '.ImageNavigation': {
          position: 'absolute',
