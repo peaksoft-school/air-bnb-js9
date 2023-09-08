@@ -18,7 +18,7 @@ function AdminUsersPage({ setState }) {
 
    const { userId } = useParams()
    const dispatch = useDispatch()
-   setState(userId)
+
    const showButtonHandler = () => {
       setShowButton(true)
    }
@@ -39,7 +39,8 @@ function AdminUsersPage({ setState }) {
       getUsersById()
       dispatch(getAdminUsersCardsId(userId))
       dispatch(getBookings(userId))
-   }, [])
+      setState(userId)
+   }, [userId])
 
    return toggle ? (
       <Outlet />

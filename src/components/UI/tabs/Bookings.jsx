@@ -6,12 +6,13 @@ import { ProfileCards } from '../cards/ProfileCards'
 export function Bookings({ bookings, onChange }) {
    return (
       <div>
-         {onChange === true ? (
+         {onChange === 'true' ? (
             <AdminCards
                data={bookings}
                page="admin"
                justifyContent="start"
                bgColor="white"
+               padding="2rem 0 0 0 "
             />
          ) : (
             <BookingContainer>

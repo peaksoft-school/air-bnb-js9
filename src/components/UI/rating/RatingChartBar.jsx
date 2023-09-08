@@ -51,7 +51,7 @@ const ChartBar = styled('div')(() => ({
 }))
 
 const ChartBarInner = styled('div')(() => ({
-   width: '18vw',
+   width: '20vw',
    backgroundColor: '#d4cdd3',
    overflow: 'hidden',
    display: 'flex',
@@ -62,8 +62,8 @@ const ChartBarInner = styled('div')(() => ({
 const StyledLabel = styled('label')(() => ({
    color: 'var(--primary-black, #363636)',
    fontFamily: 'Inter',
-   fontSize: '16px',
-   fontWeight: '500',
+   fontSize: '20px',
+   fontWeight: '600',
    texttransform: 'uppercase',
    width: '20px',
 }))
@@ -71,9 +71,9 @@ const StyledLabel = styled('label')(() => ({
 const StyledPtag = styled('p')(() => ({
    color: 'var(--primary-black, #363636)',
    fontFamily: 'Inter',
-   fontSize: '16px',
+   fontSize: '20px',
    fontStyle: 'normal',
-   fontWeight: '500',
+   fontWeight: '600',
    texttransform: 'uppercase',
 }))
 

@@ -103,6 +103,7 @@ const StyleHead = styled('div')(() => ({
    justifyContent: 'center',
    alignItems: 'center',
    gap: '3.125rem',
+   // marginBottom: '2rem',
 }))
 
 const StyleLink = styled(NavLink)(({ active }) => ({

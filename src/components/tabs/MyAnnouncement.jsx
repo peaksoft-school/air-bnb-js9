@@ -9,14 +9,12 @@ import { filterHouseRequest } from '../../store/profile/ProfileThunk'
 import { homeTypeProfile, popularProfile, price } from '../../utils/helpers'
 import { ProfileCards } from '../UI/cards/ProfileCards'
 import { DeleteIcon } from '../../assets/icons'
-import { applicationSlice } from '../../store/admin-application/ApplicationSlice'
 
 export function MyAnnouncement({ select, announcement }) {
    const [sortPrice, setSortPrice] = useState('')
    const [sortRating, setSortRating] = useState('')
 
    const { userId } = useParams()
-
    const [sort, setSort] = useState('')
    const dispatch = useDispatch()
    const changePriceHandler = (e) => {
@@ -57,10 +55,6 @@ export function MyAnnouncement({ select, announcement }) {
       setSortRating('Un Popular')
    } else if (sortRating === 'LOW_TO_HIGH') {
       setSortRating('Popular')
-   }
-
-   const toggleHandler = () => {
-      dispatch(applicationSlice.actions.toggleHandler())
    }
 
    return (
@@ -125,7 +119,6 @@ export function MyAnnouncement({ select, announcement }) {
                      page="admin"
                      justifyContent="start"
                      bgColor="white"
-                     toggleHandler={toggleHandler}
                   />
                </NavLink>
             )}

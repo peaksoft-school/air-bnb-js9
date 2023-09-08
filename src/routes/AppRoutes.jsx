@@ -119,19 +119,18 @@ export function AppRoutes() {
                      title={title}
                   />
                }
-            >
-               <Route
-                  path="name"
-                  element={
-                     <AnnouncementAdminPage
-                        roles="admin"
-                        pages="application"
-                        acceptHandler={acceptHandler}
-                        rejectedHandler={rejectedHandler}
-                     />
-                  }
-               />
-            </Route>
+            />
+            <Route
+               path="/admin/application/Name/:id=12N"
+               element={
+                  <AnnouncementAdminPage
+                     roles="admin"
+                     pages="application"
+                     acceptHandler={acceptHandler}
+                     rejectedHandler={rejectedHandler}
+                  />
+               }
+            />
             <Route path="users/" element={<ReusableTable />} />
             <Route
                path={`users/${stat}/`}
@@ -144,7 +143,7 @@ export function AppRoutes() {
                <Route
                   index
                   path="booking"
-                  element={<Bookings bookings={bookings} select="false" />}
+                  element={<Bookings bookings={bookings} onChange="true" />}
                />
                <Route
                   path="my-announcement"
@@ -152,11 +151,12 @@ export function AppRoutes() {
                      <MyAnnouncement announcement={data} select="false" />
                   }
                />
-               <Route
-                  path="surname"
-                  element={<AnnouncementAdminPage roles="admin" pages="user" />}
-               />
             </Route>
+            <Route
+               path="/admin/users/:userId/my-announcement/:id=name"
+               element={<AnnouncementAdminPage roles="admin" pages="user" />}
+            />
+
             <Route
                path="all-housing"
                element={<AllHousing removeCard={removeCard} />}

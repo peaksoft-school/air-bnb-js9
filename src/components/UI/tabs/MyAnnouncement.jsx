@@ -113,8 +113,10 @@ export function MyAnnouncement({ select, announcement }) {
                   <AdminCards
                      data={announcement}
                      page="admin"
+                     image="click"
                      justifyContent="start"
                      bgColor="white"
+                     toPath="true"
                   />
                </div>
             )}

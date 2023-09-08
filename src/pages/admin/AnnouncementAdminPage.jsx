@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Breadcrumbs, Link, styled, Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { HouseSlidDetail } from '../../components/UI/house-detail/HouseSlidDetail'
 import { NameOfHotel } from '../../components/UI/name-hotel/NameOfHotel'
 import { house, Hotel, booked } from '../../utils/helpers'
 import Feedback from '../../components/UI/feedback/Feedback'
 import { Booked } from '../../components/UI/booked/Booked'
 import { Favorites } from '../../components/UI/favorites/Favorites'
-import { applicationSlice } from '../../store/admin-application/ApplicationSlice'
 import { RatingChart } from '../../components/UI/rating/RatingChart'
-// import { getAdminUsersAnnouncementById } from '../../api/adminUserAnnouncementById'
+import { getApplicationById } from '../../store/admin-application/ApplicationThunk'
+import { axiosInstance } from '../../config/axiosInstance'
 
 export function AnnouncementAdminPage({
    roles,
@@ -19,20 +19,29 @@ export function AnnouncementAdminPage({
    // rejectedHandler,
 }) {
    const [openModal, setOpenModal] = useState(false)
-   // const [announcement, setAnnouncement] = useState(false)
-   // const { dataById } = useSelector((state) => state.application)
+   const [announcement, setAnnouncement] = useState({})
+   const { dataById } = useSelector((state) => state.application)
    const dispatch = useDispatch()
+   const params = useParams()
 
-   // const getAnnouncementById = async (id) => {
-   //    try {
-   //       const response = await getAdminUsersAnnouncementById(id)
+   console.log('announcement-images: ', announcement.images)
+   console.log('announcement: ', announcement)
 
-   //       setAnnouncement(response.data)
-   //    } catch (error) {
-   //       console.log('error: ', error)
-   //    }
-   // }
+   const getAnnouncementById = async (id) => {
+      try {
+         const response = await axiosInstance.get(
+            `/api/admin/getByIdAnnouncements?announcementId=${id}`
+         )
 
+         setAnnouncement(response.data)
+      } catch (error) {
+         console.log('error: ', error)
+      }
+   }
+   useEffect(() => {
+      dispatch(getApplicationById(params.id))
+      getAnnouncementById(params.id)
+   }, [])
    const data = [
       {
          name: 'Bars Barsov',
@@ -76,8 +85,7 @@ export function AnnouncementAdminPage({
    const navigate = useNavigate()
 
    function backNavigation() {
-      dispatch(applicationSlice.actions.toggleHandler())
-      navigate('/admin/application')
+      navigate(-1)
    }
 
    const openModalHandler = () => {
@@ -109,7 +117,7 @@ export function AnnouncementAdminPage({
                      <Main>
                         <HouseSlidDetail images={house} />
                         <NameOfHotel
-                           dataById={Hotel}
+                           dataById={dataById}
                            openModal={openModal}
                            openModalHandler={openModalHandler}
                            acceptHandler={acceptHandler}
@@ -123,23 +131,18 @@ export function AnnouncementAdminPage({
             <Container>
                <MainContainer>
                   <div role="presentation">
-                     <Breadcrumbs aria-label="breadcrumb">
-                        <Link
-                           underline="hover"
-                           color="inherit"
-                           href="application"
+                     <StyledNavlink to="/admin/users/">
+                        Users
+                        <span> / {announcement.fullName} / </span>
+                        <span
+                           style={{
+                              fontWeight: '700',
+                              color: '#363636',
+                           }}
                         >
-                           Users
-                        </Link>
-                        <Link
-                           underline="hover"
-                           color="inherit"
-                           href="application"
-                        >
-                           Медер Медеров
-                        </Link>
-                        <Typography color="text.primary">Name</Typography>
-                     </Breadcrumbs>
+                           Name
+                        </span>
+                     </StyledNavlink>
                   </div>
                   <BlockMain>
                      <h2>Name</h2>
@@ -148,7 +151,7 @@ export function AnnouncementAdminPage({
                         <NameOfHotel
                            pages={pages}
                            buttons="yes"
-                           dataById={Hotel}
+                           dataById={announcement}
                            openModal={openModal}
                            openModalHandler={openModalHandler}
                         />
@@ -161,7 +164,7 @@ export function AnnouncementAdminPage({
                            <Feedback data={el} />
                         ))}
                      </div>
-                     <RatingChart />
+                     <RatingChart marginLeft="4rem" width="27rem" />
                   </ContainerFeetback>
                </MainContainer>
             </Container>
@@ -238,6 +241,7 @@ const Container = styled('div')(() => ({
    gap: '1.87rem',
    background: ' #F7F7F7',
    marginTop: '5.1rem',
+   paddingTop: '3.1rem',
    h2: {
       color: ' #000',
       fontFamily: 'Inter',
@@ -309,4 +313,8 @@ const Navigate = styled('div')(() => ({
       fontWeight: 400,
       lineHeight: 'normal',
    },
+}))
+
+const StyledNavlink = styled(NavLink)(() => ({
+   color: '#C4C4C4',
 }))

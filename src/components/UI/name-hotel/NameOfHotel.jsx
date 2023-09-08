@@ -13,7 +13,6 @@ export function NameOfHotel({
    rejectedCartd,
    openModalHandler,
 }) {
-   console.log('dataById: ', dataById)
    return (
       <Container>
          <ModalNameHotel
@@ -27,7 +26,7 @@ export function NameOfHotel({
                <div>{dataById.maxGuests} Guests</div>
             </ButtonContainerOne>
             <NameHotel>
-               <h3>{dataById.region}</h3>
+               <h2>Name Of hotel</h2>
                <p>
                   {dataById.address}, {dataById.province}
                </p>
@@ -39,8 +38,8 @@ export function NameOfHotel({
                <div className="avatar" />
                {buttons === 'yes' ? (
                   <NameBlock>
-                     <h4>{dataById.user.fullName}</h4>
-                     <p>{dataById.user.email}</p>
+                     <h4>{dataById.fullName}</h4>
+                     <p>{dataById.email}</p>
                   </NameBlock>
                ) : (
                   <NameBlock>
@@ -106,6 +105,7 @@ export function NameOfHotel({
 const Container = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
+   marginTop: '-10.5rem',
 }))
 const ButtonContainerOne = styled('div')(() => ({
    display: 'flex',
