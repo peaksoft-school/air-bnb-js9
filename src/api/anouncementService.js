@@ -5,5 +5,5 @@ export const addAnouncement = (data) => {
 }
 
 export const getAnouncementById = () => {
-   return axiosInstance.get(`/api/announcements/187`)
+   return axiosInstance.get('/api/vendor/getAnnouncement/6')
 }

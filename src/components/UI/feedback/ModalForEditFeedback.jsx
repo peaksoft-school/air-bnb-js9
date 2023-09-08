@@ -2,42 +2,39 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { RatingStars } from '../UI/rating/RatingStars'
-import { TextArea } from '../UI/textarea/TextArea'
-import { Button } from '../UI/button/Button'
-import { Upload } from '../UI/upload-img/Upload'
-import Modal from '../UI/modal/Modal'
-import { leaveFeedback } from '../../api/feedbackService'
-import { toastSnackbar } from '../UI/snackbar/Snackbar'
-import {
-   countRatingGetByIdRequest,
-   feedbackGetByIdRequest,
-} from '../../store/feedback/feedbackThunk'
+import { Upload } from '../upload-img/Upload'
+import Modal from '../modal/Modal'
+import { TextArea } from '../textarea/TextArea'
+import { Button } from '../button/Button'
+import { putFeedbackById } from '../../../api/feedbackService'
+import { feedbackGetByIdRequest } from '../../../store/feedback/feedbackThunk'
+import { toastSnackbar } from '../snackbar/Snackbar'
 
-export function LeaveFeedback({ openModal, setOpenModal }) {
-   const [usersFeedback, setUsersFeedback] = useState('')
-   const [fileNames, setFileNames] = useState([])
-   const [ratingValue, setRatingValue] = useState('')
+export function ModalForEditFeedback({
+   openModal,
+   setOpenModal,
+   feedbackComment,
+   feedbackImages,
+   id,
+}) {
+   const [usersFeedback, setUsersFeedback] = useState(feedbackComment)
+   const [fileNames, setFileNames] = useState([feedbackImages])
    const { toastType } = toastSnackbar()
 
    const { images } = useSelector((state) => state.uploadImg)
 
    const dispatch = useDispatch()
 
-   const postLeaveFeedback = async (data) => {
+   const editFeedbackById = async (data) => {
       try {
-         const response = await leaveFeedback(data)
-         toastType('success', 'Review successfully submitted')
+         const response = await putFeedbackById(id, data)
+         toastType('success', 'Successfully updated')
          dispatch(feedbackGetByIdRequest())
-         dispatch(countRatingGetByIdRequest())
+
          return response.data
       } catch (error) {
-         toastType('error', 'ERROR! ')
+         toastType('error', 'ERROR!')
       }
-   }
-
-   const openModalHandler = () => {
-      setOpenModal((prev) => !prev)
    }
 
    const submitHandler = (e) => {
@@ -45,22 +42,23 @@ export function LeaveFeedback({ openModal, setOpenModal }) {
 
       const feedback = {
          comment: usersFeedback,
-         rating: ratingValue,
          images,
       }
-      postLeaveFeedback(feedback)
+      editFeedbackById(feedback)
 
       setUsersFeedback('')
       setFileNames([])
-      setRatingValue('')
    }
 
+   const openModalHandler = () => {
+      setOpenModal((prev) => !prev)
+   }
    return (
       <div>
          {openModal && (
             <Modal open={openModal} onClose={openModalHandler}>
                <Container onSubmit={submitHandler}>
-                  <StyledH3>LEAVE FEEDBACK</StyledH3>
+                  <StyledH3>EDIT FEEDBACK</StyledH3>
                   <UploadImgDiv>
                      <Upload
                         fileNames={fileNames}
@@ -82,21 +80,6 @@ export function LeaveFeedback({ openModal, setOpenModal }) {
                      </div>
                   </UploadImgDiv>
 
-                  <div
-                     style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '0.75rem',
-                        alignItems: 'flex-start',
-                     }}
-                  >
-                     <RatePtag>Rate</RatePtag>
-                     <RatingStars
-                        size="large"
-                        ratingValue={ratingValue}
-                        setRatingValue={setRatingValue}
-                     />
-                  </div>
                   <div
                      style={{
                         display: 'flex',
@@ -182,12 +165,5 @@ const StyledPtag = styled('p')(() => ({
    color: 'var(--tertiary-middle-gray, #828282)',
    fontFamily: 'Inter',
    fontSize: '0.875rem',
-   fontWeight: '400',
-}))
-
-const RatePtag = styled('p')(() => ({
-   color: '#828282',
-   fontFamily: 'Inter',
-   fontSize: '1rem',
    fontWeight: '400',
 }))

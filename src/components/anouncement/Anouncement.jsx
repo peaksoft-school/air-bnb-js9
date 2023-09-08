@@ -3,6 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Input } from '../UI/input/Input'
 import { Select } from '../UI/select/Select'
 import { Upload } from '../UI/upload-img/Upload'
@@ -49,12 +50,10 @@ export default function AddAnouncementForm() {
       resolver: yupResolver(schema),
    })
 
-   const addImageForAnoucement = (data) => {
-      setFileNames([...fileNames, data])
-   }
+   const { images } = useSelector((state) => state.uploadImg)
 
    const onSubmit = (data) => {
-      data.images = fileNames
+      data.images = images
       postAnouncementForm(data)
    }
 
@@ -78,7 +77,6 @@ export default function AddAnouncementForm() {
                         maxWidth="16vw"
                         fileNames={fileNames}
                         setFileNames={setFileNames}
-                        addImageForAnoucement={addImageForAnoucement}
                      />
                      <AddPhotoInfo>
                         <AddPhotoReview>
@@ -174,7 +172,7 @@ export default function AddAnouncementForm() {
                      id="title"
                      width="100%"
                      height="2.4375rem"
-                     placeholder=" "
+                     placeholder="Enter a title..."
                      error={!!errors.title}
                   />
                   <IsError>{errors.title?.message}</IsError>
@@ -186,6 +184,7 @@ export default function AddAnouncementForm() {
                   <StyledTextArea
                      {...register('description')}
                      id="description"
+                     placeholder="Enter a description..."
                      style={{
                         border: errors.description
                            ? '1px solid red'
@@ -221,7 +220,7 @@ export default function AddAnouncementForm() {
                      height="2.4375rem"
                      size="small"
                      error={!!errors.province}
-                     placeholder=" "
+                     placeholder="Enter the town"
                   />
                   <IsError>{errors.province?.message}</IsError>
                </TownBlock>
@@ -236,7 +235,7 @@ export default function AddAnouncementForm() {
                      width="100%"
                      height="2.4375rem"
                      error={!!errors.address}
-                     placeholder="  "
+                     placeholder="Enter the address"
                   />
                   <IsError>{errors.address?.message}</IsError>
                </AddressBlock>
