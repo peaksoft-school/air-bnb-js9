@@ -23,7 +23,6 @@ function AnnouncementGetAll() {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const params = useParams()
-   const getName = search.find((el) => el.id === +params.id)
 
    useEffect(() => {
       const params = {
@@ -108,7 +107,9 @@ function AnnouncementGetAll() {
                   color="text.primary"
                   aria-current="page"
                >
-                  {selectedRegion === '' ? getName : selectedRegion}
+                  {selectedRegion === ''
+                     ? Object.values(params)
+                     : selectedRegion}
                </Typography>
             </Breadcrumbs>
          </div>

@@ -9,10 +9,9 @@ import { ActionToggleHandelr } from '../../../store/toggle/ToggleSlice'
 export function SearchResult({ search }) {
    const dispatch = useDispatch()
 
-   const navigationSearch = (data) => {
-      dispatch(getSearchAction.globalSearchHandler(data.province))
-      dispatch(ActionToggleHandelr.togglePathHandler(data.province))
-      console.log(data, 'dataaaa')
+   const navigationSearch = (province) => {
+      dispatch(getSearchAction.globalSearchHandler(province))
+      dispatch(ActionToggleHandelr.togglePathHandler(province))
    }
    return (
       <Container>
@@ -21,22 +20,20 @@ export function SearchResult({ search }) {
                <MapContainer
                   to={item.province}
                   key={item.id}
-                  onClick={() => navigationSearch(item)}
+                  onClick={() => navigationSearch(item.province)}
                >
-                  <Link to={`${item.id}`}>
-                     <Block>
-                        <ContainerImg>
-                           {item.images.map((item) => {
-                              return item === 'string' ? (
-                                 <SearchIcon />
-                              ) : (
-                                 <img src={item} alt="#" />
-                              )
-                           })}
-                        </ContainerImg>
-                        <p>{item.province}</p>
-                     </Block>
-                  </Link>
+                  <Block>
+                     <ContainerImg>
+                        {item.images.map((item) => {
+                           return item === 'string' ? (
+                              <SearchIcon />
+                           ) : (
+                              <img src={item} alt="#" />
+                           )
+                        })}
+                     </ContainerImg>
+                     <p>{item.province}</p>
+                  </Block>
                </MapContainer>
             )
          })}
