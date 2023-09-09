@@ -91,116 +91,125 @@ function AnnouncementGetAll() {
 
    return (
       <WrapperContainer>
-         <Header login={login} setLogin={setLogin} />
-         <div style={{ margin: '1rem 8rem' }} role="presentation">
-            <Breadcrumbs aria-label="breadcrumb">
-               <Link
-                  underline="hover"
-                  color="inherit"
-                  href="/main"
-                  onClick={() => navigate('/main')}
+         <div>
+            <Header login={login} setLogin={setLogin} />
+            <div style={{ margin: '0.11rem 6.3rem' }} role="presentation">
+               <Breadcrumbs
+                  aria-label="breadcrumb"
+                  sx={{
+                     marginTop: '90px',
+                     display: 'flex',
+                     alignItems: 'center',
+                     justifyContent: 'start',
+                  }}
                >
-                  Main
-               </Link>
-               <Typography
-                  underline="hover"
-                  color="text.primary"
-                  aria-current="page"
-               >
-                  {selectedRegion === ''
-                     ? Object.values(params)
-                     : selectedRegion}
-               </Typography>
-            </Breadcrumbs>
-         </div>
-         <div
-            style={{
-               display: 'flex',
-               justifyContent: 'center',
-               gap: '10px',
-            }}
-         >
-            <h4
+                  <Link
+                     underline="hover"
+                     color="inherit"
+                     href="/main"
+                     onClick={() => navigate('/main')}
+                  >
+                     Main
+                  </Link>
+                  <Typography color="text.primary">
+                     {selectedRegion === ''
+                        ? Object.values(params)
+                        : selectedRegion}
+                  </Typography>
+               </Breadcrumbs>
+            </div>
+            <div
                style={{
                   display: 'flex',
                   justifyContent: 'center',
-                  alignItems: 'center',
-                  marginLeft: '15px',
+                  gap: '25px',
                }}
             >
-               {selectedRegion === '' ? Object.values(params) : selectedRegion}(
-               {todosLength})
-            </h4>
-            <FilterSelect
-               selectedRegion={selectedRegion}
-               onChangeRegions={onChangeRegions}
-               onChangePopular={onChangePopular}
-               onChangeHomeType={onChangeHomeType}
-               onChangePrice={onChangePrice}
-               region={params.id}
-            />
-         </div>
-
-         <ContainerSelect>
-            {selectedRegion && (
-               <SelectStyle>
-                  <XIcon onClick={() => clearSort('region')} />
-                  {selectedRegion}
-               </SelectStyle>
-            )}
-
-            {selectedPopular && (
-               <SelectStyle>
-                  <XIcon onClick={() => clearSort('popular')} />
-                  {(selectedPopular === 'asc' && 'The latest') ||
-                     (selectedPopular === 'desc' && 'Popular')}
-               </SelectStyle>
-            )}
-
-            {selectedHomeType && (
-               <SelectStyle>
-                  <XIcon onClick={() => clearSort('homeType')} />
-                  {selectedHomeType}
-               </SelectStyle>
-            )}
-
-            {selectedPrice && (
-               <SelectStyle>
-                  <XIcon onClick={() => clearSort('price')} />
-                  {(selectedPrice === 'asc' && 'Low to high') ||
-                     (selectedPrice === 'desc' && 'High to low')}
-               </SelectStyle>
-            )}
-
-            {selectedHomeType ||
-            selectedPrice ||
-            selectedPopular ||
-            selectedRegion ? (
-               <SelectStyle onClick={clearAllFilters}>Clear all</SelectStyle>
-            ) : null}
-         </ContainerSelect>
-
-         {isLoading ? (
-            <div>
-               <Skeleto />
+               <Region>
+                  {selectedRegion === ''
+                     ? Object.values(params)
+                     : selectedRegion}
+                  ({todosLength})
+               </Region>
+               <FilterSelect
+                  selectedRegion={selectedRegion}
+                  onChangeRegions={onChangeRegions}
+                  onChangePopular={onChangePopular}
+                  onChangeHomeType={onChangeHomeType}
+                  onChangePrice={onChangePrice}
+                  region={params.id}
+               />
             </div>
-         ) : (
-            <Cards data={search} />
-         )}
+
+            <ContainerSelect>
+               {selectedRegion && (
+                  <SelectStyle>
+                     <XIcon onClick={() => clearSort('region')} />
+                     {selectedRegion}
+                  </SelectStyle>
+               )}
+
+               {selectedPopular && (
+                  <SelectStyle>
+                     <XIcon onClick={() => clearSort('popular')} />
+                     {(selectedPopular === 'asc' && 'The latest') ||
+                        (selectedPopular === 'desc' && 'Popular')}
+                  </SelectStyle>
+               )}
+
+               {selectedHomeType && (
+                  <SelectStyle>
+                     <XIcon onClick={() => clearSort('homeType')} />
+                     {selectedHomeType}
+                  </SelectStyle>
+               )}
+
+               {selectedPrice && (
+                  <SelectStyle>
+                     <XIcon onClick={() => clearSort('price')} />
+                     {(selectedPrice === 'asc' && 'Low to high') ||
+                        (selectedPrice === 'desc' && 'High to low')}
+                  </SelectStyle>
+               )}
+
+               {selectedHomeType ||
+               selectedPrice ||
+               selectedPopular ||
+               selectedRegion ? (
+                  <SelectStyle onClick={clearAllFilters}>Clear all</SelectStyle>
+               ) : null}
+            </ContainerSelect>
+
+            {isLoading ? (
+               <div>
+                  <Skeleto />
+               </div>
+            ) : (
+               <Cards data={search} />
+            )}
+         </div>
       </WrapperContainer>
    )
 }
 
 export default AnnouncementGetAll
 
-const WrapperContainer = styled('div')({
-   width: '100%',
-})
+const WrapperContainer = styled('div')({})
 const ContainerSelect = styled('div')`
    display: flex;
    gap: 1rem;
-   margin-left: 4rem;
+   margin-left: 6rem;
 `
+const Region = styled('p')({
+   color: '#000',
+   fontFamily: 'Inter',
+   fontSize: '16px',
+   fontWeight: '500',
+   display: 'flex',
+   justifyContent: 'center',
+   alignItems: 'center',
+   marginTop: '2.4rem',
+})
 
 const SelectStyle = styled('div')(() => ({
    color: 'var(--tertiary-middle-gray, #636060)',
@@ -212,7 +221,8 @@ const SelectStyle = styled('div')(() => ({
    display: 'flex',
    justifyContent: 'center',
    alignItems: 'center',
-   gap: '3px',
+   marginTop: '20px',
+   gap: '5px',
    '&:hover': {
       background: 'var(--tertiary-light-gray, #C4C4C4)',
       color: '#fff',

@@ -27,6 +27,7 @@ export function ProfileCards({ data, announcement, ...props }) {
       Array.isArray(data) ? Array(data.length).fill(0) : []
    )
    const { idAnnouncement } = useSelector((state) => state.getannouncement)
+   console.log(idAnnouncement, 'idAnnouncement profileCArd')
 
    const [dataa, setData] = useState([])
 
@@ -37,6 +38,7 @@ export function ProfileCards({ data, announcement, ...props }) {
          })
       )
    }, [setData])
+
    const handleNextImage = (index) => {
       setCurrentImages((prevImages) => {
          const newImages = [...prevImages]
@@ -45,6 +47,7 @@ export function ProfileCards({ data, announcement, ...props }) {
          return newImages
       })
    }
+
    const truncateTitle = (title) => {
       const words = title.split(' ')
       if (words.length > 6) {
@@ -215,7 +218,12 @@ const Checkstyle = styled('p')`
    font-size: 0.875rem;
    line-height: 2rem;
 `
-const ImageContainer = styled('div')``
+const ImageContainer = styled('div')`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 16.25rem;
+`
 const Datestyle = styled('p')`
    color: var(--primary-black, #363636);
    font-family: Roboto;
@@ -250,8 +258,9 @@ const MainContainer = styled('div')`
    height: 47%;
    display: flex;
    flex-wrap: wrap;
-   justify-content: space-around;
-   gap: 19px;
+   justify-content: start;
+   gap: 22px;
+   padding-left: 4rem;
 `
 const IconsContainer = styled('div')``
 
@@ -259,9 +268,9 @@ const MapContainer = styled('div')(() => ({
    width: '16.25rem',
    height: '32.rem',
    borderRadius: '0.6rem 0.5rem 0 0 ',
-   border: '1px solid  #C4C4C4',
    display: 'flex',
    flexDirection: 'column',
+   boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
 
    '.ImageNavigation': {
       display: 'none',
@@ -269,7 +278,6 @@ const MapContainer = styled('div')(() => ({
 
    '&:hover': {
       opacity: 1,
-      boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
 
       '.ImageNavigation': {
          position: 'absolute',

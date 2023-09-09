@@ -1,5 +1,5 @@
 import React from 'react'
-import { MainPages } from '../../pages/MainPages'
+import { MainPages } from '../../pages/user/MainPages'
 
 export function UserLayout() {
    return (

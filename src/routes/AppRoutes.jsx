@@ -15,17 +15,22 @@ import {
    postRejectApplications,
 } from '../store/admin-application/ApplicationThunk'
 import { toastSnackbar } from '../components/UI/snackbar/Snackbar'
-import { Bookings } from '../components/tabs/Bookings'
-import { MyAnnouncement } from '../components/tabs/MyAnnouncement'
+import { Bookings } from '../components/UI/tabs/Bookings'
+import { MyAnnouncement } from '../components/UI/tabs/MyAnnouncement'
 import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
 import AnnouncementGetAll from '../components/anouncement/AnnouncementGetAll'
+import { Favorite } from '../components/favorite/Favorite'
+import { UserProfile } from '../components/Profile/Profile'
+import { AllHousing } from '../pages/admin/all-housing/AllHousing'
+import { NotFound } from '../components/UI/404/NotFound'
+import { OnModeration } from '../components/UI/tabs/OnModeration'
 
 export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
    const [currentSize, setCurrenSize] = useState(18)
    const [title, setTitle] = useState('')
-   const dispatch = useDispatch()
    const { toastType } = toastSnackbar()
+   const dispatch = useDispatch()
 
    const role = useSelector((state) => state.auth.role)
    const { data, bookings } = useSelector((state) => state.adminUsers)
@@ -60,6 +65,7 @@ export function AppRoutes() {
             currentSize,
          },
       }
+
       dispatch(postRejectApplications(object))
       setTitle('')
    }
@@ -99,6 +105,30 @@ export function AppRoutes() {
          />
          <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
 
+         <Route path="favorites" element={<Favorite />} />
+
+         <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
+         <Route
+            path="/Profile"
+            element={<Navigate to="/Profile/my-announcement" />}
+         />
+         <Route path="Profile" element={<UserProfile />}>
+            <Route
+               index
+               path="bookings"
+               element={<Bookings bookings={bookings} onChange="true" />}
+            />
+            <Route
+               path="my-announcement"
+               element={<MyAnnouncement announcement={data} select="true" />}
+            />
+            <Route
+               path="on-moderation"
+               element={<OnModeration moderation={data} />}
+            />
+         </Route>
+
+         {/* admin */}
          <Route
             path="/admin"
             element={
@@ -142,7 +172,7 @@ export function AppRoutes() {
             <Route path="users/:userId" element={<AdminUsersPage />}>
                <Route
                   index
-                  path="booking"
+                  path="bookings"
                   element={<Bookings bookings={bookings} select="false" />}
                />
                <Route
@@ -152,7 +182,12 @@ export function AppRoutes() {
                   }
                />
             </Route>
+            <Route
+               path="all-housing"
+               element={<AllHousing removeCard={removeCard} />}
+            />
          </Route>
+         <Route path="*" element={<NotFound />} />
       </Routes>
    )
 }

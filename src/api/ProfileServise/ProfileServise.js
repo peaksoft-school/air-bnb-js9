@@ -13,7 +13,7 @@ export const deleteAnnouncementbyIdRequest = (id) => {
 }
 
 export const findannounByIdRequest = (id) => {
-   return axiosInstance.get(`/api/announcements/${id}`)
+   return axiosInstance.get(`/api/users/getAnnouncementProfile/${id}`)
 }
 
 export const putAnnouncementsRequest = ({ saveData, itemId }) => {

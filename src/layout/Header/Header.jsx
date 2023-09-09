@@ -21,8 +21,9 @@ import { userRoles } from '../../utils/constants'
 import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
 import { authActions } from '../../store/auth/authSlice'
 import Modal from '../../components/UI/modal/Modal'
+import { DarkModeActions } from '../../store/dark-mode/DarkModeSlice'
 
-export function Header({ profile, login }) {
+export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
    // const [meatBalls, setMeatBalls] = useState(false)
    const { isAuthorization, email } = useSelector((state) => state.auth)
 
@@ -72,6 +73,7 @@ export function Header({ profile, login }) {
          }
       }
    }, [location, searchedValue, isChecked])
+   const { darkMode } = useSelector((state) => state.darkMode)
 
    const loginHandler = () => {
       setUserLogin((prev) => !prev)
@@ -107,6 +109,10 @@ export function Header({ profile, login }) {
       setCurrentEl(null)
    }
 
+   const toggleHandler = () => {
+      dispatch(DarkModeActions.darkModeHandler())
+   }
+
    const handleCheckboxChange = (event) => {
       setIsChecked(event.target.checked)
    }
@@ -119,8 +125,9 @@ export function Header({ profile, login }) {
             <Modal
                open={openModal}
                onClose={openModalHandler}
-               borderRadius="0.125rem"
+               width="29.625rem"
                border="none"
+               borderRadius="0.125rem"
             >
                {signIn ? (
                   <SignIn moveToSigninAndSignUp={moveToSigninAndSignUp} />
@@ -133,9 +140,9 @@ export function Header({ profile, login }) {
             </Modal>
          ) : null}
          {login === 'true' ? (
-            <StyleHeader login={login}>
+            <StyleHeader login={login} notFound={notFound} darkMode={darkMode}>
                <StateBlock>
-                  <AirBNBIcon />
+                  <StyledAirBNBIcon onClick={toggleHandler} />
                </StateBlock>
                <InputDiv>
                   {isAuthorization ? (
@@ -143,42 +150,34 @@ export function Header({ profile, login }) {
                         <StyleLink to="/AddAnouncementForm">
                            leave an ad
                         </StyleLink>
-                        <div
-                           style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '0.7rem',
-                           }}
-                        >
+                        <LogOut>
                            <Avatar
                               sx={{
                                  bgcolor: '#0298D9',
-                                 paddingLeft: '12px',
                               }}
                            >
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
+                           <SelectionIcon onClick={handleMenuOpen} />
                            <MeatBalls
                               anchorEl={currentEl}
                               open={open}
                               close={closeMeatBallsHeandler}
                               id={idd}
-                              propsVertical="top"
+                              propsVertical="bottom"
                               propsHorizontal="left"
-                              width="15%"
-                              height="16%"
+                              width=" 10rem"
+                              height=" 3rem"
+                              margin="0.7rem 10rem -10rem 0"
                            >
-                              <Button
-                                 onClick={logoutHnadler}
-                                 variant="outlined"
-                              >
+                              <MenuItem onClick={logoutHnadler}>
                                  log out
-                              </Button>
+                              </MenuItem>
                            </MeatBalls>
-                        </div>
+                        </LogOut>
                      </FavoriteDiv>
                   ) : (
-                     <div>
+                     <div className="leave">
                         <StyleLink to="/AddAnouncementForm">
                            leave an ad
                         </StyleLink>
@@ -200,8 +199,10 @@ export function Header({ profile, login }) {
          ) : (
             <StyleHeader background="#ffffff">
                <div className="headerIcon">
-                  <BlackAirBNBIcon />
-                  <LeaveAnAd>leave an ad</LeaveAnAd>
+                  <BlackAirBNBIcon onClick={toggleHandler} />{' '}
+                  {login === 'true' ? (
+                     <StyleLink to="/AddAnouncementForm">leave an ad</StyleLink>
+                  ) : null}
                </div>
 
                <SearchDiv>
@@ -242,16 +243,13 @@ export function Header({ profile, login }) {
                   >
                      {isAuthorization ? 'SUBMIT AN AD' : 'JOIN US'}
                   </Button>
+                  {favorite === 'true' && (
+                     <FavoriteStyle>Favorite({favoriteLenght})</FavoriteStyle>
+                  )}
                   {isAuthorization ? (
                      <FavoriteDiv>
                         {/* <StyleLink>leave an ad</StyleLink> */}
-                        <div
-                           style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '0.7rem',
-                           }}
-                        >
+                        <LogOut>
                            <Avatar sx={{ bgcolor: '#0298D9' }}>
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
@@ -286,7 +284,7 @@ export function Header({ profile, login }) {
                                  </Button>
                               )}
                            </MeatBalls>
-                        </div>
+                        </LogOut>
                      </FavoriteDiv>
                   ) : null}
                </SearchDiv>
@@ -295,6 +293,16 @@ export function Header({ profile, login }) {
       </Container>
    )
 }
+const FavoriteStyle = styled('p')`
+   color: #000;
+   font-family: Inter;
+   font-size: 1rem;
+   font-style: normal;
+   font-weight: 400;
+   line-height: normal;
+   text-transform: uppercase;
+   cursor: pointer;
+`
 
 const Container = styled('div')(() => ({
    display: 'flex',
@@ -302,11 +310,31 @@ const Container = styled('div')(() => ({
    justifyContent: 'space-between',
 }))
 
+const StyleHeader = styled('header')((props) => ({
+   width: '100%',
+   height: ' 5.5rem',
+   backgroundColor: props.notFound === '404' ? '#27432d' : props.background,
+   display: 'flex',
+   justifyContent: 'space-between',
+   alignItems: 'center',
+   padding: '1rem 6.25rem',
+   backdropFilter: props.darkMode ? 'blur(3px)' : '',
+   background: props.darkMode ? 'rgba(0,0,0,0.3)' : '',
+   position: 'fixed',
+   zIndex: '55',
+
+   '.headerIcon': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '3.75rem',
+   },
+}))
+
 const InputDiv = styled('div')(() => ({
    display: 'flex',
    gap: '2rem',
    alignItems: 'center',
-   div: {
+   '.leave': {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
@@ -317,12 +345,6 @@ const InputDiv = styled('div')(() => ({
 const StateBlock = styled('div')(() => ({
    width: '100%',
    display: 'flex',
-   justifyContent: 'space-between',
-   div: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '3.75rem',
-   },
 }))
 const StyleLink = styled(Link)(() => ({
    width: '100px',
@@ -334,6 +356,10 @@ const StyleLink = styled(Link)(() => ({
    fontWeight: '500',
    lineHeight: 'normal',
    cursor: 'pointer',
+   '&:hover': {
+      color: '#FFBE58',
+      textDecoration: 'underline',
+   },
 }))
 
 const FavoriteDiv = styled('div')(() => ({
@@ -342,30 +368,6 @@ const FavoriteDiv = styled('div')(() => ({
    gap: '4rem',
 }))
 
-const StyleHeader = styled('header')((props) => ({
-   width: '100%',
-   height: ' 5.5rem',
-   backgroundColor: props.background || '',
-   display: 'flex',
-   justifyContent: 'space-between',
-   alignItems: 'center',
-   padding: '1rem 7.25rem',
-
-   '.headerIcon': {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '3.75rem',
-   },
-}))
-const LeaveAnAd = styled('p')(() => ({
-   color: '#FFBE58',
-   fontFamily: 'Inter',
-   fontSize: '1.125rem',
-   fontStyle: 'normal',
-   fontWeight: '500',
-   lineHeight: 'normal',
-   cursor: 'pointer',
-}))
 const SearchDiv = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
@@ -386,4 +388,12 @@ const StyledLabel = styled('label')(() => ({
    fontFamily: 'Inter',
    fontWeight: '400',
    fontSize: '1rem',
+}))
+const StyledAirBNBIcon = styled(AirBNBIcon)(() => ({
+   cursor: 'pointer',
+}))
+const LogOut = styled('div')(() => ({
+   display: 'flex',
+   alignItems: 'center',
+   gap: '0.7rem',
 }))
