@@ -23,7 +23,7 @@ const data = [
    { id: 'option7', name: 'CHUI' },
 ]
 
-export default function AddAnouncementForm() {
+export function AddAnouncementForm() {
    const [fileNames, setFileNames] = useState([])
    const { toastType } = toastSnackbar()
    const navigate = useNavigate()
@@ -51,12 +51,10 @@ export default function AddAnouncementForm() {
       resolver: yupResolver(schema),
    })
 
-   const addImageForAnoucement = (data) => {
-      setFileNames([...fileNames, data])
-   }
+   const { images } = useSelector((state) => state.uploadImg)
 
    const onSubmit = (data) => {
-      data.images = fileNames
+      data.images = images
       postAnouncementForm(data)
    }
 
@@ -83,7 +81,6 @@ export default function AddAnouncementForm() {
                         maxWidth="16vw"
                         fileNames={fileNames}
                         setFileNames={setFileNames}
-                        addImageForAnoucement={addImageForAnoucement}
                      />
                      <AddPhotoInfo>
                         <AddPhotoReview darkMode={darkMode}>

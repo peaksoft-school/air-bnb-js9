@@ -8,7 +8,7 @@ import { userRoles } from '../utils/constants'
 import { AnnouncementAdminPage } from '../pages/admin/AnnouncementAdminPage'
 import { Applications } from '../pages/admin/Applications'
 import { ReusableTable } from '../components/table/Table'
-import AddAnouncementForm from '../components/anouncement/Anouncement'
+import { AddAnouncementForm } from '../components/anouncement/Anouncement'
 import {
    deleteAdminApplication,
    postAcceptApplications,
@@ -21,6 +21,8 @@ import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
 import { AllHousing } from '../pages/admin/all-housing/AllHousing'
 import { NotFound } from '../components/UI/404/NotFound'
 import { Payment } from '../components/payment/Payment'
+import { UserProfile } from '../components/Profile/Profile'
+import { OnModeration } from '../components/UI/tabs/OnModeration'
 
 export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
@@ -107,6 +109,25 @@ export function AppRoutes() {
             />
          </Route>
          <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
+         <Route
+            path="/Profile"
+            element={<Navigate to="/Profile/my-announcement" />}
+         />
+         <Route path="Profile" element={<UserProfile />}>
+            <Route
+               index
+               path="bookings"
+               element={<Bookings bookings={bookings} onChange="true" />}
+            />
+            <Route
+               path="my-announcement"
+               element={<MyAnnouncement announcement={data} select="true" />}
+            />
+            <Route
+               path="on-moderation"
+               element={<OnModeration moderation={data} />}
+            />
+         </Route>
 
          {/* admin */}
          <Route
@@ -152,7 +173,7 @@ export function AppRoutes() {
             <Route path="users/:userId" element={<AdminUsersPage />}>
                <Route
                   index
-                  path="booking"
+                  path="bookings"
                   element={<Bookings bookings={bookings} select="false" />}
                />
                <Route

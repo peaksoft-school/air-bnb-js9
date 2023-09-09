@@ -3,19 +3,15 @@ import React, { useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { styled } from '@mui/material'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
 import { Exist, UploadImg } from '../../../assets/icons'
+import { uploadActions } from '../../../store/Upload'
 
-export function Upload({
-   width,
-   height,
-   maxWidth,
-   setFileNames,
-   fileNames,
-   addImageForAnoucement,
-}) {
+export function Upload({ width, height, maxWidth, setFileNames, fileNames }) {
    const [images, setImages] = useState([])
    const [showCamera, setShowCamera] = useState(true)
    // const [uploadImage, setUploadImage] = useState('')
+   const dispatch = useDispatch()
 
    const postImage = async (data) => {
       try {
@@ -29,9 +25,9 @@ export function Upload({
             }
          )
          const uploadedimgUrl = response.data.Link
-         // setUploadImage(uploadedimgUry
+         // setUploadImage(uploadedimgUrl)
+         dispatch(uploadActions.addUploadImg(uploadedimgUrl))
 
-         addImageForAnoucement(uploadedimgUrl)
          return response.data
       } catch (error) {
          console.error('Upload error', error)
