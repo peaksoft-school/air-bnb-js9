@@ -1,12 +1,13 @@
 import { styled } from '@mui/material'
 import { Select } from '../UI/select/Select'
-import { homeType, popular, price, regions } from '../../utils/helpers'
+import { homeType, popular, userPrice, regions } from '../../utils/helpers'
 
 export function FilterSelect({
    onChangeRegions,
    onChangePopular,
    onChangeHomeType,
    onChangePrice,
+   region,
 }) {
    return (
       <Container>
@@ -15,6 +16,7 @@ export function FilterSelect({
                labelName="Sort by region:"
                data={regions}
                onChange={onChangeRegions}
+               region={region}
             />
          </div>
          <div>
@@ -34,7 +36,7 @@ export function FilterSelect({
          <div>
             <Select
                labelName="Filter by price:"
-               data={price}
+               data={userPrice}
                onChange={onChangePrice}
             />
          </div>

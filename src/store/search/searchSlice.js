@@ -11,7 +11,15 @@ const initialState = {
 export const getGlobalSearchSlice = createSlice({
    name: 'global',
    initialState,
-   reducers: {},
+   reducers: {
+      globalSearchHandler: (state, action) => {
+         const filteredSearch = state.search.filter(
+            (item) =>
+               item.province.toUpperCase() === action.payload.toUpperCase()
+         )
+         return { ...state, search: filteredSearch }
+      },
+   },
    extraReducers: (builder) => {
       builder.addCase(getGlobalSearch.fulfilled, (state, action) => {
          state.search = action.payload
@@ -35,3 +43,5 @@ export const getGlobalSearchSlice = createSlice({
       })
    },
 })
+
+export const getSearchAction = getGlobalSearchSlice.actions

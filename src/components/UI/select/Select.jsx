@@ -14,6 +14,7 @@ export function Select({
    register,
    value,
    error,
+   region,
    ...props
 }) {
    return (
@@ -24,14 +25,14 @@ export function Select({
          <MuiSelect
             error={error}
             {...(register ? register('region') : {})}
-            id="region"
+            id="id"
             labelId="filter-label"
             onChange={onChange}
             displayEmpty
             label={labelName}
             value={value}
          >
-            {/* <MenuItem value=" ">All</MenuItem> */}
+            <MenuItem value="">All</MenuItem>
             {data?.map((item) => (
                <MenuItem key={item.id} value={item.value}>
                   {item.name}

@@ -22,7 +22,7 @@ import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
 import { authActions } from '../../store/auth/authSlice'
 import Modal from '../../components/UI/modal/Modal'
 
-export function Header({ profile, login, toggleMapCards }) {
+export function Header({ profile, login }) {
    // const [meatBalls, setMeatBalls] = useState(false)
    const { isAuthorization, email } = useSelector((state) => state.auth)
 
@@ -204,7 +204,7 @@ export function Header({ profile, login, toggleMapCards }) {
                   <LeaveAnAd>leave an ad</LeaveAnAd>
                </div>
 
-               <SearchDiv onClick={toggleMapCards}>
+               <SearchDiv>
                   <div className="blockCheckbox">
                      <ChecboxStyled
                         type="checkbox"

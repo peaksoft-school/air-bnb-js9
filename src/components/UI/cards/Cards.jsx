@@ -159,7 +159,7 @@ export function Cards({
                         </Button>
                         <ButtonIcon
                            width="10%"
-                           open={item.open}
+                           open={item.favorite}
                            toggle={() => toggle(index)}
                         />
                      </ButtonsContainer>
@@ -173,7 +173,6 @@ export function Cards({
 
 const MainContainer = styled('div')`
    line-height: 2rem;
-   background: #f7f7f7;
    margin-left: 2%;
    display: flex;
    flex-wrap: wrap;
@@ -182,6 +181,7 @@ const MainContainer = styled('div')`
    gap: 20px;
    flex-wrap: wrap;
    margin-top: 2.5rem;
+   width: 100%;
 `
 
 const MapContainer = styled('div')(({ status }) => ({
@@ -209,7 +209,7 @@ const MapContainer = styled('div')(({ status }) => ({
          position: 'absolute',
          ziIdex: '9',
          display: 'flex',
-         justifyContent: 'center',
+         justifyContent: 'start',
          gap: ' 15rem',
          marginTop: '4.1rem',
       },
@@ -247,9 +247,7 @@ const DayStyle = styled('p')`
    font-size: 1rem;
    font-style: normal;
    font-weight: 400;
-   display: flex;
    line-height: normal;
-   display: flex;
    gap: 5px;
 `
 

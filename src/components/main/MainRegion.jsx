@@ -18,7 +18,7 @@ export function MainRegion() {
    const dispatch = useDispatch()
    useEffect(() => {
       AOS.init({
-         duration: 1000,
+         duration: 1500,
          easing: 'ease-in-out',
          once: false,
       })
@@ -44,12 +44,12 @@ export function MainRegion() {
                      data-aos="fade-right"
                      data-aos-offset="300"
                      data-aos-easing="ease-in-sine"
-                     to="Chui"
+                     to="CHUI"
                      style={{
                         background: `url(${chui})`,
                         backgroundSize: 'cover',
                      }}
-                     onClick={() => toggleRegion('Chui')}
+                     onClick={() => toggleRegion('CHUI')}
                   >
                      <StyleName>CHUI</StyleName>
                   </ChuiAndOshCard>
@@ -60,27 +60,27 @@ export function MainRegion() {
                            data-aos="fade-down"
                            data-aos-easing="linear"
                            data-aos-duration="1000"
-                           to="Batken"
+                           to="BATKEN"
                            style={{
                               background: `url(${batken})`,
                               backgroundSize: 'cover',
                            }}
-                           onClick={() => toggleRegion('Batken')}
+                           onClick={() => toggleRegion('BATKEN')}
                         >
-                           <StyleName>batken</StyleName>
+                           <StyleName>Batken</StyleName>
                         </ItemRegionCard>
                         <ItemRegionCard
                            data-aos="fade-left"
                            data-aos-easing="linear"
                            data-aos-duration="1000"
-                           to="Jalal-Abad"
+                           to="JALAL_ABAD"
                            style={{
                               background: `url(${jalalabat})`,
                               backgroundSize: 'cover',
                            }}
-                           onClick={() => toggleRegion('Jalal-Abad')}
+                           onClick={() => toggleRegion('JALAL_ABAD')}
                         >
-                           <StyleName>Jalalabat</StyleName>
+                           <StyleName>Jalal-Abad</StyleName>
                         </ItemRegionCard>
                      </div>
                      <NarynAndBihkek
@@ -88,14 +88,14 @@ export function MainRegion() {
                         data-aos-anchor="#example-anchor"
                         data-aos-offset="1000"
                         data-aos-duration="1000"
-                        to="Naryn"
+                        to="NARYN"
                         style={{
                            background: `url(${naryn})`,
                            backgroundSize: 'cover',
                         }}
-                        onClick={() => toggleRegion('Naryn')}
+                        onClick={() => toggleRegion('NARYN')}
                      >
-                        <StyleName>naryn</StyleName>
+                        <StyleName>Naryn</StyleName>
                      </NarynAndBihkek>
                   </div>
                </BlockRegion1>
@@ -106,50 +106,50 @@ export function MainRegion() {
                         <ItemRegionCard
                            data-aos="flip-left"
                            data-aos-duration="1000"
-                           to="Issyk-Kul"
+                           to="ISSYK_KUL"
                            style={{
                               background: `url(${IssykKul})`,
                               backgroundSize: 'cover',
                            }}
-                           onClick={() => toggleRegion('Issyk-Kul')}
+                           onClick={() => toggleRegion('ISSYK_KUL')}
                         >
                            <StyleName>Issyk-kul</StyleName>
                         </ItemRegionCard>
                         <ItemRegionCard
                            data-aos="flip-up"
-                           to="Talas"
+                           to="TALAS"
                            style={{
                               background: `url(${talas})`,
                               backgroundSize: 'cover',
                            }}
-                           onClick={() => toggleRegion('Talas')}
+                           onClick={() => toggleRegion('TALAS')}
                         >
-                           <StyleName>talas</StyleName>
+                           <StyleName>Talas</StyleName>
                         </ItemRegionCard>
                      </div>
                      <NarynAndBihkek
                         data-aos="flip-left"
                         data-aos-duration="1500"
-                        to="Bishkek"
+                        to="BISHKEK"
                         style={{
                            background: `url(${bishkek})`,
                            backgroundSize: 'cover',
                         }}
-                        onClick={() => toggleRegion('Bishkek')}
+                        onClick={() => toggleRegion('BISHKEK')}
                      >
-                        <StyleName>bishkek</StyleName>
+                        <StyleName>Bishkek</StyleName>
                      </NarynAndBihkek>
                   </div>
                   <ChuiAndOshCard
                      data-aos="fade-down-left"
-                     to="Osh"
+                     to="OSH"
                      style={{
                         background: `url(${osh})`,
                         backgroundSize: 'cover',
                      }}
-                     onClick={() => toggleRegion('Osh')}
+                     onClick={() => toggleRegion('OSH')}
                   >
-                     <StyleName>osh</StyleName>
+                     <StyleName>Osh</StyleName>
                   </ChuiAndOshCard>
                </BlockRegion2>
             </ContainerRegion>

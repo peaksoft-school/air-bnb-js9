@@ -29,7 +29,6 @@ export function AppRoutes() {
 
    const role = useSelector((state) => state.auth.role)
    const { data, bookings } = useSelector((state) => state.adminUsers)
-   const { path } = useSelector((state) => state.toggle)
 
    const isAllowed = (roles) => {
       return roles.includes(role)
@@ -89,7 +88,7 @@ export function AppRoutes() {
             }
          />
          <Route
-            path={`/main/:${path}`}
+            path="/main/:id"
             element={
                <AnnouncementGetAll
                   currentPage={currentPage}

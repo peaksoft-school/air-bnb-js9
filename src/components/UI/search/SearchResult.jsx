@@ -1,26 +1,42 @@
 import React from 'react'
 import { styled } from '@mui/material'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { SearchIcon } from '../../../assets/icons'
+import { getSearchAction } from '../../../store/search/searchSlice'
+import { ActionToggleHandelr } from '../../../store/toggle/ToggleSlice'
 
 export function SearchResult({ search }) {
+   const dispatch = useDispatch()
+
+   const navigationSearch = (data) => {
+      dispatch(getSearchAction.globalSearchHandler(data.province))
+      dispatch(ActionToggleHandelr.togglePathHandler(data.province))
+      console.log(data, 'dataaaa')
+   }
    return (
       <Container>
          {search.map((item) => {
             return (
-               <MapContainer key={item.id}>
-                  <Block>
-                     <ContainerImg>
-                        {item.images.map((item) => {
-                           return item === 'string' ? (
-                              <SearchIcon />
-                           ) : (
-                              <img src={item} alt="#" />
-                           )
-                        })}
-                     </ContainerImg>
-                     <p>{item.province}</p>
-                  </Block>
+               <MapContainer
+                  to={item.province}
+                  key={item.id}
+                  onClick={() => navigationSearch(item)}
+               >
+                  <Link to={`${item.id}`}>
+                     <Block>
+                        <ContainerImg>
+                           {item.images.map((item) => {
+                              return item === 'string' ? (
+                                 <SearchIcon />
+                              ) : (
+                                 <img src={item} alt="#" />
+                              )
+                           })}
+                        </ContainerImg>
+                        <p>{item.province}</p>
+                     </Block>
+                  </Link>
                </MapContainer>
             )
          })}

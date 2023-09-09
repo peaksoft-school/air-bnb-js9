@@ -13,18 +13,17 @@ import { XIcon } from '../UI/icon/XIcon'
 
 function AnnouncementGetAll() {
    const { search, isLoading } = useSelector((state) => state.global)
-   const { cards } = useSelector((state) => state.card)
 
    const [selectedHomeType, setSelectedHomeType] = useState('')
    const [selectedPopular, setSelectedPopular] = useState('')
    const [selectedRegion, setSelectedRegion] = useState('')
    const [selectedPrice, setSelectedPrice] = useState('')
-   const [mapCards, setMapCards] = useState(false)
    const [login, setLogin] = useState(true)
 
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const params = useParams()
+   const getName = search.find((el) => el.id === +params.id)
 
    useEffect(() => {
       const params = {
@@ -41,7 +40,20 @@ function AnnouncementGetAll() {
       selectedHomeType,
       selectedPrice,
    ])
-
+   if (params.id !== null) {
+      useEffect(() => {
+         const param = {
+            region: params.id,
+         }
+         dispatch(getAllCards(param))
+      }, [
+         dispatch,
+         selectedRegion,
+         selectedPopular,
+         selectedHomeType,
+         selectedPrice,
+      ])
+   }
    const todosLength = search.length
 
    const onChangeRegions = (e) => {
@@ -58,10 +70,6 @@ function AnnouncementGetAll() {
 
    const onChangePrice = (e) => {
       setSelectedPrice(e.target.value)
-   }
-
-   const toggleMapCards = () => {
-      setMapCards((prev) => !prev)
    }
 
    const clearSort = (criteria) => {
@@ -82,18 +90,9 @@ function AnnouncementGetAll() {
       setSelectedPrice('')
    }
 
-   if (selectedPopular === 'asc') {
-      setSelectedPopular('The latest')
-   } else if (selectedPopular === 'desc') {
-      setSelectedPopular('Popular')
-   }
    return (
       <WrapperContainer>
-         <Header
-            login={login}
-            setLogin={setLogin}
-            toggleMapCards={toggleMapCards}
-         />
+         <Header login={login} setLogin={setLogin} />
          <div style={{ margin: '1rem 8rem' }} role="presentation">
             <Breadcrumbs aria-label="breadcrumb">
                <Link
@@ -109,9 +108,7 @@ function AnnouncementGetAll() {
                   color="text.primary"
                   aria-current="page"
                >
-                  {selectedRegion === ''
-                     ? Object.values(params)
-                     : selectedRegion}
+                  {selectedRegion === '' ? getName : selectedRegion}
                </Typography>
             </Breadcrumbs>
          </div>
@@ -139,6 +136,7 @@ function AnnouncementGetAll() {
                onChangePopular={onChangePopular}
                onChangeHomeType={onChangeHomeType}
                onChangePrice={onChangePrice}
+               region={params.id}
             />
          </div>
 
@@ -152,8 +150,9 @@ function AnnouncementGetAll() {
 
             {selectedPopular && (
                <SelectStyle>
-                  <XIcon onClick={() => clearSort('popular')} />{' '}
-                  {selectedPopular}
+                  <XIcon onClick={() => clearSort('popular')} />
+                  {(selectedPopular === 'asc' && 'The latest') ||
+                     (selectedPopular === 'desc' && 'Popular')}
                </SelectStyle>
             )}
 
@@ -166,10 +165,9 @@ function AnnouncementGetAll() {
 
             {selectedPrice && (
                <SelectStyle>
-                  <XIcon onClick={() => clearSort('price')} />{' '}
-                  {selectedPrice === 'HIGH_TO_LOW'
-                     ? 'HIGH TO LOW'
-                     : 'LOW TO HIGH'}
+                  <XIcon onClick={() => clearSort('price')} />
+                  {(selectedPrice === 'asc' && 'Low to high') ||
+                     (selectedPrice === 'desc' && 'High to low')}
                </SelectStyle>
             )}
 
@@ -186,9 +184,7 @@ function AnnouncementGetAll() {
                <Skeleto />
             </div>
          ) : (
-            <div>
-               {mapCards ? <Cards data={search} /> : <Cards data={cards} />}
-            </div>
+            <Cards data={search} />
          )}
       </WrapperContainer>
    )
