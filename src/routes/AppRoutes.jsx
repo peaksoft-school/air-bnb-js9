@@ -98,7 +98,7 @@ export function AppRoutes() {
                element={
                   <Payment
                      price="41"
-                     methot="put"
+                     methot="post"
                      state={state}
                      announcementId="12"
                      openModalHandler={toggle}

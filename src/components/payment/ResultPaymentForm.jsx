@@ -37,7 +37,7 @@ export function ResultPaymentForm({
 
          if (methot === 'post') {
             const postBookData = {
-               announcementId,
+               announcementId: +announcementId,
                checkIn: ResultChekin,
                checkOut: ResultChekout,
                amount: +result,
@@ -48,7 +48,7 @@ export function ResultPaymentForm({
          } else {
             const updateBookingData = {
                amount: +result,
-               announcementId,
+               announcementId: +announcementId,
                checkIn: ResultChekin,
                checkOut: ResultChekout,
                bookingId: 9,

@@ -8,11 +8,11 @@ export const postBookRequest = createAsyncThunk(
          console.log(postBookData, 'postBookData')
 
          const response = await axiosInstance.post('/api/vendor', postBookData)
-         console.log(response.data, '  return response.data')
 
-         toastType('success', 'Payment :)', 'The house was successfully booked')
+         toastType('success', 'Payment and Book :)', response.data.message)
          return response.data
       } catch (error) {
+         // console.log(error, 'errror thunk')
          toastType('error', 'Payment :(', error.message)
          return rejectWithValue(error.message)
       }
@@ -29,11 +29,11 @@ export const putBookRequest = createAsyncThunk(
             updateBookingData
          )
 
-         toastType('success', 'Payment :)', 'The house was successfully booked')
+         toastType('success', 'Payment :)', response.data.message)
 
          return response.data
       } catch (error) {
-         toastType('error', 'Payment :)', 'The house was successfully booked')
+         toastType('error', 'Payment and Book :(', error.message)
 
          return rejectWithValue(error.message)
       }

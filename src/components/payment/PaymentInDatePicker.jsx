@@ -20,6 +20,7 @@ export function PaymentInDarePicker({
 }) {
    const [selectedDates, setSelectedDates] = useState([])
    const [like, setLike] = useState(false)
+   // const { isAuthorization } = useSelector((state) => state.auth)
    const { toastType } = toastSnackbar()
    const dispatch = useDispatch()
 
