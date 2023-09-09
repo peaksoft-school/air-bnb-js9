@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { axiosInstance } from '../config/axiosInstance'
 
 export const signIn = (payload) => {
@@ -5,5 +6,7 @@ export const signIn = (payload) => {
 }
 
 export const authWithGoogle = (payload) => {
-   return axiosInstance.post(`/api/auth/google?tokenId=${payload}`)
+   return axios.post(
+      `http://airbnb.peaksoftprojects.com/api/auth/google?tokenId=${payload}`
+   )
 }
