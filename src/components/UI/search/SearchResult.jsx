@@ -19,8 +19,8 @@ export function SearchResult({ search }) {
             return (
                <MapContainer
                   to={item.province}
-                  key={item.id}
                   onClick={() => navigationSearch(item.province)}
+                  key={item.id}
                >
                   <Block>
                      <ContainerImg>
