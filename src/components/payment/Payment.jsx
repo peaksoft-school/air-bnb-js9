@@ -1,131 +1,88 @@
 import { styled } from '@mui/material'
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { PaymentInDarePicker } from './PaymentInDatePicker'
 import { Button } from '../UI/button/Button'
-import { ResultPaiment } from './ResultPaiment'
-import { paymentActions } from '../../store/payment/PaymentSlice'
+import { ResultPayment } from './ResultPayment'
 
 export function Payment({
    price,
    state,
-   methot,
+   booked,
+   bookingsId,
    announcementId,
    openModalHandler,
 }) {
    const [valueChekin, setValueCheckin] = useState('')
    const [valueChekout, setValueCheckout] = useState('')
-   const { postToggleResult, putToggleResult, defaultDate } = useSelector(
+   const [checkLocalStorage, setCheckLocalStorage] = useState({})
+   const { postToggleResult, putToggleResult } = useSelector(
       (state) => state.payment
    )
 
-   const dispatch = useDispatch()
-   const ResultChekin = `${valueChekin.$y}-${valueChekin.$H}${valueChekin.$M}-${valueChekin.$D}`
-   const ResultChekout = `${valueChekout.$y}-${valueChekout.$H}${valueChekout.$M}-${valueChekout.$D}`
+   const resultChekin = `${valueChekin.$y}-${valueChekin.$H}${valueChekin.$M}-${valueChekin.$D}`
+   const resultChekout = `${valueChekout.$y}-${valueChekout.$H}${valueChekout.$M}-${valueChekout.$D}`
 
-   const getCurrentDate = () => {
-      const currentDate = new Date()
-      const day = currentDate.getDate().toString().padStart(2, '0')
-      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0')
-      const year = currentDate.getFullYear().toString().slice(-2)
-      return `${day}.${month}.${year}`
-   }
+   useEffect(() => {
+      const getLocalStorage = localStorage?.getItem('checkin')
+      if (getLocalStorage) {
+         const checkinParse = JSON.parse(getLocalStorage)
 
-   const getFutureDate = () => {
-      const currentDate = new Date()
-      currentDate.setDate(currentDate.getDate() + 3)
-      const day = currentDate.getDate().toString().padStart(2, '0')
-      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0')
-      const year = currentDate.getFullYear().toString().slice(-2)
-      return `${day}.${month}.${year}`
-   }
+         setCheckLocalStorage({
+            checkinLocalStorage: checkinParse.checkin,
+            checkoutLocalStorage: checkinParse.checkout,
+            resultChekinLocalStorage: checkinParse.resultChekin,
+            resultChekoutLocalStorage: checkinParse.resultChekout,
+         })
+      }
+   }, [])
+   const { checkinLocalStorage, checkoutLocalStorage } = checkLocalStorage
 
-   const bookedDates = []
-   const formattedCheckinDate = `${valueChekin.$y}-${valueChekin.$M + 1}-${
-      valueChekin.$D
-   }`
-   const formattedCheckoutDate = `${valueChekout.$y}-${valueChekout.$M + 1}-${
-      valueChekout.$D
-   }`
-   bookedDates.push(formattedCheckinDate, formattedCheckoutDate)
-
-   const openPaymentHandler = () => {
-      dispatch(paymentActions.openPayment())
-   }
-   return methot === 'post' ? (
-      <div>
-         {' '}
-         {putToggleResult ? (
-            <ResultPaiment
-               price={price}
-               methot={methot}
-               valueChekin={valueChekin}
-               valueChekout={valueChekout}
-               ResultChekin={ResultChekin}
-               ResultChekout={ResultChekout}
-               announcementId={announcementId}
-               openPaymentHandler={openPaymentHandler}
-            />
-         ) : (
-            <PaymentInDarePicker
-               openModal
-               price={price}
-               methot={methot}
-               valueChekin={valueChekin}
-               valueChekout={valueChekout}
-               setValueCheckin={setValueCheckin}
-               announcementId={announcementId}
-               setValueCheckout={setValueCheckout}
-            />
-         )}
-      </div>
-   ) : (
+   return booked ? (
       <div>
          {state ? (
             <div>
                {' '}
                {postToggleResult ? (
-                  <ResultPaiment
+                  <ResultPayment
                      price={price}
-                     methot={methot}
+                     booked={booked}
+                     bookingsId={bookingsId}
                      valueChekin={valueChekin}
                      valueChekout={valueChekout}
-                     ResultChekin={ResultChekin}
-                     ResultChekout={ResultChekout}
+                     resultChekin={resultChekin}
+                     resultChekout={resultChekout}
                      announcementId={announcementId}
-                     openPaymentHandler={openPaymentHandler}
                   />
                ) : (
                   <PaymentInDarePicker
                      price={price}
-                     methot={methot}
+                     booked={booked}
                      openModal={state}
-                     bookedDates={bookedDates}
                      valueChekin={valueChekin}
                      valueChekout={valueChekout}
+                     resultChekin={resultChekin}
+                     resultChekout={resultChekout}
                      announcementId={announcementId}
                      setValueCheckin={setValueCheckin}
                      setValueCheckout={setValueCheckout}
+                     checkLocalStorage={checkLocalStorage}
                   />
                )}
             </div>
          ) : (
             <ContainerPayment>
                <ContainerDay styles="day">
-                  <h4>${price}</h4>/ <h4 className="day">day</h4>
+                  <p>${price}</p>/ <p className="day">day</p>
                </ContainerDay>
                <DatePickerStyle>
                   <BlockDatePicker>
                      <p className="check">Check in</p>
-                     <p className="date">
-                        {defaultDate ? ResultChekin : getCurrentDate()}
-                     </p>
+                     <p className="date">{checkinLocalStorage}</p>
                   </BlockDatePicker>
                   <BlockDatePicker>
                      <p className="check">Check out</p>
-                     <p className="date">
-                        {defaultDate ? ResultChekout : getFutureDate()}
-                     </p>
+                     <p className="date">{checkoutLocalStorage}</p>
                   </BlockDatePicker>
                </DatePickerStyle>
                <Button
@@ -144,6 +101,35 @@ export function Payment({
                   change the date
                </Button>
             </ContainerPayment>
+         )}
+      </div>
+   ) : (
+      <div>
+         {' '}
+         {putToggleResult ? (
+            <ResultPayment
+               price={price}
+               booked={booked}
+               valueChekin={valueChekin}
+               valueChekout={valueChekout}
+               resultChekin={resultChekin}
+               resultChekout={resultChekout}
+               announcementId={announcementId}
+            />
+         ) : (
+            <PaymentInDarePicker
+               openModal
+               price={price}
+               booked={booked}
+               valueChekin={valueChekin}
+               valueChekout={valueChekout}
+               resultChekin={resultChekin}
+               resultChekout={resultChekout}
+               announcementId={announcementId}
+               setValueCheckin={setValueCheckin}
+               setValueCheckout={setValueCheckout}
+               checkLocalStorage={checkLocalStorage}
+            />
          )}
       </div>
    )
@@ -201,7 +187,7 @@ export const BlockDatePicker = styled('div')(() => ({
    },
    '.date': {
       color: 'var(--primary-black, #363636)',
-      fontFamily: 'Roboto',
+      fontFamily: 'Inter',
       fontSize: '1rem',
       fontStyle: 'normal',
       fontWeight: 400,

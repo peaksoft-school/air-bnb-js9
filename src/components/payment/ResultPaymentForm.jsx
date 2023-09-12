@@ -10,12 +10,12 @@ import {
 import { toastSnackbar } from '../UI/snackbar/Snackbar'
 
 export function ResultPaymentForm({
-   methot,
+   booked,
    result,
-   ResultChekin,
-   ResultChekout,
+   bookingsId,
+   resultChekin,
+   resultChekout,
    announcementId,
-   openPaymentHandler,
 }) {
    const [error, setError] = useState('')
    const stripe = useStripe()
@@ -33,28 +33,27 @@ export function ResultPaymentForm({
          const { token } = await stripe.createToken(
             elements.getElement(CardElement)
          )
-         openPaymentHandler()
 
-         if (methot === 'post') {
+         if (booked) {
+            const updateBookingData = {
+               amount: +result,
+               announcementId: +announcementId,
+               checkIn: resultChekin,
+               checkOut: resultChekout,
+               bookingId: +bookingsId,
+               token: token.id,
+            }
+            dispatch(putBookRequest({ updateBookingData, toastType }))
+         } else {
             const postBookData = {
                announcementId: +announcementId,
-               checkIn: ResultChekin,
-               checkOut: ResultChekout,
+               checkIn: resultChekin,
+               checkOut: resultChekout,
                amount: +result,
                token: token.id,
             }
 
             dispatch(postBookRequest({ postBookData, toastType }))
-         } else {
-            const updateBookingData = {
-               amount: +result,
-               announcementId: +announcementId,
-               checkIn: ResultChekin,
-               checkOut: ResultChekout,
-               bookingId: 9,
-               token: token.id,
-            }
-            dispatch(putBookRequest({ updateBookingData, toastType }))
          }
       } catch (error) {
          setError('Ошибка при получении токена')
@@ -86,7 +85,7 @@ export function ResultPaymentForm({
             padding=" 0.625rem 1rem"
             textTransform="uppercase"
          >
-            Book
+            {booked ? 'Save' : 'Book'}
          </Button>
       </ContainerFrom>
    )

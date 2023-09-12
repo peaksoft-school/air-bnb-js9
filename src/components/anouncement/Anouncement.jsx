@@ -28,6 +28,7 @@ export function AddAnouncementForm() {
    const { toastType } = toastSnackbar()
    const navigate = useNavigate()
    const { darkMode } = useSelector((state) => state.darkMode)
+   const { images } = useSelector((state) => state.uploadImg)
 
    const postAnouncementForm = async (payload) => {
       try {
@@ -50,8 +51,6 @@ export function AddAnouncementForm() {
    } = useForm({
       resolver: yupResolver(schema),
    })
-
-   const { images } = useSelector((state) => state.uploadImg)
 
    const onSubmit = (data) => {
       data.images = images

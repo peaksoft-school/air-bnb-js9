@@ -27,15 +27,15 @@ const stripePromise = loadStripe(
    'pk_test_51NdWEALAAx1GCzR7MYd1i0ZdWiHVHXzC6OKrgkX1sys0xohhvYcbnWJYRjF2Zjh7oIaPMTcLNWYaWNdXg0P35upx00ivG01DcS'
 )
 
-export function ResultPaiment({
+export function ResultPayment({
    price,
-   methot,
+   booked,
+   bookingsId,
    valueChekin,
    valueChekout,
-   ResultChekin,
-   ResultChekout,
+   resultChekin,
+   resultChekout,
    announcementId,
-   openPaymentHandler,
 }) {
    const formattedValueChekin = `${getMonthName(valueChekin.$M)} ${
       valueChekin.$D
@@ -51,40 +51,7 @@ export function ResultPaiment({
    const mines = valueChekout.$D - valueChekin.$D
    const result = price * mines
 
-   return methot === 'post' ? (
-      <Container>
-         <ContainerPayment>
-            <ContainerDescription styles="book">
-               <h2>Book your trip</h2>
-               <p className="book">
-                  The booking date has been changed, please pay an additional{' '}
-                  {mines} days in the period from {formattedValueChekin} to{' '}
-                  {formattedValueChekout} inclusive.
-               </p>
-            </ContainerDescription>
-
-            <ContainerSum>
-               <Result>
-                  ${price} x {mines} days = $ {result}
-               </Result>
-               <h3 className="total">
-                  Total = <h3>${result}</h3>
-               </h3>
-            </ContainerSum>
-
-            <Elements stripe={stripePromise}>
-               <ResultPaymentForm
-                  methot={methot}
-                  result={result}
-                  ResultChekin={ResultChekin}
-                  ResultChekout={ResultChekout}
-                  announcementId={announcementId}
-                  openPaymentHandler={openPaymentHandler}
-               />
-            </Elements>
-         </ContainerPayment>
-      </Container>
-   ) : (
+   return booked ? (
       <Container>
          <ContainerPayment>
             <ContainerDescription styles="book">
@@ -108,22 +75,54 @@ export function ResultPaiment({
             </ResultContainer>
 
             <TotalContainer styles="total">
-               <h3 className="total">
-                  Total = <h3>${result}</h3>
-               </h3>
-               <h3 className="amount">
-                  Payment amount = <h3>${result}</h3>
-               </h3>
+               <div className="total">
+                  Total = <p>${result}</p>
+               </div>
+               <div className="amount">
+                  Payment amount = <p>${result}</p>
+               </div>
             </TotalContainer>
 
             <Elements stripe={stripePromise}>
                <ResultPaymentForm
-                  methot={methot}
+                  booked={booked}
                   result={result}
-                  ResultChekin={ResultChekin}
-                  ResultChekout={ResultChekout}
+                  bookingsId={bookingsId}
+                  resultChekin={resultChekin}
+                  resultChekout={resultChekout}
                   announcementId={announcementId}
-                  openPaymentHandler={openPaymentHandler}
+               />
+            </Elements>
+         </ContainerPayment>
+      </Container>
+   ) : (
+      <Container>
+         <ContainerPayment>
+            <ContainerDescription styles="book">
+               <h2>Book your trip</h2>
+               <p className="book">
+                  The booking date has been changed, please pay an additional{' '}
+                  {mines} days in the period from {formattedValueChekin} to{' '}
+                  {formattedValueChekout} inclusive.
+               </p>
+            </ContainerDescription>
+
+            <ContainerSum>
+               <Result>
+                  ${price} x {mines} days = $ {result}
+               </Result>
+               <h3 className="total">
+                  Total = <h3>${result}</h3>
+               </h3>
+            </ContainerSum>
+
+            <Elements stripe={stripePromise}>
+               <ResultPaymentForm
+                  booked={booked}
+                  result={result}
+                  resultChekin={resultChekin}
+                  resultChekout={resultChekout}
+                  announcementId={announcementId}
                />
             </Elements>
          </ContainerPayment>
@@ -216,7 +215,7 @@ const TotalContainer = styled('div')(() => ({
       lineHeight: 'normal',
       color: ' var(--tertiary-middle-gray, #828282)',
       display: 'flex',
-      h3: {
+      p: {
          fontWeight: '500',
       },
    },

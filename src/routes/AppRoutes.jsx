@@ -100,9 +100,10 @@ export function AppRoutes() {
                element={
                   <Payment
                      price="41"
-                     methot="post"
                      state={state}
-                     announcementId="12"
+                     booked
+                     bookingsId="7"
+                     announcementId="4"
                      openModalHandler={toggle}
                   />
                }

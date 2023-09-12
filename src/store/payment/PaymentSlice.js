@@ -4,8 +4,6 @@ import { postBookRequest } from './PaymentThunk'
 const initialState = {
    postToggleResult: false,
    putToggleResult: false,
-   defaultDate: false,
-   openPayment: false,
    message: '',
 }
 
@@ -19,12 +17,6 @@ export const paymentSlice = createSlice({
             postToggleResult: !state.postToggleResult,
             putToggleResult: !state.putToggleResult,
          }
-      },
-      setDefaultDate: (state) => {
-         return { ...state, defaultDate: true }
-      },
-      openPayment: (state) => {
-         return { ...state, openPayment: !state.openPayment }
       },
    },
    extraReducers: (builder) => {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
+import dayjs from 'dayjs'
 import DateePicker from '../UI/date-picker/Date-Picker'
 import { Button } from '../UI/button/Button'
 import { Like } from '../UI/likes/Like'
@@ -10,19 +11,29 @@ import { toastSnackbar } from '../UI/snackbar/Snackbar'
 
 export function PaymentInDarePicker({
    price,
-   methot,
+   booked,
    openModal,
    valueChekin,
    valueChekout,
+   resultChekin,
+   resultChekout,
    announcementId,
    setValueCheckin,
    setValueCheckout,
+   checkLocalStorage,
 }) {
    const [selectedDates, setSelectedDates] = useState([])
    const [like, setLike] = useState(false)
-   // const { isAuthorization } = useSelector((state) => state.auth)
    const { toastType } = toastSnackbar()
    const dispatch = useDispatch()
+   const { resultChekinLocalStorage, resultChekoutLocalStorage } =
+      checkLocalStorage
+
+   const defaultDateCheckin = dayjs(`${resultChekinLocalStorage}`)
+   const defaultDateCheckout = dayjs(`${resultChekoutLocalStorage}`)
+
+   const checkin = `${valueChekin.$D}.${valueChekin.$H}${valueChekin.$M}.${valueChekin.$y}`
+   const checkout = `${valueChekout.$D}.${valueChekout.$H}${valueChekout.$M}.${valueChekout.$y}`
 
    const handleCheckinChange = (newDate) => {
       setValueCheckin(newDate)
@@ -41,7 +52,27 @@ export function PaymentInDarePicker({
    }
 
    const shouldDisableDate = (date) => {
-      const dateString = date.toISOString().split('T')[0]
+      const dateString = date.toString().split('T')[0]
+      if (valueChekin && valueChekout) {
+         return (
+            (date >= valueChekin && date <= valueChekout) || date <= valueChekin
+         )
+      }
+
+      if (valueChekin) {
+         return date <= valueChekin || isPastDate(date)
+      }
+      return selectedDates.includes(dateString) || isPastDate(date)
+   }
+
+   const updateDisableDate = (date) => {
+      const dateString = date.toString().split('T')[0]
+      if (defaultDateCheckin && defaultDateCheckout) {
+         return (
+            (date > defaultDateCheckin && date <= defaultDateCheckin) ||
+            date < defaultDateCheckin
+         )
+      }
       return selectedDates.includes(dateString) || isPastDate(date)
    }
 
@@ -65,11 +96,18 @@ export function PaymentInDarePicker({
 
    const toggleInPaymentForm = () => {
       dispatch(paymentActions.setToggleResult())
+      const data = {
+         checkin,
+         checkout,
+         resultChekin,
+         resultChekout,
+      }
+      localStorage.setItem('checkin', JSON.stringify(data))
    }
 
    return openModal ? (
       <div>
-         {methot === 'put' ? (
+         {booked ? (
             <ContainerPayment>
                <ContainerDay styles="day">
                   <h4>${price}</h4>/ <h4 className="day">day</h4>
@@ -80,20 +118,21 @@ export function PaymentInDarePicker({
                      <p className="check">Check in</p>
                      <DateePicker
                         value={valueChekin}
+                        values={defaultDateCheckin}
                         setValue={handleCheckinChange}
-                        shouldDisableDate={shouldDisableDate}
+                        shouldDisableDate={updateDisableDate}
                      />
                   </BlockDatePicker>
                   <BlockDatePicker>
                      <p className="check">Check out</p>
                      <DateePicker
                         value={valueChekout}
+                        values={defaultDateCheckout}
                         setValue={handleCheckoutChange}
-                        shouldDisableDate={shouldDisableDate}
+                        shouldDisableDate={updateDisableDate}
                      />
                   </BlockDatePicker>
                </DatePickerStyle>
-
                <Button
                   border="none"
                   color="#F7F7F7"

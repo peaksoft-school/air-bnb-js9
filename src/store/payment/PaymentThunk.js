@@ -5,14 +5,11 @@ export const postBookRequest = createAsyncThunk(
    'book/postBookRequest',
    async ({ postBookData, toastType }, { rejectWithValue }) => {
       try {
-         console.log(postBookData, 'postBookData')
-
          const response = await axiosInstance.post('/api/vendor', postBookData)
 
          toastType('success', 'Payment and Book :)', response.data.message)
          return response.data
       } catch (error) {
-         // console.log(error, 'errror thunk')
          toastType('error', 'Payment :(', error.message)
          return rejectWithValue(error.message)
       }
@@ -28,7 +25,6 @@ export const putBookRequest = createAsyncThunk(
             '/api/vendor',
             updateBookingData
          )
-
          toastType('success', 'Payment :)', response.data.message)
 
          return response.data
@@ -49,7 +45,6 @@ export const postFavoriteInPayment = createAsyncThunk(
          toastType('success', 'favorite :)', response.data.message)
          return response.data
       } catch (error) {
-         console.log(error, 'error')
          toastType('error', 'favorite :)', error.message)
 
          return rejectWithValue(error.message)
