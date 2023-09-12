@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../button/Button'
 import { ModalNameHotel } from './ModalNameHotel'
+import { axiosInstance } from '../../../config/axiosInstance'
+import { toastSnackbar } from '../snackbar/Snackbar'
+import { getAnnouncementByIdHandler } from '../../../store/getAnnouncement/GetAnnouncementByIdThunk'
+import { ModalDelete } from './ModalDelete'
 
 export function NameOfHotel({
    roles,
@@ -13,12 +18,52 @@ export function NameOfHotel({
    rejectedCartd,
    openModalHandler,
 }) {
+   const [blockedArr, setBlockedArr] = useState({})
+   const { toastType } = toastSnackbar()
+   const navigate = useNavigate()
+   const [deleteModal, setDeleteModal] = useState(false)
+   const openDeleteModal = () => {
+      setDeleteModal((prev) => !prev)
+   }
+
+   console.log('blockedArr: ', blockedArr)
+   const blockAnnouncementById = async (id) => {
+      try {
+         const response = await axiosInstance.get(
+            `/api/admin/blockedAnnouncementsById?announcementId=${id}`
+         )
+         setBlockedArr(response)
+         toastType('success', response.data.message, response.data.httpStatus)
+      } catch (error) {
+         console.log('error: ', error)
+      }
+   }
+
+   const deleteAnnouncementById = async (id) => {
+      try {
+         const response = await axiosInstance.delete(`/api/announcements/${id}`)
+         getAnnouncementByIdHandler()
+         console.log('response: ', response)
+         navigate(-1)
+         toastType('success', response.data.message)
+         return response.data
+      } catch (error) {
+         return error.message
+      }
+   }
+
    return (
       <Container>
          <ModalNameHotel
             openModal={openModal}
             openModalHandler={openModalHandler}
             rejectedCartd={rejectedCartd}
+         />
+         <ModalDelete
+            openModal={deleteModal}
+            openModalHandler={openDeleteModal}
+            dataById={dataById}
+            deleteAnnouncement={deleteAnnouncementById}
          />
          <DescriptionContainer key={dataById.id}>
             <ButtonContainerOne>
@@ -52,9 +97,11 @@ export function NameOfHotel({
          {buttons === 'yes' ? (
             <ContainerButtonTwo>
                <Button
-                  onClick={openModalHandler}
+                  onClick={
+                     pages ? () => openDeleteModal() : () => openModalHandler()
+                  }
                   variant="contained"
-                  width="12.25rem"
+                  width="13.25rem"
                   border-radius=" 0.125rem"
                   border=" 1px solid #DD8A08"
                   bgColor="#fff"
@@ -62,13 +109,15 @@ export function NameOfHotel({
                   color="#DD8A08"
                   font-size="0.875rem"
                   font-weight="500"
+                  hoverBgColor="#cfbf8e"
+                  hoverColor="#6c470b"
                >
                   {pages === 'user' ? 'delete' : 'reject'}
                </Button>
                {roles === 'user' ? (
                   <Button
                      variant="contained"
-                     width="12.25rem"
+                     width="13.25rem"
                      border-radius=" 0.125rem"
                      border=" 1px solid #DD8A08"
                      bgColor="#DD8A08"
@@ -82,10 +131,12 @@ export function NameOfHotel({
                ) : (
                   <Button
                      onClick={
-                        pages ? 'block' : () => acceptHandler(dataById.id)
+                        pages
+                           ? () => blockAnnouncementById(dataById.id)
+                           : () => acceptHandler(dataById.id)
                      }
                      variant="contained"
-                     width="12.25rem"
+                     width="13.25rem"
                      border-radius=" 0.125rem"
                      border=" 1px solid #DD8A08"
                      bgColor="#DD8A08"

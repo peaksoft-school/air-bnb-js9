@@ -38,7 +38,7 @@ export function Select({
          >
             {data?.map((item) => {
                return (
-                  <MenuItem key={item.id} value={item.value}>
+                  <MenuItem key={item.id} value={item.name}>
                      {item.name}
                   </MenuItem>
                )

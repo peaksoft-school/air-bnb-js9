@@ -138,7 +138,7 @@ export function MySlider({ background, state, lastestData, apartmentData }) {
 const ContainerImg = styled('div')({
    width: '32rem',
    height: '18.75rem',
-   marginLeft: '2rem',
+   // marginLeft: '2rem',
 })
 
 const Arrows = styled('div')({

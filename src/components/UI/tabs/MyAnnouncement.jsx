@@ -117,6 +117,7 @@ export function MyAnnouncement({ select, announcement }) {
                      justifyContent="start"
                      bgColor="white"
                      toPath="true"
+                     padding="0 0 0 2rem"
                   />
                </div>
             )}

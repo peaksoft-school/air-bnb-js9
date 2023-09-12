@@ -12,7 +12,7 @@ export function Bookings({ bookings, onChange }) {
                page="admin"
                justifyContent="start"
                bgColor="white"
-               padding="2rem 0 0 0 "
+               padding="2rem 0 0 2rem "
             />
          ) : (
             <BookingContainer>

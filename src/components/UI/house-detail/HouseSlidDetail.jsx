@@ -4,7 +4,6 @@ import 'react-image-gallery/styles/css/image-gallery.css'
 import { styled } from '@mui/material'
 
 export function HouseSlidDetail({ images }) {
-   console.log('images: ', images)
    return (
       <Container>
          <StyleImageGallery

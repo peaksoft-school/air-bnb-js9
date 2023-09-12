@@ -10,7 +10,10 @@ import { Booked } from '../../components/UI/booked/Booked'
 import { Favorites } from '../../components/UI/favorites/Favorites'
 import { RatingChart } from '../../components/UI/rating/RatingChart'
 import { getApplicationById } from '../../store/admin-application/ApplicationThunk'
-import { axiosInstance } from '../../config/axiosInstance'
+import {
+   getAnnouncementByIdHandler,
+   getAnnouncementFeedbacks,
+} from '../../store/getAnnouncement/GetAnnouncementByIdThunk'
 
 export function AnnouncementAdminPage({
    roles,
@@ -19,29 +22,19 @@ export function AnnouncementAdminPage({
    // rejectedHandler,
 }) {
    const [openModal, setOpenModal] = useState(false)
-   const [announcement, setAnnouncement] = useState({})
    const { dataById } = useSelector((state) => state.application)
+   const { AdminAnnouncementById } = useSelector(
+      (state) => state.AnnouncementById
+   )
    const dispatch = useDispatch()
    const params = useParams()
 
-   console.log('announcement-images: ', announcement.images)
-   console.log('announcement: ', announcement)
-
-   const getAnnouncementById = async (id) => {
-      try {
-         const response = await axiosInstance.get(
-            `/api/admin/getByIdAnnouncements?announcementId=${id}`
-         )
-
-         setAnnouncement(response.data)
-      } catch (error) {
-         console.log('error: ', error)
-      }
-   }
    useEffect(() => {
       dispatch(getApplicationById(params.id))
-      getAnnouncementById(params.id)
-   }, [])
+      dispatch(getAnnouncementByIdHandler(params.id))
+      dispatch(getAnnouncementFeedbacks(params.id))
+   }, [dispatch])
+
    const data = [
       {
          name: 'Bars Barsov',
@@ -133,7 +126,11 @@ export function AnnouncementAdminPage({
                   <div role="presentation">
                      <StyledNavlink to="/admin/users/">
                         Users
-                        <span> / {announcement.fullName} / </span>
+                        <StyledNavlink
+                           to={`/admin/users/${params.userId}/my-announcement`}
+                        >
+                           / {AdminAnnouncementById.fullName} /{' '}
+                        </StyledNavlink>
                         <span
                            style={{
                               fontWeight: '700',
@@ -151,7 +148,7 @@ export function AnnouncementAdminPage({
                         <NameOfHotel
                            pages={pages}
                            buttons="yes"
-                           dataById={announcement}
+                           dataById={AdminAnnouncementById}
                            openModal={openModal}
                            openModalHandler={openModalHandler}
                         />
