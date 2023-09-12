@@ -100,10 +100,10 @@ export function AppRoutes() {
                element={
                   <Payment
                      price="41"
-                     state={state}
-                     booked={false}
+                     booked
                      bookingsId="7"
                      announcementId="4"
+                     toggleDatePicker={state}
                      openModalHandler={toggle}
                   />
                }

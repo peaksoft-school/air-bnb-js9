@@ -7,10 +7,10 @@ import { ResultPayment } from './ResultPayment'
 
 export function Payment({
    price,
-   state,
    booked,
    bookingsId,
    announcementId,
+   toggleDatePicker,
    openModalHandler,
 }) {
    const [valueChekin, setValueCheckin] = useState('')
@@ -40,7 +40,7 @@ export function Payment({
 
    return booked ? (
       <div>
-         {state ? (
+         {toggleDatePicker ? (
             <div>
                {' '}
                {postToggleResult ? (
@@ -58,7 +58,7 @@ export function Payment({
                   <PaymentInDarePicker
                      price={price}
                      booked={booked}
-                     openModal={state}
+                     openModal={toggleDatePicker}
                      valueChekin={valueChekin}
                      valueChekout={valueChekout}
                      resultChekin={resultChekin}
