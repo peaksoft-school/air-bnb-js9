@@ -101,7 +101,7 @@ export function AppRoutes() {
                   <Payment
                      price="41"
                      state={state}
-                     booked
+                     booked={false}
                      bookingsId="7"
                      announcementId="4"
                      openModalHandler={toggle}
