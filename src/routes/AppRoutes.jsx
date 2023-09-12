@@ -18,8 +18,11 @@ import { toastSnackbar } from '../components/UI/snackbar/Snackbar'
 import { Bookings } from '../components/UI/tabs/Bookings'
 import { MyAnnouncement } from '../components/UI/tabs/MyAnnouncement'
 import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
+import { Favorite } from '../components/favorite/Favorite'
+import { UserProfile } from '../components/Profile/Profile'
 import { AllHousing } from '../pages/admin/all-housing/AllHousing'
 import { NotFound } from '../components/UI/404/NotFound'
+import { OnModeration } from '../components/UI/tabs/OnModeration'
 
 export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
@@ -89,7 +92,29 @@ export function AppRoutes() {
                />
             }
          />
+
+         <Route path="favorites" element={<Favorite />} />
+
          <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
+         <Route
+            path="/Profile"
+            element={<Navigate to="/Profile/my-announcement" />}
+         />
+         <Route path="Profile" element={<UserProfile />}>
+            <Route
+               index
+               path="bookings"
+               element={<Bookings bookings={bookings} onChange="true" />}
+            />
+            <Route
+               path="my-announcement"
+               element={<MyAnnouncement announcement={data} select="true" />}
+            />
+            <Route
+               path="on-moderation"
+               element={<OnModeration moderation={data} />}
+            />
+         </Route>
 
          {/* admin */}
          <Route

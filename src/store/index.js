@@ -8,6 +8,7 @@ import { allHousingSlice } from './admin-all-housing/AllHousingSlice'
 import { DarkModeSlice } from './dark-mode/DarkModeSlice'
 import { ModalSlice } from './ModalSlice'
 import { getAnnouncementByIdSlice } from './getAnnouncement/GetAnnouncementByIdSlice'
+import { favoriteSlice } from './favorite/FavoriteSlice'
 
 export const store = configureStore({
    reducer: {
@@ -22,5 +23,6 @@ export const store = configureStore({
       [DarkModeSlice.name]: DarkModeSlice.reducer,
       [ModalSlice.name]: ModalSlice.reducer,
       [getAnnouncementByIdSlice.name]: getAnnouncementByIdSlice.reducer,
+      [favoriteSlice.name]: favoriteSlice.reducer,
    },
 })

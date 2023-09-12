@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
-import { Tabs } from '../tabs/Tabs'
 import { Profile } from '../UI/profile/Profile'
 import { getAnnouncement } from '../../store/profile/ProfileThunk'
 import { authActions } from '../../store/auth/authSlice'
+import { Tabs } from '../UI/tabs/Tabs'
 
 export function UserProfile() {
    const dispatch = useDispatch()
@@ -36,16 +36,16 @@ export function UserProfile() {
          <NavContainer>
             <Navigation>
                <ButtonStyle type="button" onClick={() => navigate('/')}>
-                  Main /
+                  <NavStyle>Main /</NavStyle>
                </ButtonStyle>
                <ButtonStyle type="button" onClick={() => navigate('/hotel')}>
-                  Hotel /
+                  <NavStyle>Hotel /</NavStyle>
                </ButtonStyle>
                <ButtonStyle type="button" onClick={() => navigate('/naryn')}>
-                  Naryn /
+                  <NavStyle>Naryn /</NavStyle>
                </ButtonStyle>
                <ButtonStyle type="button" onClick={() => navigate(`/Profile`)}>
-                  Profile
+                  <ProfileStyle>Profile</ProfileStyle>
                </ButtonStyle>
             </Navigation>
 
@@ -114,4 +114,17 @@ const MainContainer = styled('div')`
    background: #f7f7f7;
    width: 100%;
    height: 100px;
+`
+const ProfileStyle = styled('p')`
+   color: var(--primary-black, #363636);
+   font-size: 0.875rem;
+   font-weight: 400;
+`
+const NavStyle = styled('p')`
+   color: var(--tertiary-light-gray, #c4c4c4);
+   font-family: Inter;
+   font-size: 0.875rem;
+   font-style: normal;
+   font-weight: 400;
+   line-height: normal;
 `

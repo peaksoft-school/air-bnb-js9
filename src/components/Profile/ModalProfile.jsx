@@ -29,10 +29,9 @@ const validationSchema = Yup.object().shape({
 function ModalProfile({ setModalVisible, itemId, data, handleMenuClose }) {
    const dispatch = useDispatch()
    const { toastType } = toastSnackbar()
-   console.log(itemId, 'iidd')
-   console.log(data, 'data')
+
    const [object, setObject] = useState({})
-   const [valueSelect, setValueSelect] = useState(data.region || 'OSH')
+   const [valueSelect, setValueSelect] = useState(data.region || 'CHUI')
 
    const dataOption = [
       { id: 'option1', name: 'BATKEN', value: 'BATKEN' },
@@ -123,13 +122,8 @@ function ModalProfile({ setModalVisible, itemId, data, handleMenuClose }) {
    }, [data])
 
    return (
-      <Modal
-         width="50%"
-         height="34rem"
-         open={setModalVisible}
-         onClose={toggleHandler}
-      >
-         <form onSubmit={handleSubmit}>
+      <Modal width="auto" height="auto" open={setModalVisible}>
+         <FormStyle onSubmit={handleSubmit}>
             <StyleModalContainer>
                <InputContainer>
                   <StyleRadioContainer>
@@ -260,11 +254,17 @@ function ModalProfile({ setModalVisible, itemId, data, handleMenuClose }) {
                   Cancel
                </Button>
             </StyleButtonContainer>
-         </form>
+         </FormStyle>
       </Modal>
    )
 }
 
+const FormStyle = styled('form')`
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   flex-wrap: wrap;
+`
 const SelectLabelName = styled('span')(() => ({
    color: '#C4C4C4',
 }))
@@ -299,6 +299,7 @@ const StyleModalContainer = styled('div')`
 `
 
 const StyleButtonContainer = styled('div')`
+   width: 100%;
    padding-top: 3rem;
    display: flex;
    justify-content: center;
@@ -307,12 +308,15 @@ const StyleButtonContainer = styled('div')`
 `
 
 const InputContainer = styled('div')`
+   width: 100%;
    display: flex;
+   flex-wrap: wrap;
    flex-direction: column;
    gap: 1rem;
 `
 
 const StyleRadioContainer = styled('div')`
+   width: 100%;
    display: flex;
    justify-content: space-around;
    margin-top: 21px;

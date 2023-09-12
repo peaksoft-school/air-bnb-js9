@@ -88,8 +88,8 @@ export function NameOfHotel({
                   </NameBlock>
                ) : (
                   <NameBlock>
-                     <h4>{dataById.userFullName}</h4>
-                     <p>{dataById.userEmail}</p>
+                     <h4>{dataById.fullName}</h4>
+                     <p>{dataById.email}</p>
                   </NameBlock>
                )}
             </ProfileBlock>

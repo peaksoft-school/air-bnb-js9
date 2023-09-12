@@ -145,62 +145,80 @@ export const schema = yup.object().shape({
 
 export const data = [
    {
-      name: 'Bars Barsov',
+      feedbackUserFullName: 'Barsbek Makhmatov',
       comment:
          'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-      starRating: 2,
-      like: 4,
-      dislike: 2,
-      avatar:
+      rating: 2,
+      likeCount: 4,
+      disLikeCount: 2,
+      feedbackUserImage:
          'https://ca.slack-edge.com/T023L1WBFLH-U04553S5F4Y-b3857864c0e6-512',
+      createdAt: '29-11-2023',
+      id: '1',
    },
    {
-      name: 'Beku Bekov',
+      feedbackUserFullName: 'Beku Bekov',
       comment:
          'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-      starRating: 3,
-      like: 1,
-      dislike: 5,
-      avatar: '',
+      rating: 3,
+      likeCount: 1,
+      disLikeCount: 5,
+      feedbackUserImage: '',
+      createdAt: '29-11-2023',
+      id: '2',
    },
    {
-      name: 'Aziret Aziretov',
+      feedbackUserFullName: 'Aziret Aziretov',
       comment:
          'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-      starRating: 4,
-      like: 5,
-      dislike: 3,
-      avatar:
+      rating: 4,
+      likeCount: 5,
+      disLikeCount: 3,
+      feedbackUserImage:
          'https://ca.slack-edge.com/T023L1WBFLH-U03E00N1USF-0fc4b2f5d54e-512',
+      images: [
+         'https://www.diybunker.com/wp-content/uploads/2021/09/home-2-1024x751.jpg',
+         'https://foyr.com/learn/wp-content/uploads/2022/05/family-room-in-a-house-1024x683.jpg',
+         'https://images.livspace-cdn.com/plain/https://jumanji.livspace-cdn.com/magazine/wp-content/uploads/sites/3/2021/10/18115838/modern-house-design.jpg',
+         'https://archello.s3.eu-central-1.amazonaws.com/images/2020/06/20/Contemporary-House-Interior-Design-1.1592613106.9601.jpg',
+      ],
+      createdAt: '29-11-2023',
+      id: '3',
    },
    {
-      name: 'Emir Emirov',
+      feedbackUserFullName: 'Emir Duishonaliev',
       comment:
          'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-      starRating: 5,
-      like: 4,
-      dislike: 1,
-      avatar: '',
+      rating: 5,
+      likeCount: 4,
+      disLikeCount: 1,
+      feedbackUserImage: '',
+      createdAt: '29-11-2023',
+      id: '4',
    },
    {
-      name: 'Aziret Aziretov',
+      feedbackUserFullName: 'Aziret Aziretov',
       comment:
          'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-      starRating: 4,
-      like: 5,
-      dislike: 3,
-      avatar:
+      rating: 4,
+      likeCount: 5,
+      disLikeCount: 3,
+      feedbackUserImage:
          'https://ca.slack-edge.com/T023L1WBFLH-U03E00N1USF-0fc4b2f5d54e-512',
+      createdAt: '29-11-2023',
+      id: '5',
    },
    {
-      name: 'Bars Barsov',
+      feedbackUserFullName: 'Bars Barsov',
       comment:
          'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-      starRating: 2,
-      like: 4,
-      dislike: 2,
-      avatar:
+      rating: 2,
+      likeCount: 4,
+      disLikeCount: 2,
+      feedbackUserImage:
          'https://ca.slack-edge.com/T023L1WBFLH-U04553S5F4Y-b3857864c0e6-512',
+      createdAt: '29-11-2023',
+      id: '6',
    },
 ]
 
