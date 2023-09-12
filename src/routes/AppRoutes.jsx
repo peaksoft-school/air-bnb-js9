@@ -100,7 +100,7 @@ export function AppRoutes() {
                element={
                   <Payment
                      price="41"
-                     booked
+                     booked={false}
                      bookingsId="7"
                      announcementId="4"
                      toggleDatePicker={state}
