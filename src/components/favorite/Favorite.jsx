@@ -2,10 +2,9 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
-
 import { styled } from '@mui/material'
-import { PulseLoader } from 'react-spinners'
-import { css } from '@emotion/react'
+// import { PulseLoader } from 'react-spinners'
+// import { css } from '@emotion/react'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
 import { Cards } from '../UI/cards/Cards'
@@ -16,11 +15,11 @@ export function Favorite() {
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
-   const override = css`
-      display: block;
-      margin: 0 auto;
-      border-color: red;
-   `
+   // const override = css`
+   //    display: block;
+   //    margin: 0 auto;
+   //    border-color: red;
+   // `
    const transformedData = favorites?.map((data) => ({
       images: [data.image],
       rating: data.rating,
@@ -52,7 +51,7 @@ export function Favorite() {
             <Container>
                {status ? (
                   <SpinerContainer>
-                     <PulseLoader color="#DD8A08" css={override} size={15} />
+                     {/* <PulseLoader color="#DD8A08" css={override} size={15} /> */}
                   </SpinerContainer>
                ) : (
                   <div>
