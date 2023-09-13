@@ -28,7 +28,7 @@ export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
    const [currentSize, setCurrenSize] = useState(18)
    const [title, setTitle] = useState('')
-   const [stat, setState] = useState('')
+   const [stat, setStat] = useState('')
    const { toastType } = toastSnackbar()
    const dispatch = useDispatch()
 
@@ -178,7 +178,7 @@ export function AppRoutes() {
             />
             <Route
                path="users/:userId/"
-               element={<AdminUsersPage setState={setState} />}
+               element={<AdminUsersPage setState={setStat} />}
             >
                <Route
                   index

@@ -108,7 +108,6 @@ const StyleHead = styled('div')(() => ({
 
 const StyleLink = styled(NavLink)(({ active }) => ({
    color: active === 'true' ? '2px solid #000' : '#6C6C6C',
-   color: ' #6C6C6C',
    fontFamily: 'Inter',
    fontSize: '1.125rem',
    fontStyle: 'normal',
