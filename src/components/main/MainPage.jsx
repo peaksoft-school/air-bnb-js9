@@ -68,9 +68,8 @@ export function MainPage() {
             <Block>
                <h1>Find a place you ll love to stay at</h1>
                <BlockInput>
-                  <Input
+                  <InputSearch
                      type="search"
-                     width="100%"
                      size="small"
                      onChange={onChangeRegions}
                      value={searchText}
@@ -160,4 +159,9 @@ const StyleCheckbox = styled(Checkbox)(() => ({
    '&.MuiCheckbox-root': {
       borderColor: '#fff',
    },
+}))
+
+const InputSearch = styled(Input)(() => ({
+   width: '100%',
+   background: '#fff',
 }))

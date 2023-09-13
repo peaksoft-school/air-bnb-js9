@@ -23,10 +23,12 @@ const data = [
    { id: 'option7', name: 'CHUI' },
 ]
 
-export default function AddAnouncementForm() {
+export function AddAnouncementForm() {
    const [fileNames, setFileNames] = useState([])
    const { toastType } = toastSnackbar()
    const navigate = useNavigate()
+   const { darkMode } = useSelector((state) => state.darkMode)
+   const { images } = useSelector((state) => state.uploadImg)
 
    const postAnouncementForm = async (payload) => {
       try {
@@ -50,18 +52,17 @@ export default function AddAnouncementForm() {
       resolver: yupResolver(schema),
    })
 
-   const { images } = useSelector((state) => state.uploadImg)
-
    const onSubmit = (data) => {
       data.images = images
       postAnouncementForm(data)
    }
 
+   const borderTextArea = darkMode ? '1px solid #fff' : '1px solid gray'
    return (
       <>
          <Header login="false" />
-         <GlobalContainer>
-            <Container onSubmit={handleSubmit(onSubmit)}>
+         <GlobalContainer darkMode={darkMode}>
+            <Container onSubmit={handleSubmit(onSubmit)} darkMode={darkMode}>
                <h2>Hi! Let`s get started listing your place.</h2>
                <p>
                   In this form, we`ll collect some basic and additional
@@ -69,8 +70,10 @@ export default function AddAnouncementForm() {
                </p>
                <AddPhotoBlock>
                   <div>
-                     <StyledSpan>Image</StyledSpan>
-                     <QuantityForPhoto>Max 4 photo</QuantityForPhoto>
+                     <StyledSpan darkMode={darkMode}>Image</StyledSpan>
+                     <QuantityForPhoto darkMode={darkMode}>
+                        Max 4 photo
+                     </QuantityForPhoto>
                   </div>
                   <div style={{ marginTop: '1.125rem' }}>
                      <Upload
@@ -79,10 +82,10 @@ export default function AddAnouncementForm() {
                         setFileNames={setFileNames}
                      />
                      <AddPhotoInfo>
-                        <AddPhotoReview>
+                        <AddPhotoReview darkMode={darkMode}>
                            Add photos to the review
                         </AddPhotoReview>
-                        <UploadPhotoInfo>
+                        <UploadPhotoInfo darkMode={darkMode}>
                            it will become more noticeable and even more useful.
                            <br /> You can upload up to 4 photos.
                         </UploadPhotoInfo>
@@ -90,8 +93,8 @@ export default function AddAnouncementForm() {
                   </div>
                </AddPhotoBlock>
                <HomeTypeBlock>
-                  <StyledLabel>Home type</StyledLabel>
-                  <ApartmentAndHouseBlock>
+                  <StyledLabel darkMode={darkMode}>Home type</StyledLabel>
+                  <ApartmentAndHouseBlock darkMode={darkMode}>
                      <div className="checkboxContainer">
                         <Controller
                            name="houseType"
@@ -102,12 +105,14 @@ export default function AddAnouncementForm() {
                                  id="apartment"
                                  barsbek="nekrash"
                                  type="radio"
+                                 border="none"
                                  value="apartment"
-                                 width="1.25rem"
                               />
                            )}
                         />
-                        <StyledLabel htmlFor="apartment">Apartment</StyledLabel>
+                        <StyledLabel htmlFor="apartment" darkMode={darkMode}>
+                           Apartment
+                        </StyledLabel>
                      </div>
                      <div className="checkboxContainer">
                         <Controller
@@ -120,87 +125,98 @@ export default function AddAnouncementForm() {
                                  barsbek="nekrash"
                                  type="radio"
                                  value="house"
-                                 width="1.25rem"
                               />
                            )}
                         />
-                        <StyledLabel htmlFor="house">House</StyledLabel>
+                        <StyledLabel htmlFor="house" darkMode={darkMode}>
+                           House
+                        </StyledLabel>
                      </div>
                   </ApartmentAndHouseBlock>
                   <IsError>{errors.houseType?.message}</IsError>
                </HomeTypeBlock>
                <FilterBlock>
                   <GuestBlock>
-                     <StyledLabel htmlFor="maxGuests">
+                     <StyledLabel htmlFor="maxGuests" darkMode={darkMode}>
                         Max of Guests
                      </StyledLabel>
-                     <Input
-                        {...register('maxGuests')}
+                     <InputPriceAndMaxGuest
+                        id="guest"
                         size="small"
                         type="number"
-                        placeholder="    0"
-                        width="15.3125rem"
-                        height="2.4375rem"
-                        id="guest"
-                        padding="0 0 0.625rem 0"
+                        placeholder="0"
+                        barsbek="nekrash"
+                        darkMode={darkMode}
+                        {...register('maxGuests')}
                         error={!!errors.maxGuests}
+                        style={{
+                           '&::placeholder': {
+                              color: '#fff',
+                           },
+                        }}
                      />
                      <IsError>{errors.maxGuests?.message}</IsError>
                   </GuestBlock>
                   <PriceBlock>
-                     <StyledLabel htmlFor="price">Price</StyledLabel>
-                     <Input
-                        {...register('price')}
+                     <StyledLabel htmlFor="price" darkMode={darkMode}>
+                        Price
+                     </StyledLabel>
+                     <InputPriceAndMaxGuest
+                        id="price"
                         size="small"
                         type="number"
-                        placeholder="    $ 0"
-                        width="15.3125rem"
-                        height="2.4375rem"
-                        id="price"
+                        barsbek="nekrash"
+                        placeholder="$ 0"
+                        darkMode={darkMode}
+                        {...register('price')}
                         error={!!errors.price}
                      />
                      <IsError>{errors.price?.message}</IsError>
                   </PriceBlock>
                </FilterBlock>
                <TitleBlock>
-                  <StyledLabel htmlFor="title">Title</StyledLabel>
-                  <Input
-                     {...register('title')}
-                     type="text"
-                     barsbek="krash"
-                     size="small"
+                  <StyledLabel htmlFor="title" darkMode={darkMode}>
+                     Title
+                  </StyledLabel>
+                  <InputTitle
                      id="title"
-                     width="100%"
-                     height="2.4375rem"
+                     type="text"
+                     size="small"
                      placeholder="Enter a title..."
+                     barsbek="nekrash"
+                     darkMode={darkMode}
+                     {...register('title')}
                      error={!!errors.title}
                   />
                   <IsError>{errors.title?.message}</IsError>
                </TitleBlock>
                <DescriptionBlock>
-                  <StyledLabel htmlFor="description">
+                  <StyledLabel htmlFor="description" darkMode={darkMode}>
                      Description of listing
                   </StyledLabel>
                   <StyledTextArea
                      {...register('description')}
                      id="description"
+                     darkMode={darkMode}
                      placeholder="Enter a description..."
                      style={{
                         border: errors.description
                            ? '1px solid red'
-                           : '1px solid gray',
+                           : borderTextArea,
                      }}
                   />
                   <IsError>{errors.description?.message}</IsError>
                </DescriptionBlock>
                <RegionBlock>
-                  <StyledLabel htmlFor="region">Region</StyledLabel>
-                  <Select
+                  <StyledLabel htmlFor="region" darkMode={darkMode}>
+                     Region
+                  </StyledLabel>
+                  <RegionSelect
                      register={register}
                      data={data}
-                     width="100%"
                      id="region"
                      error={!!errors.region}
+                     darkMode={darkMode}
                      labelName={
                         <SelectLabelName>
                            Please select the region
@@ -210,32 +226,34 @@ export default function AddAnouncementForm() {
                   <IsError>{errors.region?.message}</IsError>
                </RegionBlock>
                <TownBlock>
-                  <StyledLabel htmlFor="province">Town / Province</StyledLabel>
-                  <Input
-                     {...register('province')}
-                     id="province"
+                  <StyledLabel htmlFor="province" darkMode={darkMode}>
+                     Town / Province
+                  </StyledLabel>
+                  <InputProvinceAndAddres
                      type="text"
-                     barsbek="krash"
-                     width="100%"
-                     height="2.4375rem"
                      size="small"
+                     id="province"
+                     placeholder="Enter the town..."
+                     barsbek="nekrash"
+                     darkMode={darkMode}
                      error={!!errors.province}
-                     placeholder="Enter the town"
+                     {...register('province')}
                   />
                   <IsError>{errors.province?.message}</IsError>
                </TownBlock>
                <AddressBlock>
-                  <StyledLabel htmlFor="address">Address</StyledLabel>
-                  <Input
-                     {...register('address')}
-                     id="address"
+                  <StyledLabel htmlFor="address" darkMode={darkMode}>
+                     Address
+                  </StyledLabel>
+                  <InputProvinceAndAddres
                      type="text"
                      size="small"
-                     barsbek="krash"
-                     width="100%"
-                     height="2.4375rem"
+                     id="address"
+                     placeholder="Enter the address..."
+                     barsbek="nekrash"
+                     darkMode={darkMode}
                      error={!!errors.address}
-                     placeholder="Enter the address"
+                     {...register('address')}
                   />
                   <IsError>{errors.address?.message}</IsError>
                </AddressBlock>
@@ -249,19 +267,23 @@ export default function AddAnouncementForm() {
    )
 }
 
-const GlobalContainer = styled('div')(() => ({
+const GlobalContainer = styled('div')(({ darkMode }) => ({
    width: '100%',
    height: '100%',
    display: 'flex',
    justifyContent: 'center',
+   marginTop: '4rem',
+   background: darkMode
+      ? 'linear-gradient(274deg, rgba(152,152,152,1) 15%, rgba(0,0,0,1) 100%)'
+      : '#fff',
 }))
 
-const Container = styled('form')(() => ({
+const Container = styled('form')(({ darkMode }) => ({
    display: 'flex',
    flexDirection: 'column',
 
    h2: {
-      color: '#363636',
+      color: darkMode ? '#fff' : '#363636',
       fontSize: '1rem',
       fontStyle: 'normal',
       fontWeight: '500',
@@ -272,7 +294,7 @@ const Container = styled('form')(() => ({
 
    p: {
       width: '38.125rem',
-      color: '#646464',
+      color: darkMode ? '#fff' : '#646464',
       fontFamily: 'Inter',
       fontSize: '1rem',
       fontStyle: 'normal',
@@ -293,8 +315,8 @@ const AddPhotoBlock = styled('div')(() => ({
    },
 }))
 
-const StyledSpan = styled('span')(() => ({
-   color: '#363636',
+const StyledSpan = styled('span')(({ darkMode }) => ({
+   color: darkMode ? '#fff' : '#363636',
    marginRight: '1rem',
    fontFamily: 'Inter',
    fontSize: '1rem',
@@ -303,13 +325,13 @@ const StyledSpan = styled('span')(() => ({
    lineheight: 'normal',
 }))
 
-const QuantityForPhoto = styled('span')(() => ({
+const QuantityForPhoto = styled('span')(({ darkMode }) => ({
    fontFamily: 'Inter',
    fontSize: '1rem',
    fontStyle: 'normal',
    fontweight: ' 400',
    lineheight: 'normal',
-   color: '#A9A9A9',
+   color: darkMode ? '#fff' : '#A9A9A9',
 }))
 
 const AddPhotoInfo = styled('div')(() => ({
@@ -320,13 +342,13 @@ const AddPhotoInfo = styled('div')(() => ({
    marginLeft: '1.25rem',
 }))
 
-const AddPhotoReview = styled('span')(() => ({
-   color: '#266BD3',
+const AddPhotoReview = styled('span')(({ darkMode }) => ({
+   color: darkMode ? '#fff' : '#266BD3',
    fontWeight: '500',
 }))
 
-const UploadPhotoInfo = styled('span')(() => ({
-   color: '#828282',
+const UploadPhotoInfo = styled('span')(({ darkMode }) => ({
+   color: darkMode ? '#fff' : '#828282',
    fontSize: '0.875rem',
    fontHeight: '400',
 }))
@@ -337,8 +359,8 @@ const HomeTypeBlock = styled('div')(() => ({
    height: '5.3125rem',
 }))
 
-const StyledLabel = styled('label')(() => ({
-   color: ' #363636',
+const StyledLabel = styled('label')(({ darkMode }) => ({
+   color: darkMode ? '#fff' : ' #363636',
    fontFamily: 'Inter',
    fontSize: '1rem',
    fontStyle: 'normal',
@@ -435,15 +457,63 @@ const IsError = styled('span')(() => ({
    color: 'red',
 }))
 
-const StyledTextArea = styled('textarea')(() => ({
+const StyledTextArea = styled('textarea')(({ darkMode }) => ({
    width: '100%',
    height: '6.5rem',
-
    padding: '.625rem 0 0 .625rem',
-
    borderRadius: '0.125rem',
-   border: '1px solid gray',
-
    resize: 'none',
    overflow: 'hidden',
+   border: darkMode ? '1px solid#fff' : '1px solid gray',
+   background: 'rgba(0,0,0,0.0)',
+   '#description::placeholder': {
+      color: darkMode ? '#fff' : '#000',
+   },
+}))
+
+const InputPriceAndMaxGuest = styled(Input)(({ darkMode }) => ({
+   width: '15.3125rem',
+   height: '2.4375rem',
+   padding: '0 0 0.625rem 0',
+   border: darkMode ? '1px solid#fff' : '1px solid gray',
+   borderRadius: ' 0.125rem',
+   '#guest::placeholder': {
+      color: darkMode ? '#fff' : '#000',
+   },
+   '#price::placeholder': {
+      color: darkMode ? '#fff' : '#000',
+   },
+}))
+const InputTitle = styled(Input)(({ darkMode }) => ({
+   width: '100%',
+   height: '2.4375rem',
+   border: darkMode ? '1px solid#fff' : '1px solid gray',
+   borderRadius: ' 0.125rem',
+   '#title::placeholder': {
+      color: darkMode ? '#fff' : '#000',
+   },
+}))
+const InputProvinceAndAddres = styled(Input)(({ darkMode }) => ({
+   width: '100%',
+   height: '2.4375rem',
+   border: darkMode ? '1px solid#fff' : '1px solid gray',
+
+   '#province::placeholder': {
+      color: darkMode ? '#fff' : '#000',
+   },
+
+   '#address::placeholder': {
+      color: darkMode ? '#fff' : '#000',
+   },
+}))
+const RegionSelect = styled(Select)(({ darkMode }) => ({
+   width: '100%',
+   border: darkMode ? '1px solid#fff' : '1px solid gray',
+   '&:hover': {
+      background: 'rgba(0,0,0,0.0)',
+      border: darkMode ? '1px solid#fff' : '1px solid gray',
+   },
+   '#region::placeholder': {
+      color: darkMode ? '#fff' : '#000',
+   },
 }))

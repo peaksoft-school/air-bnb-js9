@@ -1,6 +1,6 @@
-import { styled } from '@mui/material'
 import React from 'react'
-import { NavLink, Route, Routes } from 'react-router-dom'
+import { styled } from '@mui/material'
+import { Link, Route, Routes } from 'react-router-dom'
 import { Bookings } from './Bookings'
 import { MyAnnouncement } from './MyAnnouncement'
 import { OnModeration } from './OnModeration'
@@ -62,7 +62,7 @@ const StyleHead = styled('div')(() => ({
    gap: '3.125rem',
 }))
 
-const StyleLink = styled(NavLink)(() => ({
+const StyleLink = styled(Link)(() => ({
    color: ' #6C6C6C',
    fontFamily: 'Inter',
    fontSize: '1.125rem',

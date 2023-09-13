@@ -8,7 +8,7 @@ import { userRoles } from '../utils/constants'
 import { AnnouncementAdminPage } from '../pages/admin/AnnouncementAdminPage'
 import { Applications } from '../pages/admin/Applications'
 import { ReusableTable } from '../components/table/Table'
-import AddAnouncementForm from '../components/anouncement/Anouncement'
+import { AddAnouncementForm } from '../components/anouncement/Anouncement'
 import {
    deleteAdminApplication,
    postAcceptApplications,
@@ -105,13 +105,15 @@ export function AppRoutes() {
                />
             }
          />
-         <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
+         <Route
+            path="/main/AddAnouncementForm"
+            element={<AddAnouncementForm />}
+         />
 
          <Route path="favorites" element={<Favorite />} />
 
-         <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
          <Route
-            path="/announcement/:id"
+            path="/main/:id/announcement/:id"
             component={<AnnouncementDetailPage />}
          />
          <Route

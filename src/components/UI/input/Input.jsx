@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { TextField, styled } from '@mui/material'
 import React, { forwardRef } from 'react'
+import { useSelector } from 'react-redux'
 
 export const Input = forwardRef(
    (
@@ -22,20 +23,21 @@ export const Input = forwardRef(
       },
       ref
    ) => {
+      const { darkMode } = useSelector((state) => state.darkMode)
       return (
          <StyledInput
-            type={type}
-            placeholder={placeholder || 'введите что-нибудь'}
-            ref={ref}
-            value={value}
             size={size}
-            label={label}
-            onChange={onChange}
             name={name}
+            type={type}
+            label={label}
+            value={value}
             error={error}
             checked={checked}
+            onChange={onChange}
+            darkMode={darkMode}
             defaultChecked={defaultChecked}
-            onClick={onClick}
+            placeholder={placeholder || 'введите что-нибудь'}
+            ref={ref}
             {...props}
          />
       )
@@ -46,7 +48,6 @@ const StyledInput = styled(TextField)(({ barsbek, width, marginBottom }) => {
    if (barsbek === 'nekrash') {
       return {
          width: '100%',
-         backgroundColor: '#fff',
 
          '& .MuiOutlinedInput-input': {
             borderRadius: '2px',

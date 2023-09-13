@@ -1,3 +1,4 @@
+/* eslint-disable import/named */
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { addImageForAnouncement } from '../../api/anouncementService'
 

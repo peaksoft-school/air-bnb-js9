@@ -8,10 +8,12 @@ import { applicationSlice } from './admin-application/ApplicationSlice'
 import { allHousingSlice } from './admin-all-housing/AllHousingSlice'
 import { getByIdSlice } from './anouncement/AnouncementSlice'
 import { ToggleHandelrSlice } from './toggle/ToggleSlice'
+import { paymentSlice } from './payment/PaymentSlice'
 import { DarkModeSlice } from './dark-mode/DarkModeSlice'
 import { ModalSlice } from './ModalSlice'
 import { favoriteSlice } from './favorite/FavoriteSlice'
 import { feedbackSlice } from './feedback/feedbackSlice'
+import { uploadSlice } from './Upload'
 
 export const store = configureStore({
    reducer: {
@@ -25,9 +27,11 @@ export const store = configureStore({
       [cardSlice.name]: cardSlice.reducer,
       [getGlobalSearchSlice.name]: getGlobalSearchSlice.reducer,
       [ToggleHandelrSlice.name]: ToggleHandelrSlice.reducer,
+      [paymentSlice.name]: paymentSlice.reducer,
       [DarkModeSlice.name]: DarkModeSlice.reducer,
       [ModalSlice.name]: ModalSlice.reducer,
       [favoriteSlice.name]: favoriteSlice.reducer,
       [feedbackSlice.name]: feedbackSlice.reducer,
+      [uploadSlice.name]: uploadSlice.reducer,
    },
 })

@@ -5,6 +5,8 @@ import { InputAdornment, styled, Avatar, MenuItem } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
+import Brightness7Icon from '@mui/icons-material/Brightness7'
+import Brightness4Icon from '@mui/icons-material/Brightness4'
 import { Button } from '../../components/UI/button/Button'
 import { JoinUs } from '../../components/signIn/JoinUs'
 import { SignIn } from '../../components/signIn/SignIn'
@@ -139,12 +141,19 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
          {login === 'true' ? (
             <StyleHeader login={login} notFound={notFound} darkMode={darkMode}>
                <StateBlock>
-                  <StyledAirBNBIcon onClick={toggleHandler} />
+                  <StyledAirBNBIcon onClick={() => navigate('/')} />
+                  <StyledButtons
+                     onClick={toggleHandler}
+                     type="button"
+                     color="white"
+                  >
+                     {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+                  </StyledButtons>
                </StateBlock>
                <InputDiv>
                   {isAuthorization ? (
                      <FavoriteDiv>
-                        <StyleLink to="/AddAnouncementForm">
+                        <StyleLink to="/main/AddAnouncementForm">
                            leave an ad
                         </StyleLink>
                         <LogOut>
@@ -175,7 +184,7 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                      </FavoriteDiv>
                   ) : (
                      <div className="leave">
-                        <StyleLink to="/AddAnouncementForm">
+                        <StyleLink to="/main/AddAnouncementForm">
                            leave an ad
                         </StyleLink>
                         <Button
@@ -196,15 +205,25 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
          ) : (
             <StyleHeader background="#ffffff">
                <div className="headerIcon">
-                  <BlackAirBNBIcon onClick={toggleHandler} />{' '}
-                  {login === 'true' ? null : (
-                     <StyleLink to="/AddAnouncementForm" login={login}>
-                        leave an ad
-                     </StyleLink>
-                  )}
+                  <BlackAirBNBIcon
+                     onClick={() => navigate('/main')}
+                     style={{ cursor: 'pointer' }}
+                  />
+                  <StyledButtons
+                     onClick={toggleHandler}
+                     type="button"
+                     color="black"
+                  >
+                     {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+                  </StyledButtons>
                </div>
 
                <SearchDiv>
+                  {login === 'true' ? (
+                     <StyleLink to="/main/AddAnouncementForm">
+                        leave an ad
+                     </StyleLink>
+                  ) : null}
                   <div className="blockCheckbox">
                      <ChecboxStyled
                         type="checkbox"
@@ -344,6 +363,7 @@ const InputDiv = styled('div')(() => ({
 const StateBlock = styled('div')(() => ({
    width: '100%',
    display: 'flex',
+   gap: '1.5rem',
 }))
 const StyleLink = styled(Link)(({ login }) => ({
    width: '100px',
@@ -395,4 +415,13 @@ const LogOut = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
    gap: '0.7rem',
+}))
+
+const StyledButtons = styled('button')(({ color }) => ({
+   border: 'none',
+   backgroundColor: 'rgba(0,0,0,0.0)',
+   svg: {
+      color: color === 'black' ? '#000' : '#fff',
+      fontSize: '2rem',
+   },
 }))
