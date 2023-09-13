@@ -8,7 +8,7 @@ import { userRoles } from '../utils/constants'
 import { AnnouncementAdminPage } from '../pages/admin/AnnouncementAdminPage'
 import { Applications } from '../pages/admin/Applications'
 import { ReusableTable } from '../components/table/Table'
-import AddAnouncementForm from '../components/anouncement/Anouncement'
+import { AddAnouncementForm } from '../components/anouncement/Anouncement'
 import {
    deleteAdminApplication,
    postAcceptApplications,
@@ -18,10 +18,10 @@ import { toastSnackbar } from '../components/UI/snackbar/Snackbar'
 import { Bookings } from '../components/UI/tabs/Bookings'
 import { MyAnnouncement } from '../components/UI/tabs/MyAnnouncement'
 import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
-import { Favorite } from '../components/favorite/Favorite'
-import { UserProfile } from '../components/Profile/Profile'
 import { AllHousing } from '../pages/admin/all-housing/AllHousing'
 import { NotFound } from '../components/UI/404/NotFound'
+import { Payment } from '../components/payment/Payment'
+import { UserProfile } from '../components/Profile/Profile'
 import { OnModeration } from '../components/UI/tabs/OnModeration'
 
 export function AppRoutes() {
@@ -33,9 +33,13 @@ export function AppRoutes() {
 
    const role = useSelector((state) => state.auth.role)
    const { data, bookings } = useSelector((state) => state.adminUsers)
-
+   const [state, setState] = useState(false)
    const isAllowed = (roles) => {
       return roles.includes(role)
+   }
+
+   const toggle = () => {
+      setState((prev) => !prev)
    }
 
    const acceptHandler = (id) => {
@@ -90,10 +94,21 @@ export function AppRoutes() {
                   fallbackPath="/admin"
                />
             }
-         />
-
-         <Route path="favorites" element={<Favorite />} />
-
+         >
+            <Route
+               path="/payment"
+               element={
+                  <Payment
+                     price="41"
+                     booked={false}
+                     bookingsId="7"
+                     announcementId="4"
+                     toggleDatePicker={state}
+                     openModalHandler={toggle}
+                  />
+               }
+            />
+         </Route>
          <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
          <Route
             path="/Profile"

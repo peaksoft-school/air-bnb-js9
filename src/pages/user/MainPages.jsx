@@ -5,7 +5,6 @@ import { MainPage } from '../../components/main/MainPage'
 import { MainRegion } from '../../components/main/MainRegion'
 import { PopularHouse } from '../../components/main/PopularHouse'
 import { Footer } from '../../layout/Footer/Footer'
-import { Snackbar } from '../../components/UI/snackbar/Snackbar'
 import { LoadingAirbnb } from '../../components/UI/loading/LoadingAirbnb'
 
 export function MainPages() {
@@ -19,7 +18,6 @@ export function MainPages() {
          <PopularHouse />
          <PopularApartments state="true" />
          <Footer />
-         <Snackbar />
       </div>
    )
 }

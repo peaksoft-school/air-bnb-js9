@@ -1,16 +1,12 @@
 import React from 'react'
-// import { LeaveFeedback } from './components/leave-feedback/LeaveFeeadback'
-// import AddAnouncementForm from './components/anouncement/Anouncement'
-// import AnnouncementDetailPage from './pages/AnnouncementDetailPage'
+// import DateePicker from './components/UI/date-picker/Date-Picker'
 import { AppRoutes } from './routes/AppRoutes'
 
 function App() {
    return (
       <div>
+         {/* <DateePicker /> */}
          <AppRoutes />
-         {/* <AnnouncementDetailPage /> */}
-         {/* <AddAnouncementForm /> */}
-         {/* <LeaveFeedback openModal="true" /> */}
       </div>
    )
 }
