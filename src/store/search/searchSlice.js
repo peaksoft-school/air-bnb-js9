@@ -2,6 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { getGlobalSearch } from './searchThunk'
 import { getAllCards } from '../card/cardThunk'
+import { getAllPagination } from './getAllPaginationThunk'
 
 const initialState = {
    search: [],
@@ -40,6 +41,9 @@ export const getGlobalSearchSlice = createSlice({
       })
       builder.addCase(getAllCards.rejected, (state) => {
          state.isLoading = false
+      })
+      builder.addCase(getAllPagination.fulfilled, (state, action) => {
+         state.search = action.payload
       })
    },
 })

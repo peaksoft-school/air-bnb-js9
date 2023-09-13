@@ -1,14 +1,12 @@
 import { Checkbox, InputAdornment, styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
 import mainBackground from '../../assets/images/MainBackground.png'
 import { Header } from '../../layout/Header/Header'
 import { Input } from '../UI/input/Input'
 import { SearchIcon } from '../../assets/icons'
 import { getGlobalSearch } from '../../store/search/searchThunk'
-import { getAllCards } from '../../store/card/cardThunk'
 import { SearchResult } from '../UI/search/SearchResult'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
@@ -21,23 +19,6 @@ export function MainPage() {
    const { search } = useSelector((state) => state.global)
    const dispatch = useDispatch()
    const [searchedValue] = useDebounce(searchText, 1000)
-   const params = useParams()
-
-   if (params.id !== null) {
-      useEffect(() => {
-         if (location) {
-            const param = {
-               word: params.id,
-            }
-
-            if (searchedValue.trim().length > 0) {
-               dispatch(getGlobalSearch(param))
-            } else {
-               dispatch(getAllCards())
-            }
-         }
-      }, [location, searchedValue, isChecked])
-   }
 
    function getUserLocation() {
       if ('geolocation' in navigator) {
@@ -49,12 +30,6 @@ export function MainPage() {
          console.error('Браузер не поддерживает геолокацию.')
       }
    }
-   useEffect(() => {
-      const inputElement = document.getElementById('myInputId')
-      if (inputElement) {
-         inputElement.focus()
-      }
-   }, [])
 
    useEffect(() => {
       getUserLocation()
@@ -69,11 +44,7 @@ export function MainPage() {
             longitude: location.longitude,
          }
 
-         if (searchedValue.trim().length > 0) {
-            dispatch(getGlobalSearch(params))
-         } else {
-            dispatch(getAllCards())
-         }
+         dispatch(getGlobalSearch(params))
       }
    }, [location, searchedValue, isChecked])
 
@@ -115,7 +86,7 @@ export function MainPage() {
                      id="myInputId"
                   />
                   {searchText.length > 0 ? (
-                     <SearchResult word={params.id} search={search} />
+                     <SearchResult search={search} />
                   ) : null}
 
                   <div>

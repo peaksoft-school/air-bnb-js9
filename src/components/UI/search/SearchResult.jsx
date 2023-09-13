@@ -8,7 +8,6 @@ import { ActionToggleHandelr } from '../../../store/toggle/ToggleSlice'
 
 export function SearchResult({ search }) {
    const dispatch = useDispatch()
-
    const navigationSearch = (province) => {
       dispatch(getSearchAction.globalSearchHandler(province))
       dispatch(ActionToggleHandelr.togglePathHandler(province))
@@ -16,9 +15,14 @@ export function SearchResult({ search }) {
    return (
       <Container>
          {search.map((item) => {
+            const toPathProvince =
+               item.province.toUpperCase() === 'JALAL ABAD'
+                  ? 'JALAL_ABAD'
+                  : item.province.toUpperCase()
+
             return (
                <MapContainer
-                  to={item.province}
+                  to={`/main/${toPathProvince}`}
                   onClick={() => navigationSearch(item.province)}
                   key={item.id}
                >

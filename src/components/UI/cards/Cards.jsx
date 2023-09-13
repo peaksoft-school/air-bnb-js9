@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { IconButton, Menu, MenuItem, Tooltip, styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import {
    ArrowleftIcon,
@@ -184,16 +185,17 @@ export function Cards({
                            ) : (
                               <ButtonsContainer>
                                  <DayStyle>{item.guest} guest</DayStyle>
-                                 <Button
-                                    variant="contained"
-                                    height="20%"
-                                    bgColor="#DD8A08"
-                                    s
-                                    color="white"
-                                    width="6.4375rem"
-                                 >
-                                    Book
-                                 </Button>
+                                 <Link to={`/announcement/${item.id}`}>
+                                    <Button
+                                       variant="contained"
+                                       height="20%"
+                                       bgColor="#DD8A08"
+                                       color="white"
+                                       width="6.4375rem"
+                                    >
+                                       Book
+                                    </Button>
+                                 </Link>
                                  <div>
                                     <ButtonIcon
                                        width="10%"

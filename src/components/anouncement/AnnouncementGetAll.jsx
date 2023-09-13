@@ -10,49 +10,59 @@ import { Cards } from '../UI/cards/Cards'
 import { getAllCards } from '../../store/card/cardThunk'
 import Skeleto from '../UI/cards/Skeleto'
 import { XIcon } from '../UI/icon/XIcon'
+import { Paginations } from '../UI/pagination/Pagination'
+import { getAllPagination } from '../../store/search/getAllPaginationThunk'
+import { regions } from '../../utils/helpers'
 
-function AnnouncementGetAll() {
+function AnnouncementGetAll({
+   currentPage,
+   currentSize,
+   setCurrentPage,
+   setCurrenSize,
+}) {
    const { search, isLoading } = useSelector((state) => state.global)
-
    const [selectedHomeType, setSelectedHomeType] = useState('')
    const [selectedPopular, setSelectedPopular] = useState('')
    const [selectedRegion, setSelectedRegion] = useState('')
    const [selectedPrice, setSelectedPrice] = useState('')
-   const [login, setLogin] = useState(true)
 
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const params = useParams()
+   const paramsId = useParams()
+
+   const pagePagination = (value) => {
+      setCurrentPage(value)
+   }
+
+   const findRegion = regions.find((item) => item.value === paramsId.id)
 
    useEffect(() => {
-      const params = {
-         region: selectedRegion,
-         rating: selectedPopular,
-         houseType: selectedHomeType,
-         price: selectedPrice,
+      if (paramsId.id === findRegion.value) {
+         const params = {
+            region: selectedRegion || paramsId.id,
+            rating: selectedPopular,
+            houseType: selectedHomeType,
+            price: selectedPrice,
+         }
+         dispatch(getAllCards(params))
+      } else {
+         const current = {
+            page: currentPage,
+            size: currentSize,
+         }
+         dispatch(getAllPagination(current))
+         setCurrenSize(16)
       }
-      dispatch(getAllCards(params))
    }, [
       dispatch,
+      currentPage,
+      currentSize,
+      selectedPrice,
       selectedRegion,
       selectedPopular,
       selectedHomeType,
-      selectedPrice,
    ])
-   if (params.id !== null) {
-      useEffect(() => {
-         const param = {
-            region: params.id,
-         }
-         dispatch(getAllCards(param))
-      }, [
-         dispatch,
-         selectedRegion,
-         selectedPopular,
-         selectedHomeType,
-         selectedPrice,
-      ])
-   }
+
    const todosLength = search.length
 
    const onChangeRegions = (e) => {
@@ -92,7 +102,7 @@ function AnnouncementGetAll() {
    return (
       <WrapperContainer>
          <div>
-            <Header login={login} setLogin={setLogin} />
+            <Header login="false" />
             <div style={{ margin: '0.11rem 6.3rem' }} role="presentation">
                <Breadcrumbs
                   aria-label="breadcrumb"
@@ -113,7 +123,7 @@ function AnnouncementGetAll() {
                   </Link>
                   <Typography color="text.primary">
                      {selectedRegion === ''
-                        ? Object.values(params)
+                        ? Object.values(paramsId.id)
                         : selectedRegion}
                   </Typography>
                </Breadcrumbs>
@@ -127,7 +137,7 @@ function AnnouncementGetAll() {
             >
                <Region>
                   {selectedRegion === ''
-                     ? Object.values(params)
+                     ? Object.values(paramsId.id)
                      : selectedRegion}
                   ({todosLength})
                </Region>
@@ -137,7 +147,7 @@ function AnnouncementGetAll() {
                   onChangePopular={onChangePopular}
                   onChangeHomeType={onChangeHomeType}
                   onChangePrice={onChangePrice}
-                  region={params.id}
+                  region={paramsId.id}
                />
             </div>
 
@@ -188,6 +198,9 @@ function AnnouncementGetAll() {
                <Cards data={search} />
             )}
          </div>
+         <ContainerPagination>
+            <Paginations count={10} pages={pagePagination} />
+         </ContainerPagination>
       </WrapperContainer>
    )
 }
@@ -195,6 +208,13 @@ function AnnouncementGetAll() {
 export default AnnouncementGetAll
 
 const WrapperContainer = styled('div')({})
+const ContainerPagination = styled('div')(() => ({
+   width: '100%',
+   height: '10vh',
+   display: 'flex',
+   justifyContent: 'center',
+   marginTop: '20px',
+}))
 const ContainerSelect = styled('div')`
    display: flex;
    gap: 1rem;

@@ -16,13 +16,13 @@ export const regions = [
    { id: 'option7', name: 'Issyk-Kul', value: 'ISSYK_KUL' },
    { id: 'option8', name: 'Bishkek', value: 'BISHKEK' },
 ]
+
 export const popular = [
    { id: 'option8', name: 'Popular', value: 'desc' },
    { id: 'option9', name: 'The latest', value: 'asc' },
 ]
 
 export const homeType = [
-   { id: 'option21', name: 'All', value: 'all' },
    { id: 'option10', name: 'Apartment', value: 'APARTMENT' },
    { id: 'option11', name: 'House', value: 'HOUSE' },
 ]

@@ -2,7 +2,6 @@ import { styled } from '@mui/material'
 import { useEffect, React } from 'react'
 import AOS from 'aos'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import chui from '../../assets/images/chui.png'
 import batken from '../../assets/images/batken.png'
 import jalalabat from '../../assets/images/jalalAbad.png'
@@ -12,10 +11,8 @@ import bishkek from '../../assets/images/bishkek.png'
 import osh from '../../assets/images/osh.png'
 import naryn from '../../assets/images/naryn.png'
 import 'aos/dist/aos.css'
-import { ActionToggleHandelr } from '../../store/toggle/ToggleSlice'
 
 export function MainRegion() {
-   const dispatch = useDispatch()
    useEffect(() => {
       AOS.init({
          duration: 1500,
@@ -23,10 +20,6 @@ export function MainRegion() {
          once: false,
       })
    }, [])
-
-   const toggleRegion = (path) => {
-      dispatch(ActionToggleHandelr.togglePathHandler(path))
-   }
 
    return (
       <GlobalConteiner>
@@ -49,7 +42,6 @@ export function MainRegion() {
                         background: `url(${chui})`,
                         backgroundSize: 'cover',
                      }}
-                     onClick={() => toggleRegion('CHUI')}
                   >
                      <StyleName>CHUI</StyleName>
                   </ChuiAndOshCard>
@@ -65,7 +57,6 @@ export function MainRegion() {
                               background: `url(${batken})`,
                               backgroundSize: 'cover',
                            }}
-                           onClick={() => toggleRegion('BATKEN')}
                         >
                            <StyleName>Batken</StyleName>
                         </ItemRegionCard>
@@ -78,7 +69,6 @@ export function MainRegion() {
                               background: `url(${jalalabat})`,
                               backgroundSize: 'cover',
                            }}
-                           onClick={() => toggleRegion('JALAL_ABAD')}
                         >
                            <StyleName>Jalal-Abad</StyleName>
                         </ItemRegionCard>
@@ -93,7 +83,6 @@ export function MainRegion() {
                            background: `url(${naryn})`,
                            backgroundSize: 'cover',
                         }}
-                        onClick={() => toggleRegion('NARYN')}
                      >
                         <StyleName>Naryn</StyleName>
                      </NarynAndBihkek>
@@ -111,7 +100,6 @@ export function MainRegion() {
                               background: `url(${IssykKul})`,
                               backgroundSize: 'cover',
                            }}
-                           onClick={() => toggleRegion('ISSYK_KUL')}
                         >
                            <StyleName>Issyk-kul</StyleName>
                         </ItemRegionCard>
@@ -122,7 +110,6 @@ export function MainRegion() {
                               background: `url(${talas})`,
                               backgroundSize: 'cover',
                            }}
-                           onClick={() => toggleRegion('TALAS')}
                         >
                            <StyleName>Talas</StyleName>
                         </ItemRegionCard>
@@ -135,7 +122,6 @@ export function MainRegion() {
                            background: `url(${bishkek})`,
                            backgroundSize: 'cover',
                         }}
-                        onClick={() => toggleRegion('BISHKEK')}
                      >
                         <StyleName>Bishkek</StyleName>
                      </NarynAndBihkek>
@@ -147,7 +133,6 @@ export function MainRegion() {
                         background: `url(${osh})`,
                         backgroundSize: 'cover',
                      }}
-                     onClick={() => toggleRegion('OSH')}
                   >
                      <StyleName>Osh</StyleName>
                   </ChuiAndOshCard>

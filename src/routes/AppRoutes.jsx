@@ -24,10 +24,11 @@ import { UserProfile } from '../components/Profile/Profile'
 import { AllHousing } from '../pages/admin/all-housing/AllHousing'
 import { NotFound } from '../components/UI/404/NotFound'
 import { OnModeration } from '../components/UI/tabs/OnModeration'
+import AnnouncementDetailPage from '../pages/user/AnnouncementDetailPage'
 
 export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
-   const [currentSize, setCurrenSize] = useState(18)
+   const [currentSize, setCurrenSize] = useState(16)
    const [title, setTitle] = useState('')
    const { toastType } = toastSnackbar()
    const dispatch = useDispatch()
@@ -100,6 +101,7 @@ export function AppRoutes() {
                   currentPage={currentPage}
                   currentSize={currentSize}
                   setCurrentPage={setCurrentPage}
+                  setCurrenSize={setCurrenSize}
                />
             }
          />
@@ -108,6 +110,10 @@ export function AppRoutes() {
          <Route path="favorites" element={<Favorite />} />
 
          <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
+         <Route
+            path="/announcement/:id"
+            component={<AnnouncementDetailPage />}
+         />
          <Route
             path="/Profile"
             element={<Navigate to="/Profile/my-announcement" />}

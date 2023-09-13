@@ -11,6 +11,7 @@ import { ToggleHandelrSlice } from './toggle/ToggleSlice'
 import { DarkModeSlice } from './dark-mode/DarkModeSlice'
 import { ModalSlice } from './ModalSlice'
 import { favoriteSlice } from './favorite/FavoriteSlice'
+import { feedbackSlice } from './feedback/feedbackSlice'
 
 export const store = configureStore({
    reducer: {
@@ -27,5 +28,6 @@ export const store = configureStore({
       [DarkModeSlice.name]: DarkModeSlice.reducer,
       [ModalSlice.name]: ModalSlice.reducer,
       [favoriteSlice.name]: favoriteSlice.reducer,
+      [feedbackSlice.name]: feedbackSlice.reducer,
    },
 })

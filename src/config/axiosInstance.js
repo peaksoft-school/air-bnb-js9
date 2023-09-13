@@ -15,7 +15,7 @@ export const injectStore = (_store) => {
 const logoutAction = () => {}
 axiosInstance.interceptors.request.use((config) => {
    const token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTQ1MDE1NjMsImlhdCI6MTY5NDI0MjM2MywidXNlcm5hbWUiOiJhbGlzdGVyQGdtYWlsLmNvbSJ9.KTBCTydE4O4iK779WAhE_3FrC2czEmyuJQfrJNA7LAc'
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTQ3NjYyOTEsImlhdCI6MTY5NDUwNzA5MSwidXNlcm5hbWUiOiJhbGlzdGVyQGdtYWlsLmNvbSJ9.Duu10-yfW_hZK74_REABhib5NDheOPP67HGy4MRTXd8'
    const updatedConfig = { ...config }
    // const token = store.getState().auth
    if (token) {
@@ -30,7 +30,6 @@ axiosInstance.interceptors.response.use(
    },
    (error) => {
       if (error.response.status === 401) {
-         console.log('401 ERROR')
          store.dispatch(logoutAction())
       }
       return Promise.reject(error)

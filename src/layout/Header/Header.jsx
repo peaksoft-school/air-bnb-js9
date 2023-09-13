@@ -16,7 +16,6 @@ import {
    SelectionIcon,
 } from '../../assets/icons/index'
 import { getGlobalSearch } from '../../store/search/searchThunk'
-import { getAllCards } from '../../store/card/cardThunk'
 import { userRoles } from '../../utils/constants'
 import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
 import { authActions } from '../../store/auth/authSlice'
@@ -68,8 +67,6 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
 
          if (searchedValue.trim().length > 0) {
             dispatch(getGlobalSearch(params))
-         } else {
-            dispatch(getAllCards())
          }
       }
    }, [location, searchedValue, isChecked])
@@ -200,9 +197,11 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
             <StyleHeader background="#ffffff">
                <div className="headerIcon">
                   <BlackAirBNBIcon onClick={toggleHandler} />{' '}
-                  {login === 'true' ? (
-                     <StyleLink to="/AddAnouncementForm">leave an ad</StyleLink>
-                  ) : null}
+                  {login === 'true' ? null : (
+                     <StyleLink to="/AddAnouncementForm" login={login}>
+                        leave an ad
+                     </StyleLink>
+                  )}
                </div>
 
                <SearchDiv>
@@ -346,10 +345,10 @@ const StateBlock = styled('div')(() => ({
    width: '100%',
    display: 'flex',
 }))
-const StyleLink = styled(Link)(() => ({
+const StyleLink = styled(Link)(({ login }) => ({
    width: '100px',
    textDecoration: 'none',
-   color: 'var(--primary-white, #FFF)',
+   color: login === 'false' ? '#FFBE58' : 'var(--primary-white, #FFF)',
    fontFamily: 'Inter',
    fontSize: '1.125rem',
    fontStyle: 'normal',
