@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { styled as MUistyled } from '@mui/material'
 import { NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Location } from '../../assets/icons'
 import { MySlider } from './Slide'
 import { axiosInstance } from '../../config/axiosInstance'
@@ -9,13 +10,14 @@ import { axiosInstance } from '../../config/axiosInstance'
 export default function PopularApartments({ state, func }) {
    const [apartmentData, setApartmentData] = useState({})
    const [lastestData, setLastestData] = useState({})
+   const { darkMode } = useSelector((state) => state.darkMode)
 
    const getPopularApartment = async () => {
       try {
          const response = await axiosInstance.get(
             '/api/announcements/getPopularApartment'
          )
-
+         console.log(response, 'response popular')
          setApartmentData(response.data)
       } catch (error) {
          console.log('error: ', error)
@@ -39,10 +41,14 @@ export default function PopularApartments({ state, func }) {
       getLastest()
    }, [])
 
-   const Container = MUistyled('div')(({ state }) => ({
+   const conditionDarkMode = darkMode
+      ? 'linear-gradient(262deg, rgba(152,152,152,1) 15%, rgba(0,0,0,1) 100%)'
+      : '#fff'
+
+   const Container = MUistyled('div')(({ state, conditionDarkMode }) => ({
       width: '100%',
       height: '55rem',
-      backgroundColor: state ? '#fff' : '#4F7755',
+      background: state ? conditionDarkMode : '#4F7755',
       color: state ? '#000' : '#fff',
       display: 'flex',
       flexDirection: 'column',
@@ -54,15 +60,19 @@ export default function PopularApartments({ state, func }) {
       },
    }))
 
-   const StyledNavlink = MUistyled('p')(({ theme }) => ({
+   const StyledNavlink = MUistyled('p')(({ theme, darkMode }) => ({
       margin: '0.46rem 0rem 2.16rem 0rem',
-      color: state ? '#000' : theme.palette.tertiary.lightgreen,
+      color: state
+         ? darkMode
+            ? '#fff'
+            : '#000'
+         : theme.palette.tertiary.lightgreen,
       textDecoration: 'none',
    }))
 
-   const StyledNavlinkView = MUistyled(NavLink)(({ theme }) => ({
+   const StyledNavlinkView = MUistyled(NavLink)(({ theme, darkMode }) => ({
       margin: '0.46rem 0rem 2.16rem 0rem',
-      color: state ? '#000' : theme.palette.primary.more,
+      color: state ? (darkMode ? '#fff' : '#000') : theme.palette.primary.more,
       textDecoration: 'underline',
       '&:hover': {
          textDecoration: 'none',
@@ -82,15 +92,15 @@ export default function PopularApartments({ state, func }) {
       flexDirection: 'column',
    })
 
-   const Popular = MUistyled('p')(({ theme }) => ({
-      color: state ? '#000' : theme.palette.primary.white,
+   const Popular = MUistyled('p')(({ theme, darkMode }) => ({
+      color: state ? (darkMode ? '#fff' : '#000') : theme.palette.primary.white,
       fontFamily: 'Inter',
       fontWeight: 500,
       fontSize: '1.25rem',
    }))
 
-   const SpaOtel = MUistyled('h2')(({ theme }) => ({
-      color: state ? '#000' : theme.palette.primary.white,
+   const SpaOtel = MUistyled('h2')(({ theme, darkMode }) => ({
+      color: state ? (darkMode ? '#fff' : '#000') : theme.palette.primary.white,
       fontSize: '1.1rem',
       lineHeight: '1rem',
       fontWeight: '500',
@@ -119,8 +129,8 @@ export default function PopularApartments({ state, func }) {
          alignItems: 'center',
       },
    })
-   const BlockAskaLara = MUistyled('p')(({ theme }) => ({
-      color: state ? '#000' : theme.palette.primary.white,
+   const BlockAskaLara = MUistyled('p')(({ theme, darkMode }) => ({
+      color: state ? (darkMode ? '#fff' : '#000') : theme.palette.primary.white,
       fontSize: '16px',
       fontWeight: '400',
       width: '100%',
@@ -132,10 +142,13 @@ export default function PopularApartments({ state, func }) {
    }))
 
    return (
-      <Container state={state}>
+      <Container state={state} conditionDarkMode={conditionDarkMode}>
          <PopularApart>
-            <Popular>{state ? 'THE LASTEST' : 'POPULAR APARTMENTS'}</Popular>
+            <Popular darkMode={darkMode}>
+               {state ? 'THE LASTEST' : 'POPULAR APARTMENTS'}
+            </Popular>
             <StyledNavlinkView
+               darkMode={darkMode}
                style={{ marginRight: '7rem', marginBottom: '2rem' }}
                to="/"
                onClick={func}
@@ -156,19 +169,21 @@ export default function PopularApartments({ state, func }) {
                   alt={apartmentData.title}
                />
                <BlockText>
-                  <SpaOtel>
+                  <SpaOtel darkMode={darkMode}>
                      {state ? lastestData.title : apartmentData.title}
                   </SpaOtel>
-                  <BlockAskaLara>
+                  <BlockAskaLara darkMode={darkMode}>
                      {state
                         ? lastestData.description
                         : apartmentData.description}
                   </BlockAskaLara>
-                  <StyledNavlink>
+                  <StyledNavlink darkMode={darkMode}>
                      <Location />
                      {state ? lastestData.address : apartmentData.address}
                   </StyledNavlink>
-                  <StyledNavlinkView to="/">Read more</StyledNavlinkView>
+                  <StyledNavlinkView to="/" darkMode={darkMode}>
+                     Read more
+                  </StyledNavlinkView>
                </BlockText>
                <div style={{ marginTop: '-5rem' }}>
                   <MySlider

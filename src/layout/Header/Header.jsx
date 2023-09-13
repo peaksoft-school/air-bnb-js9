@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Avatar, InputAdornment, MenuItem, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import Brightness7Icon from '@mui/icons-material/Brightness7'
+import Brightness4Icon from '@mui/icons-material/Brightness4'
 import { Button } from '../../components/UI/button/Button'
 import { JoinUs } from '../../components/signIn/JoinUs'
 import { SignIn } from '../../components/signIn/SignIn'
@@ -116,7 +118,14 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                threshold={threshold}
             >
                <StateBlock>
-                  <StyledAirBNBIcon onClick={toggleHandler} />
+                  <StyledAirBNBIcon onClick={() => navigate('/')} />
+                  <StyledButtons
+                     onClick={toggleHandler}
+                     type="button"
+                     color="white"
+                  >
+                     {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+                  </StyledButtons>
                </StateBlock>
                <InputDiv>
                   {isAuthorization ? (
@@ -176,13 +185,20 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
          ) : (
             <StyleHeader background="#ffffff">
                <div className="headerIcon">
-                  <BlackAirBNBIcon onClick={toggleHandler} />{' '}
-                  {login === 'true' ? (
-                     <StyleLink to="/AddAnouncementForm">leave an ad</StyleLink>
-                  ) : null}
+                  <BlackAirBNBIcon onClick={() => navigate('/')} />
+                  <StyledButtons
+                     onClick={toggleHandler}
+                     type="button"
+                     color="black"
+                  >
+                     {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+                  </StyledButtons>
                </div>
 
                <SearchDiv>
+                  {login === 'true' ? (
+                     <StyleLink to="/AddAnouncementForm">leave an ad</StyleLink>
+                  ) : null}
                   <div className="blockCheckbox">
                      <ChecboxStyled type="checkbox" id="search" />
                      <StyledLabel htmlFor="search">Search nearby</StyledLabel>
@@ -318,6 +334,7 @@ const InputDiv = styled('div')(() => ({
 const StateBlock = styled('div')(() => ({
    width: '100%',
    display: 'flex',
+   gap: '1.5rem',
 }))
 const StyleLink = styled(Link)(() => ({
    width: '100px',
@@ -341,15 +358,6 @@ const FavoriteDiv = styled('div')(() => ({
    gap: '4rem',
 }))
 
-// const LeaveAnAd = styled('p')(() => ({
-//    color: '#FFBE58',
-//    fontFamily: 'Inter',
-//    fontSize: '1.125rem',
-//    fontStyle: 'normal',
-//    fontWeight: '500',
-//    lineHeight: 'normal',
-//    cursor: 'pointer',
-// }))
 const SearchDiv = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
@@ -390,5 +398,14 @@ const StyledFavorite = styled('p')(() => ({
    cursor: 'pointer',
    '&:hover': {
       textDecoration: 'underline',
+   },
+}))
+
+const StyledButtons = styled('button')(({ color }) => ({
+   border: 'none',
+   backgroundColor: 'rgba(0,0,0,0.0)',
+   svg: {
+      color: color === 'black' ? '#000' : '#fff',
+      fontSize: '2rem',
    },
 }))

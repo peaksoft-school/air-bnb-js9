@@ -51,11 +51,17 @@ export function Select({
 const StyledFormControl = styled(FormControl)((props) => ({
    width: props.width || '18rem',
    height: props.height || '3.5625rem',
+   border: '1px solid red',
 
    '&  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: 'gray',
+      borderColor: 'red',
+      border: '1px solid red',
+   },
+   'css-1is9lq1-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root': {
+      border: '1px solid red',
    },
    '&:hover': {
       backgroundColor: '#F3F3F3',
+      border: 'none',
    },
 }))

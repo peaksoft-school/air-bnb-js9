@@ -5,11 +5,6 @@ import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { ResultPaymentForm } from './ResultPaymentForm'
 
-const stripePromise = loadStripe(
-   'pk_test_51NYN0mBbVpyhSGy9ZskXVZmFK9RJkccBrsiOb2eeve0aYF5XdJ08fQJd3679hdlc4OI8RVnkcwhVdMgWdxGwam1Y00JFIanrmJ'
-)
-const clientSecret =
-   'sk_test_51NYN0mBbVpyhSGy9TAmd8wM7C0L8hGp15nYondNkbh9OrCYvGx9yO7iVIDp7De590DoQhvVueJSlYQmVmBzdZij100iUx2V8f1   '
 const getMonthName = (monthNumber) => {
    const months = [
       'January',
@@ -28,15 +23,24 @@ const getMonthName = (monthNumber) => {
    return months[monthNumber - 1] || ''
 }
 
-export function ResultPaiment({
+const stripePromise = loadStripe(
+   'pk_test_51NdWEALAAx1GCzR7MYd1i0ZdWiHVHXzC6OKrgkX1sys0xohhvYcbnWJYRjF2Zjh7oIaPMTcLNWYaWNdXg0P35upx00ivG01DcS'
+)
+
+export function ResultPayment({
+   price,
+   booked,
+   bookingsId,
    valueChekin,
    valueChekout,
-   openModalHandler,
-   price,
+   resultChekin,
+   resultChekout,
+   announcementId,
 }) {
    const formattedValueChekin = `${getMonthName(valueChekin.$M)} ${
       valueChekin.$D
    },${valueChekin.$y}`
+
    const formattedValueChekout = `${getMonthName(valueChekout.$M)} ${
       valueChekout.$D
    }, ${valueChekout.$y}`
@@ -45,11 +49,10 @@ export function ResultPaiment({
    const formatedResultChekout = `${valueChekout.$D}.${valueChekout.$H}${valueChekout.$M}.${valueChekout.$y}`
 
    const mines = valueChekout.$D - valueChekin.$D
-
    const result = price * mines
 
-   return (
-      <div>
+   return booked ? (
+      <Container>
          <ContainerPayment>
             <ContainerDescription styles="book">
                <h2>Book your trip</h2>
@@ -72,53 +75,93 @@ export function ResultPaiment({
             </ResultContainer>
 
             <TotalContainer styles="total">
-               <h3 className="total">
-                  Total = <h3>${result}</h3>
-               </h3>
-               <h3 className="amount">
-                  Payment amount = <h3>${result}</h3>
-               </h3>
+               <div className="total">
+                  Total = <p>${result}</p>
+               </div>
+               <div className="amount">
+                  Payment amount = <p>${result}</p>
+               </div>
             </TotalContainer>
 
-            <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <Elements stripe={stripePromise}>
                <ResultPaymentForm
-                  openModalHandler={openModalHandler}
-                  valueChekin={valueChekin}
-                  valueChekout={valueChekout}
-                  price={price}
+                  booked={booked}
+                  result={result}
+                  bookingsId={bookingsId}
+                  resultChekin={resultChekin}
+                  resultChekout={resultChekout}
+                  announcementId={announcementId}
                />
             </Elements>
          </ContainerPayment>
-      </div>
+      </Container>
+   ) : (
+      <Container>
+         <ContainerPayment>
+            <ContainerDescription styles="book">
+               <h2>Book your trip</h2>
+               <p className="book">
+                  The booking date has been changed, please pay an additional{' '}
+                  {mines} days in the period from {formattedValueChekin} to{' '}
+                  {formattedValueChekout} inclusive.
+               </p>
+            </ContainerDescription>
+
+            <ContainerSum>
+               <Result>
+                  ${price} x {mines} days = $ {result}
+               </Result>
+               <h3 className="total">
+                  Total = <h3>${result}</h3>
+               </h3>
+            </ContainerSum>
+
+            <Elements stripe={stripePromise}>
+               <ResultPaymentForm
+                  booked={booked}
+                  result={result}
+                  resultChekin={resultChekin}
+                  resultChekout={resultChekout}
+                  announcementId={announcementId}
+               />
+            </Elements>
+         </ContainerPayment>
+      </Container>
    )
 }
 
+const Container = styled('div')(() => ({
+   width: '29.625rem',
+   height: ' 31.875rem',
+   borderRadius: ' 0.125rem',
+   background: ' #FFF',
+}))
 const ContainerPayment = styled('div')(() => ({
    width: '105%',
-   borderRadius: ' 0.125rem',
    padding: '1.25rem',
+   borderRadius: ' 0.125rem',
+   backgroundColor: '#fff',
    display: 'felx',
    flexDirection: 'column',
    alignItems: 'center',
-   backgroundColor: '#fff',
 }))
 
 const ContainerDescription = styled('div')(({ styles }) => ({
    width: '100%',
-   borderBottom: '1px solid#C4C4C4',
    padding: '1.35rem',
+   borderBottom: '1px solid#C4C4C4',
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'center',
    gap: '1.25rem',
 
    '.book': {
+      fontWeight: styles === 'book' ? 400 : 500,
       width: styles === 'book' ? ' 26.5rem' : '',
+      fontSize: styles === 'book' ? '1rem' : '1.125rem',
+      textTransform: styles === 'book' ? '' : 'uppercase',
       color:
          styles === 'book' ? ' var(--tertiary-middle-gray, #828282)' : '#000',
-      fontSize: styles === 'book' ? '1rem' : '1.125rem',
-      fontWeight: styles === 'book' ? 400 : 500,
-      textTransform: styles === 'book' ? '' : 'uppercase',
       fontFamily: 'Inter',
       fontStyle: 'normal',
       lineHeight: 'normal',
@@ -126,10 +169,10 @@ const ContainerDescription = styled('div')(({ styles }) => ({
    },
 }))
 const ResultContainer = styled('div')(() => ({
+   marginTop: '1.44rem',
    display: 'flex',
    flexDirection: 'column',
    gap: '1.12rem',
-   marginTop: '1.44rem',
    div: {
       display: 'flex',
       flexDirection: 'column',
@@ -137,24 +180,24 @@ const ResultContainer = styled('div')(() => ({
    },
 }))
 const ResultFrom = styled('p')(() => ({
-   color: 'var(--tertiary-light-gray, #C4C4C4)',
-   fontFamily: 'Inter',
    fontSize: '1rem',
-   fontStyle: 'normal',
    fontWeight: '400',
+   fontStyle: 'normal',
+   fontFamily: 'Inter',
    lineHeight: 'normal',
+   color: 'var(--tertiary-light-gray, #C4C4C4)',
 }))
 const Result = styled('p')(() => ({
-   color: ' var(--tertiary-dark-gray, #646464)',
-   fontFamily: 'Inter',
    fontSize: '1rem',
-   fontStyle: 'normal',
    fontWeight: '400',
+   fontFamily: 'Inter',
+   fontStyle: 'normal',
    lineHeight: 'normal',
+   color: ' var(--tertiary-dark-gray, #646464)',
    span: {
-      color: 'var(--primary-black, #363636)',
       fontWeight: '500',
       fontSize: '1.1rem',
+      color: 'var(--primary-black, #363636)',
    },
 }))
 const TotalContainer = styled('div')(() => ({
@@ -165,15 +208,14 @@ const TotalContainer = styled('div')(() => ({
    marginTop: '1.87rem',
 
    '.total': {
-      display: 'flex',
-      gap: '0.38rem',
-      color: ' var(--tertiary-middle-gray, #828282)',
+      fontWeight: '500',
+      fontStyle: 'normal',
       fontFamily: 'Inter',
       fontSize: '1.125rem',
-      fontStyle: 'normal',
-      fontWeight: '500',
       lineHeight: 'normal',
-      h3: {
+      color: ' var(--tertiary-middle-gray, #828282)',
+      display: 'flex',
+      p: {
          fontWeight: '500',
       },
    },
@@ -186,14 +228,23 @@ const TotalContainer = styled('div')(() => ({
       fontStyle: 'normal',
       fontWeight: '600',
       lineHeight: 'normal',
-      //   h3: {
-      //      fontWeight: '500',
-      //   },
    },
 }))
-// const ContainerButton = styled('div')(() => ({
-//    display: 'flex',
-//    flexDirection: 'column',
-//    gap: '1.38rem',
-//    marginTop: '1rem',
-// }))
+const ContainerSum = styled('div')(() => ({
+   marginTop: '1.5rem',
+   height: '7vh',
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
+   justifyContent: 'space-between',
+   '.total': {
+      display: 'flex',
+      gap: '0.38rem',
+      color: ' var(--primary-black, #363636)',
+      fontFamily: 'Inter',
+      fontSize: '1.125rem',
+      fontStyle: 'normal',
+      fontWeight: '600',
+      lineHeight: 'normal',
+   },
+}))

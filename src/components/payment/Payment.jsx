@@ -1,103 +1,136 @@
 import { styled } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { PaymentInDarePicker } from './PaymentInDatePicker'
 import { Button } from '../UI/button/Button'
-import Modal from '../UI/modal/Modal'
-import { ResultPaiment } from './ResultPaiment'
+import { ResultPayment } from './ResultPayment'
 
-export function Payment({ state, openModalHandler, price }) {
-   const [toggleResult, setToggleResult] = useState(false)
-   const [defaultDate, setDefaultDate] = useState(false)
+export function Payment({
+   price,
+   booked,
+   bookingsId,
+   announcementId,
+   toggleDatePicker,
+   openModalHandler,
+}) {
    const [valueChekin, setValueCheckin] = useState('')
    const [valueChekout, setValueCheckout] = useState('')
+   const [checkLocalStorage, setCheckLocalStorage] = useState({})
+   const { postToggleResult, putToggleResult } = useSelector(
+      (state) => state.payment
+   )
 
-   const toggleHandler = () => {
-      setToggleResult((prev) => !prev)
-      setDefaultDate(true)
-   }
-   const ResultChekin = `${valueChekin.$D}.${valueChekin.$H}${valueChekin.$M}.${valueChekin.$y}`
-   const ResultChekout = `${valueChekout.$D}.${valueChekout.$H}${valueChekout.$M}.${valueChekout.$y}`
+   const resultChekin = `${valueChekin.$y}-${valueChekin.$H}${valueChekin.$M}-${valueChekin.$D}`
+   const resultChekout = `${valueChekout.$y}-${valueChekout.$H}${valueChekout.$M}-${valueChekout.$D}`
 
-   const getCurrentDate = () => {
-      const currentDate = new Date()
-      const day = currentDate.getDate().toString().padStart(2, '0')
-      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0')
-      const year = currentDate.getFullYear().toString().slice(-2)
-      return `${day}.${month}.${year}`
-   }
+   useEffect(() => {
+      const getLocalStorage = localStorage?.getItem('checkin')
+      if (getLocalStorage) {
+         const checkinParse = JSON.parse(getLocalStorage)
 
-   const getFutureDate = () => {
-      const currentDate = new Date()
-      currentDate.setDate(currentDate.getDate() + 3)
-      const day = currentDate.getDate().toString().padStart(2, '0')
-      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0')
-      const year = currentDate.getFullYear().toString().slice(-2)
-      return `${day}.${month}.${year}`
-   }
-   return (
+         setCheckLocalStorage({
+            checkinLocalStorage: checkinParse.checkin,
+            checkoutLocalStorage: checkinParse.checkout,
+            resultChekinLocalStorage: checkinParse.resultChekin,
+            resultChekoutLocalStorage: checkinParse.resultChekout,
+         })
+      }
+   }, [])
+   const { checkinLocalStorage, checkoutLocalStorage } = checkLocalStorage
+
+   return booked ? (
       <div>
-         {state ? (
-            <Modal
-               open={state}
-               onClose={openModalHandler}
-               width="32.875rem"
-               height=" 19.75rem"
-               backgroundColor="none"
-            >
-               {toggleResult ? (
-                  <ResultPaiment
+         {toggleDatePicker ? (
+            <div>
+               {' '}
+               {postToggleResult ? (
+                  <ResultPayment
+                     price={price}
+                     booked={booked}
+                     bookingsId={bookingsId}
                      valueChekin={valueChekin}
                      valueChekout={valueChekout}
-                     openModalHandler={openModalHandler}
-                     price={price}
+                     resultChekin={resultChekin}
+                     resultChekout={resultChekout}
+                     announcementId={announcementId}
                   />
                ) : (
                   <PaymentInDarePicker
+                     price={price}
+                     booked={booked}
+                     openModal={toggleDatePicker}
                      valueChekin={valueChekin}
-                     setValueCheckin={setValueCheckin}
                      valueChekout={valueChekout}
+                     resultChekin={resultChekin}
+                     resultChekout={resultChekout}
+                     announcementId={announcementId}
+                     setValueCheckin={setValueCheckin}
                      setValueCheckout={setValueCheckout}
-                     openModal={state}
-                     toggleHandler={toggleHandler}
+                     checkLocalStorage={checkLocalStorage}
                   />
                )}
-            </Modal>
-         ) : null}
-
-         <ContainerPayment>
-            <ContainerDay styles="day">
-               <h4>${price}</h4>/ <h4 className="day">day</h4>
-            </ContainerDay>
-            <DatePickerStyle>
-               <BlockDatePicker>
-                  <p className="check">Check in</p>
-                  <p className="date">
-                     {defaultDate ? ResultChekin : getCurrentDate()}
-                  </p>
-               </BlockDatePicker>
-               <BlockDatePicker>
-                  <p className="check">Check out</p>
-                  <p className="date">
-                     {defaultDate ? ResultChekout : getFutureDate()}
-                  </p>
-               </BlockDatePicker>
-            </DatePickerStyle>
-            <Button
-               variant="contained"
-               width=" 28.375rem"
-               padding=" 0.625rem 1rem"
-               borderRadius="0.125rem"
-               bgColor=" #DD8A08"
-               color="#F7F7F7"
-               fontSize=" 0.875rem"
-               textTransform="uppercase"
-               border="none"
-               marginTop="2.63rem"
-               onClick={openModalHandler}
-            >
-               change the date
-            </Button>
-         </ContainerPayment>
+            </div>
+         ) : (
+            <ContainerPayment>
+               <ContainerDay styles="day">
+                  <p>${price}</p>/ <p className="day">day</p>
+               </ContainerDay>
+               <DatePickerStyle>
+                  <BlockDatePicker>
+                     <p className="check">Check in</p>
+                     <p className="date">{checkinLocalStorage}</p>
+                  </BlockDatePicker>
+                  <BlockDatePicker>
+                     <p className="check">Check out</p>
+                     <p className="date">{checkoutLocalStorage}</p>
+                  </BlockDatePicker>
+               </DatePickerStyle>
+               <Button
+                  border="none"
+                  color="#F7F7F7"
+                  width=" 28.375rem"
+                  variant="contained"
+                  marginTop="2.63rem"
+                  fontSize=" 0.875rem"
+                  bgColor=" #DD8A08"
+                  borderRadius="0.125rem"
+                  padding=" 0.625rem 1rem"
+                  textTransform="uppercase"
+                  onClick={openModalHandler}
+               >
+                  change the date
+               </Button>
+            </ContainerPayment>
+         )}
+      </div>
+   ) : (
+      <div>
+         {' '}
+         {putToggleResult ? (
+            <ResultPayment
+               price={price}
+               booked={booked}
+               valueChekin={valueChekin}
+               valueChekout={valueChekout}
+               resultChekin={resultChekin}
+               resultChekout={resultChekout}
+               announcementId={announcementId}
+            />
+         ) : (
+            <PaymentInDarePicker
+               openModal
+               price={price}
+               booked={booked}
+               valueChekin={valueChekin}
+               valueChekout={valueChekout}
+               resultChekin={resultChekin}
+               resultChekout={resultChekout}
+               announcementId={announcementId}
+               setValueCheckin={setValueCheckin}
+               setValueCheckout={setValueCheckout}
+               checkLocalStorage={checkLocalStorage}
+            />
+         )}
       </div>
    )
 }
@@ -154,7 +187,7 @@ export const BlockDatePicker = styled('div')(() => ({
    },
    '.date': {
       color: 'var(--primary-black, #363636)',
-      fontFamily: 'Roboto',
+      fontFamily: 'Inter',
       fontSize: '1rem',
       fontStyle: 'normal',
       fontWeight: 400,

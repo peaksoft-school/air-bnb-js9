@@ -6,6 +6,7 @@ import { announcementSlice } from './profile/ProfileSlice'
 import { applicationSlice } from './admin-application/ApplicationSlice'
 import { getByIdSlice } from './anouncement/AnouncementSlice'
 import { allHousingSlice } from './admin-all-housing/AllHousingSlice'
+import { paymentSlice } from './payment/PaymentSlice'
 import { DarkModeSlice } from './dark-mode/DarkModeSlice'
 import { ModalSlice } from './ModalSlice'
 import { getAnnouncementByIdSlice } from './getAnnouncement/GetAnnouncementByIdSlice'
@@ -23,6 +24,7 @@ export const store = configureStore({
       [getByIdSlice.name]: getByIdSlice.reducer,
       [allHousingSlice.name]: allHousingSlice.reducer,
       [getByIdSlice.name]: getByIdSlice.reducer,
+      [paymentSlice.name]: paymentSlice.reducer,
       [DarkModeSlice.name]: DarkModeSlice.reducer,
       [ModalSlice.name]: ModalSlice.reducer,
       [getAnnouncementByIdSlice.name]: getAnnouncementByIdSlice.reducer,

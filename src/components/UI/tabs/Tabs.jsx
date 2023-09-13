@@ -1,4 +1,3 @@
-import { styled } from '@mui/material'
 import React from 'react'
 import {
    NavLink,
@@ -7,6 +6,7 @@ import {
    useLocation,
    useParams,
 } from 'react-router-dom'
+import { styled } from '@mui/material'
 import { Bookings } from './Bookings'
 import { MyAnnouncement } from './MyAnnouncement'
 import { OnModeration } from './OnModeration'
@@ -108,6 +108,7 @@ const StyleHead = styled('div')(() => ({
 
 const StyleLink = styled(NavLink)(({ active }) => ({
    color: active === 'true' ? '2px solid #000' : '#6C6C6C',
+   color: ' #6C6C6C',
    fontFamily: 'Inter',
    fontSize: '1.125rem',
    fontStyle: 'normal',

@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { styled } from '@mui/material'
 
+import { useSelector } from 'react-redux'
 import {
    ArrowLeftDots,
    ArrowRightDots,
@@ -15,6 +16,7 @@ import {
 export function MySlider({ background, state, lastestData, apartmentData }) {
    const sliderRef = useRef(null)
    const [currentSlide, setCurrentSlide] = useState(0)
+   const { darkMode } = useSelector((state) => state.darkMode)
 
    const settings = {
       dots: false,
@@ -90,7 +92,7 @@ export function MySlider({ background, state, lastestData, apartmentData }) {
                </ImgBlock>
             ))}
          </Slider>
-         <Arrows>
+         <Arrows state={state} darkMode={darkMode}>
             {state ? (
                <ArrowLeftBlack
                   onClick={goToPrevSlide}
@@ -113,7 +115,13 @@ export function MySlider({ background, state, lastestData, apartmentData }) {
                />
             )}
 
-            <p style={state ? { color: '#000' } : { color: 'white' }}>
+            <p
+               style={
+                  state
+                     ? { color: darkMode ? '#fff' : '#000' }
+                     : { color: 'white' }
+               }
+            >
                {currentSlide + 1 < 10
                   ? `0${currentSlide + 1}`
                   : currentSlide + 1}
@@ -141,12 +149,15 @@ const ContainerImg = styled('div')({
    // marginLeft: '2rem',
 })
 
-const Arrows = styled('div')({
+const Arrows = styled('div')(({ state, darkMode }) => ({
    display: 'flex',
    justifyContent: 'start',
    alignItems: 'center',
    marginTop: '5rem',
-})
+   p: {
+      color: state ? (darkMode ? '#fff' : '#000') : 'white',
+   },
+}))
 
 const ImgBlock = styled('div')`
    display: flex;
