@@ -16,16 +16,16 @@ export const getAnnouncementByIdHandler = createAsyncThunk(
    }
 )
 
-export const getAnnouncementFeedbacks = createAsyncThunk(
-   'feedbacks/getAnnouncementFeedbacks',
-   async (id, { rejectWithValue }) => {
-      try {
-         const response = await axiosInstance.get(`/api/feedbacks/${id}`)
-         console.log('response: ', response)
+// export const getAnnouncementFeedbacks = createAsyncThunk(
+//    'feedbacks/getAnnouncementFeedbacks',
+//    async (id, { rejectWithValue }) => {
+//       try {
+//          const response = await axiosInstance.get(`/api/feedbacks/${id}`)
+//          console.log('response: ', response)
 
-         return response
-      } catch (error) {
-         return rejectWithValue(error.message)
-      }
-   }
-)
+//          return response
+//       } catch (error) {
+//          return rejectWithValue(error.message)
+//       }
+//    }
+// )

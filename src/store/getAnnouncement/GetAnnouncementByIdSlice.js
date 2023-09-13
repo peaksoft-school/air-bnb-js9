@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
    getAnnouncementByIdHandler,
-   getAnnouncementFeedbacks,
+   // getAnnouncementFeedbacks,
 } from './GetAnnouncementByIdThunk'
 
 const initialState = {
    AdminAnnouncementById: {},
-   feedbacks: [],
+   // feedbacks: [],
 }
 
 export const getAnnouncementByIdSlice = createSlice({
@@ -14,12 +14,11 @@ export const getAnnouncementByIdSlice = createSlice({
    initialState,
    reducers: {},
    extraReducers: (builder) => {
-      builder
-         .addCase(getAnnouncementByIdHandler.fulfilled, (state, action) => {
-            state.AdminAnnouncementById = action.payload
-         })
-         .addCase(getAnnouncementFeedbacks.fulfilled, (state, action) => {
-            state.feedbacks = action.payload
-         })
+      builder.addCase(getAnnouncementByIdHandler.fulfilled, (state, action) => {
+         state.AdminAnnouncementById = action.payload
+      })
+      // .addCase(getAnnouncementFeedbacks.fulfilled, (state, action) => {
+      //    state.feedbacks = action.payload
+      // })
    },
 })

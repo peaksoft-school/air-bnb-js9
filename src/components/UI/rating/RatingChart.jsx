@@ -6,11 +6,11 @@ import { Start1 } from '../../../assets/icons'
 export function RatingChart({ starValue, marginLeft, height, width }) {
    const maximumRating = 8
    const rating = [
-      { label: '5', currentRating: 'five' },
-      { label: '4', currentRating: 'four' },
-      { label: '3', currentRating: 'three' },
-      { label: '2', currentRating: 'two' },
-      { label: '1', currentRating: 'one' },
+      { label: '5', currentRating: 0 },
+      { label: '4', currentRating: 0 },
+      { label: '3', currentRating: 0 },
+      { label: '2', currentRating: 0 },
+      { label: '1', currentRating: 0 },
    ]
 
    for (let i = 0; i < rating.length; i += 1) {
