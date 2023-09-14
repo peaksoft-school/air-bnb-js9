@@ -22,14 +22,8 @@ export default function Feedback({ data, announcementBooked }) {
       id,
    } = data
 
-   console.log(data)
    const parts = createdAt?.split('-')
-   // const formattedDate = `${parts[0]}.${parts[1]}.${parts[2]}`
    const formattedDate = parts ? `${parts[0]}.${parts[1]}.${parts[2]}` : ''
-
-   // const parts = createdAt ? createdAt.split('-') : []
-   // const formattedDate =
-   //    parts.length === 3 ? `${parts[0]}.${parts[1]}.${parts[2]}` : ''
 
    const [currentEl, setCurrentEl] = useState(null)
    const [showFullText, setShowFullText] = useState(false)
@@ -167,8 +161,6 @@ export default function Feedback({ data, announcementBooked }) {
                         >
                            {feedbackUserImage ||
                               (feedbackUserFullName && feedbackUserFullName[0])}
-
-                           {/* {feedbackUserImage || feedbackUserFullName[0]} */}
                         </Avatar>
                      </div>
                      <div>

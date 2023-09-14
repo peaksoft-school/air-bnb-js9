@@ -35,10 +35,11 @@ export function NameOfHotel({
          setBlockedArr(response)
          toastType('success', response.data.message, response.data.httpStatus)
       } catch (error) {
-         console.log('error: ', error)
+         toastType('error', error.message)
       }
    }
 
+   // eslint-disable-next-line consistent-return
    const deleteAnnouncementById = async (id) => {
       try {
          const response = await axiosInstance.delete(`/api/announcements/${id}`)
@@ -48,7 +49,7 @@ export function NameOfHotel({
          toastType('success', response.data.message)
          return response.data
       } catch (error) {
-         return error.message
+         toastType('error', error.message)
       }
    }
 
@@ -109,8 +110,8 @@ export function NameOfHotel({
                   color="#DD8A08"
                   font-size="0.875rem"
                   font-weight="500"
-                  hoverBgColor="#cfbf8e"
-                  hoverColor="#6c470b"
+                  hoverbgcolor="#cfbf8e"
+                  hovercolor="#6c470b"
                >
                   {pages === 'user' ? 'delete' : 'reject'}
                </Button>

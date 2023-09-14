@@ -26,9 +26,9 @@ function AdminUsersPage({ setState }) {
    const closeButtonHandler = () => {
       setShowButton(false)
    }
-   const getUsersById = async () => {
+   const getUsersById = async (id) => {
       try {
-         const { data } = await getAdminUsersCardsIdRequest(userId)
+         const { data } = await getAdminUsersCardsIdRequest(id)
          setUserData(data)
       } catch (error) {
          console.log(error)
@@ -36,7 +36,7 @@ function AdminUsersPage({ setState }) {
    }
 
    useEffect(() => {
-      getUsersById()
+      getUsersById(userId)
       dispatch(getAdminUsersCardsId(userId))
       dispatch(getBookings(userId))
       setState(userId)

@@ -28,7 +28,7 @@ export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
    const [currentSize, setCurrenSize] = useState(18)
    const [title, setTitle] = useState('')
-   const [stat, setStat] = useState('')
+   const [userIdState, setUserIdState] = useState('')
    const { toastType } = toastSnackbar()
    const dispatch = useDispatch()
 
@@ -173,12 +173,12 @@ export function AppRoutes() {
             />
             <Route path="users/" element={<ReusableTable />} />
             <Route
-               path={`users/${stat}/`}
+               path={`users/${userIdState}/`}
                element={<Navigate to="booking" />}
             />
             <Route
                path="users/:userId/"
-               element={<AdminUsersPage setState={setStat} />}
+               element={<AdminUsersPage setState={setUserIdState} />}
             >
                <Route
                   index

@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../config/axiosInstance'
 
 export const getAnnouncementByIdHandler = createAsyncThunk(
-   'AnnouncementById/getAnnouncementByIdHandler',
+   'announcementById/getAnnouncementByIdHandler',
    async (id, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.get(

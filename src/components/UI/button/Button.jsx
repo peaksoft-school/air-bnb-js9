@@ -6,8 +6,8 @@ export function Button({
    disabled,
    type,
    onClick,
-   hoverBgColor,
-   hoverColor,
+   hoverbgcolor,
+   hovercolor,
    ...props
 }) {
    return (
@@ -16,8 +16,8 @@ export function Button({
          type={type}
          onClick={onClick}
          variant={variant}
-         hoverBgColor={hoverBgColor}
-         hoverColor={hoverColor}
+         hoverbgcolor={hoverbgcolor}
+         hovercolor={hovercolor}
          props={props}
       >
          {children}
@@ -26,7 +26,7 @@ export function Button({
 }
 
 const ButtonStyled = styled(ReusableButton)(
-   ({ variant, props, hoverBgColor, hoverColor }) => {
+   ({ variant, props, hoverbgcolor, hovercolor }) => {
       if (variant === 'contained') {
          return {
             '&.MuiButtonBase-root': {
@@ -47,8 +47,8 @@ const ButtonStyled = styled(ReusableButton)(
                border: `${props.border}` || 'none',
 
                '&:hover': {
-                  background: hoverBgColor || '#BB7200',
-                  color: hoverColor || '#fff',
+                  background: hoverbgcolor || '#BB7200',
+                  color: hovercolor || '#fff',
                },
                '&:active': {
                   background: props.bgColor || '#F2B75B',

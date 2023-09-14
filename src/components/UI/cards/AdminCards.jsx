@@ -128,7 +128,7 @@ export function AdminCards({
                title={title}
                changeHandler={changeHandler}
             />
-            {data.length > 0 ? (
+            {data?.length > 0 ? (
                data?.map((item, index) => (
                   <MapContainer status="dat" key={item.id}>
                      {image === 'click' ? (

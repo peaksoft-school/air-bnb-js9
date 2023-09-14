@@ -1,5 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from 'react'
 import { Breadcrumbs, Typography, styled } from '@mui/material'
 import { Link } from 'react-router-dom'
@@ -18,8 +16,8 @@ import {
    countRatingGetByIdRequest,
    feedbackGetByIdRequest,
 } from '../store/feedback/feedbackThunk'
-// eslint-disable-next-line import/newline-after-import
 import { uploadActions } from '../store/Upload'
+
 export default function AnnouncementDetailPage() {
    const [state, setState] = useState(false)
    const [openModal, setOpenModal] = useState(false)

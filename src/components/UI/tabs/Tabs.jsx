@@ -122,7 +122,6 @@ const StyleLink = styled(NavLink)(({ active }) => ({
    '&:focus': {
       color: 'var(--primary-black, #363636)',
       fontWeight: '600',
-      // borderBottom: active === 'true' ? '2px solid #000' : null,
    },
    h3: {
       marginBottom: '0.5156rem',

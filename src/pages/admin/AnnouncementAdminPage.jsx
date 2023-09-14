@@ -24,13 +24,16 @@ export function AnnouncementAdminPage({
    const [openModal, setOpenModal] = useState(false)
    const { dataById } = useSelector((state) => state.application)
    const { AdminAnnouncementById } = useSelector(
-      (state) => state.AnnouncementById
+      (state) => state.announcementById
    )
    const dispatch = useDispatch()
    const params = useParams()
 
    useEffect(() => {
       dispatch(getApplicationById(params.id))
+   }, [dispatch])
+
+   useEffect(() => {
       dispatch(getAnnouncementByIdHandler(params.id))
       // dispatch(getAnnouncementFeedbacks(params.id))
    }, [dispatch])
@@ -101,14 +104,13 @@ export function AnnouncementAdminPage({
          id: '5',
       },
       {
-         feedbackUserFullName: 'Bars Barsov',
+         feedbackUserFullName: 'Gulzat Osh',
          comment:
             'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
          rating: 2,
          likeCount: 4,
          disLikeCount: 2,
-         feedbackUserImage:
-            'https://ca.slack-edge.com/T023L1WBFLH-U04553S5F4Y-b3857864c0e6-512',
+         feedbackUserImage: '',
          createdAt: '29-11-2023',
          id: '6',
       },

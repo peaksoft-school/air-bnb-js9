@@ -10,7 +10,7 @@ const initialState = {
 }
 
 export const getAnnouncementByIdSlice = createSlice({
-   name: 'AnnouncementById',
+   name: 'announcementById',
    initialState,
    reducers: {},
    extraReducers: (builder) => {
