@@ -50,7 +50,9 @@ export function AdminHeader() {
                      location.pathname === `/admin/users/${userId}` ||
                      location.pathname === `/admin/users/${userId}/booking` ||
                      location.pathname ===
-                        `/admin/users/${userId}/my-announcement`
+                        `/admin/users/${userId}/my-announcement` ||
+                     location.pathname ===
+                        `/admin/users/${userId}/my-announcement/${userId}=name`
                         ? 'true'
                         : 'false'
                   }

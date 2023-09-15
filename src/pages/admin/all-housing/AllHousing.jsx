@@ -31,7 +31,11 @@ export function AllHousing() {
    return (
       <Container>
          <AllHousingFilter />
-         <AdminCards data={allHouseData} removeAllHousing={removeAllHousing} />
+         <AdminCards
+            data={allHouseData}
+            removeAllHousing={removeAllHousing}
+            padding="1rem 0 0 3rem"
+         />
          {loading && <LoadingAirbnb />}
       </Container>
    )

@@ -1,6 +1,12 @@
 import React from 'react'
+import {
+   NavLink,
+   Route,
+   Routes,
+   useLocation,
+   useParams,
+} from 'react-router-dom'
 import { styled } from '@mui/material'
-import { Link, Route, Routes } from 'react-router-dom'
 import { Bookings } from './Bookings'
 import { MyAnnouncement } from './MyAnnouncement'
 import { OnModeration } from './OnModeration'
@@ -12,12 +18,21 @@ const moderation = [
    },
 ]
 
-export function Tabs({ announcement, bookings }) {
+export function Tabs({
+   announcement,
+   bookings,
+   state,
+   showButtonHandler,
+   closeButtonHandler,
+}) {
    const BookingLength = bookings?.length
    const announcementLength = announcement?.length
    const moderationLength = moderation?.lenght
 
-   return (
+   const location = useLocation()
+   const { userId } = useParams()
+
+   return state === 'true' ? (
       <div>
          <StyleHead>
             <StyleLink to="bookings">
@@ -50,6 +65,34 @@ export function Tabs({ announcement, bookings }) {
             />
          </Routes>
       </div>
+   ) : (
+      <div>
+         <StyleHead>
+            <StyleLink
+               active={
+                  location.pathname === `/admin/users/${userId}/booking`
+                     ? 'true'
+                     : 'false'
+               }
+               onClick={closeButtonHandler}
+               to="booking"
+            >
+               <h3>Bookings</h3>
+            </StyleLink>
+
+            <StyleLink
+               active={
+                  location.pathname === `/admin/users/${userId}/my-announcement`
+                     ? 'true'
+                     : 'false'
+               }
+               onClick={showButtonHandler}
+               to="my-announcement"
+            >
+               <h3>My announcement</h3>
+            </StyleLink>
+         </StyleHead>
+      </div>
    )
 }
 const StyleHead = styled('div')(() => ({
@@ -60,15 +103,18 @@ const StyleHead = styled('div')(() => ({
    justifyContent: 'center',
    alignItems: 'center',
    gap: '3.125rem',
+   // marginBottom: '2rem',
 }))
 
-const StyleLink = styled(Link)(() => ({
-   color: ' #6C6C6C',
+const StyleLink = styled(NavLink)(({ active }) => ({
+   color: active === 'true' ? '2px solid #000' : '#6C6C6C',
    fontFamily: 'Inter',
    fontSize: '1.125rem',
    fontStyle: 'normal',
    fontWeight: '400',
    lineHeight: 'normal',
+   borderBottom: active === 'true' ? '2px solid #000' : null,
+
    '&:hover': {
       color: ' var(--primary-black, #363636)',
       fontWeight: '600',
@@ -76,7 +122,6 @@ const StyleLink = styled(Link)(() => ({
    '&:focus': {
       color: 'var(--primary-black, #363636)',
       fontWeight: '600',
-      borderBottom: '2px solid #000',
    },
    h3: {
       marginBottom: '0.5156rem',

@@ -1,18 +1,17 @@
 import { styled } from '@mui/material'
 import React from 'react'
-import { AdminCards } from '../cards/admin/AdminCards'
-import { ProfileCards } from '../cards/ProfileCards'
+import { AdminCards } from '../UI/cards/AdminCards'
+import { ProfileCards } from '../UI/cards/ProfileCards'
 
 export function Bookings({ bookings, onChange }) {
    return (
       <div>
-         {onChange === 'true' ? (
+         {onChange === true ? (
             <AdminCards
                data={bookings}
                page="admin"
                justifyContent="start"
                bgColor="white"
-               padding="2rem 0 0 2rem "
             />
          ) : (
             <BookingContainer>

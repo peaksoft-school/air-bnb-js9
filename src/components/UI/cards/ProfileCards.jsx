@@ -44,7 +44,6 @@ export function ProfileCards({ data, announcement, ...props }) {
          return newImages
       })
    }
-
    const truncateTitle = (title) => {
       const words = title?.split(' ')
       if (words?.length > 6) {

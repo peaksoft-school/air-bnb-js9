@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumbs, Link, styled, Typography } from '@mui/material'
-import { useNavigate, useParams } from 'react-router-dom'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { HouseSlidDetail } from '../../components/UI/house-detail/HouseSlidDetail'
 import { NameOfHotel } from '../../components/UI/name-hotel/NameOfHotel'
 import { house, Hotel, booked } from '../../utils/helpers'
 import Feedback from '../../components/UI/feedback/Feedback'
-import { RatingChart } from '../../components/UI/rating/RatingChart'
 import { Booked } from '../../components/UI/booked/Booked'
 import { Favorites } from '../../components/UI/favorites/Favorites'
 import { getApplicationById } from '../../store/admin/application/ApplicationThunk'
+import { getAnnouncementByIdHandler } from '../../store/getAnnouncement/GetAnnouncementByIdThunk'
+import { RatingChart } from '../../components/UI/rating/RatingChart'
 
 export function AnnouncementAdminPage({
    title,
@@ -20,56 +21,93 @@ export function AnnouncementAdminPage({
    rejectedHandler,
 }) {
    const [openModal, setOpenModal] = useState(false)
-   const { applicationById } = useSelector((state) => state.admin)
+   const { applicationById, users } = useSelector((state) => state.admin)
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const { cardId } = useParams()
-   console.log(cardId, 'params')
+   const params = useParams()
 
-   console.log(applicationById, 'applicationById')
+   console.log(params, 'params')
 
    useEffect(() => {
-      dispatch(getApplicationById(cardId))
-   }, [])
+      dispatch(getApplicationById(params.id))
+      dispatch(getAnnouncementByIdHandler(params.id))
+   }, [dispatch])
 
    const data = [
       {
-         name: 'Bars Barsov',
+         feedbackUserFullName: 'Barsbek Makhmatov',
          comment:
             'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-         starRating: 2,
-         like: 4,
-         dislike: 2,
-         avatar:
+         rating: 2,
+         likeCount: 4,
+         disLikeCount: 2,
+         feedbackUserImage:
             'https://ca.slack-edge.com/T023L1WBFLH-U04553S5F4Y-b3857864c0e6-512',
+         createdAt: '29-11-2023',
+         id: '1',
       },
       {
-         name: 'Beku Bekov',
+         feedbackUserFullName: 'Beku Bekov',
          comment:
             'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-         starRating: 3,
-         like: 1,
-         dislike: 5,
-         avatar: '',
+         rating: 3,
+         likeCount: 1,
+         disLikeCount: 5,
+         feedbackUserImage: '',
+         createdAt: '29-11-2023',
+         id: '2',
       },
       {
-         name: 'Aziret Aziretov',
+         feedbackUserFullName: 'Aziret Aziretov',
          comment:
             'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-         starRating: 4,
-         like: 5,
-         dislike: 3,
-         avatar:
+         rating: 4,
+         likeCount: 5,
+         disLikeCount: 3,
+         feedbackUserImage:
             'https://ca.slack-edge.com/T023L1WBFLH-U03E00N1USF-0fc4b2f5d54e-512',
+         images: [
+            'https://www.diybunker.com/wp-content/uploads/2021/09/home-2-1024x751.jpg',
+            'https://foyr.com/learn/wp-content/uploads/2022/05/family-room-in-a-house-1024x683.jpg',
+            'https://images.livspace-cdn.com/plain/https://jumanji.livspace-cdn.com/magazine/wp-content/uploads/sites/3/2021/10/18115838/modern-house-design.jpg',
+            'https://archello.s3.eu-central-1.amazonaws.com/images/2020/06/20/Contemporary-House-Interior-Design-1.1592613106.9601.jpg',
+         ],
+         createdAt: '29-11-2023',
+         id: '3',
       },
       {
-         name: 'Emir Emirov',
+         feedbackUserFullName: 'Emir Duishonaliev',
          comment:
             'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-         starRating: 5,
-         like: 4,
-         dislike: 1,
-         avatar: '',
+         rating: 5,
+         likeCount: 4,
+         disLikeCount: 1,
+         feedbackUserImage: '',
+         createdAt: '29-11-2023',
+         id: '4',
+      },
+      {
+         feedbackUserFullName: 'Aziret Aziretov',
+         comment:
+            'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
+         rating: 4,
+         likeCount: 5,
+         disLikeCount: 3,
+         feedbackUserImage:
+            'https://ca.slack-edge.com/T023L1WBFLH-U03E00N1USF-0fc4b2f5d54e-512',
+         createdAt: '29-11-2023',
+         id: '5',
+      },
+      {
+         feedbackUserFullName: 'Gulzat Osh',
+         comment:
+            'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
+         rating: 2,
+         likeCount: 4,
+         disLikeCount: 2,
+         feedbackUserImage: '',
+         createdAt: '29-11-2023',
+         id: '6',
       },
    ]
 
@@ -81,7 +119,7 @@ export function AnnouncementAdminPage({
       setOpenModal((prev) => !prev)
    }
    const rejectedCartd = () => {
-      rejectedHandler(cardId)
+      rejectedHandler(params.cardId)
       setOpenModal(false)
    }
 
@@ -136,23 +174,22 @@ export function AnnouncementAdminPage({
             <Container>
                <MainContainer>
                   <div role="presentation">
-                     <Breadcrumbs aria-label="breadcrumb">
-                        <Link
-                           underline="hover"
-                           color="inherit"
-                           href="application"
+                     <StyledNavlink to="/admin/users/">
+                        Users
+                        <StyledNavlink
+                           to={`/admin/users/${params.userId}/my-announcement`}
                         >
-                           Users
-                        </Link>
-                        <Link
-                           underline="hover"
-                           color="inherit"
-                           href="application"
+                           / {users.fullName} /{' '}
+                        </StyledNavlink>
+                        <span
+                           style={{
+                              fontWeight: '700',
+                              color: '#363636',
+                           }}
                         >
-                           Медер Медеров
-                        </Link>
-                        <Typography color="text.primary">Name</Typography>
-                     </Breadcrumbs>
+                           Name
+                        </span>
+                     </StyledNavlink>
                   </div>
                   <BlockMain>
                      <h2>Name</h2>
@@ -160,7 +197,8 @@ export function AnnouncementAdminPage({
                         <HouseSlidDetail images={house} />
                         <NameOfHotel
                            pages={pages}
-                           hotel={Hotel}
+                           buttons="yes"
+                           dataById={users}
                            openModal={openModal}
                            openModalHandler={openModalHandler}
                         />
@@ -169,11 +207,11 @@ export function AnnouncementAdminPage({
                   <h2>feedback</h2>
                   <ContainerFeetback>
                      <div>
-                        {data.map((el) => (
+                        {data?.map((el) => (
                            <Feedback data={el} />
                         ))}
                      </div>
-                     <RatingChart />
+                     <RatingChart marginLeft="4rem" width="27rem" />
                   </ContainerFeetback>
                </MainContainer>
             </Container>
@@ -204,9 +242,9 @@ export function AnnouncementAdminPage({
                <Main>
                   <HouseSlidDetail images={house} />
                   <NameOfHotel
-                     roles={roles}
                      pages="users"
-                     hotel={Hotel}
+                     roles={roles}
+                     dataById={Hotel}
                      openModal={openModal}
                      openModalHandler={openModalHandler}
                   />
@@ -251,6 +289,7 @@ const Container = styled('div')(() => ({
    gap: '1.87rem',
    background: ' #F7F7F7',
    marginTop: '5.1rem',
+   paddingTop: '3.1rem',
    h2: {
       color: ' #000',
       fontFamily: 'Inter',
@@ -322,4 +361,8 @@ const Navigate = styled('div')(() => ({
       fontWeight: 400,
       lineHeight: 'normal',
    },
+}))
+
+const StyledNavlink = styled(NavLink)(() => ({
+   color: '#C4C4C4',
 }))

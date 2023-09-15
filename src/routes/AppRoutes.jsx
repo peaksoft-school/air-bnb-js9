@@ -17,6 +17,7 @@ import { Payment } from '../components/payment/Payment'
 import { UserProfile } from '../components/Profile/Profile'
 import { OnModeration } from '../components/UI/tabs/OnModeration'
 import { ApplicatioinsRoute } from '../pages/admin/ApplicatioinsRoute'
+import { AnnouncementAdminPage } from '../pages/admin/AnnouncementAdminPage'
 
 export function AppRoutes() {
    const { users, bookings } = useSelector((state) => state.admin)
@@ -103,8 +104,8 @@ export function AppRoutes() {
             <Route path="users/:userId" element={<AdminUsersPage />}>
                <Route
                   index
-                  path="bookings"
-                  element={<Bookings bookings={bookings} select="false" />}
+                  path="booking"
+                  element={<Bookings bookings={bookings} onChange="true" />}
                />
                <Route
                   path="my-announcement"
@@ -113,6 +114,11 @@ export function AppRoutes() {
                   }
                />
             </Route>
+            <Route
+               path="/admin/users/:userId/my-announcement/:id=name"
+               element={<AnnouncementAdminPage roles="admin" pages="user" />}
+            />
+
             <Route
                path="all-housing"
                element={<ApplicatioinsRoute booleanPage="all-housing" />}

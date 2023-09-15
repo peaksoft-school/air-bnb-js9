@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, Outlet, useParams } from 'react-router-dom'
 import { styled } from '@mui/material'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../../components/UI/button/Button'
 import { Profile } from '../../../components/UI/profile/Profile'
 import { Tabs } from '../../../components/UI/tabs/Tabs'
-import { getAdminUsersCardsIdRequest } from '../../../api/admin/AdminService'
+import { getAdminUsersCardsIdRequest } from '../../../api/adminUsersServise'
 import {
    getAdminUsersCardsId,
    getBookings,
 } from '../../../store/admin/users/usersThunk'
 
-function AdminUsersPage() {
+function AdminUsersPage({ setState }) {
    const [userData, setUserData] = useState({})
    const [showButton, setShowButton] = useState(false)
+   const { toggle } = useSelector((state) => state.application)
+
    const { userId } = useParams()
    const dispatch = useDispatch()
 
@@ -24,9 +26,9 @@ function AdminUsersPage() {
    const closeButtonHandler = () => {
       setShowButton(false)
    }
-   const getUsersById = async () => {
+   const getUsersById = async (id) => {
       try {
-         const { data } = await getAdminUsersCardsIdRequest(userId)
+         const { data } = await getAdminUsersCardsIdRequest(id)
          setUserData(data)
       } catch (error) {
          console.log(error)
@@ -34,12 +36,15 @@ function AdminUsersPage() {
    }
 
    useEffect(() => {
-      getUsersById()
+      getUsersById(userId)
       dispatch(getAdminUsersCardsId(userId))
       dispatch(getBookings(userId))
-   }, [])
+      setState(userId)
+   }, [userId])
 
-   return (
+   return toggle ? (
+      <Outlet />
+   ) : (
       <Container>
          <UserSide>
             <StyledNavlink to="/admin/users/">
