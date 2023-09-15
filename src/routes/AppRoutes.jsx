@@ -28,6 +28,7 @@ export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
    const [currentSize, setCurrenSize] = useState(18)
    const [title, setTitle] = useState('')
+   const [userIdState, setUserIdState] = useState('')
    const { toastType } = toastSnackbar()
    const dispatch = useDispatch()
 
@@ -142,6 +143,7 @@ export function AppRoutes() {
             }
          >
             <Route path="/admin" element={<Navigate to="application" />} />
+
             <Route
                path="application"
                element={
@@ -157,25 +159,31 @@ export function AppRoutes() {
                      title={title}
                   />
                }
+            />
+            <Route
+               path="/admin/application/Name/:id=12N"
+               element={
+                  <AnnouncementAdminPage
+                     roles="admin"
+                     pages="application"
+                     acceptHandler={acceptHandler}
+                     rejectedHandler={rejectedHandler}
+                  />
+               }
+            />
+            <Route path="users/" element={<ReusableTable />} />
+            <Route
+               path={`users/${userIdState}/`}
+               element={<Navigate to="booking" />}
+            />
+            <Route
+               path="users/:userId/"
+               element={<AdminUsersPage setState={setUserIdState} />}
             >
                <Route
-                  path="name"
-                  element={
-                     <AnnouncementAdminPage
-                        roles="admin"
-                        pages="application"
-                        acceptHandler={acceptHandler}
-                        rejectedHandler={rejectedHandler}
-                     />
-                  }
-               />
-            </Route>
-            <Route path="users/" element={<ReusableTable />} />
-            <Route path="users/:userId" element={<AdminUsersPage />}>
-               <Route
                   index
-                  path="bookings"
-                  element={<Bookings bookings={bookings} select="false" />}
+                  path="booking"
+                  element={<Bookings bookings={bookings} onChange="true" />}
                />
                <Route
                   path="my-announcement"
@@ -184,6 +192,11 @@ export function AppRoutes() {
                   }
                />
             </Route>
+            <Route
+               path="/admin/users/:userId/my-announcement/:id=name"
+               element={<AnnouncementAdminPage roles="admin" pages="user" />}
+            />
+
             <Route
                path="all-housing"
                element={<AllHousing removeCard={removeCard} />}

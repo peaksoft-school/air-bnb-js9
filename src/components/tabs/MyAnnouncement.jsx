@@ -1,19 +1,22 @@
 import { styled } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { AdminCards } from '../cards/AdminCards'
-import { Select as MuiSelect } from '../select/Select'
-import { filterHouseRequest } from '../../../store/profile/ProfileThunk'
-import { homeTypeProfile, popularProfile, price } from '../../../utils/helpers'
-import { ProfileCards } from '../cards/ProfileCards'
-import { DeleteIcon } from '../../../assets/icons'
+import { NavLink, useParams } from 'react-router-dom'
+import { AdminCards } from '../UI/cards/AdminCards'
+import { Select as MuiSelect } from '../UI/select/Select'
+import { filterHouseRequest } from '../../store/profile/ProfileThunk'
+// import { Cards } from '../UI/cards/Cards'
+import { homeTypeProfile, popularProfile, price } from '../../utils/helpers'
+import { ProfileCards } from '../UI/cards/ProfileCards'
+import { DeleteIcon } from '../../assets/icons'
 
 export function MyAnnouncement({ select, announcement }) {
    const [sortPrice, setSortPrice] = useState('')
    const [sortRating, setSortRating] = useState('')
+
+   const { userId } = useParams()
    const [sort, setSort] = useState('')
    const dispatch = useDispatch()
-
    const changePriceHandler = (e) => {
       setSortPrice(e.target.value)
    }
@@ -109,17 +112,15 @@ export function MyAnnouncement({ select, announcement }) {
                   </ContainerCards>
                </div>
             ) : (
-               <div>
+               <NavLink to="name">
                   <AdminCards
+                     path={`/admin/users/${userId}/my-announcement/surname`}
                      data={announcement}
                      page="admin"
-                     image="click"
                      justifyContent="start"
                      bgColor="white"
-                     toPath="true"
-                     padding="0 0 0 2rem"
                   />
-               </div>
+               </NavLink>
             )}
          </Container>
       </div>

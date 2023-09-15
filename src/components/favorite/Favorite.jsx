@@ -2,9 +2,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { styled } from '@mui/material'
-import { css } from '@emotion/react'
 import { PulseLoader } from 'react-spinners'
 import { useNavigate } from 'react-router'
+import { css } from '@emotion/react'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
 import { Cards } from '../UI/cards/Cards'
@@ -16,6 +16,11 @@ export function Favorite() {
 
    const navigate = useNavigate()
 
+   const override = css`
+      display: block;
+      margin: 0 auto;
+      border-color: red;
+   `
    const transformedData = favorites?.map((data) => ({
       images: [data.image],
       rating: data.rating,
@@ -32,12 +37,6 @@ export function Favorite() {
    }, [])
 
    const favoriteLenght = transformedData.length
-
-   const override = css`
-      display: block;
-      margin: 0 auto;
-      border-color: red;
-   `
 
    return (
       <MainCotnainer>

@@ -15,7 +15,7 @@ export const signInRequest = createAsyncThunk(
 
          return response.data
       } catch (error) {
-         return rejectWithValue(error.message)
+         return rejectWithValue(error.response.data.message)
       }
    }
 )
@@ -32,6 +32,7 @@ export const authWithGoogleRequest = createAsyncThunk(
          )
          return response.data
       } catch (error) {
+         console.log('error: ', error)
          return rejectWithValue(error)
       }
    }
