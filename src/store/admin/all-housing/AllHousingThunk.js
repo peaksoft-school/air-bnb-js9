@@ -2,13 +2,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
    deleteAllHousingRequest,
    getAllHousingRequest,
-} from '../../api/AllHousingService'
+   updateAllHousingRequest,
+} from '../../../api/admin/AdminService'
 
 export const getAllHousing = createAsyncThunk(
    'allHousing/getAllHousing',
-   async (payload, { rejectWithValue }) => {
+   async (params, { rejectWithValue }) => {
       try {
-         const response = await getAllHousingRequest(payload)
+         const response = await getAllHousingRequest(params)
 
          return response.data
       } catch (error) {
@@ -36,7 +37,7 @@ export const updateAllHousing = createAsyncThunk(
    'allHousing/updateAllHousing',
    async ({ id, toastType, editData }, { rejectWithValue }) => {
       try {
-         const response = await deleteAllHousingRequest({ id, editData })
+         const response = await updateAllHousingRequest({ id, editData })
 
          console.log(response.data, 'response.data')
 

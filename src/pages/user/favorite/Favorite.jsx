@@ -5,10 +5,10 @@ import { styled } from '@mui/material'
 import { css } from '@emotion/react'
 import { PulseLoader } from 'react-spinners'
 import { useNavigate } from 'react-router'
-import { Header } from '../../layout/Header/Header'
-import { Footer } from '../../layout/Footer/Footer'
-import { Cards } from '../UI/cards/Cards'
-import { getAllFavorites } from '../../store/favorite/FavoriteThunk'
+import { Header } from '../../../layout/Header/Header'
+import { Footer } from '../../../layout/Footer/Footer'
+import { Cards } from '../../../components/UI/cards/Cards'
+import { getAllFavorites } from '../../../store/favorite/FavoriteThunk'
 
 export function Favorite() {
    const { favorites, status } = useSelector((state) => state.favorite)

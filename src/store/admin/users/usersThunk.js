@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
    getBookingsRequest,
    getMyAnnouncementRequest,
-} from '../../api/adminUsersServise'
+} from '../../../api/admin/AdminService'
 
 export const getAdminUsersCardsId = createAsyncThunk(
    'adminUsers/getAdminUsersCardsId',
@@ -10,6 +10,10 @@ export const getAdminUsersCardsId = createAsyncThunk(
       try {
          const response = await getMyAnnouncementRequest(payload)
 
+         console.log(
+            response.data,
+            '    return response.data.announcementResponses'
+         )
          return response.data.announcementResponses
       } catch (error) {
          return rejectWithValue(error.message)

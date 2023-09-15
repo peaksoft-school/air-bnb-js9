@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { NavLink, Outlet, useParams } from 'react-router-dom'
 import { styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
-import { Button } from '../../components/UI/button/Button'
-import { Profile } from '../../components/UI/profile/Profile'
-import { Tabs } from '../../components/UI/tabs/Tabs'
-import { getAdminUsersCardsIdRequest } from '../../api/adminUsersServise'
+import { Button } from '../../../components/UI/button/Button'
+import { Profile } from '../../../components/UI/profile/Profile'
+import { Tabs } from '../../../components/UI/tabs/Tabs'
+import { getAdminUsersCardsIdRequest } from '../../../api/admin/AdminService'
 import {
    getAdminUsersCardsId,
    getBookings,
-} from '../../store/admin-users/adminUsersThunk'
+} from '../../../store/admin/users/usersThunk'
 
 function AdminUsersPage() {
    const [userData, setUserData] = useState({})

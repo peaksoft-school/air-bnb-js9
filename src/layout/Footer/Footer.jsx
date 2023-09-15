@@ -1,6 +1,7 @@
 import React from 'react'
 import { styled } from '@mui/material'
 import { Link } from 'react-router-dom'
+
 import {
    AirBNBIcon,
    InstagramIcon,
@@ -13,7 +14,7 @@ export function Footer({ state }) {
       <Container state={state}>
          <StyledDiv state={state}>
             <SsylkaDiv>
-               <Ssylka href="***">Regions </Ssylka>
+               <Ssylka href="/">Regions </Ssylka>
                <Ssylka to="/AddAnouncementForm">leave an ad</Ssylka>
             </SsylkaDiv>
 
@@ -22,9 +23,9 @@ export function Footer({ state }) {
             </div>
 
             <SocialDiv>
-               <InstagramIcon />
-               <WhatsAppIcon />
-               <TelegramIcon />
+               <IconInstagram />
+               <IconWhatsAppIcon />
+               <IconTelegramIcon />
             </SocialDiv>
          </StyledDiv>
 
@@ -73,4 +74,14 @@ const Ssylka = styled(Link)(() => ({
    '&:hover': {
       color: '#FFBE58',
    },
+}))
+
+const IconInstagram = styled(InstagramIcon)(() => ({
+   cursor: 'pointer',
+}))
+const IconWhatsAppIcon = styled(WhatsAppIcon)(() => ({
+   cursor: 'pointer',
+}))
+const IconTelegramIcon = styled(TelegramIcon)(() => ({
+   cursor: 'pointer',
 }))

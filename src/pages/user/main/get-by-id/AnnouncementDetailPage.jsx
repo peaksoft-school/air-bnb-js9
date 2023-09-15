@@ -3,21 +3,21 @@ import React, { useEffect, useState } from 'react'
 import { Breadcrumbs, Typography, styled } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Header } from '../../layout/Header/Header'
-import { HouseSlidDetail } from '../../components/UI/house-detail/HouseSlidDetail'
-import { NameOfHotel } from '../../components/UI/name-hotel/NameOfHotel'
-import { house } from '../../utils/helpers'
-import Feedback from '../../components/UI/feedback/Feedback'
-import { Payment } from '../../components/payment/Payment'
-import { Footer } from '../../layout/Footer/Footer'
-import { RatingChart } from '../../components/UI/rating/RatingChart'
-import { LeaveFeedback } from '../../components/leave-feedback/LeaveFeeadback'
-import { getByIdRequest } from '../../store/anouncement/AnouncementThunk'
+import { Header } from '../../../../layout/Header/Header'
+import { HouseSlidDetail } from '../../../../components/UI/house-detail/HouseSlidDetail'
+import { NameOfHotel } from '../../../../components/UI/name-hotel/NameOfHotel'
+import { house } from '../../../../utils/helpers'
+import Feedback from '../../../../components/UI/feedback/Feedback'
+import { Payment } from '../../../../components/payment/Payment'
+import { Footer } from '../../../../layout/Footer/Footer'
+import { RatingChart } from '../../../../components/UI/rating/RatingChart'
+import { LeaveFeedback } from '../../../../components/leave-feedback/LeaveFeeadback'
+import { getByIdRequest } from '../../../../store/anouncement/AnouncementThunk'
 import {
    countRatingGetByIdRequest,
    feedbackGetByIdRequest,
-} from '../../store/feedback/feedbackThunk'
-import { uploadActions } from '../../store/Upload'
+} from '../../../../store/feedback/feedbackThunk'
+import { uploadActions } from '../../../../store/Upload'
 
 export default function AnnouncementDetailPage() {
    const [state, setState] = useState(false)

@@ -18,18 +18,15 @@ import { toastSnackbar } from '../snackbar/Snackbar'
 import { MeatBalls } from '../meat-balls/MeatBalls'
 
 export function ProfileCards({ data, announcement, ...props }) {
-   const dispatch = useDispatch()
-   const { toastType } = toastSnackbar()
    const [modalVisible, setModalVisible] = useState(false)
    const [itemId, setItemId] = useState('')
-
    const [, setCurrentImages] = useState(
-      Array.isArray(data) ? Array(data.length).fill(0) : []
+      Array.isArray(data) ? Array(data?.length).fill(0) : []
    )
-   const { idAnnouncement } = useSelector((state) => state.getannouncement)
-   console.log(idAnnouncement, 'idAnnouncement profileCArd')
-
    const [dataa, setData] = useState([])
+   const { idAnnouncement } = useSelector((state) => state.getannouncement)
+   const { toastType } = toastSnackbar()
+   const dispatch = useDispatch()
 
    useEffect(() => {
       setData(
@@ -49,8 +46,8 @@ export function ProfileCards({ data, announcement, ...props }) {
    }
 
    const truncateTitle = (title) => {
-      const words = title.split(' ')
-      if (words.length > 6) {
+      const words = title?.split(' ')
+      if (words?.length > 6) {
          return `${words.slice(0, 4).join(' ')}...`
       }
       return title
@@ -100,6 +97,7 @@ export function ProfileCards({ data, announcement, ...props }) {
       dispatch(findAnnouncementById(itemId))
    }, [dispatch, modalVisible])
 
+   const corrected = announcement ? null : <h2>No cards yet...</h2>
    return (
       <MainContainer>
          {modalVisible && (
@@ -110,105 +108,111 @@ export function ProfileCards({ data, announcement, ...props }) {
                handleMenuClose={handleMenuClose}
             />
          )}
-         {data.length > 0 ? (
-            data?.map((item, index) => (
-               <MapContainer key={item.id} status={item.status}>
-                  <div>
-                     {item.images.length > 1 && (
-                        <IconsContainer className="ImageNavigation">
-                           <StyledButton onClick={() => handlePrevImage(index)}>
-                              <ArrowleftIcon />
-                           </StyledButton>
-                           <StyledButton onClick={() => handleNextImage(index)}>
-                              <ArrowrightIcon />
-                           </StyledButton>
-                        </IconsContainer>
-                     )}
-                     <ImageContainer>
-                        <StyleImage src={item.images[0]} alt="home" />
-                     </ImageContainer>
-                  </div>
-                  <DayStartContainer onClick={props.dd}>
-                     <DayContainer>
-                        ${item.price}/ <DayStyle>day</DayStyle>{' '}
-                     </DayContainer>
+         {data?.length > 0
+            ? data?.map((item, index) => (
+                 <MapContainer key={item.id} status={item.status}>
+                    <div>
+                       {item.images.length > 1 && (
+                          <IconsContainer className="ImageNavigation">
+                             <StyledButton
+                                onClick={() => handlePrevImage(index)}
+                             >
+                                <ArrowleftIcon />
+                             </StyledButton>
+                             <StyledButton
+                                onClick={() => handleNextImage(index)}
+                             >
+                                <ArrowrightIcon />
+                             </StyledButton>
+                          </IconsContainer>
+                       )}
+                       <ImageContainer>
+                          <StyleImage src={item.images[0]} alt="home" />
+                       </ImageContainer>
+                    </div>
+                    <DayStartContainer onClick={props.dd}>
+                       <DayContainer>
+                          ${item.price}/ <DayStyle>day</DayStyle>{' '}
+                       </DayContainer>
 
-                     <StartContainer>
-                        <Start1 />
-                        <p>{item.rating}.4</p>
-                     </StartContainer>
-                  </DayStartContainer>
-                  <StyleTitle>
-                     <Tooltip title={item.title}>
-                        {truncateTitle(item.title || item.description)}
-                     </Tooltip>
-                  </StyleTitle>
-                  <LocationCantainerStyle>
-                     <Location />
-                     <p>{item.address}</p>
-                  </LocationCantainerStyle>
-                  {announcement === 'true' && (
-                     <StyledHorizIcon>
-                        <GuestContainer>{item.maxGuests} guests</GuestContainer>
+                       <StartContainer>
+                          <Start1 />
+                          <p>{item.rating}.4</p>
+                       </StartContainer>
+                    </DayStartContainer>
+                    <StyleTitle>
+                       <Tooltip title={item.title}>
+                          {truncateTitle(item.title || item.description)}
+                       </Tooltip>
+                    </StyleTitle>
+                    <LocationCantainerStyle>
+                       <Location />
+                       <p>{item.address}</p>
+                    </LocationCantainerStyle>
+                    {announcement === 'true' && (
+                       <StyledHorizIcon>
+                          <GuestContainer>
+                             {item.maxGuests} guests
+                          </GuestContainer>
 
-                        <AdminMenu
-                           style={{ cursor: 'pointer' }}
-                           onClick={(e) => handleMenuOpen(e, item.id)}
-                        />
-                        <MeatBalls
-                           anchorEl={anchorEl}
-                           open={open}
-                           close={handleMenuClose}
-                           id={idd}
-                           propsVertical="top"
-                           propsHorizontal="left"
-                           onClick={(e) => handleMenuOpen(e, item.id)}
-                           width="15%"
-                           height="16%"
-                        >
-                           <MenuItem onClick={handleMenuClose}>Cencel</MenuItem>
-                           <MenuItem onClick={() => openModal(item)}>
-                              Edit
-                           </MenuItem>
-                           <MenuItem
-                              onClick={() => removeAnnouncements(itemId)}
-                           >
-                              Delete
-                           </MenuItem>
-                        </MeatBalls>
-                     </StyledHorizIcon>
-                  )}{' '}
-                  {announcement === 'false' && (
-                     <ButtonsContainer>
-                        <div>
-                           <DayStyleTrue>2 guests</DayStyleTrue>
-                           <CheckConainer>
-                              <div>
-                                 <Checkstyle>Check in</Checkstyle>
-                                 <Datestyle>{item.checkIn}</Datestyle>
-                              </div>
-                              <div>
-                                 <Checkstyle>Check out</Checkstyle>
-                                 <Datestyle>{item.checkOut}</Datestyle>
-                              </div>
-                           </CheckConainer>
-                           <Button
-                              bgColor="#DD8A08"
-                              color="#fff"
-                              width="16.2rem"
-                              variant="contained"
-                           >
-                              {' '}
-                              change
-                           </Button>
-                        </div>
-                     </ButtonsContainer>
-                  )}
-               </MapContainer>
-            ))
-         ) : (
-            <h2>No cards yet...</h2>
-         )}
+                          <AdminMenu
+                             style={{ cursor: 'pointer' }}
+                             onClick={(e) => handleMenuOpen(e, item.id)}
+                          />
+                          <MeatBalls
+                             anchorEl={anchorEl}
+                             open={open}
+                             close={handleMenuClose}
+                             id={idd}
+                             propsVertical="top"
+                             propsHorizontal="left"
+                             onClick={(e) => handleMenuOpen(e, item.id)}
+                             width="15%"
+                             height="16%"
+                          >
+                             <MenuItem onClick={handleMenuClose}>
+                                Cencel
+                             </MenuItem>
+                             <MenuItem onClick={() => openModal(item)}>
+                                Edit
+                             </MenuItem>
+                             <MenuItem
+                                onClick={() => removeAnnouncements(itemId)}
+                             >
+                                Delete
+                             </MenuItem>
+                          </MeatBalls>
+                       </StyledHorizIcon>
+                    )}{' '}
+                    {announcement === 'false' && (
+                       <ButtonsContainer>
+                          <div>
+                             <DayStyleTrue>2 guests</DayStyleTrue>
+                             <CheckConainer>
+                                <div>
+                                   <Checkstyle>Check in</Checkstyle>
+                                   <Datestyle>{item.checkIn}</Datestyle>
+                                </div>
+                                <div>
+                                   <Checkstyle>Check out</Checkstyle>
+                                   <Datestyle>{item.checkOut}</Datestyle>
+                                </div>
+                             </CheckConainer>
+                             <Button
+                                bgColor="#DD8A08"
+                                color="#fff"
+                                width="16.2rem"
+                                variant="contained"
+                             >
+                                {' '}
+                                change
+                             </Button>
+                          </div>
+                       </ButtonsContainer>
+                    )}
+                 </MapContainer>
+              ))
+            : corrected}
       </MainContainer>
    )
 }

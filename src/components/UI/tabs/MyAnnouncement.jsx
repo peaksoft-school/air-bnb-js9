@@ -1,7 +1,7 @@
 import { styled } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { AdminCards } from '../cards/AdminCards'
+import { AdminCards } from '../cards/admin/AdminCards'
 import { Select as MuiSelect } from '../select/Select'
 import { filterHouseRequest } from '../../../store/profile/ProfileThunk'
 import { homeTypeProfile, popularProfile, price } from '../../../utils/helpers'
@@ -14,6 +14,7 @@ export function MyAnnouncement({ select, announcement }) {
    const [sort, setSort] = useState('')
    const dispatch = useDispatch()
 
+   console.log(announcement, 'announcement in my Announcement')
    const changePriceHandler = (e) => {
       setSortPrice(e.target.value)
    }
@@ -110,12 +111,7 @@ export function MyAnnouncement({ select, announcement }) {
                </div>
             ) : (
                <div>
-                  <AdminCards
-                     data={announcement}
-                     page="admin"
-                     justifyContent="start"
-                     bgColor="white"
-                  />
+                  <AdminCards page="admin" image data={announcement} />
                </div>
             )}
          </Container>

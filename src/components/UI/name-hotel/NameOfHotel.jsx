@@ -4,51 +4,58 @@ import { Button } from '../button/Button'
 import { ModalNameHotel } from './ModalNameHotel'
 
 export function NameOfHotel({
+   roles,
+   title,
+   pages,
+   buttons,
    dataById,
    openModal,
-   openModalHandler,
+   changeHandler,
    rejectedCartd,
    acceptHandler,
-   pages,
-   roles,
-   buttons,
+   openModalHandler,
 }) {
+   console.log(dataById, 'dataById in Name of hotel')
    return (
       <Container>
          <ModalNameHotel
+            title={title}
             openModal={openModal}
-            openModalHandler={openModalHandler}
+            changeHandler={changeHandler}
             rejectedCartd={rejectedCartd}
+            openModalHandler={openModalHandler}
          />
-         <DescriptionContainer key={dataById.id}>
-            <ButtonContainerOne>
-               <div>{dataById.houseType}</div>
-               <div>{dataById.maxGuests} Guests</div>
-            </ButtonContainerOne>
-            <NameHotel>
-               <h3>{dataById.region}</h3>
-               <p>
-                  {dataById.address}, {dataById.province}
-               </p>
-            </NameHotel>
+         {dataById?.map((item) => (
+            <DescriptionContainer key={item.id}>
+               <ButtonContainerOne>
+                  <div>{item.houseType}APARTMENT </div>
+                  <div>{item.maxGuests} Guests</div>
+               </ButtonContainerOne>
+               <NameHotel>
+                  <h3>{item.region}</h3>
+                  <p>
+                     {item.address}, {item.province}
+                  </p>
+               </NameHotel>
 
-            <p className="description">{dataById.description}</p>
+               <p className="description">{item.description}</p>
 
-            <ProfileBlock>
-               <div className="avatar" />
-               {buttons === 'yes' ? (
-                  <NameBlock>
-                     <h4>{dataById.user.fullName}</h4>
-                     <p>{dataById.user.email}</p>
-                  </NameBlock>
-               ) : (
-                  <NameBlock>
-                     <h4>{dataById.fullName}</h4>
-                     <p>{dataById.email}</p>
-                  </NameBlock>
-               )}
-            </ProfileBlock>
-         </DescriptionContainer>
+               <ProfileBlock>
+                  <div className="avatar" />
+                  {buttons === 'yes' ? (
+                     <NameBlock>
+                        <h4>{item.user.fullName}</h4>
+                        <p>{item.user.email}</p>
+                     </NameBlock>
+                  ) : (
+                     <NameBlock>
+                        <h4>{item.fullName}</h4>
+                        <p>{item.email}</p>
+                     </NameBlock>
+                  )}
+               </ProfileBlock>
+            </DescriptionContainer>
+         ))}
          {buttons === 'yes' ? (
             <ContainerButtonTwo>
                <Button

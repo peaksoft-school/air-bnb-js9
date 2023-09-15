@@ -1,7 +1,7 @@
 import { Checkbox, InputAdornment, styled } from '@mui/material'
 import React, { useState } from 'react'
 import mainBackground from '../../assets/images/MainBackground.png'
-import { Header } from '../../layout/Header/Header'
+import { Header } from '../../layout/header/Header'
 import { Input } from '../UI/input/Input'
 import { SearchIcon } from '../../assets/icons'
 

@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Breadcrumbs, Link, styled, Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { HouseSlidDetail } from '../../components/UI/house-detail/HouseSlidDetail'
 import { NameOfHotel } from '../../components/UI/name-hotel/NameOfHotel'
@@ -9,17 +9,29 @@ import Feedback from '../../components/UI/feedback/Feedback'
 import { RatingChart } from '../../components/UI/rating/RatingChart'
 import { Booked } from '../../components/UI/booked/Booked'
 import { Favorites } from '../../components/UI/favorites/Favorites'
-import { applicationSlice } from '../../store/admin-application/ApplicationSlice'
+import { getApplicationById } from '../../store/admin/application/ApplicationThunk'
 
 export function AnnouncementAdminPage({
+   title,
    roles,
    pages,
+   setTitle,
    acceptHandler,
    rejectedHandler,
 }) {
    const [openModal, setOpenModal] = useState(false)
-   const { dataById } = useSelector((state) => state.application)
+   const { applicationById } = useSelector((state) => state.admin)
+   const navigate = useNavigate()
    const dispatch = useDispatch()
+   const { cardId } = useParams()
+   console.log(cardId, 'params')
+
+   console.log(applicationById, 'applicationById')
+
+   useEffect(() => {
+      dispatch(getApplicationById(cardId))
+   }, [])
+
    const data = [
       {
          name: 'Bars Barsov',
@@ -60,21 +72,32 @@ export function AnnouncementAdminPage({
          avatar: '',
       },
    ]
-   const navigate = useNavigate()
 
    function backNavigation() {
-      dispatch(applicationSlice.actions.toggleHandler())
-      navigate('/admin/application')
+      navigate(-1)
    }
 
    const openModalHandler = () => {
       setOpenModal((prev) => !prev)
    }
-
    const rejectedCartd = () => {
-      rejectedHandler(dataById.id)
+      rejectedHandler(cardId)
       setOpenModal(false)
    }
+
+   const changeHandler = (e) => {
+      setTitle(e.target.value)
+   }
+   const applicationByIdImages = applicationById?.map(
+      (item) => item.images.images
+   )
+   const images = Array.isArray(applicationByIdImages[0])
+      ? applicationByIdImages[0].map((image, index) => ({
+           id: index + 1,
+           original: image,
+           thumbnail: image,
+        }))
+      : []
 
    return roles === 'admin' ? (
       <div>
@@ -94,13 +117,16 @@ export function AnnouncementAdminPage({
                   <BlockMain>
                      <h2>Name</h2>
                      <Main>
-                        <HouseSlidDetail images={house} />
+                        <HouseSlidDetail images={images} />
                         <NameOfHotel
-                           dataById={dataById}
+                           buttons="yes"
+                           title={title}
                            openModal={openModal}
-                           openModalHandler={openModalHandler}
+                           dataById={applicationById}
                            acceptHandler={acceptHandler}
                            rejectedCartd={rejectedCartd}
+                           changeHandler={changeHandler}
+                           openModalHandler={openModalHandler}
                         />
                      </Main>
                   </BlockMain>
@@ -209,7 +235,8 @@ export function AnnouncementAdminPage({
 }
 const Applications = styled('div')(() => ({
    width: '100%',
-   height: '80vh',
+   height: '100%',
+   padding: '1.5rem 0 4rem 0 ',
    display: 'flex',
    flexDirection: 'column',
    gap: '1.87rem',

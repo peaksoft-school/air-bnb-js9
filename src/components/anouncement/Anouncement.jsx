@@ -10,8 +10,8 @@ import { Upload } from '../UI/upload-img/Upload'
 import { schema } from '../../utils/helpers'
 import { addAnouncement } from '../../api/anouncementService'
 import { toastSnackbar } from '../UI/snackbar/Snackbar'
-import { Header } from '../../layout/Header/Header'
-import { Footer } from '../../layout/Footer/Footer'
+import { Header } from '../../layout/header/Header'
+import { Footer } from '../../layout/footer/Footer'
 
 const data = [
    { id: 'option1', name: 'BATKEN' },
@@ -30,6 +30,7 @@ export function AddAnouncementForm() {
    const { darkMode } = useSelector((state) => state.darkMode)
    const { images } = useSelector((state) => state.uploadImg)
 
+   const darkmode = darkMode
    const postAnouncementForm = async (payload) => {
       try {
          const response = await addAnouncement(payload)
@@ -57,12 +58,26 @@ export function AddAnouncementForm() {
       postAnouncementForm(data)
    }
 
-   const borderTextArea = darkMode ? '1px solid #fff' : '1px solid gray'
+   const borderTextArea = darkmode ? '1px solid #fff' : '1px solid gray'
+
+   const styledark = {
+      color36: darkmode ? '#fff' : '#363636',
+      color64: darkmode ? '#fff' : '#646464',
+      colorA9: darkmode ? '#fff' : '#A9A9A9',
+      color26: darkmode ? '#fff' : '#266BD3',
+      color82: darkmode ? '#fff' : '#828282',
+      color00: darkmode ? '#fff' : '#000',
+
+      border: darkmode ? '1px solid#fff' : '1px solid gray',
+      background: darkmode
+         ? 'linear-gradient(274deg, rgba(152,152,152,1) 15%, rgba(0,0,0,1) 100%)'
+         : '#fff',
+   }
    return (
       <>
          <Header login="false" />
-         <GlobalContainer darkMode={darkMode}>
-            <Container onSubmit={handleSubmit(onSubmit)} darkMode={darkMode}>
+         <GlobalContainer styledark={styledark}>
+            <Container onSubmit={handleSubmit(onSubmit)} styledark={styledark}>
                <h2>Hi! Let`s get started listing your place.</h2>
                <p>
                   In this form, we`ll collect some basic and additional
@@ -70,8 +85,8 @@ export function AddAnouncementForm() {
                </p>
                <AddPhotoBlock>
                   <div>
-                     <StyledSpan darkMode={darkMode}>Image</StyledSpan>
-                     <QuantityForPhoto darkMode={darkMode}>
+                     <StyledSpan styledark={styledark}>Image</StyledSpan>
+                     <QuantityForPhoto styledark={styledark}>
                         Max 4 photo
                      </QuantityForPhoto>
                   </div>
@@ -82,10 +97,10 @@ export function AddAnouncementForm() {
                         setFileNames={setFileNames}
                      />
                      <AddPhotoInfo>
-                        <AddPhotoReview darkMode={darkMode}>
+                        <AddPhotoReview styledark={styledark}>
                            Add photos to the review
                         </AddPhotoReview>
-                        <UploadPhotoInfo darkMode={darkMode}>
+                        <UploadPhotoInfo styledark={styledark}>
                            it will become more noticeable and even more useful.
                            <br /> You can upload up to 4 photos.
                         </UploadPhotoInfo>
@@ -93,8 +108,8 @@ export function AddAnouncementForm() {
                   </div>
                </AddPhotoBlock>
                <HomeTypeBlock>
-                  <StyledLabel darkMode={darkMode}>Home type</StyledLabel>
-                  <ApartmentAndHouseBlock darkMode={darkMode}>
+                  <StyledLabel styledark={styledark}>Home type</StyledLabel>
+                  <ApartmentAndHouseBlock styledark={styledark}>
                      <div className="checkboxContainer">
                         <Controller
                            name="houseType"
@@ -110,7 +125,7 @@ export function AddAnouncementForm() {
                               />
                            )}
                         />
-                        <StyledLabel htmlFor="apartment" darkMode={darkMode}>
+                        <StyledLabel htmlFor="apartment" styledark={styledark}>
                            Apartment
                         </StyledLabel>
                      </div>
@@ -128,7 +143,7 @@ export function AddAnouncementForm() {
                               />
                            )}
                         />
-                        <StyledLabel htmlFor="house" darkMode={darkMode}>
+                        <StyledLabel htmlFor="house" styledark={styledark}>
                            House
                         </StyledLabel>
                      </div>
@@ -137,7 +152,7 @@ export function AddAnouncementForm() {
                </HomeTypeBlock>
                <FilterBlock>
                   <GuestBlock>
-                     <StyledLabel htmlFor="maxGuests" darkMode={darkMode}>
+                     <StyledLabel htmlFor="maxGuests" styledark={styledark}>
                         Max of Guests
                      </StyledLabel>
                      <InputPriceAndMaxGuest
@@ -146,7 +161,7 @@ export function AddAnouncementForm() {
                         type="number"
                         placeholder="0"
                         barsbek="nekrash"
-                        darkMode={darkMode}
+                        styledark={styledark}
                         {...register('maxGuests')}
                         error={!!errors.maxGuests}
                         style={{
@@ -158,7 +173,7 @@ export function AddAnouncementForm() {
                      <IsError>{errors.maxGuests?.message}</IsError>
                   </GuestBlock>
                   <PriceBlock>
-                     <StyledLabel htmlFor="price" darkMode={darkMode}>
+                     <StyledLabel htmlFor="price" styledark={styledark}>
                         Price
                      </StyledLabel>
                      <InputPriceAndMaxGuest
@@ -167,7 +182,7 @@ export function AddAnouncementForm() {
                         type="number"
                         barsbek="nekrash"
                         placeholder="$ 0"
-                        darkMode={darkMode}
+                        styledark={styledark}
                         {...register('price')}
                         error={!!errors.price}
                      />
@@ -175,7 +190,7 @@ export function AddAnouncementForm() {
                   </PriceBlock>
                </FilterBlock>
                <TitleBlock>
-                  <StyledLabel htmlFor="title" darkMode={darkMode}>
+                  <StyledLabel htmlFor="title" styledark={styledark}>
                      Title
                   </StyledLabel>
                   <InputTitle
@@ -184,20 +199,20 @@ export function AddAnouncementForm() {
                      size="small"
                      placeholder="Enter a title..."
                      barsbek="nekrash"
-                     darkMode={darkMode}
+                     styledark={styledark}
                      {...register('title')}
                      error={!!errors.title}
                   />
                   <IsError>{errors.title?.message}</IsError>
                </TitleBlock>
                <DescriptionBlock>
-                  <StyledLabel htmlFor="description" darkMode={darkMode}>
+                  <StyledLabel htmlFor="description" styledark={styledark}>
                      Description of listing
                   </StyledLabel>
                   <StyledTextArea
                      {...register('description')}
                      id="description"
-                     darkMode={darkMode}
+                     styledark={styledark}
                      placeholder="Enter a description..."
                      style={{
                         border: errors.description
@@ -208,7 +223,7 @@ export function AddAnouncementForm() {
                   <IsError>{errors.description?.message}</IsError>
                </DescriptionBlock>
                <RegionBlock>
-                  <StyledLabel htmlFor="region" darkMode={darkMode}>
+                  <StyledLabel htmlFor="region" styledark={styledark}>
                      Region
                   </StyledLabel>
                   <RegionSelect
@@ -216,7 +231,7 @@ export function AddAnouncementForm() {
                      data={data}
                      id="region"
                      error={!!errors.region}
-                     darkMode={darkMode}
+                     styledark={styledark}
                      labelName={
                         <SelectLabelName>
                            Please select the region
@@ -226,7 +241,7 @@ export function AddAnouncementForm() {
                   <IsError>{errors.region?.message}</IsError>
                </RegionBlock>
                <TownBlock>
-                  <StyledLabel htmlFor="province" darkMode={darkMode}>
+                  <StyledLabel htmlFor="province" styledark={styledark}>
                      Town / Province
                   </StyledLabel>
                   <InputProvinceAndAddres
@@ -235,14 +250,14 @@ export function AddAnouncementForm() {
                      id="province"
                      placeholder="Enter the town..."
                      barsbek="nekrash"
-                     darkMode={darkMode}
+                     styledark={styledark}
                      error={!!errors.province}
                      {...register('province')}
                   />
                   <IsError>{errors.province?.message}</IsError>
                </TownBlock>
                <AddressBlock>
-                  <StyledLabel htmlFor="address" darkMode={darkMode}>
+                  <StyledLabel htmlFor="address" styledark={styledark}>
                      Address
                   </StyledLabel>
                   <InputProvinceAndAddres
@@ -251,7 +266,7 @@ export function AddAnouncementForm() {
                      id="address"
                      placeholder="Enter the address..."
                      barsbek="nekrash"
-                     darkMode={darkMode}
+                     styledark={styledark}
                      error={!!errors.address}
                      {...register('address')}
                   />
@@ -267,23 +282,21 @@ export function AddAnouncementForm() {
    )
 }
 
-const GlobalContainer = styled('div')(({ darkMode }) => ({
+const GlobalContainer = styled('div')(({ styledark }) => ({
    width: '100%',
    height: '100%',
    display: 'flex',
    justifyContent: 'center',
    marginTop: '4rem',
-   background: darkMode
-      ? 'linear-gradient(274deg, rgba(152,152,152,1) 15%, rgba(0,0,0,1) 100%)'
-      : '#fff',
+   background: styledark.background,
 }))
 
-const Container = styled('form')(({ darkMode }) => ({
+const Container = styled('form')(({ styledark }) => ({
    display: 'flex',
    flexDirection: 'column',
 
    h2: {
-      color: darkMode ? '#fff' : '#363636',
+      color: styledark.color36,
       fontSize: '1rem',
       fontStyle: 'normal',
       fontWeight: '500',
@@ -294,7 +307,7 @@ const Container = styled('form')(({ darkMode }) => ({
 
    p: {
       width: '38.125rem',
-      color: darkMode ? '#fff' : '#646464',
+      color: styledark.color64,
       fontFamily: 'Inter',
       fontSize: '1rem',
       fontStyle: 'normal',
@@ -315,8 +328,8 @@ const AddPhotoBlock = styled('div')(() => ({
    },
 }))
 
-const StyledSpan = styled('span')(({ darkMode }) => ({
-   color: darkMode ? '#fff' : '#363636',
+const StyledSpan = styled('span')(({ styledark }) => ({
+   color: styledark.color36,
    marginRight: '1rem',
    fontFamily: 'Inter',
    fontSize: '1rem',
@@ -325,13 +338,13 @@ const StyledSpan = styled('span')(({ darkMode }) => ({
    lineheight: 'normal',
 }))
 
-const QuantityForPhoto = styled('span')(({ darkMode }) => ({
+const QuantityForPhoto = styled('span')(({ styledark }) => ({
    fontFamily: 'Inter',
    fontSize: '1rem',
    fontStyle: 'normal',
    fontweight: ' 400',
    lineheight: 'normal',
-   color: darkMode ? '#fff' : '#A9A9A9',
+   color: styledark.colorA9,
 }))
 
 const AddPhotoInfo = styled('div')(() => ({
@@ -342,13 +355,13 @@ const AddPhotoInfo = styled('div')(() => ({
    marginLeft: '1.25rem',
 }))
 
-const AddPhotoReview = styled('span')(({ darkMode }) => ({
-   color: darkMode ? '#fff' : '#266BD3',
+const AddPhotoReview = styled('span')(({ styledark }) => ({
+   color: styledark.color26,
    fontWeight: '500',
 }))
 
-const UploadPhotoInfo = styled('span')(({ darkMode }) => ({
-   color: darkMode ? '#fff' : '#828282',
+const UploadPhotoInfo = styled('span')(({ styledark }) => ({
+   color: styledark.color82,
    fontSize: '0.875rem',
    fontHeight: '400',
 }))
@@ -359,8 +372,8 @@ const HomeTypeBlock = styled('div')(() => ({
    height: '5.3125rem',
 }))
 
-const StyledLabel = styled('label')(({ darkMode }) => ({
-   color: darkMode ? '#fff' : ' #363636',
+const StyledLabel = styled('label')(({ styledark }) => ({
+   color: styledark.color36,
    fontFamily: 'Inter',
    fontSize: '1rem',
    fontStyle: 'normal',
@@ -457,63 +470,63 @@ const IsError = styled('span')(() => ({
    color: 'red',
 }))
 
-const StyledTextArea = styled('textarea')(({ darkMode }) => ({
+const StyledTextArea = styled('textarea')(({ styledark }) => ({
    width: '100%',
    height: '6.5rem',
    padding: '.625rem 0 0 .625rem',
    borderRadius: '0.125rem',
    resize: 'none',
    overflow: 'hidden',
-   border: darkMode ? '1px solid#fff' : '1px solid gray',
+   border: styledark.border,
    background: 'rgba(0,0,0,0.0)',
    '#description::placeholder': {
-      color: darkMode ? '#fff' : '#000',
+      color: styledark.color00,
    },
 }))
 
-const InputPriceAndMaxGuest = styled(Input)(({ darkMode }) => ({
+const InputPriceAndMaxGuest = styled(Input)(({ styledark }) => ({
    width: '15.3125rem',
    height: '2.4375rem',
    padding: '0 0 0.625rem 0',
-   border: darkMode ? '1px solid#fff' : '1px solid gray',
+   border: styledark.border,
    borderRadius: ' 0.125rem',
    '#guest::placeholder': {
-      color: darkMode ? '#fff' : '#000',
+      color: styledark.color00,
    },
    '#price::placeholder': {
-      color: darkMode ? '#fff' : '#000',
+      color: styledark.color00,
    },
 }))
-const InputTitle = styled(Input)(({ darkMode }) => ({
+const InputTitle = styled(Input)(({ styledark }) => ({
    width: '100%',
    height: '2.4375rem',
-   border: darkMode ? '1px solid#fff' : '1px solid gray',
+   border: styledark.border,
    borderRadius: ' 0.125rem',
    '#title::placeholder': {
-      color: darkMode ? '#fff' : '#000',
+      color: styledark.color00,
    },
 }))
-const InputProvinceAndAddres = styled(Input)(({ darkMode }) => ({
+const InputProvinceAndAddres = styled(Input)(({ styledark }) => ({
    width: '100%',
    height: '2.4375rem',
-   border: darkMode ? '1px solid#fff' : '1px solid gray',
+   border: styledark.border,
 
    '#province::placeholder': {
-      color: darkMode ? '#fff' : '#000',
+      color: styledark.color00,
    },
 
    '#address::placeholder': {
-      color: darkMode ? '#fff' : '#000',
+      color: styledark.color00,
    },
 }))
-const RegionSelect = styled(Select)(({ darkMode }) => ({
+const RegionSelect = styled(Select)(({ styledark }) => ({
    width: '100%',
-   border: darkMode ? '1px solid#fff' : '1px solid gray',
+   border: styledark.border,
    '&:hover': {
       background: 'rgba(0,0,0,0.0)',
-      border: darkMode ? '1px solid#fff' : '1px solid gray',
+      border: styledark.border,
    },
    '#region::placeholder': {
-      color: darkMode ? '#fff' : '#000',
+      color: styledark.color00,
    },
 }))

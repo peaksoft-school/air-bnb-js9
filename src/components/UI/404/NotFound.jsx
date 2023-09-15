@@ -2,11 +2,12 @@ import { styled } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Footer } from '../../../layout/Footer/Footer'
-import { Header } from '../../../layout/Header/Header'
+import { Footer } from '../../../layout/footer/Footer'
+import { Header } from '../../../layout/header/Header'
 
 export function NotFound() {
    const { darkMode } = useSelector((state) => state.darkMode)
+   const role = useSelector((state) => state.auth.role)
 
    return (
       <GlobalContainer state={darkMode}>
@@ -15,11 +16,13 @@ export function NotFound() {
          <Container404 state={darkMode}>
             <div className="not">
                <h1>404</h1>
-               <h2>Страница недоступна</h2>
+               <h2>The page is not available</h2>
             </div>
             <div>
-               <p>Страница недоступна можете переходить на </p>
-               <StyleLink to="/">Главная</StyleLink>
+               <p>The page is unavailable, you can go to</p>
+               <StyleLink to={role === 'USER' || 'GUEST' ? '/' : '/admin'}>
+                  Home
+               </StyleLink>
             </div>
          </Container404>
 

@@ -1,17 +1,17 @@
 import { styled } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AdminCards } from '../../../components/UI/cards/AdminCards'
+import { AdminCards } from '../../../components/UI/cards/admin/AdminCards'
 import { LoadingAirbnb } from '../../../components/UI/loading/LoadingAirbnb'
 import { toastSnackbar } from '../../../components/UI/snackbar/Snackbar'
 import {
    deleteAllHousing,
    // updateAllHousing,
-} from '../../../store/admin-all-housing/AllHousingThunk'
+} from '../../../store/admin/all-housing/AllHousingThunk'
 import { AllHousingFilter } from './AllHousingFilter'
 
 export function AllHousing() {
-   const { allHouseData, loading } = useSelector((state) => state.allHousing)
+   const { allHouseData, loading } = useSelector((state) => state.admin)
 
    const dispatch = useDispatch()
    const { toastType } = toastSnackbar()

@@ -5,7 +5,7 @@ import {
    getApplicationByIdRequest,
    postAcceptApplicationsRequest,
    postRejectApplicationsRequest,
-} from '../../api/AdminApplicationService'
+} from '../../../api/admin/AdminService'
 
 export const getAdminApplication = createAsyncThunk(
    'application/getAdminApplication',
@@ -24,8 +24,9 @@ export const getApplicationById = createAsyncThunk(
    'application/getApplicationById',
    async (payload, { rejectWithValue }) => {
       try {
+         console.log(payload, 'payload id')
          const response = await getApplicationByIdRequest(payload)
-
+         console.log(response.data, 'response.data')
          return response.data
       } catch (error) {
          return rejectWithValue(error.message)

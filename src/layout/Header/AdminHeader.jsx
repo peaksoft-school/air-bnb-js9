@@ -9,7 +9,7 @@ import { authActions } from '../../store/auth/authSlice'
 export function AdminHeader() {
    const [meatBalls, setMeatBalls] = useState(null)
    const location = useLocation()
-   const { userId } = useParams()
+   const { userId, cardId } = useParams()
    const dispatch = useDispatch()
 
    const toggleMeatBalls = (e) => {
@@ -35,7 +35,7 @@ export function AdminHeader() {
                   to="/admin/application"
                   active={
                      location.pathname === '/admin/application' ||
-                     location.pathname === '/admin/application/name'
+                     location.pathname === `/admin/application/${cardId}`
                         ? 'true'
                         : 'false'
                   }
