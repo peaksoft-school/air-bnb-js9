@@ -37,7 +37,7 @@ export function MainRegion() {
                      data-aos="fade-right"
                      data-aos-offset="300"
                      data-aos-easing="ease-in-sine"
-                     to="CHUI"
+                     to="CHUI/region"
                      style={{
                         background: `url(${chui})`,
                         backgroundSize: 'cover',
@@ -52,7 +52,7 @@ export function MainRegion() {
                            data-aos="fade-down"
                            data-aos-easing="linear"
                            data-aos-duration="1000"
-                           to="BATKEN"
+                           to="BATKEN/region"
                            style={{
                               background: `url(${batken})`,
                               backgroundSize: 'cover',
@@ -64,7 +64,7 @@ export function MainRegion() {
                            data-aos="fade-left"
                            data-aos-easing="linear"
                            data-aos-duration="1000"
-                           to="JALAL_ABAD"
+                           to="JALAL_ABAD/region"
                            style={{
                               background: `url(${jalalabat})`,
                               backgroundSize: 'cover',
@@ -78,7 +78,7 @@ export function MainRegion() {
                         data-aos-anchor="#example-anchor"
                         data-aos-offset="1000"
                         data-aos-duration="1000"
-                        to="NARYN"
+                        to="NARYN/region"
                         style={{
                            background: `url(${naryn})`,
                            backgroundSize: 'cover',
@@ -95,7 +95,7 @@ export function MainRegion() {
                         <ItemRegionCard
                            data-aos="flip-left"
                            data-aos-duration="1000"
-                           to="ISSYK_KUL"
+                           to="ISSYK_KUL/region"
                            style={{
                               background: `url(${IssykKul})`,
                               backgroundSize: 'cover',
@@ -105,7 +105,7 @@ export function MainRegion() {
                         </ItemRegionCard>
                         <ItemRegionCard
                            data-aos="flip-up"
-                           to="TALAS"
+                           to="TALAS/region"
                            style={{
                               background: `url(${talas})`,
                               backgroundSize: 'cover',
@@ -117,7 +117,7 @@ export function MainRegion() {
                      <NarynAndBihkek
                         data-aos="flip-left"
                         data-aos-duration="1500"
-                        to="BISHKEK"
+                        to="BISHKEK/region"
                         style={{
                            background: `url(${bishkek})`,
                            backgroundSize: 'cover',
@@ -128,7 +128,7 @@ export function MainRegion() {
                   </div>
                   <ChuiAndOshCard
                      data-aos="fade-down-left"
-                     to="OSH"
+                     to="OSH/region"
                      style={{
                         background: `url(${osh})`,
                         backgroundSize: 'cover',

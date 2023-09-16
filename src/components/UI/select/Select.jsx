@@ -29,7 +29,7 @@ export function Select({
             {dynamicLabel}
          </InputLabel>
          <MuiSelect
-            error={error}
+            // error={error}
             {...(register ? register('region') : {})}
             id="region"
             labelId="filter-label"
@@ -52,16 +52,16 @@ export function Select({
 }
 
 const StyledFormControl = styled(FormControl)((props) => ({
-   width: props.width || '18rem',
+   width: props.width || '17rem',
    height: props.height || '3.5625rem',
-   border: '1px solid red',
+   border: '1px solid #F3F3F3',
 
    '&  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: 'red',
-      border: '1px solid red',
+      border: '1px solid #F3F3F3',
    },
    'css-1is9lq1-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root': {
-      border: '1px solid red',
+      border: '1px solid #F3F3F3',
    },
    '&:hover': {
       backgroundColor: '#F3F3F3',

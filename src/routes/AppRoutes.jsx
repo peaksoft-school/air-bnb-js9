@@ -28,7 +28,7 @@ import AnnouncementDetailPage from '../pages/user/AnnouncementDetailPage'
 
 export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
-   const [currentSize, setCurrenSize] = useState(16)
+   const [currentSize, setCurrenSize] = useState(25)
    const [title, setTitle] = useState('')
    const { toastType } = toastSnackbar()
    const dispatch = useDispatch()
@@ -95,7 +95,7 @@ export function AppRoutes() {
             }
          />
          <Route
-            path="/main/:id"
+            path="/main/:region/region"
             element={
                <AnnouncementGetAll
                   currentPage={currentPage}
@@ -106,16 +106,17 @@ export function AppRoutes() {
             }
          />
          <Route
+            path="/main/:region/region/:houseId"
+            element={<AnnouncementDetailPage />}
+         />
+
+         <Route
             path="/main/AddAnouncementForm"
             element={<AddAnouncementForm />}
          />
 
          <Route path="favorites" element={<Favorite />} />
 
-         <Route
-            path="/main/:id/announcement/:id"
-            component={<AnnouncementDetailPage />}
-         />
          <Route
             path="/Profile"
             element={<Navigate to="/Profile/my-announcement" />}

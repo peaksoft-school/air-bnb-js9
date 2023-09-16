@@ -15,7 +15,7 @@ export const injectStore = (_store) => {
 const logoutAction = () => {}
 axiosInstance.interceptors.request.use((config) => {
    const token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTQ3NjYyOTEsImlhdCI6MTY5NDUwNzA5MSwidXNlcm5hbWUiOiJhbGlzdGVyQGdtYWlsLmNvbSJ9.Duu10-yfW_hZK74_REABhib5NDheOPP67HGy4MRTXd8'
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTUxMDA2MDAsImlhdCI6MTY5NDg0MTQwMCwidXNlcm5hbWUiOiJhbGlzdGVyQGdtYWlsLmNvbSJ9.MmMke36qVJ6TO1jebnhodi4Arjhnb-77L8PQp4Y1YdI'
    const updatedConfig = { ...config }
    // const token = store.getState().auth
    if (token) {

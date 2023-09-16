@@ -28,18 +28,18 @@ function AnnouncementGetAll({
 
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const paramsId = useParams()
+   const { region } = useParams()
 
    const pagePagination = (value) => {
       setCurrentPage(value)
    }
 
-   const findRegion = regions.find((item) => item.value === paramsId.id)
+   const findRegion = regions.find((item) => item.value === region)
 
    useEffect(() => {
-      if (paramsId.id === findRegion.value) {
+      if (region === findRegion.value) {
          const params = {
-            region: selectedRegion || paramsId.id,
+            region: selectedRegion || region,
             rating: selectedPopular,
             houseType: selectedHomeType,
             price: selectedPrice,
@@ -103,16 +103,11 @@ function AnnouncementGetAll({
       <WrapperContainer>
          <div>
             <Header login="false" />
-            <div style={{ margin: '0.11rem 6.3rem' }} role="presentation">
-               <Breadcrumbs
-                  aria-label="breadcrumb"
-                  sx={{
-                     marginTop: '90px',
-                     display: 'flex',
-                     alignItems: 'center',
-                     justifyContent: 'start',
-                  }}
-               >
+            <div
+               style={{ margin: '0rem  6.3rem', paddingTop: '0.2rem' }}
+               role="presentation"
+            >
+               <BreadCrumbs aria-label="breadcrumb">
                   <Link
                      underline="hover"
                      color="inherit"
@@ -123,33 +118,31 @@ function AnnouncementGetAll({
                   </Link>
                   <Typography color="text.primary">
                      {selectedRegion === ''
-                        ? Object.values(paramsId.id)
+                        ? Object.values(region)
                         : selectedRegion}
                   </Typography>
-               </Breadcrumbs>
+               </BreadCrumbs>
             </div>
-            <div
-               style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  gap: '25px',
-               }}
-            >
+            <FilterContainer>
                <Region>
-                  {selectedRegion === ''
-                     ? Object.values(paramsId.id)
-                     : selectedRegion}
-                  ({todosLength})
+                  <div>
+                     {selectedRegion === ''
+                        ? Object.values(region)
+                        : selectedRegion}
+                     ({todosLength})
+                  </div>
                </Region>
-               <FilterSelect
-                  selectedRegion={selectedRegion}
-                  onChangeRegions={onChangeRegions}
-                  onChangePopular={onChangePopular}
-                  onChangeHomeType={onChangeHomeType}
-                  onChangePrice={onChangePrice}
-                  region={paramsId.id}
-               />
-            </div>
+               <div>
+                  <FilterSelect
+                     selectedRegion={selectedRegion}
+                     onChangeRegions={onChangeRegions}
+                     onChangePopular={onChangePopular}
+                     onChangeHomeType={onChangeHomeType}
+                     onChangePrice={onChangePrice}
+                     region={region}
+                  />
+               </div>
+            </FilterContainer>
 
             <ContainerSelect>
                {selectedRegion && (
@@ -215,20 +208,35 @@ const ContainerPagination = styled('div')(() => ({
    justifyContent: 'center',
    marginTop: '20px',
 }))
+
+const BreadCrumbs = styled(Breadcrumbs)({
+   marginTop: '90px',
+   display: 'flex',
+   alignItems: 'center',
+   justifyContent: 'start',
+})
+
+const FilterContainer = styled('div')({
+   display: 'flex',
+   justifyContent: 'space-between',
+   marginLeft: '3.1rem',
+   width: '90%',
+})
 const ContainerSelect = styled('div')`
    display: flex;
    gap: 1rem;
-   margin-left: 6rem;
+   margin-left: 6.3rem;
 `
-const Region = styled('p')({
+const Region = styled('div')({
+   display: 'flex',
+   margin: '2.4rem  3.1rem 0',
+   alignItems: 'center',
    color: '#000',
    fontFamily: 'Inter',
-   fontSize: '16px',
+   fontSize: '19px',
    fontWeight: '500',
-   display: 'flex',
-   justifyContent: 'center',
-   alignItems: 'center',
-   marginTop: '2.4rem',
+   lineHeight: 'normal',
+   textTransform: 'uppercase',
 })
 
 const SelectStyle = styled('div')(() => ({
