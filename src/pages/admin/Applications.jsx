@@ -4,11 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
 import { AdminCards } from '../../components/UI/cards/AdminCards'
 import { Paginations } from '../../components/UI/pagination/Pagination'
-import { ActionsApplication } from '../../store/admin-application/ApplicationSlice'
-import {
-   getAdminApplication,
-   getApplicationById,
-} from '../../store/admin-application/ApplicationThunk'
+import { getAdminApplication } from '../../store/admin-application/ApplicationThunk'
 
 export function Applications({
    rejectedHandler,
@@ -37,11 +33,6 @@ export function Applications({
       setTitle(e.target.value)
    }
 
-   const toggleHandler = (id) => {
-      dispatch(ActionsApplication.toggleHandler())
-      dispatch(getApplicationById(id))
-   }
-
    const pagePagination = (value) => {
       setCurrentPage(value)
    }
@@ -62,12 +53,13 @@ export function Applications({
                   data={data}
                   title={title}
                   image="click"
+                  toPath="false"
                   removeCard={removeCard}
                   meatballs="application"
-                  toggleHandler={toggleHandler}
                   acceptHandler={acceptHandler}
                   changeHandler={changeHandler}
                   rejectedHandler={rejectedHandler}
+                  padding="1.81rem 2.25rem"
                />
                <ContainerPagination>
                   <Paginations count={10} pages={pagePagination} />

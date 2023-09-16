@@ -54,7 +54,7 @@ export default function PopularApartments({ state, func }) {
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      padding: '170px 0px 170px 100px',
+      padding: '170px 0 170px 100px',
       '@media (max-width: 768px)': {
          padding: '100px',
       },
@@ -120,8 +120,8 @@ export default function PopularApartments({ state, func }) {
 
    const ImageHouse = MUistyled('img')({
       width: '100%',
-      maxWidth: '32.8rem',
-      height: '26rem',
+      maxWidth: '32.8125rem',
+      height: '28.5rem',
       display: 'flex',
 
       '@media (min-width:48rem)': {

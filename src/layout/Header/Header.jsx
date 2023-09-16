@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useDebounce } from 'use-debounce'
 import { InputAdornment, styled, Avatar, MenuItem } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
-
 import { useDispatch, useSelector } from 'react-redux'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
@@ -73,6 +72,24 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
       }
    }, [location, searchedValue, isChecked])
    const { darkMode } = useSelector((state) => state.darkMode)
+   const [scrollPosition, setScrollPosition] = useState(0)
+   const [showFavorite, setShowFavorite] = useState(false)
+   const headerHeight = 5.5
+   const threshold = 100
+
+   useEffect(() => {
+      const handleScroll = () => {
+         const currentPosition = window.scrollY
+         setScrollPosition(currentPosition)
+         setShowFavorite(currentPosition > threshold)
+      }
+
+      window.addEventListener('scroll', handleScroll)
+
+      return () => {
+         window.removeEventListener('scroll', handleScroll)
+      }
+   }, [])
 
    const loginHandler = () => {
       setUserLogin((prev) => !prev)
@@ -139,7 +156,14 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
             </Modal>
          ) : null}
          {login === 'true' ? (
-            <StyleHeader login={login} notFound={notFound} darkMode={darkMode}>
+            <StyleHeader
+               login={login}
+               notFound={notFound}
+               darkMode={darkMode}
+               headerHeight={headerHeight}
+               scrollPosition={scrollPosition}
+               threshold={threshold}
+            >
                <StateBlock>
                   <StyledAirBNBIcon onClick={() => navigate('/')} />
                   <StyledButtons
@@ -156,6 +180,9 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                         <StyleLink to="/main/AddAnouncementForm">
                            leave an ad
                         </StyleLink>
+                        {showFavorite && (
+                           <StyledFavorite>FAVORITE(5)</StyledFavorite>
+                        )}
                         <LogOut>
                            <Avatar
                               sx={{
@@ -287,7 +314,7 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                                     <MenuItem
                                        onClick={() => navigate('/Prifile')}
                                     >
-                                       My prifile
+                                       My profile
                                     </MenuItem>
                                     <MenuItem onClick={logoutHnadler}>
                                        log out{' '}
@@ -330,14 +357,16 @@ const Container = styled('div')(() => ({
 
 const StyleHeader = styled('header')((props) => ({
    width: '100%',
-   height: ' 5.5rem',
+   height: `${props.headerHeight}rem`,
    backgroundColor: props.notFound === '404' ? '#27432d' : props.background,
    display: 'flex',
    justifyContent: 'space-between',
    alignItems: 'center',
    padding: '1rem 6.25rem',
    backdropFilter: props.darkMode ? 'blur(3px)' : '',
-   background: props.darkMode ? 'rgba(0,0,0,0.3)' : '',
+   // background: props.darkMode ? 'rgba(0,0,0,0.3)' : '',
+   background:
+      props.scrollPosition > props.threshold ? 'rgba(0,0,0,0.6)' : null,
    position: 'fixed',
    zIndex: '55',
 
@@ -415,6 +444,19 @@ const LogOut = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
    gap: '0.7rem',
+}))
+
+const StyledFavorite = styled('p')(() => ({
+   width: '100px',
+   textDecoration: 'none',
+   color: 'var(--primary-white, #FFF)',
+   fontFamily: 'Inter',
+   fontSize: '1rem',
+   fontWeight: '400',
+   cursor: 'pointer',
+   '&:hover': {
+      textDecoration: 'underline',
+   },
 }))
 
 const StyledButtons = styled('button')(({ color }) => ({

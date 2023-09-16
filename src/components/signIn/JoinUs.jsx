@@ -39,7 +39,7 @@ export function JoinUs({ moveToSigninAndSignUp }) {
             <Google /> Google
          </Button>
          <StyledAhref onClick={moveToSigninAndSignUp}>
-            log in as admin
+            Already have an account? login
          </StyledAhref>
       </Container>
    )

@@ -15,6 +15,12 @@ export function Favorite() {
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
+
+   const override = css`
+      display: block;
+      margin: 0 auto;
+      border-color: red;
+   `
    const transformedData = favorites?.map((data) => ({
       images: [data.image],
       rating: data.rating,
@@ -31,12 +37,6 @@ export function Favorite() {
    }, [])
 
    const favoriteLenght = transformedData.length
-
-   const override = css`
-      display: block;
-      margin: 0 auto;
-      border-color: red;
-   `
 
    return (
       <MainCotnainer>

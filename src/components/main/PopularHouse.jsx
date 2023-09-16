@@ -122,8 +122,8 @@ const ImageDiv = styled('div')(() => ({
 }))
 
 const ImageStarDiv = styled('div')(({ image }) => ({
-   width: '26rem',
-   height: '32rem',
+   width: '25rem',
+   height: '30rem',
    display: 'flex',
    justifyContent: 'flex-end',
    background: `url(${image})`,
