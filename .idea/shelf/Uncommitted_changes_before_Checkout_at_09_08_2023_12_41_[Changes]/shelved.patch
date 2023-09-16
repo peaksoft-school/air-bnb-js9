@@ -1,0 +1,25 @@
+Index: src/App.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React from 'react'\r\nimport { AppRoutes } from './routes/AppRoutes'\r\n\r\nfunction App() {\r\n   return (\r\n      <div>\r\n         <AppRoutes />\r\n      </div>\r\n   )\r\n}\r\nexport default App\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/App.js b/src/App.js
+--- a/src/App.js	(revision 327ee3406c11be03f70536e1667269654d30b7a9)
++++ b/src/App.js	(date 1691562655871)
+@@ -1,11 +1,12 @@
+ import React from 'react'
+-import { AppRoutes } from './routes/AppRoutes'
++import AnnouncementGetAll from './components/anouncement/AnnouncementGetAll'
+ 
+ function App() {
+    return (
+       <div>
+-         <AppRoutes />
++         <AnnouncementGetAll />
+       </div>
+    )
+ }
++
+ export default App

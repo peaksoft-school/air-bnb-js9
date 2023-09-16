@@ -1,6 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from 'react'
+import { useDebounce } from 'use-debounce'
+import { InputAdornment, styled, Avatar, MenuItem } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
-import { Avatar, InputAdornment, MenuItem, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
@@ -14,9 +16,9 @@ import {
    AirBNBIcon,
    SelectionIcon,
 } from '../../assets/icons/index'
+import { getGlobalSearch } from '../../store/search/searchThunk'
 import { userRoles } from '../../utils/constants'
 import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
-
 import { authActions } from '../../store/auth/authSlice'
 import Modal from '../../components/UI/modal/Modal'
 import { DarkModeActions } from '../../store/dark-mode/DarkModeSlice'
@@ -29,9 +31,47 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
    const [openModal, setOpenModal] = useState(false)
    const [signIn, setSignIn] = useState(false)
    const [currentEl, setCurrentEl] = useState(null)
-   const { darkMode } = useSelector((state) => state.darkMode)
-   const navigate = useNavigate()
+   const [isChecked, setIsChecked] = useState(false)
+   const [searchText, setSearchText] = useState('')
+   const [searchedValue] = useDebounce(searchText, 1000)
+   const [location, setLocation] = useState(null)
    const dispatch = useDispatch()
+   const navigate = useNavigate()
+
+   const onChangeRegions = (e) => {
+      setSearchText(e.target.value)
+   }
+
+   function getUserLocation() {
+      if ('geolocation' in navigator) {
+         navigator.geolocation.getCurrentPosition((position) => {
+            const { latitude, longitude } = position.coords
+            setLocation({ latitude, longitude })
+         })
+      } else {
+         console.error('Браузер не поддерживает геолокацию.')
+      }
+   }
+
+   useEffect(() => {
+      getUserLocation()
+   }, [])
+
+   useEffect(() => {
+      if (location) {
+         const params = {
+            word: searchedValue,
+            isNearby: isChecked,
+            latitude: location.latitude,
+            longitude: location.longitude,
+         }
+
+         if (searchedValue.trim().length > 0) {
+            dispatch(getGlobalSearch(params))
+         }
+      }
+   }, [location, searchedValue, isChecked])
+   const { darkMode } = useSelector((state) => state.darkMode)
    const [scrollPosition, setScrollPosition] = useState(0)
    const [showFavorite, setShowFavorite] = useState(false)
    const headerHeight = 5.5
@@ -69,6 +109,10 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
       }
    }, [isAuthorization])
 
+   // const toggleMeatBalls = () => {
+   //    setMeatBalls(!meatBalls)
+   // }
+
    const logoutHnadler = () => {
       dispatch(authActions.logout())
    }
@@ -85,6 +129,9 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
       dispatch(DarkModeActions.darkModeHandler())
    }
 
+   const handleCheckboxChange = (event) => {
+      setIsChecked(event.target.checked)
+   }
    const open = Boolean(currentEl)
    const idd = open ? 'simple-popover' : undefined
 
@@ -130,7 +177,7 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                <InputDiv>
                   {isAuthorization ? (
                      <FavoriteDiv>
-                        <StyleLink to="/AddAnouncementForm">
+                        <StyleLink to="/main/AddAnouncementForm">
                            leave an ad
                         </StyleLink>
                         {showFavorite && (
@@ -164,7 +211,7 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                      </FavoriteDiv>
                   ) : (
                      <div className="leave">
-                        <StyleLink to="/AddAnouncementForm">
+                        <StyleLink to="/main/AddAnouncementForm">
                            leave an ad
                         </StyleLink>
                         <Button
@@ -185,7 +232,10 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
          ) : (
             <StyleHeader background="#ffffff">
                <div className="headerIcon">
-                  <BlackAirBNBIcon onClick={() => navigate('/')} />
+                  <BlackAirBNBIcon
+                     onClick={() => navigate('/main')}
+                     style={{ cursor: 'pointer' }}
+                  />
                   <StyledButtons
                      onClick={toggleHandler}
                      type="button"
@@ -197,18 +247,26 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
 
                <SearchDiv>
                   {login === 'true' ? (
-                     <StyleLink to="/AddAnouncementForm">leave an ad</StyleLink>
+                     <StyleLink to="/main/AddAnouncementForm">
+                        leave an ad
+                     </StyleLink>
                   ) : null}
                   <div className="blockCheckbox">
-                     <ChecboxStyled type="checkbox" id="search" />
+                     <ChecboxStyled
+                        type="checkbox"
+                        id="search"
+                        checked={isChecked}
+                        onChange={handleCheckboxChange}
+                     />
                      <StyledLabel htmlFor="search">Search nearby</StyledLabel>
                   </div>
                   <Input
                      type="search"
                      width="30rem"
                      size="small"
+                     value={searchText}
                      placeholder="Search"
-                     barsbek="krash"
+                     onChange={onChangeRegions}
                      InputProps={{
                         startAdornment: (
                            <InputAdornment position="start">
@@ -336,10 +394,10 @@ const StateBlock = styled('div')(() => ({
    display: 'flex',
    gap: '1.5rem',
 }))
-const StyleLink = styled(Link)(() => ({
+const StyleLink = styled(Link)(({ login }) => ({
    width: '100px',
    textDecoration: 'none',
-   color: 'var(--primary-white, #FFF)',
+   color: login === 'false' ? '#FFBE58' : 'var(--primary-white, #FFF)',
    fontFamily: 'Inter',
    fontSize: '1.125rem',
    fontStyle: 'normal',

@@ -1,6 +1,7 @@
 import { styled } from '@mui/material'
-import React from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect, React } from 'react'
+import AOS from 'aos'
+import { Link } from 'react-router-dom'
 import chui from '../../assets/images/chui.png'
 import batken from '../../assets/images/batken.png'
 import jalalabat from '../../assets/images/jalalAbad.png'
@@ -9,14 +10,21 @@ import talas from '../../assets/images/talas.png'
 import bishkek from '../../assets/images/bishkek.png'
 import osh from '../../assets/images/osh.png'
 import naryn from '../../assets/images/naryn.png'
+import 'aos/dist/aos.css'
 
 export function MainRegion() {
-   const { darkMode } = useSelector((state) => state.darkMode)
+   useEffect(() => {
+      AOS.init({
+         duration: 1500,
+         easing: 'ease-in-out',
+         once: false,
+      })
+   }, [])
 
    return (
-      <GlobalConteiner darkMode={darkMode}>
+      <GlobalConteiner>
          <MainContainer>
-            <ContainerText darkMode={darkMode}>
+            <ContainerText>
                <h3>Regions in kyrgystan </h3>
                <p>
                   You can visit the site any day and be sure that you will find
@@ -26,6 +34,10 @@ export function MainRegion() {
             <ContainerRegion>
                <BlockRegion1>
                   <ChuiAndOshCard
+                     data-aos="fade-right"
+                     data-aos-offset="300"
+                     data-aos-easing="ease-in-sine"
+                     to="CHUI/region"
                      style={{
                         background: `url(${chui})`,
                         backgroundSize: 'cover',
@@ -37,29 +49,42 @@ export function MainRegion() {
                   <div className="blockItemRegion">
                      <div>
                         <ItemRegionCard
+                           data-aos="fade-down"
+                           data-aos-easing="linear"
+                           data-aos-duration="1000"
+                           to="BATKEN/region"
                            style={{
                               background: `url(${batken})`,
                               backgroundSize: 'cover',
                            }}
                         >
-                           <StyleName>batken</StyleName>
+                           <StyleName>Batken</StyleName>
                         </ItemRegionCard>
                         <ItemRegionCard
+                           data-aos="fade-left"
+                           data-aos-easing="linear"
+                           data-aos-duration="1000"
+                           to="JALAL_ABAD/region"
                            style={{
                               background: `url(${jalalabat})`,
                               backgroundSize: 'cover',
                            }}
                         >
-                           <StyleName>Jalalabat</StyleName>
+                           <StyleName>Jalal-Abad</StyleName>
                         </ItemRegionCard>
                      </div>
                      <NarynAndBihkek
+                        data-aos="fade-left"
+                        data-aos-anchor="#example-anchor"
+                        data-aos-offset="1000"
+                        data-aos-duration="1000"
+                        to="NARYN/region"
                         style={{
                            background: `url(${naryn})`,
                            backgroundSize: 'cover',
                         }}
                      >
-                        <StyleName>naryn</StyleName>
+                        <StyleName>Naryn</StyleName>
                      </NarynAndBihkek>
                   </div>
                </BlockRegion1>
@@ -68,6 +93,9 @@ export function MainRegion() {
                   <div className="blockItemRegion">
                      <div>
                         <ItemRegionCard
+                           data-aos="flip-left"
+                           data-aos-duration="1000"
+                           to="ISSYK_KUL/region"
                            style={{
                               background: `url(${IssykKul})`,
                               backgroundSize: 'cover',
@@ -76,30 +104,37 @@ export function MainRegion() {
                            <StyleName>Issyk-kul</StyleName>
                         </ItemRegionCard>
                         <ItemRegionCard
+                           data-aos="flip-up"
+                           to="TALAS/region"
                            style={{
                               background: `url(${talas})`,
                               backgroundSize: 'cover',
                            }}
                         >
-                           <StyleName>talas</StyleName>
+                           <StyleName>Talas</StyleName>
                         </ItemRegionCard>
                      </div>
                      <NarynAndBihkek
+                        data-aos="flip-left"
+                        data-aos-duration="1500"
+                        to="BISHKEK/region"
                         style={{
                            background: `url(${bishkek})`,
                            backgroundSize: 'cover',
                         }}
                      >
-                        <StyleName>bishkek</StyleName>
+                        <StyleName>Bishkek</StyleName>
                      </NarynAndBihkek>
                   </div>
                   <ChuiAndOshCard
+                     data-aos="fade-down-left"
+                     to="OSH/region"
                      style={{
                         background: `url(${osh})`,
                         backgroundSize: 'cover',
                      }}
                   >
-                     <StyleName>osh</StyleName>
+                     <StyleName>Osh</StyleName>
                   </ChuiAndOshCard>
                </BlockRegion2>
             </ContainerRegion>
@@ -107,15 +142,12 @@ export function MainRegion() {
       </GlobalConteiner>
    )
 }
-const GlobalConteiner = styled('div')(({ darkMode }) => ({
+const GlobalConteiner = styled('div')(() => ({
    width: '100%',
    display: 'grid',
    justifyContent: 'center',
    alignItems: 'center',
    padding: '10.62rem  0 10.62rem 0',
-   background: darkMode
-      ? 'linear-gradient(274deg, rgba(152,152,152,1) 15%, rgba(0,0,0,1) 100%)'
-      : '#fff',
 }))
 const MainContainer = styled('div')(() => ({
    width: '100%',
@@ -123,12 +155,12 @@ const MainContainer = styled('div')(() => ({
    flexDirection: 'column',
    gap: '3.75rem',
 }))
-const ContainerText = styled('div')(({ darkMode }) => ({
+const ContainerText = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
    gap: '0.88rem',
    h3: {
-      color: darkMode ? '#fff' : 'var(--primary-black, #363636)',
+      color: 'var(--primary-black, #363636)',
       fontFamily: 'Inter',
       fontSize: ' 1.25rem',
       fontStyle: 'normal',
@@ -137,7 +169,7 @@ const ContainerText = styled('div')(({ darkMode }) => ({
       textTransform: 'uppercase',
    },
    p: {
-      color: darkMode ? '#fff' : 'var(--primary-black, #363636)',
+      color: 'var(--primary-black, #363636)',
       fontFamily: 'Inter',
       fontSize: ' 1rem',
       fontStyle: 'normal',
@@ -193,19 +225,19 @@ const StyleName = styled('p')(() => ({
    cursor: 'pointer',
 }))
 
-const ChuiAndOshCard = styled('div')(() => ({
+const ChuiAndOshCard = styled(Link)(() => ({
    width: '31.5625rem',
    height: ' 38.09rem',
    padding: '36rem 0 0 1.25rem',
    cursor: 'pointer',
 }))
-const ItemRegionCard = styled('div')(() => ({
+const ItemRegionCard = styled(Link)(() => ({
    width: ' 21.6875rem',
    height: '18.875rem',
    padding: '16rem 0 0 1.25rem',
    cursor: 'pointer',
 }))
-const NarynAndBihkek = styled('div')(() => ({
+const NarynAndBihkek = styled(Link)(() => ({
    width: ' 44.6875rem',
    height: '18rem',
    background: `url(${bishkek})`,

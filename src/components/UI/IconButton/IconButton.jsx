@@ -5,7 +5,7 @@ import { ClickHeart2, Heart1 } from '../../../assets/icons/index'
 export function ButtonIcon({ open, onClick, favorite, variant, ...props }) {
    return (
       <IconButtonStyle onClick={onClick} variant={variant} props={props}>
-         {open ? (
+         {favorite === true ? (
             <ClickHeart2 />
          ) : (
             <div>

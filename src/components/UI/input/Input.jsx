@@ -12,8 +12,10 @@ export const Input = forwardRef(
          name,
          placeholder,
          onChange,
+         onClick,
          value,
          width,
+         height,
          error,
          checked,
          defaultChecked,
@@ -70,6 +72,7 @@ const StyledInput = styled(TextField)(({ barsbek, width, marginBottom }) => {
       return {
          width: width || '100%',
          backgroundColor: '#fff',
+         // height: height || '100px',
          marginBottom: marginBottom || '0px',
 
          '& .MuiOutlinedInput-input': {
