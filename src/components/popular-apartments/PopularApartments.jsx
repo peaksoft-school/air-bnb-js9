@@ -17,7 +17,7 @@ export default function PopularApartments({ state, func }) {
          const response = await axiosInstance.get(
             '/api/announcements/getPopularApartment'
          )
-         console.log(response, 'response popular')
+         console.log(response.data, 'response  popular apartments')
          setApartmentData(response.data)
       } catch (error) {
          console.log('error: ', error)

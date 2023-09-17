@@ -13,6 +13,7 @@ import { AllHousingFilter } from './AllHousingFilter'
 export function AllHousing() {
    const { allHouseData, loading } = useSelector((state) => state.admin)
 
+   console.log(allHouseData, 'allHouseData')
    const dispatch = useDispatch()
    const { toastType } = toastSnackbar()
    const removeAllHousing = (id) => {

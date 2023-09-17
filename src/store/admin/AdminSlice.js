@@ -2,12 +2,14 @@ import { createSlice } from '@reduxjs/toolkit'
 import { getAllHousing } from './all-housing/AllHousingThunk'
 import {
    getAdminApplication,
+   getAdminApplicationAll,
    getApplicationById,
 } from './application/ApplicationThunk'
 import { getAdminUsersCardsId, getBookings } from './users/usersThunk'
 
 const initialState = {
    applications: [],
+   applicationsAll: [],
    applicationById: [],
    users: [],
    bookings: [],
@@ -45,6 +47,16 @@ export const adminSlice = createSlice({
          // application
          .addCase(getAdminApplication.pending, (state) => {
             state.loading = true
+         })
+         .addCase(getAdminApplicationAll.fulfilled, (state, action) => {
+            state.applicationsAll = action.payload
+            state.loading = false
+         })
+         .addCase(getAdminApplicationAll.pending, (state) => {
+            state.loading = true
+         })
+         .addCase(getAdminApplicationAll.rejected, (state) => {
+            state.loading = false
          })
          .addCase(getAdminApplication.fulfilled, (state, action) => {
             state.applications = action?.payload

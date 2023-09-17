@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, Outlet, useParams } from 'react-router-dom'
 import { styled } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Button } from '../../../components/UI/button/Button'
 import { Profile } from '../../../components/UI/profile/Profile'
 import { Tabs } from '../../../components/UI/tabs/Tabs'
@@ -11,10 +11,9 @@ import {
    getBookings,
 } from '../../../store/admin/users/usersThunk'
 
-function AdminUsersPage({ setState }) {
+function AdminUsersPage() {
    const [userData, setUserData] = useState({})
    const [showButton, setShowButton] = useState(false)
-   const { toggle } = useSelector((state) => state.application)
 
    const { userId } = useParams()
    const dispatch = useDispatch()
@@ -39,12 +38,9 @@ function AdminUsersPage({ setState }) {
       getUsersById(userId)
       dispatch(getAdminUsersCardsId(userId))
       dispatch(getBookings(userId))
-      setState(userId)
    }, [userId])
 
-   return toggle ? (
-      <Outlet />
-   ) : (
+   return (
       <Container>
          <UserSide>
             <StyledNavlink to="/admin/users/">

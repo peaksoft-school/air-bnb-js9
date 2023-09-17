@@ -6,6 +6,11 @@ export const getAdminApplicationRequest = ({ currentPage, currentSize }) => {
       `/api/admin/announcementsModeration?currentPage=${currentPage}&pageSize=${currentSize}`
    )
 }
+export const getAdminApplicationRequestAll = () => {
+   return axiosInstance.get(
+      '/api/admin/announcementsModeration?currentPage=1&pageSize=999'
+   )
+}
 
 export const getApplicationByIdRequest = (id) => {
    console.log(id, 'id service')

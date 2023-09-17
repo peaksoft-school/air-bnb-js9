@@ -14,7 +14,7 @@ export function MyAnnouncement({ select, announcement }) {
    const [sort, setSort] = useState('')
    const dispatch = useDispatch()
 
-   console.log(announcement, 'announcement in my Announcement')
+   console.log(announcement, 'announcement ')
    const changePriceHandler = (e) => {
       setSortPrice(e.target.value)
    }

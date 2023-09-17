@@ -28,8 +28,6 @@ export function AdminCards({
    const [openAllHouseModal, setOpenAllHouseModal] = useState(false)
    const { toastType } = toastSnackbar()
 
-   console.log(data, 'data in date')
-
    useEffect(() => {
       setData(data?.map((item) => ({ ...item, open: false })))
       setCurrentImages(data?.map(() => 0))

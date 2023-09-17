@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
    deleteAdminApplicationRequest,
    getAdminApplicationRequest,
+   getAdminApplicationRequestAll,
    getApplicationByIdRequest,
    postAcceptApplicationsRequest,
    postRejectApplicationsRequest,
@@ -19,7 +20,18 @@ export const getAdminApplication = createAsyncThunk(
       }
    }
 )
+export const getAdminApplicationAll = createAsyncThunk(
+   'application/getAdminApplicationAll',
+   async (_, { rejectWithValue }) => {
+      try {
+         const response = await getAdminApplicationRequestAll()
 
+         return response.data.announcementResponses
+      } catch (error) {
+         return rejectWithValue(error.message)
+      }
+   }
+)
 export const getApplicationById = createAsyncThunk(
    'application/getApplicationById',
    async (payload, { rejectWithValue }) => {

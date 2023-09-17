@@ -33,7 +33,6 @@ export function CardItem({
    openModalAllHousing,
    closeMeatBallsHeandler,
 }) {
-   console.log(item.images)
    const [openButton, setOpenButton] = useState(false)
    const navigate = useNavigate()
    return (

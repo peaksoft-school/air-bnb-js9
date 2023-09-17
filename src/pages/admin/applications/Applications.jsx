@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AdminCards } from '../../../components/UI/cards/admin/AdminCards'
 import { Loading } from '../../../components/UI/loading/Loading'
 import { Paginations } from '../../../components/UI/pagination/Pagination'
-import { getAdminApplication } from '../../../store/admin/application/ApplicationThunk'
+import {
+   getAdminApplication,
+   getAdminApplicationAll,
+} from '../../../store/admin/application/ApplicationThunk'
 
 export function Applications({
    rejectedHandler,
@@ -17,7 +20,11 @@ export function Applications({
    setTitle,
    title,
 }) {
-   const { applications, loading } = useSelector((state) => state.admin)
+   const { applications, applicationsAll, loading } = useSelector(
+      (state) => state.admin
+   )
+
+   console.log(applicationsAll, 'applications')
 
    const dispatch = useDispatch()
 
@@ -29,11 +36,15 @@ export function Applications({
       dispatch(getAdminApplication(current))
       setCurrenSize(18)
    }, [currentPage])
-
+   useEffect(() => {
+      dispatch(getAdminApplicationAll())
+   }, [])
    const changeHandler = (e) => {
       setTitle(e.target.value)
    }
-
+   const totalItems = applicationsAll?.length
+   const totalPages = Math.ceil(totalItems / 18)
+   console.log(totalPages)
    const pagePagination = (value) => {
       setCurrentPage(value)
    }
@@ -57,7 +68,7 @@ export function Applications({
             />
             {loading && <Loading />}
             <ContainerPagination>
-               <Paginations count={10} pages={pagePagination} />
+               <Paginations count={totalPages} pages={pagePagination} />
             </ContainerPagination>
          </>
       </Container>
