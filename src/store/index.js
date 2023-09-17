@@ -1,9 +1,11 @@
 /* eslint-disable import/no-unresolved */
 import { configureStore } from '@reduxjs/toolkit'
+import { cardSlice } from './card/cardSlice'
+import { getGlobalSearchSlice } from './search/searchSlice'
 import { authSlice } from './auth/authSlice'
-// import { adminUsersSlice } from './admin-users/adminUsersSlice'
 import { announcementSlice } from './profile/ProfileSlice'
 import { getByIdSlice } from './anouncement/AnouncementSlice'
+import { ToggleHandelrSlice } from './toggle/ToggleSlice'
 import { paymentSlice } from './payment/PaymentSlice'
 import { DarkModeSlice } from './dark-mode/DarkModeSlice'
 import { ModalSlice } from './ModalSlice'
@@ -18,7 +20,11 @@ export const store = configureStore({
       [announcementSlice.name]: announcementSlice.reducer,
       [authSlice.name]: authSlice.reducer,
       [adminSlice.name]: adminSlice.reducer,
+      [authSlice.name]: authSlice.reducer,
       [getByIdSlice.name]: getByIdSlice.reducer,
+      [cardSlice.name]: cardSlice.reducer,
+      [getGlobalSearchSlice.name]: getGlobalSearchSlice.reducer,
+      [ToggleHandelrSlice.name]: ToggleHandelrSlice.reducer,
       [paymentSlice.name]: paymentSlice.reducer,
       [DarkModeSlice.name]: DarkModeSlice.reducer,
       [ModalSlice.name]: ModalSlice.reducer,

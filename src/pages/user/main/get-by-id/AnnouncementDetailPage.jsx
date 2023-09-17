@@ -1,15 +1,15 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react'
 import { Breadcrumbs, Typography, styled } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Header } from '../../../../layout/Header/Header'
+import { Header } from '../../../../layout/header/Header'
 import { HouseSlidDetail } from '../../../../components/UI/house-detail/HouseSlidDetail'
 import { NameOfHotel } from '../../../../components/UI/name-hotel/NameOfHotel'
 import { house } from '../../../../utils/helpers'
 import Feedback from '../../../../components/UI/feedback/Feedback'
 import { Payment } from '../../../../components/payment/Payment'
-import { Footer } from '../../../../layout/Footer/Footer'
+import { Footer } from '../../../../layout/footer/Footer'
 import { RatingChart } from '../../../../components/UI/rating/RatingChart'
 import { LeaveFeedback } from '../../../../components/leave-feedback/LeaveFeeadback'
 import { getByIdRequest } from '../../../../store/anouncement/AnouncementThunk'
@@ -19,7 +19,7 @@ import {
 } from '../../../../store/feedback/feedbackThunk'
 import { uploadActions } from '../../../../store/Upload'
 
-export default function AnnouncementDetailPage() {
+export function AnnouncementDetailPage() {
    const [state, setState] = useState(false)
    const [openModal, setOpenModal] = useState(false)
    const [showFullFeedback, setShowFullFeedback] = useState(false)
@@ -30,12 +30,12 @@ export default function AnnouncementDetailPage() {
    const { feedbackDataById, countRatingDataById } = useSelector(
       (state) => state.feedback
    )
-
+   const { houseId } = useParams()
    const dispatch = useDispatch()
 
    useEffect(() => {
       dispatch(feedbackGetByIdRequest())
-      dispatch(getByIdRequest())
+      dispatch(getByIdRequest(houseId))
       dispatch(countRatingGetByIdRequest())
    }, [dispatch])
 

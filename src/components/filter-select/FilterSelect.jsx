@@ -1,24 +1,14 @@
 import { styled } from '@mui/material'
 import { Select } from '../UI/select/Select'
-import { homeType, popular, price, regions } from '../../utils/helpers'
+import { homeType, popular, userPrice, regions } from '../../utils/helpers'
 
-export function FilterSelect() {
-   const onChangeRegions = (selectedOption) => {
-      console.log('Selected option:', selectedOption)
-   }
-
-   const onChangePopular = (selectedOption) => {
-      console.log('Selected option:', selectedOption)
-   }
-
-   const onChangeHomeType = (selectedOption) => {
-      console.log('Selected option:', selectedOption)
-   }
-
-   const onChangePrice = (selectedOption) => {
-      console.log('Selected option:', selectedOption)
-   }
-
+export function FilterSelect({
+   onChangeRegions,
+   onChangePopular,
+   onChangeHomeType,
+   onChangePrice,
+   region,
+}) {
    return (
       <Container>
          <div>
@@ -26,6 +16,7 @@ export function FilterSelect() {
                labelName="Sort by region:"
                data={regions}
                onChange={onChangeRegions}
+               region={region}
             />
          </div>
          <div>
@@ -36,20 +27,18 @@ export function FilterSelect() {
             />
          </div>
          <div>
-            <div>
-               <Select
-                  labelName="Filter by home type:"
-                  data={homeType}
-                  onChange={onChangeHomeType}
-               />
-            </div>
-            <div>
-               <Select
-                  labelName="Filter by price:"
-                  data={price}
-                  onChange={onChangePrice}
-               />
-            </div>
+            <Select
+               labelName="Filter by home type:"
+               data={homeType}
+               onChange={onChangeHomeType}
+            />
+         </div>
+         <div>
+            <Select
+               labelName="Filter by price:"
+               data={userPrice}
+               onChange={onChangePrice}
+            />
          </div>
       </Container>
    )
@@ -57,5 +46,8 @@ export function FilterSelect() {
 
 const Container = styled('div')(() => ({
    display: 'flex',
-   width: '60%',
+   justifyContent: 'center',
+   alignItems: 'center',
+   gap: '0.625rem',
+   marginTop: '40px',
 }))

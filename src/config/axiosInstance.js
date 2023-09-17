@@ -13,12 +13,13 @@ export const injectStore = (_store) => {
 }
 
 const logoutAction = () => {}
-
 axiosInstance.interceptors.request.use((config) => {
+   const token =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTUxMDA2MDAsImlhdCI6MTY5NDg0MTQwMCwidXNlcm5hbWUiOiJhbGlzdGVyQGdtYWlsLmNvbSJ9.MmMke36qVJ6TO1jebnhodi4Arjhnb-77L8PQp4Y1YdI'
    const updatedConfig = { ...config }
-   const { token } = store.getState().auth
+   // const token = store.getState().auth
    if (token) {
-      updatedConfig.headers.Authorization = ` Bearer ${token}`
+      updatedConfig.headers.Authorization = `Bearer ${token}`
    }
    return updatedConfig
 })
@@ -29,7 +30,6 @@ axiosInstance.interceptors.response.use(
    },
    (error) => {
       if (error.response.status === 401) {
-         console.log('401 ERROR')
          store.dispatch(logoutAction())
       }
       return Promise.reject(error)

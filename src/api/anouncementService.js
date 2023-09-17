@@ -4,6 +4,6 @@ export const addAnouncement = (data) => {
    return axiosInstance.post('/api/vendor/submitAnAd', data)
 }
 
-export const getAnouncementById = () => {
-   return axiosInstance.get('/api/vendor/getAnnouncement/4')
+export const getAnouncementById = (id) => {
+   return axiosInstance.get(`/api/vendor/getAnnouncement/${id}`)
 }

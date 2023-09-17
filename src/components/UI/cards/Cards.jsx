@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { IconButton, Menu, MenuItem, Tooltip, styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import {
    ArrowleftIcon,
@@ -31,7 +32,7 @@ export function Cards({
    const [anchorEl, setAnchorEl] = useState(null)
    const dispatch = useDispatch()
    const { toastType } = toastSnackbar()
-
+   const { region } = useParams()
    useEffect(() => {
       setData(
          data?.map((img) => {
@@ -53,7 +54,7 @@ export function Cards({
 
    const truncateTitle = (title) => {
       const words = title.split(' ')
-      if (words.length > 7) {
+      if (words.length > 6) {
          return `${words.slice(0, 4).join(' ')}`
       }
       return title
@@ -78,12 +79,13 @@ export function Cards({
 
          return item
       })
+
       try {
          setData(newData)
          dispatch(postLike(id))
          toastType(
             'success',
-            'Announcement  was deleted from your favorite',
+            'Announcement  was added from your favorite',
             'success'
          )
       } catch (error) {
@@ -99,7 +101,6 @@ export function Cards({
    const handleMenuClose = () => {
       setAnchorEl(null)
    }
-
    return (
       <Container>
          <MainContainer>
@@ -123,7 +124,7 @@ export function Cards({
                         )}
                         <div className="images">
                            <StyleImage
-                              src={item.images[currentImages[index]]}
+                              src={item.images.images[currentImages[index]]}
                               alt="home"
                            />
                         </div>
@@ -148,7 +149,7 @@ export function Cards({
                            </div>
                            <div className="location">
                               <Location />
-                              <p>{item.location}</p>
+                              <p>{item.location || item.address}</p>
                            </div>
                            {item.status === 'dates' ? (
                               <ContainerGuests>
@@ -185,16 +186,17 @@ export function Cards({
                            ) : (
                               <ButtonsContainer>
                                  <DayStyle>{item.guest} guest</DayStyle>
-                                 <Button
-                                    variant="contained"
-                                    height="20%"
-                                    bgColor="#DD8A08"
-                                    s
-                                    color="white"
-                                    width="6.4375rem"
-                                 >
-                                    Book
-                                 </Button>
+                                 <Link to={`/main/${region}/region/${item.id}`}>
+                                    <Button
+                                       variant="contained"
+                                       height="20%"
+                                       bgColor="#DD8A08"
+                                       color="white"
+                                       width="6.4375rem"
+                                    >
+                                       Book
+                                    </Button>
+                                 </Link>
                                  <div>
                                     <ButtonIcon
                                        width="10%"
@@ -224,6 +226,7 @@ const ContainerInformation = styled('div')(() => ({
    width: '100%',
    display: 'flex',
    flexDirection: 'column',
+   justifyContent: 'center',
    gap: '0.5rem',
    '.title': {
       width: '11.625rem',
@@ -233,11 +236,13 @@ const ContainerInformation = styled('div')(() => ({
       fontStyle: 'normal',
       fontWeight: 400,
       lineHeight: 'normal',
+      marginLeft: '2vh',
    },
    '.location': {
       display: 'flex',
       alignItems: 'center',
       gap: '0.38rem',
+      marginLeft: '2vh',
       p: {
          width: '100%',
          color: ' var(--tertiary-middle-gray, #828282)',
@@ -253,8 +258,11 @@ const ContainerInformation = styled('div')(() => ({
 const ContainerPrice = styled('div')(() => ({
    width: '100%',
    display: 'flex',
-   justifyContent: 'space-between',
+   justifyContent: 'center',
+   gap: '10vh',
    alignItems: 'center',
+   // marginLeft: '1rem',
+
    '.price': {
       color: ' var(--primary-black, #363636)',
       fontFamily: 'Inter',
@@ -294,7 +302,8 @@ const ButtonsContainer = styled('section')`
    padding-bottom: 20px;
    display: flex;
    align-items: center;
-   gap: 1.6rem;
+   justify-content: center;
+   gap: 1.9rem;
 `
 const ContainerDescription = styled('div')(() => ({
    width: '100%',
@@ -304,8 +313,10 @@ const ContainerDescription = styled('div')(() => ({
    gap: '1rem',
 }))
 const Container = styled('div')`
-   padding-left: 8%;
+   padding-left: 6.8%;
    display: flex;
+   justify-content: center;
+   align-items: center;
    flex-direction: column;
    flex-wrap: wrap;
 `
@@ -326,8 +337,9 @@ const MainContainer = styled('div')`
    flex-wrap: wrap;
    justify-content: start;
    align-items: center;
-   gap: 60px;
+   gap: 45px;
    margin-top: 2.5rem;
+   width: 100%;
 `
 const StyleImage = styled('img')`
    width: 100%;
@@ -348,7 +360,6 @@ const MapContainer = styled('div')(({ status }) => ({
    alignItems: 'center',
    justifyContent: 'center',
    lineHeight: '2rem',
-
    boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
 
    '.ImageNavigation': {
@@ -363,7 +374,7 @@ const MapContainer = styled('div')(({ status }) => ({
          position: 'absolute',
          ziIdex: '9',
          display: 'flex',
-         justifyContent: 'center',
+         justifyContent: 'start',
          gap: ' 15rem',
          marginTop: '4.1rem',
       },
@@ -387,9 +398,7 @@ const DayStyle = styled('p')`
    font-size: 1rem;
    font-style: normal;
    font-weight: 400;
-   display: flex;
    line-height: normal;
-   display: flex;
    gap: 5px;
 `
 
