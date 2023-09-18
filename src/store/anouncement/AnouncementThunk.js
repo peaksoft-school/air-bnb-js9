@@ -3,9 +3,9 @@ import { getAnouncementById } from '../../api/anouncementService'
 
 export const getByIdRequest = createAsyncThunk(
    'getById/getByIdRequest',
-   async (_, { rejectWithValue }) => {
+   async (id, { rejectWithValue }) => {
       try {
-         const response = await getAnouncementById()
+         const response = await getAnouncementById(id)
 
          return response.data
       } catch (error) {

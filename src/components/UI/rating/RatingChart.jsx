@@ -3,12 +3,8 @@ import { styled } from '@mui/material'
 import { RatingChartBar } from './RatingChartBar'
 import { Start1 } from '../../../assets/icons'
 
-export function RatingChart({
-   starValue,
-   // countRatingDataById
-}) {
-   const maximumRating = 80
-   // const { five, four, one, three, two } = countRatingDataById
+export function RatingChart({ starValue, marginLeft, height, width }) {
+   const maximumRating = 8
    const rating = [
       { label: '5', currentRating: 0 },
       { label: '4', currentRating: 0 },
@@ -26,7 +22,7 @@ export function RatingChart({
    }
 
    return (
-      <Container>
+      <Container marginLeft={marginLeft} height={height} width={width}>
          <div className="rating">
             <StarDiv>
                <StyledPtag>{starValue}</StyledPtag>
@@ -47,10 +43,11 @@ export function RatingChart({
    )
 }
 
-const Container = styled('div')(() => ({
-   width: ' 26.5rem',
-   height: ' 14.5rem',
+const Container = styled('div')(({ marginLeft, width, height }) => ({
+   width: width || '26.5rem',
+   height: height || ' 14.5rem',
    borderRadius: '1rem',
+   marginLeft: marginLeft || '0',
    '.rating': {
       border: '1px solid gray',
       borderRadius: '14px',

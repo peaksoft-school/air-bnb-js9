@@ -1,5 +1,6 @@
 import React from 'react'
 import { styled } from '@mui/material'
+import { Link } from 'react-router-dom'
 import {
    AirBNBIcon,
    InstagramIcon,
@@ -13,7 +14,7 @@ export function Footer({ state }) {
          <StyledDiv state={state}>
             <SsylkaDiv>
                <Ssylka href="***">Regions </Ssylka>
-               <Ssylka href="***">leave an ad</Ssylka>
+               <Ssylka to="/AddAnouncementForm">leave an ad</Ssylka>
             </SsylkaDiv>
 
             <div>
@@ -64,7 +65,7 @@ const SsylkaDiv = styled('div')(() => ({
    display: 'flex',
    gap: '2rem',
 }))
-const Ssylka = styled('a')(() => ({
+const Ssylka = styled(Link)(() => ({
    fontFamily: 'Inter',
    fontSize: '1.2 rem',
    fontWeight: '500',

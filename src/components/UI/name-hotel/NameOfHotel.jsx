@@ -32,8 +32,7 @@ export function NameOfHotel({
             <ModalProfile
                data={dataById}
                setModalVisible={setEditModalIsOpen}
-               openEditModal={openEditModal}
-               editModalIsOpen={editModalIsOpen}
+               setEditModalIsOpen
             />
          ) : null}
          <DescriptionContainer key={dataById?.id}>
@@ -97,7 +96,7 @@ export function NameOfHotel({
                      font-size="0.875rem"
                      font-weight="500"
                   >
-                     edit
+                     edittt
                   </Button>
                ) : (
                   <Button

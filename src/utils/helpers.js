@@ -7,20 +7,22 @@ import detailHouse4 from '../assets/images/houseDeteil4.png'
 import detailHouse3 from '../assets/images/houseDeteil3.png'
 
 export const regions = [
-   { id: 'option1', name: 'Batken' },
-   { id: 'option2', name: 'Osh' },
-   { id: 'option3', name: 'Jalal-abad' },
-   { id: 'option4', name: 'Chui' },
-   { id: 'option5', name: 'Naryn' },
-   { id: 'option6', name: 'Talas' },
-   { id: 'option7', name: 'Issyk-Kul' },
+   { id: 'option1', name: 'Batken', value: 'BATKEN' },
+   { id: 'option2', name: 'Osh', value: 'OSH' },
+   { id: 'option3', name: 'Jalal-Abad', value: 'JALAL_ABAD' },
+   { id: 'option4', name: 'Chui', value: 'CHUI' },
+   { id: 'option5', name: 'Naryn', value: 'NARYN' },
+   { id: 'option6', name: 'Talas', value: 'TALAS' },
+   { id: 'option7', name: 'Issyk-Kul', value: 'ISSYK_KUL' },
+   { id: 'option8', name: 'Bishkek', value: 'BISHKEK' },
 ]
+
 export const popular = [
-   { id: 'option8', name: 'popular' },
-   { id: 'option9', name: 'un popular' },
+   { id: 'option8', name: 'Popular', value: 'desc' },
+   { id: 'option9', name: 'The latest', value: 'asc' },
 ]
+
 export const homeType = [
-   { id: 'option21', name: 'All', value: 'all' },
    { id: 'option10', name: 'Apartment', value: 'APARTMENT' },
    { id: 'option11', name: 'House', value: 'HOUSE' },
 ]
@@ -40,6 +42,11 @@ export const price = [
    { id: 'option12', name: 'All', value: ' ' },
    { id: 'option12', name: 'Low to high', value: 'LOW_TO_HIGH' },
    { id: 'option13', name: 'High to low', value: 'HIGH_TO_LOW' },
+]
+
+export const userPrice = [
+   { id: 'option12', name: 'Low to high', value: 'asc' },
+   { id: 'option13', name: 'High to low', value: 'desc' },
 ]
 
 export const popularHouse = [
@@ -89,17 +96,22 @@ export const house = [
    },
 ]
 
-export const Hotel = [
-   {
-      nameHotel: 'Name of hotel',
-      addresHotel: '12 Morris Ave, Toronto, ON, CA',
-      discriptionHotel:
-         'The hotel will provide guests with air-conditioned rooms offering a desk, a kettle, a fridge, a minibar, a safety deposit box, a flat-screen TV and a shared bathroom with a shower. At Garden Hotel & SPA the rooms have bed linen and towels.',
-      hostAvatar: 'https://img.freepik.com/free-icon/user_318-159711.jpg',
-      hostName: 'Anna Annova',
-      hostEmail: 'anna@gmail.com',
+export const Hotel = {
+   houseType: 'APARTMENT ',
+   maxGuests: 5,
+   region: 'Name of hotel',
+   address: '12 Morris Ave, Toronto, ON, CA',
+   province: ' Toronto, ON, CA',
+   description:
+      'The hotel will provide guests with air-conditioned rooms offering a desk, a kettle, a fridge, a minibar, a safety deposit box, a flat-screen TV and a shared bathroom with a shower. At Garden Hotel & SPA the rooms have bed linen and towels.',
+   hostAvatar: 'https://img.freepik.com/free-icon/user_318-159711.jpg',
+   user: {
+      fullName: 'Anna Annova',
+      email: 'anna@gmail.com',
    },
-]
+   userFullName: 'Anna Annova',
+   userEmail: 'anna@gmail.com',
+}
 
 export const booked = [
    {

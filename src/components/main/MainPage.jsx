@@ -1,15 +1,62 @@
 import { Checkbox, InputAdornment, styled } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useDebounce } from 'use-debounce'
 import mainBackground from '../../assets/images/MainBackground.png'
 import { Header } from '../../layout/Header/Header'
 import { Input } from '../UI/input/Input'
 import { SearchIcon } from '../../assets/icons'
+import { getGlobalSearch } from '../../store/search/searchThunk'
+import { SearchResult } from '../UI/search/SearchResult'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
 export function MainPage() {
-   const [userLogin, setUserLogin] = useState(false)
-   console.log('setUserLogin: ', setUserLogin)
+   const [userLogin] = useState(false)
+   const [searchText, setSearchText] = useState('')
+   const [isChecked, setIsChecked] = useState(false)
+   const [location, setLocation] = useState(null)
+   const { search } = useSelector((state) => state.global)
+   const dispatch = useDispatch()
+   const [searchedValue] = useDebounce(searchText, 1000)
+
+   function getUserLocation() {
+      if ('geolocation' in navigator) {
+         navigator.geolocation.getCurrentPosition((position) => {
+            const { latitude, longitude } = position.coords
+            setLocation({ latitude, longitude })
+         })
+      } else {
+         console.error('Браузер не поддерживает геолокацию.')
+      }
+   }
+
+   useEffect(() => {
+      getUserLocation()
+   }, [])
+
+   useEffect(() => {
+      if (location) {
+         const params = {
+            word: searchedValue,
+            isNearby: isChecked,
+            latitude: location.latitude,
+            longitude: location.longitude,
+         }
+
+         dispatch(getGlobalSearch(params))
+      }
+   }, [location, searchedValue, isChecked])
+
+   const handleCheckboxChange = (event) => {
+      setIsChecked(event.target.checked)
+   }
+
+   const onChangeRegions = (e) => {
+      setSearchText(e.target.value)
+   }
+
    return (
       <div>
          <StyleMain
@@ -22,10 +69,11 @@ export function MainPage() {
             <Block>
                <h1>Find a place you ll love to stay at</h1>
                <BlockInput>
-                  <Input
+                  <InputSearch
                      type="search"
-                     width="100%"
                      size="small"
+                     onChange={onChangeRegions}
+                     value={searchText}
                      placeholder="Region, city, apartment, house..."
                      InputProps={{
                         startAdornment: (
@@ -35,13 +83,20 @@ export function MainPage() {
                         ),
                      }}
                      barsbek="nekrash"
+                     id="myInputId"
                   />
+                  {searchText.length > 0 ? (
+                     <SearchResult search={search} />
+                  ) : null}
+
                   <div>
                      {userLogin ? null : (
                         <>
                            <StyleCheckbox
                               {...label}
                               id="id"
+                              checked={isChecked}
+                              onChange={handleCheckboxChange}
                               sx={{
                                  color: '#fff',
                                  '&.Mui-checked': {
@@ -105,4 +160,9 @@ const StyleCheckbox = styled(Checkbox)(() => ({
    '&.MuiCheckbox-root': {
       borderColor: '#fff',
    },
+}))
+
+const InputSearch = styled(Input)(() => ({
+   width: '100%',
+   background: '#fff',
 }))

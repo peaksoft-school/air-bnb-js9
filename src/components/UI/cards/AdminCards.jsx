@@ -1,6 +1,6 @@
 import { MenuItem, styled, Tooltip } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import {
    AdminLocation,
    AdminMenu,
@@ -15,16 +15,16 @@ import { toastSnackbar } from '../snackbar/Snackbar'
 
 export function AdminCards({
    data,
-   roles,
    title,
    image,
+   toPath,
    meatballs,
    removeCard,
    changeHandler,
-   toggleHandler,
    acceptHandler,
    rejectedHandler,
    removeAllHousing,
+   padding,
 }) {
    const [currentImages, setCurrentImages] = useState([])
    const [openModal, setOpenModal] = useState(false)
@@ -37,7 +37,7 @@ export function AdminCards({
    const [idAllHousing, setIdAllHousing] = useState('')
    const [openAllHouseModal, setOpenAllHouseModal] = useState(false)
 
-   console.log(data)
+   const { userId } = useParams()
 
    useEffect(() => {
       setData(data?.map((item) => ({ ...item, open: false })))
@@ -109,7 +109,7 @@ export function AdminCards({
    const idd = open ? 'simple-popover' : undefined
 
    return (
-      <Container roles={roles}>
+      <Container padding={padding}>
          <div className="block">
             {openAllHouseModal ? (
                <ModalProfile
@@ -126,13 +126,16 @@ export function AdminCards({
                title={title}
                changeHandler={changeHandler}
             />
-            {data.length > 0 ? (
-               data.map((item, index) => (
+            {data?.length > 0 ? (
+               data?.map((item, index) => (
                   <MapContainer status="dat" key={item.id}>
                      {image === 'click' ? (
                         <ImageContainer
-                           to="/admin/application/name"
-                           onClick={() => toggleHandler(item.id)}
+                           to={
+                              toPath === 'true'
+                                 ? `/admin/users/${userId}/my-announcement/${item.id}=name`
+                                 : `/admin/application/Name/${item.id}=12N`
+                           }
                         >
                            {item.images.length > 1 && (
                               <div className="ImageNavigation">
@@ -189,22 +192,28 @@ export function AdminCards({
                         <ContainerInformation>
                            <div className="title">
                               <Tooltip title={item.description}>
-                                 {truncateText(item.description, 25)}
+                                 <span>
+                                    {truncateText(item.description, 25)}
+                                 </span>
                               </Tooltip>
                            </div>
                            <div className="location">
                               <AdminLocation />
                               <div>
                                  <Tooltip title={item.address}>
-                                    {item.address.length > 7
-                                       ? truncateText(item.address, 7)
-                                       : item.address}
-                                    ,{' '}
+                                    <span>
+                                       {item.address.length > 7
+                                          ? truncateText(item.address, 7)
+                                          : item.address}
+                                    </span>
                                  </Tooltip>
+                                 ,{' '}
                                  <Tooltip title={item.province}>
-                                    {item.province?.length > 7
-                                       ? truncateText(item.province, 7)
-                                       : item.province}
+                                    <span>
+                                       {item.province?.length > 7
+                                          ? truncateText(item.province, 7)
+                                          : item.province}
+                                    </span>
                                  </Tooltip>
                               </div>
                            </div>
@@ -281,15 +290,15 @@ export function AdminCards({
       </Container>
    )
 }
-const Container = styled('div')(({ roles }) => ({
+const Container = styled('div')(({ padding }) => ({
    width: '100%',
-   padding: roles === 'user' ? '1.81rem 0rem ' : '1.81rem 2.25rem ',
+   padding: padding || null,
 
    '.block': {
       display: 'flex',
       justifyContent: 'flex-start',
       flexWrap: 'wrap',
-      gap: '1.25rem',
+      gap: '2.5rem',
    },
 }))
 

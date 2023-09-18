@@ -6,10 +6,8 @@ import { HouseSlidDetail } from '../../components/UI/house-detail/HouseSlidDetai
 import { NameOfHotel } from '../../components/UI/name-hotel/NameOfHotel'
 import { house, Hotel } from '../../utils/helpers'
 import Feedback from '../../components/UI/feedback/Feedback'
-import { RatingChart } from '../../components/UI/rating/RatingChart'
 import { Booked } from '../../components/UI/booked/Booked'
 import { Favorites } from '../../components/UI/favorites/Favorites'
-import { applicationSlice } from '../../store/admin-application/ApplicationSlice'
 import {
    deleteAnnouncement,
    getByIdAnnouncement,
@@ -18,7 +16,13 @@ import { toastSnackbar } from '../../components/UI/snackbar/Snackbar'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
 
-export function AnnouncementAdminPage({ roles, pages, acceptHandler }) {
+export function AnnouncementAdminPage({
+   roles,
+   pages,
+   acceptHandler,
+   AdminAnnouncementById,
+   params,
+}) {
    const [openModal, setOpenModal] = useState(false)
    const dispatch = useDispatch()
    const { announId } = useParams()
@@ -70,8 +74,7 @@ export function AnnouncementAdminPage({ roles, pages, acceptHandler }) {
    const navigate = useNavigate()
 
    function backNavigation() {
-      dispatch(applicationSlice.actions.toggleHandler())
-      navigate('/admin/application')
+      navigate(-1)
    }
 
    const openModalHandler = () => {
@@ -132,23 +135,22 @@ export function AnnouncementAdminPage({ roles, pages, acceptHandler }) {
             <Container>
                <MainContainer>
                   <div role="presentation">
-                     <Breadcrumbs aria-label="breadcrumb">
-                        <Link
-                           underline="hover"
-                           color="inherit"
-                           href="application"
+                     <StyledLink to="/admin/users/">
+                        Users
+                        <StyledLink
+                           to={`/admin/users/${params.userId}/my-announcement`}
                         >
-                           Users
-                        </Link>
-                        <Link
-                           underline="hover"
-                           color="inherit"
-                           href="application"
+                           / {AdminAnnouncementById.fullName} /{' '}
+                        </StyledLink>
+                        <span
+                           style={{
+                              fontWeight: '700',
+                              color: '#363636',
+                           }}
                         >
-                           Медер Медеров
-                        </Link>
-                        <Typography color="text.primary">Name</Typography>
-                     </Breadcrumbs>
+                           Name
+                        </span>
+                     </StyledLink>
                   </div>
                   <BlockMain>
                      <h2>Name</h2>
@@ -156,7 +158,8 @@ export function AnnouncementAdminPage({ roles, pages, acceptHandler }) {
                         <HouseSlidDetail images={house} />
                         <NameOfHotel
                            pages={pages}
-                           hotel={Hotel}
+                           buttons="yes"
+                           dataById={AdminAnnouncementById}
                            openModal={openModal}
                            openModalHandler={openModalHandler}
                         />
@@ -165,11 +168,11 @@ export function AnnouncementAdminPage({ roles, pages, acceptHandler }) {
                   <h2>feedback</h2>
                   <ContainerFeetback>
                      <div>
-                        {data.map((el) => (
+                        {data?.map((el) => (
                            <Feedback data={el} key={el.id} />
                         ))}
                      </div>
-                     <RatingChart />
+                     <RatingChart marginLeft="4rem" width="27rem" />
                   </ContainerFeetback>
                </MainContainer>
             </Container>
@@ -230,6 +233,7 @@ export function AnnouncementAdminPage({ roles, pages, acceptHandler }) {
       </div>
    )
 }
+const RatingChart = styled('div')``
 const Applications = styled('div')(() => ({
    width: '100%',
    height: '80vh',

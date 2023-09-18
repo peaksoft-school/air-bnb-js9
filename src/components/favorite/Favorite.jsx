@@ -1,11 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
-
 import { styled } from '@mui/material'
 import { PulseLoader } from 'react-spinners'
 import { css } from '@emotion/react'
+import { useNavigate } from 'react-router'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
 import { Cards } from '../UI/cards/Cards'
@@ -16,6 +15,7 @@ export function Favorite() {
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
+
    const override = css`
       display: block;
       margin: 0 auto;
@@ -35,7 +35,9 @@ export function Favorite() {
    useEffect(() => {
       dispatch(getAllFavorites())
    }, [])
+
    const favoriteLenght = transformedData.length
+
    return (
       <MainCotnainer>
          <Header favoriteLenght={favoriteLenght} favorite="true" />

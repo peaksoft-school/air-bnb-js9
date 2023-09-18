@@ -1,18 +1,31 @@
-import { styled } from '@mui/material'
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { NavLink, Route, Routes } from 'react-router-dom'
+import {
+   NavLink,
+   Route,
+   Routes,
+   useLocation,
+   useParams,
+} from 'react-router-dom'
+import { styled } from '@mui/material'
 import { OnModeration } from './OnModeration'
 import { moderation } from '../../../utils/helpers'
 import { Bookings } from './Bookings'
 import { MyAnnouncement } from './MyAnnouncement'
 
-export function Tabs({ state }) {
-   const { data } = useSelector((state) => state.getannouncement)
+export function Tabs({
+   announcement,
+   bookings,
+   state,
+   showButtonHandler,
+   closeButtonHandler,
+}) {
+   const BookingLength = bookings?.length
+   const announcementLength = announcement?.length
+   const moderationLength = moderation?.lenght
 
-   const BookingLength = data.bookings?.length
-   const announcementLength = data.announcements.responses?.length
-   const moderationLength = 0
+   // return state === 'true' ? (
+   const location = useLocation()
+   const { userId } = useParams()
 
    return state === 'true' ? (
       <div>
@@ -42,11 +55,27 @@ export function Tabs({ state }) {
    ) : (
       <div>
          <StyleHead>
-            <StyleLink to="booking">
-               <h3>Booking</h3>
+            <StyleLink
+               active={
+                  location.pathname === `/admin/users/${userId}/booking`
+                     ? 'true'
+                     : 'false'
+               }
+               onClick={closeButtonHandler}
+               to="booking"
+            >
+               <h3>Bookings</h3>
             </StyleLink>
 
-            <StyleLink to="my-announcement">
+            <StyleLink
+               active={
+                  location.pathname === `/admin/users/${userId}/my-announcement`
+                     ? 'true'
+                     : 'false'
+               }
+               onClick={showButtonHandler}
+               to="my-announcement"
+            >
                <h3>My announcement</h3>
             </StyleLink>
          </StyleHead>
@@ -61,15 +90,18 @@ const StyleHead = styled('div')(() => ({
    justifyContent: 'center',
    alignItems: 'center',
    gap: '3.125rem',
+   // marginBottom: '2rem',
 }))
 
-const StyleLink = styled(NavLink)(({ isActive }) => ({
-   color: isActive ? 'black' : '#6C6C6C',
+const StyleLink = styled(NavLink)(({ active, isActive }) => ({
+   color: active === 'true' ? '2px solid #000' : '#6C6C6C',
    fontFamily: 'Inter',
    fontSize: '1.125rem',
    fontStyle: 'normal',
    fontWeight: isActive ? '600' : '400',
    lineHeight: 'normal',
+   borderBottom: active === 'true' ? '2px solid #000' : null,
+
    '&:hover': {
       color: ' var(--primary-black, #363636)',
       fontWeight: '600',
@@ -77,7 +109,6 @@ const StyleLink = styled(NavLink)(({ isActive }) => ({
    '&:focus': {
       color: 'var(--primary-black, #363636)',
       fontWeight: '600',
-      borderBottom: '2px solid #000',
    },
    h3: {
       marginBottom: '0.5156rem',

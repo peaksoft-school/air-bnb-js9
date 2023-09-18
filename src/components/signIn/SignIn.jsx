@@ -36,6 +36,7 @@ export function SignIn({ moveToSigninAndSignUp }) {
             )
          })
          .catch((error) => {
+            console.log('error: ', error)
             toastType('error', error)
          })
    }

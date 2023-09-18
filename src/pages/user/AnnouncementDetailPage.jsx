@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react'
 import { Breadcrumbs, Typography, styled } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Header } from '../../layout/Header/Header'
 import { HouseSlidDetail } from '../../components/UI/house-detail/HouseSlidDetail'
@@ -27,16 +27,15 @@ export default function AnnouncementDetailPage() {
       (state) => state.announcementGetById
    )
 
-   const {
-      feedbackDataById,
-      // countRatingDataById
-   } = useSelector((state) => state.feedback)
-
+   const { feedbackDataById, countRatingDataById } = useSelector(
+      (state) => state.feedback
+   )
+   const { houseId } = useParams()
    const dispatch = useDispatch()
-
+   console.log(countRatingDataById)
    useEffect(() => {
       dispatch(feedbackGetByIdRequest())
-      dispatch(getByIdRequest())
+      dispatch(getByIdRequest(houseId))
       dispatch(countRatingGetByIdRequest())
    }, [dispatch])
 

@@ -1,7 +1,7 @@
 import { axiosInstance } from '../config/axiosInstance'
 
 export const getAdminUsersCardsIdRequest = (payload) => {
-   return axiosInstance.get(`/api/users/get/${payload}?value=announcement`)
+   return axiosInstance.get(`/api/users/get/${payload}?value`)
 }
 
 export const getMyAnnouncementRequest = (id) => {

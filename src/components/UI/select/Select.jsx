@@ -15,6 +15,8 @@ export function Select({
    register,
    onChange,
    labelName,
+   value,
+   region,
    ...props
 }) {
    let dynamicLabel = labelName
@@ -27,35 +29,42 @@ export function Select({
             {dynamicLabel}
          </InputLabel>
          <MuiSelect
-            error={error}
+            // error={error}
             {...(register ? register('region') : {})}
             id="region"
             labelId="filter-label"
             onChange={onChange}
             displayEmpty
             label={labelName}
+            value={value}
+            defaultValue={region}
             onClick={toggle}
          >
-            {data?.map((item) => {
-               return (
-                  <MenuItem key={item.id} value={item.value}>
-                     {item.name}
-                  </MenuItem>
-               )
-            })}
+            <MenuItem value=" ">All</MenuItem>
+            {data?.map((item) => (
+               <MenuItem key={item.id} value={item.value}>
+                  {item.name}
+               </MenuItem>
+            ))}
          </MuiSelect>
       </StyledFormControl>
    )
 }
 
 const StyledFormControl = styled(FormControl)((props) => ({
-   width: props.width || '18rem',
+   width: props.width || '17rem',
    height: props.height || '3.5625rem',
+   border: '1px solid #F3F3F3',
 
    '&  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: 'gray',
+      borderColor: 'red',
+      border: '1px solid #F3F3F3',
+   },
+   'css-1is9lq1-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root': {
+      border: '1px solid #F3F3F3',
    },
    '&:hover': {
       backgroundColor: '#F3F3F3',
+      border: 'none',
    },
 }))

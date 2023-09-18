@@ -8,7 +8,7 @@ import { userRoles } from '../utils/constants'
 import { AnnouncementAdminPage } from '../pages/admin/AnnouncementAdminPage'
 import { Applications } from '../pages/admin/Applications'
 import { ReusableTable } from '../components/table/Table'
-import AddAnouncementForm from '../components/anouncement/Anouncement'
+import { AddAnouncementForm } from '../components/anouncement/Anouncement'
 import {
    deleteAdminApplication,
    postAcceptApplications,
@@ -17,17 +17,20 @@ import {
 import { toastSnackbar } from '../components/UI/snackbar/Snackbar'
 import { Bookings } from '../components/UI/tabs/Bookings'
 import { MyAnnouncement } from '../components/UI/tabs/MyAnnouncement'
+import { AdminUsersPage } from '../layout/adminLayout/AdminUsersPage'
+import AnnouncementGetAll from '../components/anouncement/AnnouncementGetAll'
 import { Favorite } from '../components/favorite/Favorite'
 import { UserProfile } from '../components/Profile/Profile'
 import { AllHousing } from '../pages/admin/all-housing/AllHousing'
 import { NotFound } from '../components/UI/404/NotFound'
 import { OnModeration } from '../components/UI/tabs/OnModeration'
-import { AdminUsersPage } from '../layout/adminLayout/AdminUsersPage'
+import AnnouncementDetailPage from '../pages/user/AnnouncementDetailPage'
 
 export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
-   const [currentSize, setCurrenSize] = useState(18)
+   const [currentSize, setCurrenSize] = useState(25)
    const [title, setTitle] = useState('')
+   const [userIdState, setUserIdState] = useState('')
    const { toastType } = toastSnackbar()
    const dispatch = useDispatch()
 
@@ -80,8 +83,9 @@ export function AppRoutes() {
    }
    return (
       <Routes>
+         <Route path="/" element={<Navigate to="/main" />} />
          <Route
-            path="/"
+            path="/main"
             element={
                <ProtectedRoutes
                   isAllowed={isAllowed([userRoles.GUEST, userRoles.USER])}
@@ -90,10 +94,28 @@ export function AppRoutes() {
                />
             }
          />
+         <Route
+            path="/main/:region/region"
+            element={
+               <AnnouncementGetAll
+                  currentPage={currentPage}
+                  currentSize={currentSize}
+                  setCurrentPage={setCurrentPage}
+                  setCurrenSize={setCurrenSize}
+               />
+            }
+         />
+         <Route
+            path="/main/:region/region/:houseId"
+            element={<AnnouncementDetailPage />}
+         />
+
+         <Route
+            path="/main/AddAnouncementForm"
+            element={<AddAnouncementForm />}
+         />
 
          <Route path="favorites" element={<Favorite />} />
-
-         <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
 
          <Route
             path="/Profile"
@@ -132,6 +154,7 @@ export function AppRoutes() {
             }
          >
             <Route path="/admin" element={<Navigate to="application" />} />
+
             <Route
                path="application"
                element={
@@ -147,25 +170,31 @@ export function AppRoutes() {
                      title={title}
                   />
                }
+            />
+            <Route
+               path="/admin/application/Name/:id=12N"
+               element={
+                  <AnnouncementAdminPage
+                     roles="admin"
+                     pages="application"
+                     acceptHandler={acceptHandler}
+                     rejectedHandler={rejectedHandler}
+                  />
+               }
+            />
+            <Route path="users/" element={<ReusableTable />} />
+            <Route
+               path={`users/${userIdState}/`}
+               element={<Navigate to="booking" />}
+            />
+            <Route
+               path="users/:userId/"
+               element={<AdminUsersPage setState={setUserIdState} />}
             >
                <Route
-                  path="name"
-                  element={
-                     <AnnouncementAdminPage
-                        roles="admin"
-                        pages="application"
-                        acceptHandler={acceptHandler}
-                        rejectedHandler={rejectedHandler}
-                     />
-                  }
-               />
-            </Route>
-            <Route path="users/" element={<ReusableTable />} />
-            <Route path="users/:userId" element={<AdminUsersPage />}>
-               <Route
                   index
-                  path="bookings"
-                  element={<Bookings bookings={bookings} select="false" />}
+                  path="booking"
+                  element={<Bookings bookings={bookings} onChange="true" />}
                />
                <Route
                   path="my-announcement"
@@ -174,6 +203,11 @@ export function AppRoutes() {
                   }
                />
             </Route>
+            <Route
+               path="/admin/users/:userId/my-announcement/:id=name"
+               element={<AnnouncementAdminPage roles="admin" pages="user" />}
+            />
+
             <Route
                path="all-housing"
                element={<AllHousing removeCard={removeCard} />}
