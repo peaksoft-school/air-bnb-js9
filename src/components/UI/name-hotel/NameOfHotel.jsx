@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from '@mui/material'
 import { Button } from '../button/Button'
 import { ModalNameHotel } from './ModalNameHotel'
+import { ModalProfile } from '../../Profile/ModalProfile'
 
 export function NameOfHotel({
    dataById,
@@ -12,42 +13,59 @@ export function NameOfHotel({
    pages,
    roles,
    buttons,
+   remove,
+   avatar,
 }) {
+   const [editModalIsOpen, setEditModalIsOpen] = useState(false)
+   const openEditModal = () => {
+      setEditModalIsOpen(true)
+   }
    return (
       <Container>
          <ModalNameHotel
+            remove={remove}
             openModal={openModal}
             openModalHandler={openModalHandler}
             rejectedCartd={rejectedCartd}
          />
-         <DescriptionContainer key={dataById.id}>
+         {editModalIsOpen === true ? (
+            <ModalProfile
+               data={dataById}
+               setModalVisible={setEditModalIsOpen}
+               openEditModal={openEditModal}
+               editModalIsOpen={editModalIsOpen}
+            />
+         ) : null}
+         <DescriptionContainer key={dataById?.id}>
             <ButtonContainerOne>
-               <div>{dataById.houseType}</div>
-               <div>{dataById.maxGuests} Guests</div>
+               <div>{dataById?.houseType}</div>
+               <div>{dataById?.maxGuests} Guests</div>
             </ButtonContainerOne>
             <NameHotel>
-               <h3>{dataById.region}</h3>
+               <h3>{dataById?.title}</h3>
                <p>
-                  {dataById.address}, {dataById.province}
+                  {dataById?.address} {dataById?.province}
                </p>
             </NameHotel>
 
-            <p className="description">{dataById.description}</p>
+            <p className="description">{dataById?.description}</p>
 
-            <ProfileBlock>
-               <div className="avatar" />
-               {buttons === 'yes' ? (
-                  <NameBlock>
-                     <h4>{dataById.user.fullName}</h4>
-                     <p>{dataById.user.email}</p>
-                  </NameBlock>
-               ) : (
-                  <NameBlock>
-                     <h4>{dataById.fullName}</h4>
-                     <p>{dataById.email}</p>
-                  </NameBlock>
-               )}
-            </ProfileBlock>
+            {avatar === true && (
+               <ProfileBlock>
+                  <div className="avatar" />
+                  {buttons === 'yes' ? (
+                     <NameBlock>
+                        <h4>{dataById?.user?.fullName}</h4>
+                        <p>{dataById?.user?.email}</p>
+                     </NameBlock>
+                  ) : (
+                     <NameBlock>
+                        <h4>{dataById?.fullName}</h4>
+                        <p>{dataById?.email}</p>
+                     </NameBlock>
+                  )}
+               </ProfileBlock>
+            )}
          </DescriptionContainer>
          {buttons === 'yes' ? (
             <ContainerButtonTwo>
@@ -65,9 +83,11 @@ export function NameOfHotel({
                >
                   {pages ? 'delete' : 'reject'}
                </Button>
+
                {roles === 'user' ? (
                   <Button
                      variant="contained"
+                     onClick={openEditModal}
                      width="12.25rem"
                      border-radius=" 0.125rem"
                      border=" 1px solid #DD8A08"

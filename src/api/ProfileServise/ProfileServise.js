@@ -12,10 +12,6 @@ export const deleteAnnouncementbyIdRequest = (id) => {
    return axiosInstance.delete(`/api/announcements/${id}`)
 }
 
-export const findannounByIdRequest = (id) => {
-   return axiosInstance.get(`/api/users/getAnnouncementProfile/${id}`)
-}
-
 export const putAnnouncementsRequest = ({ saveData, itemId }) => {
    return axiosInstance.put(`/api/announcements/${itemId}`, saveData)
 }

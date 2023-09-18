@@ -1,20 +1,18 @@
 import { styled } from '@mui/material'
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { OnModeration } from './OnModeration'
-import { announcement, bookings, moderation } from '../../utils/helpers'
+import { moderation } from '../../../utils/helpers'
+import { Bookings } from './Bookings'
+import { MyAnnouncement } from './MyAnnouncement'
 
-const moderation = [
-   {
-      id: 5,
-      title: 'moderation',
-   },
-]
+export function Tabs({ state }) {
+   const { data } = useSelector((state) => state.getannouncement)
 
-export function Tabs({ announcement, bookings }) {
-   const BookingLength = bookings?.length
-   const announcementLength = announcement?.length
-   const moderationLength = moderation?.lenght
+   const BookingLength = data.bookings?.length
+   const announcementLength = data.announcements.responses?.length
+   const moderationLength = 0
 
    return state === 'true' ? (
       <div>
@@ -33,16 +31,8 @@ export function Tabs({ announcement, bookings }) {
          </StyleHead>
 
          <Routes>
-            <Route
-               path="bookings"
-               element={<Bookings bookings={bookings} onChange="true" />}
-            />
-            <Route
-               path="my-announcement"
-               element={
-                  <MyAnnouncement announcement={announcement} select="true" />
-               }
-            />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="my-announcement" element={<MyAnnouncement />} />
             <Route
                path="/on-moderation"
                element={<OnModeration moderation={moderation} />}
@@ -52,11 +42,11 @@ export function Tabs({ announcement, bookings }) {
    ) : (
       <div>
          <StyleHead>
-            <StyleLink onClick={closeButtonHandler} to="booking">
+            <StyleLink to="booking">
                <h3>Booking</h3>
             </StyleLink>
 
-            <StyleLink onClick={showButtonHandler} to="my-announcement">
+            <StyleLink to="my-announcement">
                <h3>My announcement</h3>
             </StyleLink>
          </StyleHead>

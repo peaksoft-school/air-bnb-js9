@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import {
    deleteAnouncement,
    filterHouseRequest,
-   findAnnouncementById,
    getAnnouncement,
 } from './ProfileThunk'
 
@@ -57,15 +56,6 @@ export const announcementSlice = createSlice({
          })
 
          .addCase(deleteAnouncement.rejected, (state, action) => {
-            state.loading = false
-            state.error = action.error.message
-         })
-         .addCase(findAnnouncementById.fulfilled, (state, action) => {
-            state.loading = false
-            state.idAnnouncement = action.payload
-         })
-
-         .addCase(findAnnouncementById.rejected, (state, action) => {
             state.loading = false
             state.error = action.error.message
          })

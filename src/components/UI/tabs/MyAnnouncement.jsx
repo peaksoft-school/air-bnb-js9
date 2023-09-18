@@ -1,18 +1,19 @@
-import { styled } from '@mui/material'
+import { MenuItem, styled } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { AdminCards } from '../cards/AdminCards'
+import { useDispatch, useSelector } from 'react-redux'
 import { Select as MuiSelect } from '../select/Select'
 import { filterHouseRequest } from '../../../store/profile/ProfileThunk'
 import { homeTypeProfile, popularProfile, price } from '../../../utils/helpers'
 import { ProfileCards } from '../cards/ProfileCards'
 import { DeleteIcon } from '../../../assets/icons'
 
-export function MyAnnouncement({ select, announcement }) {
+export function MyAnnouncement() {
    const [sortPrice, setSortPrice] = useState('')
    const [sortRating, setSortRating] = useState('')
    const [sort, setSort] = useState('')
    const dispatch = useDispatch()
+   const { data } = useSelector((state) => state.getannouncement)
+   const myannouncement = data.announcements.responses
 
    const changePriceHandler = (e) => {
       setSortPrice(e.target.value)
@@ -57,89 +58,94 @@ export function MyAnnouncement({ select, announcement }) {
    return (
       <div>
          <Container>
-            {select === 'true' ? (
-               <div>
-                  <SelectContainer>
-                     <MuiSelect
-                        labelName="sort  house type"
-                        data={homeTypeProfile}
-                        onChange={onChangeHomeType}
-                     />
-                     <MuiSelect
-                        labelName="sort by price"
-                        data={price}
-                        onChange={changePriceHandler}
-                     />
-                     <MuiSelect
-                        labelName="sort by rating"
-                        data={popularProfile}
-                        onChange={changeRatingHandler}
-                     />
-                  </SelectContainer>
-                  <ContainerSelect>
-                     {sort && (
-                        <SelectStyle>
-                           <DeleteIcon onClick={() => clearSort('houseType')} />
-                           {sort}
-                        </SelectStyle>
-                     )}
+            {/* <div className="block"> */}
+            <SelectContainer>
+               <MuiSelect
+                  labelName="sort  house type"
+                  data={homeTypeProfile}
+                  onChange={onChangeHomeType}
+               />
+               <MuiSelect
+                  labelName="sort by price"
+                  data={price}
+                  onChange={changePriceHandler}
+               />
+               <MuiSelect
+                  labelName="sort by rating"
+                  data={popularProfile}
+                  onChange={changeRatingHandler}
+               />
+            </SelectContainer>
+            <ContainerSelect>
+               {sort && (
+                  <SelectStyle>
+                     <DeleteIcon onClick={() => clearSort('houseType')} />
+                     {sort}
+                  </SelectStyle>
+               )}
 
-                     {sortPrice && (
-                        <SelectStyle>
-                           <DeleteIcon onClick={() => clearSort('price')} />{' '}
-                           {sortPrice === 'HIGH_TO_LOW'
-                              ? 'HIGH TO LOW'
-                              : 'LOW TO HIGH'}
-                        </SelectStyle>
-                     )}
-                     {sortRating && (
-                        <SelectStyle>
-                           <DeleteIcon onClick={() => clearSort('rating')} />{' '}
-                           {sortRating}
-                        </SelectStyle>
-                     )}
-                     {sort || sortPrice || sortRating ? (
-                        <SelectStyle onClick={clearAllFilters}>
-                           Clear all
-                        </SelectStyle>
-                     ) : null}
-                  </ContainerSelect>
-                  <ContainerCards>
-                     <ProfileCards data={announcement} announcement="true" />
-                  </ContainerCards>
-               </div>
-            ) : (
-               <div>
-                  <AdminCards
-                     data={announcement}
-                     page="admin"
-                     justifyContent="start"
-                     bgColor="white"
-                  />
-               </div>
-            )}
+               {sortPrice && (
+                  <SelectStyle>
+                     <DeleteIcon onClick={() => clearSort('price')} />{' '}
+                     {sortPrice === 'HIGH_TO_LOW'
+                        ? 'HIGH TO LOW'
+                        : 'LOW TO HIGH'}
+                  </SelectStyle>
+               )}
+               {sortRating && (
+                  <SelectStyle>
+                     <DeleteIcon onClick={() => clearSort('rating')} />{' '}
+                     {sortRating}
+                  </SelectStyle>
+               )}
+               {sort || sortPrice || sortRating ? (
+                  <StyledMenuItem onClick={clearAllFilters}>
+                     Clear all
+                  </StyledMenuItem>
+               ) : null}
+            </ContainerSelect>
+            <ContainerCards>
+               {myannouncement?.map((announData) => {
+                  return (
+                     <ProfileCards
+                        data={announData}
+                        announcement="true"
+                        key={announData.id}
+                        message={announData.messagesFromAdmin}
+                     />
+                  )
+               })}
+            </ContainerCards>
+            {/* </div> */}
          </Container>
       </div>
    )
 }
 const ContainerSelect = styled('div')`
    display: flex;
-   gap: 3rem;
-   margin-left: 4rem;
+   justify-content: start;
+   gap: 0.94rem;
 `
 
 const SelectContainer = styled('div')`
    padding-bottom: 2rem;
    display: flex;
-   justify-content: space-around;
+   justify-content: start;
+   gap: 2.3rem;
 `
 const Container = styled('div')`
    padding: 3% 0px;
    width: 100%;
-   flex-wrap: wrap;
+   flex-direction: column;
+   justify-content: start;
 `
 const ContainerCards = styled('div')`
-   padding-top: 2rem;
+   max-width: 100%;
+   height: auto;
+   display: flex;
+   flex-wrap: wrap;
+   gap: 3rem;
+   justify-content: start;
 `
 const SelectStyle = styled('p')`
    color: var(--tertiary-middle-gray, #636060);
@@ -152,4 +158,16 @@ const SelectStyle = styled('p')`
    align-items: center;
    gap: 3px;
    cursor: pointer;
+`
+const StyledMenuItem = styled(MenuItem)`
+   color: var(--tertiary-middle-gray, #828282);
+   font-family: Inter;
+   font-size: 1rem;
+   font-style: normal;
+   font-weight: 400;
+   line-height: normal;
+   text-decoration-line: underline;
+   &:hover {
+      text-decoration-line: underline;
+   }
 `

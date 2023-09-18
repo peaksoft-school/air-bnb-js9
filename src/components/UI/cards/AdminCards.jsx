@@ -8,13 +8,14 @@ import {
    ArrowrightIcon,
    Start1,
 } from '../../../assets/icons'
-import ModalProfile from '../../Profile/ModalProfile'
+import { ModalProfile } from '../../Profile/ModalProfile'
 import { MeatBalls } from '../meat-balls/MeatBalls'
 import { ModalNameHotel } from '../name-hotel/ModalNameHotel'
 import { toastSnackbar } from '../snackbar/Snackbar'
 
 export function AdminCards({
    data,
+   roles,
    title,
    image,
    meatballs,
@@ -108,7 +109,7 @@ export function AdminCards({
    const idd = open ? 'simple-popover' : undefined
 
    return (
-      <Container>
+      <Container roles={roles}>
          <div className="block">
             {openAllHouseModal ? (
                <ModalProfile
@@ -280,9 +281,9 @@ export function AdminCards({
       </Container>
    )
 }
-const Container = styled('div')(() => ({
+const Container = styled('div')(({ roles }) => ({
    width: '100%',
-   padding: '1.81rem 2.25rem ',
+   padding: roles === 'user' ? '1.81rem 0rem ' : '1.81rem 2.25rem ',
 
    '.block': {
       display: 'flex',

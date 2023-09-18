@@ -27,9 +27,10 @@ export default function AnnouncementDetailPage() {
       (state) => state.announcementGetById
    )
 
-   const { feedbackDataById, countRatingDataById } = useSelector(
-      (state) => state.feedback
-   )
+   const {
+      feedbackDataById,
+      // countRatingDataById
+   } = useSelector((state) => state.feedback)
 
    const dispatch = useDispatch()
 
@@ -123,8 +124,9 @@ export default function AnnouncementDetailPage() {
                   </div>
                   <div>
                      <RatingChart
-                        countRatingDataById={countRatingDataById}
-                        starValue={countRatingDataById.averageRating}
+                        // countRatingDataById={countRatingDataById}
+                        // starValue={countRatingDataById.averageRating}
+                        starValue="6"
                      />
                      <ButtonForFeedback onClick={leaveFeedbackHandler}>
                         leave feedback

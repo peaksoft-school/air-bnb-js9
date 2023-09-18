@@ -3,8 +3,6 @@ import {
    deleteAnnouncementbyIdRequest,
    getMyAnnouncement,
    houseSortRequest,
-   // eslint-disable-next-line import/named
-   findannounByIdRequest,
    putAnnouncementsRequest,
 } from '../../api/ProfileServise/ProfileServise'
 
@@ -33,17 +31,6 @@ export const filterHouseRequest = createAsyncThunk(
       }
    }
 )
-export const findAnnouncementById = createAsyncThunk(
-   'find/findAnnouncement',
-   async (id, { rejectWithValue }) => {
-      try {
-         const response = await findannounByIdRequest(id)
-         return response.data
-      } catch (error) {
-         return rejectWithValue
-      }
-   }
-)
 
 export const deleteAnouncement = createAsyncThunk(
    'delete/deleteAnouncement',
@@ -60,13 +47,14 @@ export const deleteAnouncement = createAsyncThunk(
 
 export const editAnouncement = createAsyncThunk(
    'put/putAnouncement',
-   async (data, { rejectWithValue, dispatch }) => {
+   async ({ saveData, itemId, toastType }, { rejectWithValue, dispatch }) => {
       try {
-         const responsePut = await putAnnouncementsRequest(data)
+         const responsePut = await putAnnouncementsRequest({ saveData, itemId })
          dispatch(filterHouseRequest())
-
+         toastType('success', 'successfully edited :)', 'message')
          return responsePut
       } catch (error) {
+         toastType('error', 'uppdated :(', error.message)
          return rejectWithValue || 'you make mistakes'
       }
    }

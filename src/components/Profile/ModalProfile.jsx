@@ -26,11 +26,10 @@ const validationSchema = Yup.object().shape({
    images: Yup.string().required('imgages is required'),
 })
 
-function ModalProfile({ setModalVisible, itemId, data, handleMenuClose }) {
+export function ModalProfile({ setModalVisible, setEditModalIsOpen, data }) {
    const dispatch = useDispatch()
    const { toastType } = toastSnackbar()
 
-   const [object, setObject] = useState({})
    const [valueSelect, setValueSelect] = useState(data.region || 'CHUI')
 
    const dataOption = [
@@ -50,7 +49,7 @@ function ModalProfile({ setModalVisible, itemId, data, handleMenuClose }) {
    const onChangeHandler = (e) => {
       setValueSelect(e.target.value)
    }
-
+   const itemId = data.id
    const submitHandler = (values) => {
       const saveData = {
          houseType: values.houseType,
@@ -64,39 +63,26 @@ function ModalProfile({ setModalVisible, itemId, data, handleMenuClose }) {
          images: [values.images],
          status: data.status || 'BOOKED',
       }
-      setObject({
-         saveData,
-         itemId,
-      })
+      if (saveData) {
+         dispatch(editAnouncement({ saveData, itemId, toastType }))
+         toggleHandler()
+         setEditModalIsOpen(false)
+      }
 
       // eslint-disable-next-line no-undef
-      resetForm()
    }
-   useEffect(() => {
-      try {
-         if (object.saveData) {
-            dispatch(editAnouncement(object))
-            handleMenuClose()
-            toggleHandler()
-            toastType('success', 'successfully edited', 'success')
-         }
-      } catch (error) {
-         toastType('error!!!', error)
-      }
-   }, [object])
 
    const { values, handleSubmit, handleChange, setValues, errors, touched } =
       useFormik({
          initialValues: {
             maxGuests: data.maxGuests || '',
-            price: data.price || '',
+            price: data.priceDay || '',
             title: data.title || '',
             address: data.address || '',
             province: data.province || '',
-            images: (data.images && data.images[0]) || '',
+            images: data.images.images || '',
             description: data.description || '',
-            houseType: data.houseType || '',
-            // status: data.status || '',
+            houseType: data.houseType,
          },
          validationSchema,
          validateOnBlur: true,
@@ -109,7 +95,7 @@ function ModalProfile({ setModalVisible, itemId, data, handleMenuClose }) {
       if (data) {
          setValues({
             maxGuests: data.maxGuests || '',
-            price: data.price || '',
+            price: data.priceDay || '',
             title: data.title || '',
             address: data.address || '',
             province: data.province || '',
@@ -133,14 +119,13 @@ function ModalProfile({ setModalVisible, itemId, data, handleMenuClose }) {
                         </FormLabel>
                         <RadioGroup
                            aria-labelledby="demo-radio-buttons-group-label"
-                           value={values.houseType}
                            name="houseType"
+                           defaultValue={values.houseType}
                            onChange={handleChange}
                            style={{ display: 'flex', flexDirection: 'row' }}
                         >
                            <FormControlLabel
                               value="APARTMENT"
-                              defaultValue={values.houseType}
                               control={<Radio />}
                               label="APARTMENT"
                            />
@@ -185,7 +170,7 @@ function ModalProfile({ setModalVisible, itemId, data, handleMenuClose }) {
                      helperText={touched.price && errors.price}
                   />
                </InputContainer>
-               <InputContainer>
+               <InputContainerSecond>
                   <RegionBlock>
                      <StyledLabel htmlFor="region">Region</StyledLabel>
                      <Select
@@ -230,7 +215,7 @@ function ModalProfile({ setModalVisible, itemId, data, handleMenuClose }) {
                      error={touched.description && Boolean(errors.description)}
                      helperText={touched.description && errors.description}
                   />
-               </InputContainer>
+               </InputContainerSecond>
             </StyleModalContainer>
             <StyleButtonContainer>
                <Button
@@ -294,7 +279,7 @@ const StyledLabel = styled('label')(() => ({
 const StyleModalContainer = styled('div')`
    display: flex;
    justify-content: center;
-   gap: 6rem;
+   gap: 5rem;
    align-items: center;
 `
 
@@ -308,6 +293,14 @@ const StyleButtonContainer = styled('div')`
 `
 
 const InputContainer = styled('div')`
+   width: 100%;
+   display: flex;
+   flex-wrap: wrap;
+   flex-direction: column;
+   gap: 1rem;
+`
+const InputContainerSecond = styled('div')`
+   padding-top: 5.2rem;
    width: 100%;
    display: flex;
    flex-wrap: wrap;

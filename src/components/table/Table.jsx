@@ -75,7 +75,7 @@ export function ReusableTable() {
       {
          header: 'Contact',
          key: 'contact',
-         align: 'center',
+         align: 'start-end',
          minWidth: '136px',
       },
       {

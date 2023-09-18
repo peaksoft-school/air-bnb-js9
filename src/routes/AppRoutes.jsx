@@ -94,10 +94,12 @@ export function AppRoutes() {
          <Route path="favorites" element={<Favorite />} />
 
          <Route path="AddAnouncementForm" element={<AddAnouncementForm />} />
+
          <Route
             path="/Profile"
             element={<Navigate to="/Profile/my-announcement" />}
          />
+
          <Route path="Profile" element={<UserProfile />}>
             <Route
                index
@@ -105,15 +107,19 @@ export function AppRoutes() {
                element={<Bookings bookings={bookings} onChange="true" />}
             />
             <Route
-               path="my-announcement"
+               path="my-announcement/"
                element={<MyAnnouncement announcement={data} select="true" />}
             />
+
             <Route
                path="on-moderation"
                element={<OnModeration moderation={data} />}
             />
          </Route>
-
+         <Route
+            path="/Profile/my-announcement/name/:announId"
+            element={<AnnouncementAdminPage roles="user" pages="user" />}
+         />
          {/* admin */}
          <Route
             path="/admin"

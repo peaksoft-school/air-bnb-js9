@@ -13,7 +13,7 @@ export function Upload({
    maxWidth,
    setFileNames,
    fileNames,
-   addImageForAnoucement,
+   // addImageForAnoucement,
 }) {
    const [images, setImages] = useState([])
    const [showCamera, setShowCamera] = useState(true)

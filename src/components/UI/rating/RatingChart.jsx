@@ -3,15 +3,18 @@ import { styled } from '@mui/material'
 import { RatingChartBar } from './RatingChartBar'
 import { Start1 } from '../../../assets/icons'
 
-export function RatingChart({ starValue, countRatingDataById }) {
+export function RatingChart({
+   starValue,
+   // countRatingDataById
+}) {
    const maximumRating = 80
-   const { five, four, one, three, two } = countRatingDataById
+   // const { five, four, one, three, two } = countRatingDataById
    const rating = [
-      { label: '5', currentRating: five },
-      { label: '4', currentRating: four },
-      { label: '3', currentRating: three },
-      { label: '2', currentRating: two },
-      { label: '1', currentRating: one },
+      { label: '5', currentRating: 0 },
+      { label: '4', currentRating: 0 },
+      { label: '3', currentRating: 0 },
+      { label: '2', currentRating: 0 },
+      { label: '1', currentRating: 0 },
    ]
 
    for (let i = 0; i < rating.length; i += 1) {

@@ -2,14 +2,14 @@ import { styled } from '@mui/material'
 import React from 'react'
 
 export function Booked({ item }) {
-   return item.map((item) => (
-      <div>
+   return (
+      <div key={item.id}>
          <StyleMapContainer>
             <MainMapContainer>
                <div>
                   <Daylinecontainer>
                      <DayPriceContainer>
-                        <PriceStyle>${item.price}/</PriceStyle>
+                        <PriceStyle>${item.priceDay}/</PriceStyle>
                         <DayStyle>day</DayStyle>
                      </DayPriceContainer>
                      <LineStyle />
@@ -18,11 +18,11 @@ export function Booked({ item }) {
                   <CheckConainer>
                      <ChecinContainerStyle>
                         <Checkstyle>Check in</Checkstyle>
-                        <Datestyle>{item.checkin}</Datestyle>
+                        <Datestyle>{item.checkIn}23.09.2023</Datestyle>
                      </ChecinContainerStyle>
                      <ChecinContainerStyle>
                         <Checkstyle>Check out</Checkstyle>
-                        <Datestyle>{item.checkout}</Datestyle>
+                        <Datestyle>{item.checkOut}22.10.2023</Datestyle>
                      </ChecinContainerStyle>
                   </CheckConainer>
                </div>
@@ -30,13 +30,13 @@ export function Booked({ item }) {
             <UserStyle>
                <Section />
                <div>
-                  <NameStyle>{item.name}</NameStyle>
-                  <EmailStyle>{item.email}</EmailStyle>
+                  <NameStyle>{item.bookedByFullName}Gulzat </NameStyle>
+                  <EmailStyle>{item.bookedByEmail}gulzat@gmail.com</EmailStyle>
                </div>
             </UserStyle>
          </StyleMapContainer>
       </div>
-   ))
+   )
 }
 const StyleMapContainer = styled('div')`
    width: 28%;
