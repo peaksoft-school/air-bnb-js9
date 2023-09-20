@@ -24,7 +24,6 @@ import Modal from '../../components/UI/modal/Modal'
 import { DarkModeActions } from '../../store/dark-mode/DarkModeSlice'
 
 export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
-   // const [meatBalls, setMeatBalls] = useState(false)
    const { isAuthorization, email } = useSelector((state) => state.auth)
 
    const [userLogin, setUserLogin] = useState(false)
