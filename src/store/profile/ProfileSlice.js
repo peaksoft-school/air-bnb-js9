@@ -31,6 +31,7 @@ export const announcementSlice = createSlice({
             state.error = action.error.message
          })
          .addCase(getAnnouncement.fulfilled, (state, action) => {
+            console.log(action.payload, 'ACTION PAYLOAD IN GET ANNOUNCEMENT')
             state.status = 'success'
             state.data = action.payload
             state.data.announcements = action.payload.announcements
@@ -41,7 +42,7 @@ export const announcementSlice = createSlice({
          })
          .addCase(filterHouseRequest.fulfilled, (state, action) => {
             state.loading = false
-            state.data.announcements = action.payload
+            state.data.announcements = action.payload.responses
          })
          .addCase(filterHouseRequest.rejected, (state, action) => {
             state.loading = false

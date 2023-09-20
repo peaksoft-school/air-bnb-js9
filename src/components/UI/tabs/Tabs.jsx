@@ -11,11 +11,11 @@ import { styled } from '@mui/material'
 import { OnModeration } from './OnModeration'
 import { moderation } from '../../../utils/helpers'
 import { Bookings } from './Bookings'
-import { MyAnnouncement } from '../../tabs/MyAnnouncement'
+import { MyAnnouncement } from './MyAnnouncement'
 
 export function Tabs({ state, showButtonHandler, closeButtonHandler }) {
    const { data } = useSelector((state) => state.getannouncement)
-
+   console.log(data, 'DATA TEEEST')
    const BookingLength = data.bookings?.length
    const announcementLength = data.announcements?.length
    const moderationLength = 0
@@ -59,7 +59,7 @@ export function Tabs({ state, showButtonHandler, closeButtonHandler }) {
 
          <Routes>
             <Route path="bookings" element={<Bookings />} />
-            <Route path="my-announcement" element={<MyAnnouncement />} />
+            <Route path="my-announcement" element={<MyAnnouncement announcements={data.announcements}s/>} />
 
             <Route
                path="/on-moderation"

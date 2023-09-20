@@ -1,21 +1,17 @@
 import { MenuItem, styled } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Select as MuiSelect } from '../select/Select'
 import { filterHouseRequest } from '../../../store/profile/ProfileThunk'
 import { homeTypeProfile, popularProfile, price } from '../../../utils/helpers'
 import { ProfileCards } from '../cards/ProfileCards'
 import { DeleteIcon } from '../../../assets/icons'
 
-export function MyAnnouncement() {
-   console.log('DONE COMPONENT')
+export function MyAnnouncement({ announcements }) {
    const [sortPrice, setSortPrice] = useState('')
    const [sortRating, setSortRating] = useState('')
    const [sort, setSort] = useState('')
    const dispatch = useDispatch()
-   const { data } = useSelector((state) => state.getannouncement)
-   console.log(data, 'DATA')
-   const myannouncement = data.announcements
 
    const changePriceHandler = (e) => {
       setSortPrice(e.target.value)
@@ -33,8 +29,10 @@ export function MyAnnouncement() {
          price: sortPrice,
          rating: sortRating,
       }
-
-      dispatch(filterHouseRequest(params))
+      if (sort || sortPrice || sortRating) {
+         console.log('DONE FILTER HOUSE REQUEST')
+         dispatch(filterHouseRequest(params))
+      }
    }, [sortPrice, sortRating, sort, dispatch])
 
    const clearSort = (criteria) => {
@@ -107,7 +105,7 @@ export function MyAnnouncement() {
                ) : null}
             </ContainerSelect>
             <ContainerCards>
-               {myannouncement?.map((announData) => {
+               {announcements?.map((announData) => {
                   return (
                      <ProfileCards
                         data={announData}
