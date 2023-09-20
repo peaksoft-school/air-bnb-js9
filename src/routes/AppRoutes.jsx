@@ -25,6 +25,7 @@ import { AllHousing } from '../pages/admin/all-housing/AllHousing'
 import { NotFound } from '../components/UI/404/NotFound'
 import { OnModeration } from '../components/UI/tabs/OnModeration'
 import AnnouncementDetailPage from '../pages/user/AnnouncementDetailPage'
+import { ModalProfile } from '../components/Profile/ModalProfile'
 
 export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
@@ -139,9 +140,14 @@ export function AppRoutes() {
             />
          </Route>
          <Route
-            path="/Profile/my-announcement/name/:announId"
+            path="/Profile/my-announcement/name/:announId/"
             element={<AnnouncementAdminPage roles="user" pages="user" />}
          />
+         <Route
+            path="/Profile/my-announcement/edit"
+            element={<ModalProfile />}
+         />
+
          {/* admin */}
          <Route
             path="/admin"

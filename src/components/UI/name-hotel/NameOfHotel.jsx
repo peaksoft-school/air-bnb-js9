@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../button/Button'
 import { ModalNameHotel } from './ModalNameHotel'
-import { ModalProfile } from '../../Profile/ModalProfile'
+// import { ModalProfile } from '../../Profile/ModalProfile'
 
 export function NameOfHotel({
    dataById,
@@ -16,9 +17,11 @@ export function NameOfHotel({
    remove,
    avatar,
 }) {
+   const navigate = useNavigate()
    const [editModalIsOpen, setEditModalIsOpen] = useState(false)
    const openEditModal = () => {
       setEditModalIsOpen(true)
+      navigate('/Profile/my-announcement/edit')
    }
    return (
       <Container>
@@ -28,13 +31,7 @@ export function NameOfHotel({
             openModalHandler={openModalHandler}
             rejectedCartd={rejectedCartd}
          />
-         {editModalIsOpen === true ? (
-            <ModalProfile
-               data={dataById}
-               setModalVisible={setEditModalIsOpen}
-               setEditModalIsOpen
-            />
-         ) : null}
+         {editModalIsOpen === true ? navigate() : null}
          <DescriptionContainer key={dataById?.id}>
             <ButtonContainerOne>
                <div>{dataById?.houseType}</div>

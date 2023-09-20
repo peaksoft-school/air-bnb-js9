@@ -8,12 +8,14 @@ import { ProfileCards } from '../cards/ProfileCards'
 import { DeleteIcon } from '../../../assets/icons'
 
 export function MyAnnouncement() {
+   console.log('DONE COMPONENT')
    const [sortPrice, setSortPrice] = useState('')
    const [sortRating, setSortRating] = useState('')
    const [sort, setSort] = useState('')
    const dispatch = useDispatch()
    const { data } = useSelector((state) => state.getannouncement)
-   const myannouncement = data.announcements.responses
+   console.log(data, 'DATA')
+   const myannouncement = data.announcements
 
    const changePriceHandler = (e) => {
       setSortPrice(e.target.value)

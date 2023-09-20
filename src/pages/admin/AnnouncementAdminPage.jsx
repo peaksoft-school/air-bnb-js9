@@ -26,9 +26,10 @@ export function AnnouncementAdminPage({
    const [openModal, setOpenModal] = useState(false)
    const dispatch = useDispatch()
    const { announId } = useParams()
-   const { announcement } = useSelector((state) => state.annByID)
 
+   const { announcement } = useSelector((state) => state.annByID)
    const { toastType } = toastSnackbar()
+
    useEffect(() => {
       dispatch(getByIdAnnouncement(announId))
    }, [dispatch])
@@ -269,12 +270,13 @@ const MainContainer = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
    gap: '2.5rem',
+   marginLeft: '4rem',
 }))
 
 const Main = styled('main')(() => ({
    width: '100%',
    display: 'flex',
-   alignItems: 'center',
+   alignItems: 'start',
    gap: '4.26rem',
 }))
 

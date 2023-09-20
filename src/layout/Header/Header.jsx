@@ -132,6 +132,9 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
    const handleCheckboxChange = (event) => {
       setIsChecked(event.target.checked)
    }
+   const navProfile = () => {
+      navigate('/Profile/my-announcement')
+   }
    const open = Boolean(currentEl)
    const idd = open ? 'simple-popover' : undefined
 
@@ -200,11 +203,14 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                               propsVertical="bottom"
                               propsHorizontal="left"
                               width=" 10rem"
-                              height=" 3rem"
+                              height=" 6rem"
                               margin="0.7rem 10rem -10rem 0"
                            >
                               <MenuItem onClick={logoutHnadler}>
                                  log out
+                              </MenuItem>
+                              <MenuItem onClick={navProfile}>
+                                 My profile
                               </MenuItem>
                            </MeatBalls>
                         </LogOut>

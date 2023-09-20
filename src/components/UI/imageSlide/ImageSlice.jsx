@@ -5,20 +5,23 @@ import 'slick-carousel/slick/slick-theme.css'
 import { styled } from '@mui/material'
 
 const ImgStyle = styled('img')`
-   width: 18rem;
-   height: 12rem;
+   width: 17rem;
+   height: 9rem;
+   border-top-right-radius: 15px;
+   border-top-left-radius: 15px;
 `
 
 const SliderContainer = styled('div')`
    position: relative;
-   width: 18rem;
-   height: 12rem;
+   width: 17rem;
+   height: 9rem;
+   padding: 0rem;
 `
 
 const Arrow = styled('div')`
    position: absolute;
    top: 50%;
-   transform: translateY(-50%);
+   transform: translateY(-40%);
    width: 20px;
    height: 20px;
    background-color: #333;
@@ -33,17 +36,30 @@ const Arrow = styled('div')`
    &:hover {
       opacity: 1;
    }
+   .slick-dots li button {
+      background-color: #333;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+   }
+   .slick-dots li.slick-active button {
+      background-color: red; /* Здесь установите желаемый цвет фона для активной точки */
+   }
 `
 
 const PrevArrow = styled(Arrow)`
    left: 0;
+   border: 4px solid red;
 `
 
 const NextArrow = styled(Arrow)`
    right: 0;
+   border: 2px solid green;
 `
 
 export function PhotoSlider({ id, images }) {
+   console.log('images: ', images)
+
    const settings = {
       dots: true,
       infinite: true,
@@ -53,7 +69,7 @@ export function PhotoSlider({ id, images }) {
       slidesToShow: 1,
       slidesToScroll: 1,
       prevArrow: <PrevArrow>&#8249;</PrevArrow>,
-      nextArrow: <NextArrow>&#8250;</NextArrow>,
+      nextArrow: <NextArrow>&#824;</NextArrow>,
    }
 
    return (

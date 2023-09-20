@@ -75,14 +75,14 @@ export function ReusableTable() {
       {
          header: 'Contact',
          key: 'contact',
-         align: 'start-end',
-         minWidth: '136px',
+         align: 'left',
+         minWidth: '100px',
       },
       {
          header: 'Bookings',
          key: 'bookings',
          align: 'right',
-         minWidth: '20px',
+         minWidth: '5px',
       },
       {
          header: 'Announcement',
@@ -111,7 +111,11 @@ export function ReusableTable() {
                               <StyledTableCell
                                  key={column.key}
                                  align={column.align}
-                                 style={{ minWidth: column.minWidth }}
+                                 style={{
+                                    minWidth: column.minWidth,
+                                    paddingRight:
+                                       column.key === 'action' ? '1rem' : '0',
+                                 }}
                                  sx={
                                     column.header && {
                                        backgroundColor:
@@ -141,12 +145,12 @@ export function ReusableTable() {
                               >
                                  {user.fullName}
                               </StyledTableCell>
-                              <TableCell
-                                 align="center"
+                              <StyledTableCell
+                                 align="left"
                                  onClick={() => getUsersById(user)}
                               >
                                  {user.email}
-                              </TableCell>
+                              </StyledTableCell>
                               <TableCell align="right">
                                  {user.bookings}
                               </TableCell>

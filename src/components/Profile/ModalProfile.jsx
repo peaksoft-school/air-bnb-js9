@@ -1,270 +1,398 @@
-import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik'
-import { useDispatch } from 'react-redux'
-import {
-   FormControl,
-   FormControlLabel,
-   FormLabel,
-   Radio,
-   RadioGroup,
-   styled,
-} from '@mui/material'
-import * as Yup from 'yup'
-import Modal from '../UI/modal/Modal'
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { styled } from '@mui/material'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Formik } from 'formik'
+import { useSelector } from 'react-redux'
 import { Input } from '../UI/input/Input'
-import { Button } from '../UI/button/Button'
-import { editAnouncement } from '../../store/profile/ProfileThunk'
 import { Select } from '../UI/select/Select'
+import { Upload } from '../UI/upload-img/Upload'
+import { schema } from '../../utils/helpers'
+import { addAnouncement } from '../../api/anouncementService'
 import { toastSnackbar } from '../UI/snackbar/Snackbar'
+import { Header } from '../../layout/Header/Header'
+import { Footer } from '../../layout/Footer/Footer'
+import { Button } from '../UI/button/Button'
 
-const validationSchema = Yup.object().shape({
-   title: Yup.string().required('title is required'),
-   address: Yup.string().required('address is required'),
-   maxGuests: Yup.number().required(),
-   price: Yup.number().required(),
-   province: Yup.string().required('province is required'),
-   images: Yup.string().required('imgages is required'),
-})
+const data = [
+   { id: 'option1', name: 'BATKEN' },
+   { id: 'option2', name: 'JALAL_ABAD' },
+   { id: 'option3', name: 'YSSYK-KOL' },
+   { id: 'option4', name: 'NARYN' },
+   { id: 'option5', name: 'OSH' },
+   { id: 'option6', name: 'TALAS' },
+   { id: 'option7', name: 'CHUI' },
+]
 
-export function ModalProfile({ setModalVisible, setEditModalIsOpen, data }) {
-   const dispatch = useDispatch()
+export function ModalProfile({ setModalVisible, dataEdit }) {
+   console.log('dataEdit: ', dataEdit)
+   const [fileNames, setFileNames] = useState([])
    const { toastType } = toastSnackbar()
+   const navigate = useNavigate()
+   const { announcement } = useSelector((state) => state.annByID)
 
-   const [valueSelect, setValueSelect] = useState(data.region || 'CHUI')
+   const postAnouncementForm = async (payload) => {
+      try {
+         const response = await addAnouncement(payload)
+         toastType('success', 'Ad added successfully!')
+         navigate('/')
 
-   const dataOption = [
-      { id: 'option1', name: 'BATKEN', value: 'BATKEN' },
-      { id: 'option2', name: 'JALAL_ABAD', value: 'JALAL_ABAD' },
-      { id: 'option3', name: 'YSSYK-KOL', value: 'YSSYK-KOL' },
-      { id: 'option4', name: 'NARYN', value: 'NARYN' },
-      { id: 'option6', name: 'TALAS', value: 'TALAS' },
-      { id: 'option7', name: 'CHUI', value: 'CHUI' },
-      { id: 'option5', name: 'OSH', value: 'OSH' },
-   ]
-
-   const toggleHandler = () => {
-      setModalVisible((prev) => !prev)
+         return response.data
+      } catch (error) {
+         toastType('error', 'Error!')
+      }
+      return payload
    }
 
-   const onChangeHandler = (e) => {
-      setValueSelect(e.target.value)
+   const {
+      register,
+      handleSubmit,
+      formState: { errors },
+      control,
+   } = useForm({
+      resolver: yupResolver(schema),
+   })
+   const cencelHandler = () => {
+      setModalVisible(false)
    }
-   const itemId = data.id
-   const submitHandler = (values) => {
-      const saveData = {
-         houseType: values.houseType,
-         price: +values.price,
-         region: valueSelect,
-         address: values.address,
-         title: values.title,
-         maxGuests: +values.maxGuests,
-         province: values.province,
-         description: values.description,
-         images: [values.images],
-         status: data.status || 'BOOKED',
-      }
-      if (saveData) {
-         dispatch(editAnouncement({ saveData, itemId, toastType }))
-         toggleHandler()
-         setEditModalIsOpen(false)
-      }
-
-      // eslint-disable-next-line no-undef
+   const onSubmit = (data) => {
+      data.images = announcement
+      postAnouncementForm(data)
+      navigate('/Profile/my-announcement')
    }
 
-   const { values, handleSubmit, handleChange, setValues, errors, touched } =
-      useFormik({
-         initialValues: {
-            maxGuests: data.maxGuests || '',
-            price: data.priceDay || '',
-            title: data.title || '',
-            address: data.address || '',
-            province: data.province || '',
-            images: data.images.images || '',
-            description: data.description || '',
-            houseType: data.houseType,
-         },
-         validationSchema,
-         validateOnBlur: true,
-         onSubmit: (values) => {
-            submitHandler(values)
-         },
-      })
-
-   useEffect(() => {
-      if (data) {
-         setValues({
-            maxGuests: data.maxGuests || '',
-            price: data.priceDay || '',
-            title: data.title || '',
-            address: data.address || '',
-            province: data.province || '',
-            images: (data.images && data.images[0]) || '',
-            description: data.description || '',
-            houseType: data.houseType || '',
-            status: data.status || '',
-         })
-      }
-   }, [data])
-
+   const borderTextArea = announcement ? '1px solid #fff' : '1px solid gray'
    return (
-      <Modal width="auto" height="auto" open={setModalVisible}>
-         <FormStyle onSubmit={handleSubmit}>
-            <StyleModalContainer>
-               <InputContainer>
-                  <StyleRadioContainer>
-                     <FormControl>
-                        <FormLabel id="demo-radio-buttons-group-label">
-                           House type
-                        </FormLabel>
-                        <RadioGroup
-                           aria-labelledby="demo-radio-buttons-group-label"
-                           name="houseType"
-                           defaultValue={values.houseType}
-                           onChange={handleChange}
-                           style={{ display: 'flex', flexDirection: 'row' }}
-                        >
-                           <FormControlLabel
-                              value="APARTMENT"
-                              control={<Radio />}
-                              label="APARTMENT"
-                           />
-                           <FormControlLabel
-                              value="HOUSE"
-                              control={<Radio />}
-                              label="HOUSE"
-                           />
-                        </RadioGroup>
-                     </FormControl>
-                  </StyleRadioContainer>
-                  <Input
-                     label="title"
-                     name="title"
-                     value={values.title}
-                     onChange={handleChange}
-                     error={touched.title && Boolean(errors.title)}
-                     helperText={touched.title && errors.title}
-                  />{' '}
-                  <Input
-                     label="images"
-                     name="images"
-                     value={values.images}
-                     onChange={handleChange}
-                     error={touched.images && Boolean(errors.images)}
-                     helperText={touched.images && errors.images}
-                  />{' '}
-                  <Input
-                     label="address"
-                     name="address"
-                     value={values.address}
-                     onChange={handleChange}
-                     error={touched.address && Boolean(errors.address)}
-                     helperText={touched.address && errors.address}
-                  />
-                  <Input
-                     label="pice"
-                     name="price"
-                     value={values.price}
-                     onChange={handleChange}
-                     error={touched.price && Boolean(errors.price)}
-                     helperText={touched.price && errors.price}
-                  />
-               </InputContainer>
-               <InputContainerSecond>
-                  <RegionBlock>
-                     <StyledLabel htmlFor="region">Region</StyledLabel>
-                     <Select
-                        value={valueSelect}
-                        onChange={onChangeHandler}
-                        data={dataOption}
-                        width="100%"
-                        id="region"
-                        error={!!errors.region}
-                        defaultValue={data.region}
-                        labelName={
-                           <SelectLabelName>
-                              Please select the region
-                           </SelectLabelName>
-                        }
+      <>
+         <Header login="false" />
+         <GlobalContainer announcement={announcement}>
+            <Formik />
+            <Container
+               onSubmit={handleSubmit(onSubmit)}
+               announcement={announcement}
+            >
+               <h2>Hi! Let`s get started listing your place.</h2>
+               <p>
+                  In this form, we`ll collect some basic and additional
+                  information about your listing.
+               </p>
+               <AddPhotoBlock>
+                  <div>
+                     <StyledSpan announcement={announcement}>Image</StyledSpan>
+                     <QuantityForPhoto announcement={announcement}>
+                        Max 4 photo
+                     </QuantityForPhoto>
+                  </div>
+                  <div style={{ marginTop: '1.125rem' }}>
+                     <Upload
+                        maxWidth="16vw"
+                        fileNames={fileNames}
+                        setFileNames={setFileNames}
                      />
-                     <IsError>{errors.region?.message}</IsError>
-                  </RegionBlock>
-
-                  <Input
-                     label="maxGuests"
-                     name="maxGuests"
-                     value={values.maxGuests}
-                     onChange={handleChange}
-                     error={touched.maxGuests && Boolean(errors.maxGuests)}
-                     helperText={touched.maxGuests && errors.maxGuests}
+                     <AddPhotoInfo>
+                        <AddPhotoReview announcement={announcement}>
+                           Add photos to the review
+                        </AddPhotoReview>
+                        <UploadPhotoInfo announcement={announcement}>
+                           it will become more noticeable and even more useful.
+                           <br /> You can upload up to 4 photos.
+                        </UploadPhotoInfo>
+                     </AddPhotoInfo>
+                  </div>
+               </AddPhotoBlock>
+               <HomeTypeBlock>
+                  <StyledLabel announcement={announcement}>
+                     Home type
+                  </StyledLabel>
+                  <ApartmentAndHouseBlock announcement={announcement}>
+                     <div className="checkboxContainer">
+                        <Controller
+                           name="houseType"
+                           control={control}
+                           render={({ field }) => (
+                              <Input
+                                 {...field}
+                                 id="apartment"
+                                 barsbek="nekrash"
+                                 type="radio"
+                                 border="none"
+                                 value="apartment"
+                              />
+                           )}
+                        />
+                        <StyledLabel
+                           htmlFor="apartment"
+                           announcement={announcement}
+                        >
+                           Apartment
+                        </StyledLabel>
+                     </div>
+                     <div className="checkboxContainer">
+                        <Controller
+                           name="houseType"
+                           control={control}
+                           render={({ field }) => (
+                              <Input
+                                 {...field}
+                                 id="house"
+                                 barsbek="nekrash"
+                                 type="radio"
+                                 value="house"
+                              />
+                           )}
+                        />
+                        <StyledLabel
+                           htmlFor="house"
+                           announcement={announcement}
+                        >
+                           House
+                        </StyledLabel>
+                     </div>
+                  </ApartmentAndHouseBlock>
+                  <IsError>{errors.houseType?.message}</IsError>
+               </HomeTypeBlock>
+               <FilterBlock>
+                  <GuestBlock>
+                     <StyledLabel
+                        htmlFor="maxGuests"
+                        announcement={announcement}
+                     >
+                        Max of Guests
+                     </StyledLabel>
+                     <InputPriceAndMaxGuest
+                        id="guest"
+                        size="small"
+                        type="number"
+                        placeholder="0"
+                        barsbek="nekrash"
+                        announcement={announcement}
+                        {...register('maxGuests')}
+                        error={!!errors.maxGuests}
+                        style={{
+                           '&::placeholder': {
+                              color: '#fff',
+                           },
+                        }}
+                     />
+                     <IsError>{errors.maxGuests?.message}</IsError>
+                  </GuestBlock>
+                  <PriceBlock>
+                     <StyledLabel htmlFor="price" announcement={announcement}>
+                        Price
+                     </StyledLabel>
+                     <InputPriceAndMaxGuest
+                        id="price"
+                        size="small"
+                        type="number"
+                        barsbek="nekrash"
+                        placeholder="$ 0"
+                        announcement={announcement}
+                        {...register('price')}
+                        error={!!errors.price}
+                     />
+                     <IsError>{errors.price?.message}</IsError>
+                  </PriceBlock>
+               </FilterBlock>
+               <TitleBlock>
+                  <StyledLabel htmlFor="title" announcement={announcement}>
+                     Title
+                  </StyledLabel>
+                  <InputTitle
+                     id="title"
+                     type="text"
+                     size="small"
+                     placeholder="Enter a title..."
+                     barsbek="nekrash"
+                     announcement={announcement}
+                     {...register('title')}
+                     error={!!errors.title}
                   />
-
-                  <Input
-                     label="province"
-                     name="province"
-                     value={values.province}
-                     onChange={handleChange}
-                     error={touched.province && Boolean(errors.province)}
-                     helperText={touched.province && errors.province}
+                  <IsError>{errors.title?.message}</IsError>
+               </TitleBlock>
+               <DescriptionBlock>
+                  <StyledLabel
+                     htmlFor="description"
+                     announcement={announcement}
+                  >
+                     Description of listing
+                  </StyledLabel>
+                  <StyledTextArea
+                     {...register('description')}
+                     id="description"
+                     announcement={announcement}
+                     placeholder="Enter a description..."
+                     style={{
+                        border: errors.description
+                           ? '1px solid red'
+                           : borderTextArea,
+                     }}
                   />
-                  <Input
-                     label="description"
-                     name="description"
-                     value={values.description}
-                     onChange={handleChange}
-                     error={touched.description && Boolean(errors.description)}
-                     helperText={touched.description && errors.description}
+                  <IsError>{errors.description?.message}</IsError>
+               </DescriptionBlock>
+               <RegionBlock>
+                  <StyledLabel htmlFor="region" announcement={announcement}>
+                     Region
+                  </StyledLabel>
+                  <RegionSelect
+                     register={register}
+                     data={data}
+                     id="region"
+                     error={!!errors.region}
+                     announcement={announcement}
+                     labelName={
+                        <SelectLabelName>
+                           Please select the region
+                        </SelectLabelName>
+                     }
                   />
-               </InputContainerSecond>
-            </StyleModalContainer>
-            <StyleButtonContainer>
-               <Button
-                  width="8rem"
-                  height="2.5rem"
-                  color="white"
-                  variant="contained"
-                  bgColor="#DD8A08"
-                  type="submit"
-               >
-                  Save
-               </Button>
-               <Button
-                  width="8rem"
-                  height="2.5rem"
-                  color="white"
-                  variant="contained"
-                  bgColor="#DD8A08"
-                  onClick={toggleHandler}
-               >
-                  Cancel
-               </Button>
-            </StyleButtonContainer>
-         </FormStyle>
-      </Modal>
+                  <IsError>{errors.region?.message}</IsError>
+               </RegionBlock>
+               <TownBlock>
+                  <StyledLabel htmlFor="province" announcement={announcement}>
+                     Town / Province
+                  </StyledLabel>
+                  <InputProvinceAndAddres
+                     type="text"
+                     size="small"
+                     id="province"
+                     placeholder="Enter the town..."
+                     barsbek="nekrash"
+                     announcement={announcement}
+                     error={!!errors.province}
+                     {...register('province')}
+                  />
+                  <IsError>{errors.province?.message}</IsError>
+               </TownBlock>
+               <AddressBlock>
+                  <StyledLabel htmlFor="address" announcement={announcement}>
+                     Address
+                  </StyledLabel>
+                  <InputProvinceAndAddres
+                     type="text"
+                     size="small"
+                     id="address"
+                     placeholder="Enter the address..."
+                     barsbek="nekrash"
+                     announcement={announcement}
+                     error={!!errors.address}
+                     {...register('address')}
+                  />
+                  <Button
+                     variant="contained"
+                     bgColor="#DD8A08"
+                     color="#fff"
+                     width="16.2rem"
+                     onClick={cencelHandler}
+                  >
+                     Cencel
+                  </Button>
+                  <IsError>{errors.address?.message}</IsError>
+               </AddressBlock>
+               <ButtonBlock>
+                  <SubmitInput type="submit" value="Submit" />
+               </ButtonBlock>
+            </Container>
+         </GlobalContainer>
+         <Footer />
+      </>
    )
 }
 
-const FormStyle = styled('form')`
-   width: 100%;
-   display: flex;
-   flex-direction: column;
-   flex-wrap: wrap;
-`
-const SelectLabelName = styled('span')(() => ({
-   color: '#C4C4C4',
+const GlobalContainer = styled('div')(({ announcement }) => ({
+   width: '100%',
+   height: '100%',
+   display: 'flex',
+   justifyContent: 'center',
+   marginTop: '4rem',
+   background: announcement
+      ? 'linear-gradient(274deg, rgba(152,152,152,1) 15%, rgba(0,0,0,1) 100%)'
+      : '#fff',
 }))
 
-const IsError = styled('span')(() => ({
-   color: 'red',
-}))
-const RegionBlock = styled('div')(() => ({
-   marginRight: '.625rem',
-   height: '7.5rem',
-   paddingTop: '1rem',
+const Container = styled('form')(({ announcement }) => ({
+   display: 'flex',
+   flexDirection: 'column',
+
+   h2: {
+      color: announcement ? '#fff' : '#363636',
+      fontSize: '1rem',
+      fontStyle: 'normal',
+      fontWeight: '500',
+      lineHeight: 'normal',
+      textTransform: 'uppercase',
+      marginTop: '2.5rem',
+   },
+
+   p: {
+      width: '38.125rem',
+      color: announcement ? '#fff' : '#646464',
+      fontFamily: 'Inter',
+      fontSize: '1rem',
+      fontStyle: 'normal',
+      fontWeight: ' 400',
+      lineHeight: 'normal',
+      marginTop: '1.25rem',
+      marginBottom: '1.88rem',
+   },
 }))
 
-const StyledLabel = styled('label')(() => ({
-   color: ' #363636',
+const AddPhotoBlock = styled('div')(() => ({
+   display: 'flex',
+   flexDirection: 'column',
+
+   div: {
+      display: 'flex',
+      marginTop: '0.0625rem',
+   },
+}))
+
+const StyledSpan = styled('span')(({ announcement }) => ({
+   color: announcement ? '#fff' : '#363636',
+   marginRight: '1rem',
+   fontFamily: 'Inter',
+   fontSize: '1rem',
+   fontStyle: 'normal',
+   fontweight: ' 400',
+   lineheight: 'normal',
+}))
+
+const QuantityForPhoto = styled('span')(({ announcement }) => ({
+   fontFamily: 'Inter',
+   fontSize: '1rem',
+   fontStyle: 'normal',
+   fontweight: ' 400',
+   lineheight: 'normal',
+   color: announcement ? '#fff' : '#A9A9A9',
+}))
+
+const AddPhotoInfo = styled('div')(() => ({
+   display: 'flex',
+   flexDirection: 'column',
+   justifyContent: 'center',
+   gap: '0.5rem',
+   marginLeft: '1.25rem',
+}))
+
+const AddPhotoReview = styled('span')(({ announcement }) => ({
+   color: announcement ? '#fff' : '#266BD3',
+   fontWeight: '500',
+}))
+
+const UploadPhotoInfo = styled('span')(({ announcement }) => ({
+   color: announcement ? '#fff' : '#828282',
+   fontSize: '0.875rem',
+   fontHeight: '400',
+}))
+
+const HomeTypeBlock = styled('div')(() => ({
+   marginTop: '1.75rem',
+   marginBottom: '.9375rem',
+   height: '5.3125rem',
+}))
+
+const StyledLabel = styled('label')(({ announcement }) => ({
+   color: announcement ? '#fff' : ' #363636',
    fontFamily: 'Inter',
    fontSize: '1rem',
    fontStyle: 'normal',
@@ -276,44 +404,148 @@ const StyledLabel = styled('label')(() => ({
    marginLeft: '0.75rem',
 }))
 
-const StyleModalContainer = styled('div')`
-   display: flex;
-   justify-content: center;
-   gap: 5rem;
-   align-items: center;
-`
+const SelectLabelName = styled('span')(() => ({
+   color: '#C4C4C4',
+}))
 
-const StyleButtonContainer = styled('div')`
-   width: 100%;
-   padding-top: 3rem;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   gap: 2rem;
-`
+const ApartmentAndHouseBlock = styled('div')(() => ({
+   display: 'flex',
+   justifyContent: 'flex-start',
+   gap: '2.5rem',
 
-const InputContainer = styled('div')`
-   width: 100%;
-   display: flex;
-   flex-wrap: wrap;
-   flex-direction: column;
-   gap: 1rem;
-`
-const InputContainerSecond = styled('div')`
-   padding-top: 5.2rem;
-   width: 100%;
-   display: flex;
-   flex-wrap: wrap;
-   flex-direction: column;
-   gap: 1rem;
-`
+   '.checkboxContainer': {
+      width: '20%',
+      display: 'flex',
+      justifyContent: 'flex-start',
+   },
+}))
 
-const StyleRadioContainer = styled('div')`
-   width: 100%;
-   display: flex;
-   justify-content: space-around;
-   margin-top: 21px;
-   padding-bottom: 2rem;
-`
+const FilterBlock = styled('div')(() => ({
+   display: 'flex',
+   flexDirection: 'row',
+   gap: '1.25rem',
+   marginBottom: ' 2.75rem',
+   height: '4.5625rem',
+}))
 
-export default ModalProfile
+const GuestBlock = styled('div')(() => ({
+   width: '15.625rem',
+   display: 'flex',
+   flexDirection: 'column',
+}))
+
+const PriceBlock = styled('div')(() => ({
+   display: 'flex',
+   flexDirection: 'column',
+}))
+
+const TitleBlock = styled('div')(() => ({
+   marginBottom: '2.1875rem',
+   height: '4.5625rem',
+}))
+
+const DescriptionBlock = styled('div')(() => ({
+   marginBottom: '.4375rem',
+   height: '10rem',
+}))
+
+const RegionBlock = styled('div')(() => ({
+   marginRight: '.625rem',
+   marginBottom: '.0625rem',
+   height: '7.5rem',
+}))
+
+const TownBlock = styled('div')(() => ({
+   marginBottom: '1.75rem',
+   height: '4.5625rem',
+}))
+
+const AddressBlock = styled('div')(() => ({
+   height: '4.5625rem',
+}))
+
+const ButtonBlock = styled('div')(() => ({
+   marginTop: '1.875rem',
+   display: 'flex',
+   justifyContent: ' flex-end',
+   marginBottom: '10.63rem',
+}))
+
+const SubmitInput = styled('input')(() => ({
+   width: '12.25rem',
+   height: '2.125rem',
+   border: 'none',
+
+   borderRadius: '0.125rem',
+   background: '#DD8A08',
+   color: '#F7F7F7',
+   fontSize: '0.875rem',
+   fontStyle: 'normal',
+   lineHeight: 'normal',
+   textTransform: 'uppercase',
+}))
+
+const IsError = styled('span')(() => ({
+   color: 'red',
+}))
+
+const StyledTextArea = styled('textarea')(({ announcement }) => ({
+   width: '100%',
+   height: '6.5rem',
+   padding: '.625rem 0 0 .625rem',
+   borderRadius: '0.125rem',
+   resize: 'none',
+   overflow: 'hidden',
+   border: announcement ? '1px solid#fff' : '1px solid gray',
+   background: 'rgba(0,0,0,0.0)',
+   '#description::placeholder': {
+      color: announcement ? '#fff' : '#000',
+   },
+}))
+
+const InputPriceAndMaxGuest = styled(Input)(({ announcement }) => ({
+   width: '15.3125rem',
+   height: '2.4375rem',
+   padding: '0 0 0.625rem 0',
+   border: announcement ? '1px solid#fff' : '1px solid gray',
+   borderRadius: ' 0.125rem',
+   '#guest::placeholder': {
+      color: announcement ? '#fff' : '#000',
+   },
+   '#price::placeholder': {
+      color: announcement ? '#fff' : '#000',
+   },
+}))
+const InputTitle = styled(Input)(({ announcement }) => ({
+   width: '100%',
+   height: '2.4375rem',
+   border: announcement ? '1px solid#fff' : '1px solid gray',
+   borderRadius: ' 0.125rem',
+   '#title::placeholder': {
+      color: announcement ? '#fff' : '#000',
+   },
+}))
+const InputProvinceAndAddres = styled(Input)(({ announcement }) => ({
+   width: '100%',
+   height: '2.4375rem',
+   border: announcement ? '1px solid#fff' : '1px solid gray',
+
+   '#province::placeholder': {
+      color: announcement ? '#fff' : '#000',
+   },
+
+   '#address::placeholder': {
+      color: announcement ? '#fff' : '#000',
+   },
+}))
+const RegionSelect = styled(Select)(({ announcement }) => ({
+   width: '100%',
+   border: announcement ? '1px solid#fff' : '1px solid gray',
+   '&:hover': {
+      background: 'rgba(0,0,0,0.0)',
+      border: announcement ? '1px solid#fff' : '1px solid gray',
+   },
+   '#region::placeholder': {
+      color: announcement ? '#fff' : '#000',
+   },
+}))

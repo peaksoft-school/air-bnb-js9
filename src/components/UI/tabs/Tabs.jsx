@@ -6,46 +6,61 @@ import {
    useLocation,
    useParams,
 } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { styled } from '@mui/material'
 import { OnModeration } from './OnModeration'
 import { moderation } from '../../../utils/helpers'
 import { Bookings } from './Bookings'
-import { MyAnnouncement } from './MyAnnouncement'
+import { MyAnnouncement } from '../../tabs/MyAnnouncement'
 
-export function Tabs({
-   announcement,
-   bookings,
-   state,
-   showButtonHandler,
-   closeButtonHandler,
-}) {
-   const BookingLength = bookings?.length
-   const announcementLength = announcement?.length
-   const moderationLength = moderation?.lenght
+export function Tabs({ state, showButtonHandler, closeButtonHandler }) {
+   const { data } = useSelector((state) => state.getannouncement)
 
-   // return state === 'true' ? (
+   const BookingLength = data.bookings?.length
+   const announcementLength = data.announcements?.length
+   const moderationLength = 0
+
    const location = useLocation()
    const { userId } = useParams()
 
    return state === 'true' ? (
       <div>
          <StyleHead>
-            <StyleLink to="bookings">
-               <h3>Bookings ({BookingLength})</h3>
-            </StyleLink>
+            {BookingLength === 0 ? (
+               <StyleLink to="bookings">
+                  <h3>Bookings </h3>
+               </StyleLink>
+            ) : (
+               <StyleLink to="bookings">
+                  <h3>Bookings ({BookingLength})</h3>
+               </StyleLink>
+            )}
 
-            <StyleLink to="my-announcement">
-               <h3>My announcement ({announcementLength})</h3>
-            </StyleLink>
+            {announcementLength === 0 ? (
+               <StyleLink to="my-announcement">
+                  <h3>My announcement</h3>
+               </StyleLink>
+            ) : (
+               <StyleLink to="my-announcement">
+                  <h3>My announcement ({announcementLength})</h3>
+               </StyleLink>
+            )}
 
-            <StyleLink to="on-moderation">
-               <h3>On moderation ({moderationLength})</h3>
-            </StyleLink>
+            {moderationLength === 0 ? (
+               <StyleLink to="on-moderation">
+                  <h3>On moderation</h3>
+               </StyleLink>
+            ) : (
+               <StyleLink to="on-moderation">
+                  <h3>On moderation ({moderationLength})</h3>
+               </StyleLink>
+            )}
          </StyleHead>
 
          <Routes>
             <Route path="bookings" element={<Bookings />} />
             <Route path="my-announcement" element={<MyAnnouncement />} />
+
             <Route
                path="/on-moderation"
                element={<OnModeration moderation={moderation} />}
