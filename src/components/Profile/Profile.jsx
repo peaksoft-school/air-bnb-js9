@@ -27,7 +27,6 @@ export function UserProfile() {
    }
 
    useEffect(() => {
-      console.log('DONE GET ANNOUNNCEMENT')
       dispatch(getAnnouncement())
    }, [])
 

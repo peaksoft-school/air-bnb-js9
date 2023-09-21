@@ -75,7 +75,7 @@ export function PhotoSlider({ id, images }) {
    return (
       <SliderContainer>
          <Slider {...settings}>
-            {images.map((image, index) => (
+            {images?.map((image, index) => (
                <div key={id}>
                   <ImgStyle src={image} alt={`Slide ${index}`} />
                </div>

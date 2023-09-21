@@ -33,23 +33,30 @@ export const filterHouseRequest = createAsyncThunk(
 
 export const deleteAnouncement = createAsyncThunk(
    'delete/deleteAnouncement',
-   async (id, { rejectWithValue, dispatch }) => {
+   async ({ id, toastType }, { rejectWithValue, dispatch }) => {
       try {
          const response = await deleteAnnouncementbyIdRequest(id)
-         dispatch(getAnnouncement())
+         dispatch(getAnnouncement(id))
+         toastType(
+            'success',
+            'successfully removed your announcement',
+            'Deleted announcement from your announcement'
+         )
          return response.data
       } catch (error) {
-         return rejectWithValue
+         toastType('error', 'deleted card :(', error.message)
+
+         return rejectWithValue(error.message)
       }
    }
 )
 
 export const editAnouncement = createAsyncThunk(
    'put/putAnouncement',
-   async ({ saveData, itemId, toastType }, { rejectWithValue, dispatch }) => {
+   async ({ editData, id, toastType }, { rejectWithValue, dispatch }) => {
       try {
-         const responsePut = await putAnnouncementsRequest({ saveData, itemId })
-         dispatch(filterHouseRequest())
+         const responsePut = await putAnnouncementsRequest({ editData, id })
+         dispatch(getAnnouncement(editData))
          toastType('success', 'successfully edited :)', 'message')
          return responsePut
       } catch (error) {

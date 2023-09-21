@@ -17,29 +17,44 @@ export const regions = [
    { id: 'option8', name: 'Bishkek', value: 'BISHKEK' },
 ]
 
+export const addRegions = [
+   { id: 'option1', name: 'BATKEN', value: 'BATKEN' },
+   { id: 'option2', name: 'JALAL_ABAD', value: 'JALAL_ABAD' },
+   { id: 'option3', name: 'YSSYK-KOL', value: 'YSSYK-KOL' },
+   { id: 'option4', name: 'NARYN', value: 'NARYN' },
+   { id: 'option5', name: 'OSH', value: 'OSH' },
+   { id: 'option6', name: 'TALAS', value: 'TALAS' },
+   { id: 'option7', name: 'CHUI', value: 'CHUI' },
+]
+
 export const popular = [
+   { id: 'option215', name: 'All', value: ' All' },
+
    { id: 'option8', name: 'Popular', value: 'desc' },
    { id: 'option9', name: 'The latest', value: 'asc' },
 ]
 
 export const homeType = [
+   { id: 'option215', name: 'All', value: ' All' },
+
    { id: 'option10', name: 'Apartment', value: 'APARTMENT' },
    { id: 'option11', name: 'House', value: 'HOUSE' },
 ]
 
 export const homeTypeProfile = [
-   { id: 'option215', name: 'All', value: ' ' },
+   // { id: 'option215', nam  e: 'All', value: ' All' },
    { id: 'option10', name: 'Apartment', value: 'APARTMENT' },
    { id: 'option11', name: 'House', value: 'HOUSE' },
 ]
+
 export const popularProfile = [
-   { id: 'option112', name: 'All', value: ' ' },
+   // { id: 'option112', name: 'All' },
    { id: 'option8', name: 'popular', value: 'LOW_TO_HIGH' },
    { id: 'option9', name: 'un popular', value: 'HIGH_TO_LOW' },
 ]
 
 export const price = [
-   { id: 'option12', name: 'All', value: ' ' },
+   // { id: 'option12', name: 'All', value: ' ' },
    { id: 'option12', name: 'Low to high', value: 'LOW_TO_HIGH' },
    { id: 'option13', name: 'High to low', value: 'HIGH_TO_LOW' },
 ]

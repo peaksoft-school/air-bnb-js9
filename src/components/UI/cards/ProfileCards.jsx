@@ -8,13 +8,11 @@ import { Button } from '../button/Button'
 import { deleteAnouncement } from '../../../store/profile/ProfileThunk'
 import { toastSnackbar } from '../snackbar/Snackbar'
 import { PhotoSlider } from '../imageSlide/ImageSlice'
-import { ModalProfile } from '../../Profile/ModalProfile'
+import { getByIdAnnouncement } from '../../../store/innerPage/InnerPageThunk'
 
 export function ProfileCards({ data, announcement, index, message, ...props }) {
    const dispatch = useDispatch()
    const { toastType } = toastSnackbar()
-   const [modalVisible, setModalVisible] = useState(false)
-   const [dataEdit, setItemEdit] = useState('')
 
    const truncateTitle = (title) => {
       const words = title?.split(' ')
@@ -23,7 +21,6 @@ export function ProfileCards({ data, announcement, index, message, ...props }) {
       }
       return title
    }
-   console.log(data, 'announcement')
 
    const truncateAddress = (address) => {
       const words = address?.split(' ')
@@ -33,154 +30,140 @@ export function ProfileCards({ data, announcement, index, message, ...props }) {
    const [menuOpen, setMenuOpen] = useState(false)
    const [anchorEl, setAnchorEl] = useState(null)
 
-   const handleMenuClick = (event, data) => {
-      setItemEdit(data)
+   const handleMenuClick = (event, id) => {
+      dispatch(getByIdAnnouncement(id))
+
       setMenuOpen(true)
       setAnchorEl(event.currentTarget)
    }
-   console.log(dataEdit, 'edddd')
+
    const handleMenuClose = () => {
       setMenuOpen(false)
       setAnchorEl(null)
    }
+
    const removeAnnouncements = (id) => {
       handleMenuClose()
-      try {
-         dispatch(deleteAnouncement(id))
-         toastType(
-            ' success',
-            'successfully removed your announcement',
-            'Deleted announcement from your announcement'
-         )
-      } catch (error) {
-         toastType('error', error.message)
-      }
+      dispatch(deleteAnouncement({ id, toastType }))
    }
+
    const navigate = useNavigate()
    const openModal = () => {
-      setModalVisible((prev) => !prev)
       navigate('/Profile/my-announcement/edit')
    }
 
    return (
       <MainContainer>
-         {modalVisible ? (
-            <ModalProfile
-               setModalVisible={setModalVisible}
-               dataEdit={dataEdit}
-               handleMenuClose={handleMenuClose}
-            />
-         ) : (
-            <MapContainer key={data.id} status={data.status}>
-               <div>
-                  {data.images.images?.length > 1 ? (
-                     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-                     <ImageContainer to={`name/${data.id}`}>
-                        <PhotoSlider
-                           images={data.images.images}
-                           id={data.id}
-                           index={index}
-                        />
-                     </ImageContainer>
-                  ) : (
-                     <ImageContainer to={`name/${data.id}`}>
-                        <StyleImage src={data.images.images} alt="home" />
-                     </ImageContainer>
-                  )}
-               </div>
-               <DayStartContainer onClick={props.dd}>
-                  <DayContainer>
-                     ${data.price}/ <DayStyle>day</DayStyle>{' '}
-                  </DayContainer>
-
-                  <StartContainer>
-                     <Start1 />
-                     <p>{data.rating}.4</p>
-                  </StartContainer>
-               </DayStartContainer>
-               <StyleTitle>
-                  <Tooltip title={data.title}>
-                     <span>
-                        {' '}
-                        {truncateTitle(data.title || data.description)}
-                     </span>
-                  </Tooltip>
-               </StyleTitle>
-               <LocationCantainerStyle>
-                  <Location />
-                  <Tooltip address={data.address}>
-                     {truncateAddress(data.address)}
-                  </Tooltip>
-               </LocationCantainerStyle>
-               {announcement === 'true' && (
-                  <StyledHorizIcon>
-                     <GuestContainer>{data.maxGuests} guests</GuestContainer>
-                     {data.messagesFromAdmin === 'blocked' ? (
-                        <Button
-                           bgColor="rgba(212, 212, 212, 0.40)"
-                           color="#fff"
-                           width="13.2rem"
-                           variant="contained"
-                        >
-                           BLOCKED
-                        </Button>
-                     ) : (
-                        <div>
-                           <AdminMenu
-                              onClick={(e) => handleMenuClick(e, data)}
-                           />
-                           {menuOpen === true && (
-                              <StyledPopover
-                                 open={menuOpen}
-                                 anchorEl={anchorEl}
-                                 onClose={handleMenuClose}
-                                 anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'left',
-                                 }}
-                              >
-                                 <StyledMenuItem onClick={() => openModal()}>
-                                    Edit
-                                 </StyledMenuItem>
-                                 <StyledMenuItem
-                                    onClick={() => removeAnnouncements(data.id)}
-                                 >
-                                    Delete
-                                 </StyledMenuItem>
-                              </StyledPopover>
-                           )}{' '}
-                        </div>
-                     )}
-                  </StyledHorizIcon>
-               )}{' '}
-               {announcement === 'false' && (
-                  <ButtonsContainer>
-                     <div>
-                        <DayStyleTrue>2 guests</DayStyleTrue>
-                        <CheckConainer>
-                           <div>
-                              <Checkstyle>Check in</Checkstyle>
-                              <Datestyle>{data.checkIn}</Datestyle>
-                           </div>
-                           <div>
-                              <Checkstyle>Check out</Checkstyle>
-                              <Datestyle>{data.checkOut}</Datestyle>
-                           </div>
-                        </CheckConainer>
-                        <Button
-                           bgColor="#DD8A08"
-                           color="#fff"
-                           width="16.2rem"
-                           variant="contained"
-                        >
-                           {' '}
-                           change
-                        </Button>
-                     </div>
-                  </ButtonsContainer>
+         <MapContainer key={data.id} status={data.status}>
+            <div>
+               {data.images.images?.length > 1 ? (
+                  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+                  <ImageContainer to={`name/${data.id}`}>
+                     <PhotoSlider
+                        images={data.images}
+                        id={data.id}
+                        index={index}
+                     />
+                  </ImageContainer>
+               ) : (
+                  <ImageContainer to={`name/${data.id}`}>
+                     <StyleImage src={data.images} alt="home" />
+                  </ImageContainer>
                )}
-            </MapContainer>
-         )}
+            </div>
+            <DayStartContainer onClick={props.dd}>
+               <DayContainer>
+                  ${data.price}/ <DayStyle>day</DayStyle>{' '}
+               </DayContainer>
+
+               <StartContainer>
+                  <Start1 />
+                  <p>{data.rating}.4</p>
+               </StartContainer>
+            </DayStartContainer>
+            <StyleTitle>
+               <Tooltip title={data.title}>
+                  <span> {truncateTitle(data.title || data.description)}</span>
+               </Tooltip>
+            </StyleTitle>
+            <LocationCantainerStyle>
+               <Location />
+               <Tooltip address={data.address}>
+                  {truncateAddress(data.address)}
+                  <h2> {data.id}</h2>
+               </Tooltip>
+            </LocationCantainerStyle>
+            {announcement === 'true' && (
+               <StyledHorizIcon>
+                  <GuestContainer>{data.maxGuests} guests</GuestContainer>
+                  {data.messagesFromAdmin === 'blocked' ? (
+                     <Button
+                        bgColor="rgba(212, 212, 212, 0.40)"
+                        color="#fff"
+                        width="13.2rem"
+                        variant="contained"
+                     >
+                        BLOCKED
+                     </Button>
+                  ) : (
+                     <div>
+                        <AdminMenu
+                           onClick={(e) => handleMenuClick(e, data.id)}
+                        />
+                        {menuOpen === true && (
+                           <StyledPopover
+                              open={menuOpen}
+                              anchorEl={anchorEl}
+                              onClose={handleMenuClose}
+                              anchorOrigin={{
+                                 vertical: 'top',
+                                 horizontal: 'left',
+                              }}
+                           >
+                              <StyledMenuItem
+                                 onClick={() => openModal(data.id)}
+                              >
+                                 Edit
+                              </StyledMenuItem>
+                              <StyledMenuItem
+                                 onClick={() => removeAnnouncements(data.id)}
+                              >
+                                 Delete
+                              </StyledMenuItem>
+                           </StyledPopover>
+                        )}{' '}
+                     </div>
+                  )}
+               </StyledHorizIcon>
+            )}{' '}
+            {announcement === 'false' && (
+               <ButtonsContainer>
+                  <div>
+                     <DayStyleTrue>2 guests</DayStyleTrue>
+                     <CheckConainer>
+                        <div>
+                           <Checkstyle>Check in</Checkstyle>
+                           <Datestyle>{data.checkIn}</Datestyle>
+                        </div>
+                        <div>
+                           <Checkstyle>Check out</Checkstyle>
+                           <Datestyle>{data.checkOut}</Datestyle>
+                        </div>
+                     </CheckConainer>
+                     <Button
+                        bgColor="#DD8A08"
+                        color="#fff"
+                        width="16.2rem"
+                        variant="contained"
+                     >
+                        {' '}
+                        change
+                     </Button>
+                  </div>
+               </ButtonsContainer>
+            )}
+         </MapContainer>
+         {/* )} */}
       </MainContainer>
    )
 }
@@ -188,11 +171,11 @@ const StyledPopover = styled(Popover)(() => ({
    '& .MuiPaper-root': {
       animation: 'fadeIn 0.3s ease-in-out',
       transformOrigin: 'top left',
-      width: '5rem',
+      width: '7rem',
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center',
-      boxShadow: 'none',
+      justifyContent: 'center',
+      alignItems: 'start',
    },
    '@keyframes fadeIn': {
       '0%': {
@@ -207,7 +190,7 @@ const StyledPopover = styled(Popover)(() => ({
 }))
 
 const StyledMenuItem = styled(MenuItem)(() => ({
-   padding: '8px',
+   width: '7rem',
 }))
 const Checkstyle = styled('p')`
    color: var(--tertiary-dark-gray, #646464);

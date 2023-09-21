@@ -15,6 +15,7 @@ import { getAnnouncementByIdSlice } from './getAnnouncement/GetAnnouncementByIdS
 import { favoriteSlice } from './favorite/FavoriteSlice'
 import { announcementsSlice } from './innerPage/InnerPageSlice'
 import { feedbackSlice } from './feedback/feedbackSlice'
+import { uploadSlice } from './Upload'
 
 export const store = configureStore({
    reducer: {
@@ -35,5 +36,6 @@ export const store = configureStore({
       [favoriteSlice.name]: favoriteSlice.reducer,
       [announcementsSlice.name]: announcementsSlice.reducer,
       [feedbackSlice.name]: feedbackSlice.reducer,
+      [uploadSlice.name]: uploadSlice.reducer,
    },
 })

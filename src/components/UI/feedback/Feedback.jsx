@@ -9,7 +9,7 @@ import { axiosInstance } from '../../../config/axiosInstance'
 import { ModalForEditFeedback } from './ModalForEditFeedback'
 import { likeOrDislike } from '../../../api/feedbackService'
 import { feedbackGetByIdRequest } from '../../../store/feedback/feedbackThunk'
-import { Button } from '../button/Button'
+import { LeaveFeedback } from '../../leave-feedback/LeaveFeeadback'
 
 export default function Feedback({ data, announcementBooked }) {
    const {
@@ -87,180 +87,90 @@ export default function Feedback({ data, announcementBooked }) {
       }
    }
 
-   console.log('images:', images)
+   // console.log('images:', images)
 
    const open = Boolean(currentEl)
    const meatBallId = open ? 'simple-popover' : undefined
    return (
       <div>
-         {announcement.feedbackUserImage ||
-         announcement.feedbackUserFullName ? (
-            <div>
-               {announcementBooked ? (
-                  <Container>
-                     <Block>
-                        <UserInfoBlockForBooked>
-                           <AvatarAndNameBlock>
-                              <Avatar
-                                 style={{ marginRight: '13px' }}
-                                 src={feedbackUserImage && feedbackUserImage}
-                              >
-                                 {feedbackUserImage || feedbackUserFullName}
-                              </Avatar>
-                              <h4
-                                 style={{
-                                    marginRight: '10px',
-                                 }}
-                              >
-                                 <Tooltip title={feedbackUserFullName}>
-                                    {truncateText(feedbackUserFullName, 20)}
-                                 </Tooltip>
-                              </h4>
-                           </AvatarAndNameBlock>
-
-                           <RatingAndNameBlock>
-                              <RatingStars
-                                 ratingValue={ratingValue}
-                                 setRatingValue={setRatingValue}
-                              />
-                              <StyledSpan>{ratingValue}</StyledSpan>
-                           </RatingAndNameBlock>
-                        </UserInfoBlockForBooked>
-                     </Block>
-
-                     <CommentBlock>
-                        <p>
-                           {showFullText ? (
-                              <span> {comment} </span>
-                           ) : (
-                              <span> {truncatedText}</span>
-                           )}
-
-                           <ShowMoreAndLess onClick={toggleText}>
-                              {showFullText ? 'See less' : 'See more'}
-                           </ShowMoreAndLess>
-                        </p>
-                     </CommentBlock>
-
-                     <div>
-                        {images?.map((houseImg) => (
-                           <StyledImg src={houseImg} alt="house" />
-                        ))}
-                     </div>
-
-                     <GradeBlockForBooked>
-                        <div>
-                           <span style={{ color: '#828282' }}>
-                              {formattedDate}
-                           </span>
-                        </div>
-
-                        <div style={{ display: 'flex' }}>
-                           <StyledIconButton
-                              onClick={() => likeHandler('like')}
+         {/* {announcement.feedbackUserImage ||
+         announcement.feedbackUserFullName ? ( */}
+         <div>
+            {announcementBooked ? (
+               <Container>
+                  <Block>
+                     <UserInfoBlockForBooked>
+                        <AvatarAndNameBlock>
+                           <Avatar
+                              style={{ marginRight: '13px' }}
+                              src={feedbackUserImage && feedbackUserImage}
                            >
-                              <Like1 />
-                              <p>{likeCount}</p>
-                           </StyledIconButton>
-
-                           <StyledIconButton
-                              onClick={() => likeHandler('DisLike')}
+                              {feedbackUserImage}
+                           </Avatar>
+                           <h4
+                              style={{
+                                 marginRight: '10px',
+                              }}
                            >
-                              <Dislike />
-                              <p> {disLikeCount}</p>
-                           </StyledIconButton>
-                        </div>
-                     </GradeBlockForBooked>
-                     {/* <h3> show more</h3> */}
-                     <Button width="39.375rem">leave feedback</Button>
-                  </Container>
-               ) : (
-                  <Container>
-                     <Block>
-                        <UserInfoBlock>
-                           <div>
-                              <Avatar
-                                 style={{ marginRight: '13px' }}
-                                 src={feedbackUserImage && feedbackUserImage}
-                              >
-                                 {feedbackUserImage}
-                              </Avatar>
-                           </div>
+                              <Tooltip title={feedbackUserFullName}>
+                                 {truncateText(
+                                    feedbackUserFullName || 'Peaksoft House',
+                                    20
+                                 )}
+                              </Tooltip>
+                           </h4>
+                        </AvatarAndNameBlock>
 
-                           <div>
-                              <RatingAndNameBlock>
-                                 <h4 style={{ marginRight: '10px' }}>
-                                    <Tooltip title={feedbackUserFullName}>
-                                       {truncateText(feedbackUserFullName, 20)}
-                                    </Tooltip>
-                                 </h4>
-
-                                 <RatingStars
-                                    ratingValue={ratingValue}
-                                    setRatingValue={setRatingValue}
-                                 />
-                                 <StyledSpan>({ratingValue})</StyledSpan>
-                              </RatingAndNameBlock>
-
-                              <span style={{ color: '#828282' }}>
-                                 {formattedDate}
-                              </span>
-                           </div>
-                        </UserInfoBlock>
-
-                        <div>
-                           <IconMenu onClick={toggle} />
-                           <MeatBalls
-                              anchorEl={currentEl}
-                              open={open}
-                              close={closeHandler}
-                              id={meatBallId}
-                              width=" 11.25rem"
-                              height="5.5rem"
-                           >
-                              <MenuItem onClick={editFeedback}>Edit</MenuItem>
-                              <MenuItem onClick={() => deleteFeedback(id)}>
-                                 Delete
-                              </MenuItem>
-                           </MeatBalls>
-                        </div>
-                        {openModal && (
-                           <ModalForEditFeedback
-                              openModal={openModal}
-                              setOpenModal={setOpenModal}
-                              feedbackComment={comment}
-                              feedbackImages={images}
-                              id={id}
+                        <RatingAndNameBlock>
+                           <RatingStars
+                              ratingValue={ratingValue}
+                              setRatingValue={setRatingValue}
                            />
+                           <StyledSpan>{ratingValue}</StyledSpan>
+                        </RatingAndNameBlock>
+                     </UserInfoBlockForBooked>
+                  </Block>
+
+                  <CommentBlock>
+                     <p>
+                        {showFullText ? (
+                           <span> {comment} </span>
+                        ) : (
+                           <span>
+                              {' '}
+                              {truncatedText ||
+                                 'wrfwsfgwergqegrqerger waef qfqerf qrf qqer4f q eag erg ewrf eqrf qerf qer qer wdfsr gewr wtrtwrt wrtwet qerf werf ser werfewrferfwrwrfefdsefxfqer werf erf qe qer aefr r er dddfdf djfsddddssdada asda sass'}
+                           </span>
                         )}
-                     </Block>
 
-                     <CommentBlock>
-                        <p>
-                           {showFullText ? (
-                              <span> {comment} </span>
-                           ) : (
-                              <span> {truncatedText}</span>
-                           )}
+                        <ShowMoreAndLess onClick={toggleText}>
+                           {showFullText
+                              ? 'See less'
+                              : comment?.length > maxLength && 'See more'}
+                        </ShowMoreAndLess>
+                     </p>
+                  </CommentBlock>
 
-                           <ShowMoreAndLess onClick={toggleText}>
-                              {showFullText ? 'See less' : 'See more'}
-                           </ShowMoreAndLess>
-                        </p>
-                     </CommentBlock>
+                  <div>
+                     {images?.length &&
+                        images.map((houseImg) =>
+                           houseImg ? (
+                              <StyledImg src={houseImg} alt="house" />
+                           ) : null
+                        )}
+                  </div>
 
+                  <GradeBlockForBooked>
                      <div>
-                        {images?.length > 0
-                           ? images?.map((houseImg) => (
-                                <StyledImg src={houseImg} alt="house" />
-                             ))
-                           : null}
+                        <span style={{ color: '#828282' }}>
+                           {formattedDate}
+                        </span>
                      </div>
 
-                     <GradeBlock>
+                     <div style={{ display: 'flex' }}>
                         <StyledIconButton onClick={() => likeHandler('like')}>
                            <Like1 />
-                           <p>{likeCount} </p>
+                           <p>{likeCount}</p>
                         </StyledIconButton>
 
                         <StyledIconButton
@@ -269,13 +179,114 @@ export default function Feedback({ data, announcementBooked }) {
                            <Dislike />
                            <p> {disLikeCount}</p>
                         </StyledIconButton>
-                     </GradeBlock>
-                  </Container>
-               )}
-            </div>
-         ) : (
+                     </div>
+                  </GradeBlockForBooked>
+                  <h3> show more</h3>
+                  <LeaveFeedback />
+               </Container>
+            ) : (
+               <Container>
+                  <Block>
+                     <UserInfoBlock>
+                        <div>
+                           <Avatar
+                              style={{ marginRight: '13px' }}
+                              src={feedbackUserImage && feedbackUserImage}
+                           >
+                              {feedbackUserImage}
+                           </Avatar>
+                        </div>
+
+                        <div>
+                           <RatingAndNameBlock>
+                              <h4 style={{ marginRight: '10px' }}>
+                                 <Tooltip title={feedbackUserFullName}>
+                                    {truncateText(feedbackUserFullName, 20)}
+                                 </Tooltip>
+                              </h4>
+
+                              <RatingStars
+                                 ratingValue={ratingValue}
+                                 setRatingValue={setRatingValue}
+                              />
+                              <StyledSpan>({ratingValue})</StyledSpan>
+                           </RatingAndNameBlock>
+
+                           <span style={{ color: '#828282' }}>
+                              {formattedDate}
+                           </span>
+                        </div>
+                     </UserInfoBlock>
+
+                     <div>
+                        <IconMenu onClick={toggle} />
+                        <MeatBalls
+                           anchorEl={currentEl}
+                           open={open}
+                           close={closeHandler}
+                           id={meatBallId}
+                           width=" 11.25rem"
+                           height="5.5rem"
+                        >
+                           <MenuItem onClick={editFeedback}>Edit</MenuItem>
+                           <MenuItem onClick={() => deleteFeedback(id)}>
+                              Delete
+                           </MenuItem>
+                        </MeatBalls>
+                     </div>
+                     {openModal && (
+                        <ModalForEditFeedback
+                           openModal={openModal}
+                           setOpenModal={setOpenModal}
+                           feedbackComment={comment}
+                           feedbackImages={images}
+                           id={id}
+                        />
+                     )}
+                  </Block>
+
+                  <CommentBlock>
+                     <p>
+                        {showFullText ? (
+                           <span> {comment} </span>
+                        ) : (
+                           <span> {truncatedText}</span>
+                        )}
+
+                        <ShowMoreAndLess onClick={toggleText}>
+                           {showFullText
+                              ? 'See less'
+                              : comment?.length > maxLength && 'See more'}
+                        </ShowMoreAndLess>
+                     </p>
+                  </CommentBlock>
+
+                  <div>
+                     {images.length &&
+                        images.map((houseImg) =>
+                           houseImg ? (
+                              <StyledImg src={houseImg} alt="house" />
+                           ) : null
+                        )}
+                  </div>
+
+                  <GradeBlock>
+                     <StyledIconButton onClick={() => likeHandler('like')}>
+                        <Like1 />
+                        <p>{likeCount} </p>
+                     </StyledIconButton>
+
+                     <StyledIconButton onClick={() => likeHandler('DisLike')}>
+                        <Dislike />
+                        <p> {disLikeCount}</p>
+                     </StyledIconButton>
+                  </GradeBlock>
+               </Container>
+            )}
+         </div>
+         {/* ) : (
             <h2>there is no feedback...</h2>
-         )}
+         )} */}
       </div>
    )
 }

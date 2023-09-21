@@ -1,14 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import {
-   deleteAnouncement,
-   filterHouseRequest,
-   getAnnouncement,
-} from './ProfileThunk'
+import { filterHouseRequest, getAnnouncement } from './ProfileThunk'
 
 const initialState = {
    data: {
       announcements: [],
       bookings: [],
+      onModerations: [],
    },
    idAnnouncement: [],
    error: null,
@@ -31,11 +28,11 @@ export const announcementSlice = createSlice({
             state.error = action.error.message
          })
          .addCase(getAnnouncement.fulfilled, (state, action) => {
-            console.log(action.payload, 'ACTION PAYLOAD IN GET ANNOUNCEMENT')
             state.status = 'success'
             state.data = action.payload
             state.data.announcements = action.payload.announcements
             state.data.bookings = action.payload.bookings
+            state.data.onModerations = action.payload.moderations
          })
          .addCase(filterHouseRequest.pending, (state) => {
             state.loading = true
@@ -45,18 +42,6 @@ export const announcementSlice = createSlice({
             state.data.announcements = action.payload.responses
          })
          .addCase(filterHouseRequest.rejected, (state, action) => {
-            state.loading = false
-            state.error = action.error.message
-         })
-         .addCase(deleteAnouncement.pending, (state) => {
-            state.loading = true
-         })
-         .addCase(deleteAnouncement.fulfilled, (state, action) => {
-            state.loading = false
-            state.data.announcements = action.payload
-         })
-
-         .addCase(deleteAnouncement.rejected, (state, action) => {
             state.loading = false
             state.error = action.error.message
          })

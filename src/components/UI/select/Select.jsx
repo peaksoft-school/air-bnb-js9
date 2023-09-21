@@ -40,7 +40,7 @@ export function Select({
             defaultValue={region}
             onClick={toggle}
          >
-            <MenuItem value=" " />
+            <MenuItem value=" ">All</MenuItem>
             {data?.map((item) => (
                <MenuItem key={item.id} value={item.value}>
                   {item.name}

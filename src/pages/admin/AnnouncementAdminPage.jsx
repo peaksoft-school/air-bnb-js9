@@ -15,6 +15,8 @@ import {
 import { toastSnackbar } from '../../components/UI/snackbar/Snackbar'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
+import { LeaveFeedback } from '../../components/leave-feedback/LeaveFeeadback'
+import { RatingChart } from '../../components/UI/rating/RatingChart'
 
 export function AnnouncementAdminPage({
    roles,
@@ -24,6 +26,7 @@ export function AnnouncementAdminPage({
    params,
 }) {
    const [openModal, setOpenModal] = useState(false)
+   const [openDelete, setOpenDelete] = useState(false)
    const dispatch = useDispatch()
    const { announId } = useParams()
 
@@ -79,7 +82,7 @@ export function AnnouncementAdminPage({
    }
 
    const openModalHandler = () => {
-      setOpenModal((prev) => !prev)
+      setOpenDelete((prev) => !prev)
    }
    const removeAnnouncement = () => {
       const data = {
@@ -95,6 +98,13 @@ export function AnnouncementAdminPage({
       setOpenModal(false)
    }
 
+   // const toggleFeedback = () => {
+   //    if(feedbackDataByid)
+   // }
+
+   const leaveFeedbackHandler = () => {
+      setOpenModal((prev) => !prev)
+   }
    const applicationByIdImages = announcement.images?.map((item) => item.images)
    const images = Array.isArray(applicationByIdImages)
       ? announcement.images?.map((image, index) => ({
@@ -116,7 +126,15 @@ export function AnnouncementAdminPage({
                      >
                         Application
                      </button>
-                     / <p className="name">Name</p>
+                     /{' '}
+                     <p
+                        className="name"
+                        style={{
+                           marginLeft: '3rem',
+                        }}
+                     >
+                        Name
+                     </p>
                   </Navigate>
                   <BlockMain>
                      <h2>Name</h2>
@@ -185,7 +203,7 @@ export function AnnouncementAdminPage({
          <Container>
             <MainContainer>
                <div role="presentation">
-                  <Breadcrumbs aria-label="breadcrumb">
+                  <BreadcrumbsStyle aria-label="breadcrumb">
                      <StyledLink onClick={() => navigate('/')}>
                         Main{' '}
                      </StyledLink>
@@ -195,10 +213,16 @@ export function AnnouncementAdminPage({
                         Profile
                      </StyledLink>
                      <Typography color="text.primary">Name</Typography>
-                  </Breadcrumbs>
+                  </BreadcrumbsStyle>
                </div>
                <BlockMain>
-                  <h2>Name</h2>
+                  <h2
+                     style={{
+                        marginLeft: '1.4rem',
+                     }}
+                  >
+                     Name
+                  </h2>
                   <Main>
                      <HouseSlidDetail images={images} />
                      <NameOfHotel
@@ -208,7 +232,7 @@ export function AnnouncementAdminPage({
                         pages
                         roles="user"
                         hotel={Hotel}
-                        openModal={openModal}
+                        openModal={openDelete}
                         openModalHandler={openModalHandler}
                      />
                   </Main>
@@ -223,10 +247,26 @@ export function AnnouncementAdminPage({
                </FavoritesContainer>
                <h2>feedback</h2>
                <ContainerFeetback>
-                  <div>
+                  <div
+                     style={{
+                        display: 'flex',
+                     }}
+                  >
                      <Feedback data={announcement} announcementBooked />
+                     <RatingChart marginLeft="4rem" width="27rem" />
                   </div>
-                  <RatingChart />
+                  <LeaveStyle>
+                     <ButtonForFeedback onClick={leaveFeedbackHandler}>
+                        Leave Feedback
+                     </ButtonForFeedback>
+                  </LeaveStyle>
+
+                  {openModal && (
+                     <LeaveFeedback
+                        openModal={openModal}
+                        setOpenModal={setOpenModal}
+                     />
+                  )}
                </ContainerFeetback>
             </MainContainer>
             <Footer />
@@ -234,9 +274,17 @@ export function AnnouncementAdminPage({
       </div>
    )
 }
-const RatingChart = styled('div')``
+const LeaveStyle = styled('div')`
+   margin-top: 22rem;
+   width: 100%;
+   margin-left: -99rem;
+`
+const BreadcrumbsStyle = styled(Breadcrumbs)`
+   margin-left: 1.3rem;
+`
+// const RatingChart = styled('div')``
 const Applications = styled('div')(() => ({
-   width: '100%',
+   width: '90%',
    height: '80vh',
    display: 'flex',
    flexDirection: 'column',
@@ -265,12 +313,13 @@ const Container = styled('div')(() => ({
 }))
 
 const MainContainer = styled('div')(() => ({
-   width: '100%',
+   width: '90%',
    paddingLeft: '2.5rem',
    display: 'flex',
    flexDirection: 'column',
    gap: '2.5rem',
-   marginLeft: '4rem',
+   paddingTop: '4rem',
+   marginLeft: '3rem',
 }))
 
 const Main = styled('main')(() => ({
@@ -338,4 +387,17 @@ const StyledLink = styled(Link)(() => ({
    fontStyle: 'normal',
    fontWeight: '400',
    lineHeight: 'normal',
+}))
+
+const ButtonForFeedback = styled('button')(() => ({
+   padding: '0.5rem 1rem',
+   width: '26.5rem',
+   color: ' #828282',
+   fontFamily: 'Inter',
+   fontSize: '1rem',
+   fontWeight: '500',
+   textTransform: 'uppercase',
+   border: '.0625rem solid#828282',
+   background: 'none ',
+   cursor: 'pointer',
 }))

@@ -3,46 +3,40 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Formik } from 'formik'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Input } from '../UI/input/Input'
 import { Select } from '../UI/select/Select'
 import { Upload } from '../UI/upload-img/Upload'
-import { schema } from '../../utils/helpers'
-import { addAnouncement } from '../../api/anouncementService'
+import { addRegions, schema } from '../../utils/helpers'
 import { toastSnackbar } from '../UI/snackbar/Snackbar'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
 import { Button } from '../UI/button/Button'
+import { editAnouncement } from '../../store/profile/ProfileThunk'
 
-const data = [
-   { id: 'option1', name: 'BATKEN' },
-   { id: 'option2', name: 'JALAL_ABAD' },
-   { id: 'option3', name: 'YSSYK-KOL' },
-   { id: 'option4', name: 'NARYN' },
-   { id: 'option5', name: 'OSH' },
-   { id: 'option6', name: 'TALAS' },
-   { id: 'option7', name: 'CHUI' },
-]
-
-export function ModalProfile({ setModalVisible, dataEdit }) {
-   console.log('dataEdit: ', dataEdit)
+export function ModalProfile() {
    const [fileNames, setFileNames] = useState([])
+   const [regionSelected, setRegionSelected] = useState(false)
    const { toastType } = toastSnackbar()
+   const dispatch = useDispatch()
    const navigate = useNavigate()
    const { announcement } = useSelector((state) => state.annByID)
 
-   const postAnouncementForm = async (payload) => {
-      try {
-         const response = await addAnouncement(payload)
-         toastType('success', 'Ad added successfully!')
-         navigate('/')
-
-         return response.data
-      } catch (error) {
-         toastType('error', 'Error!')
-      }
-      return payload
+   const initialValues = {
+      houseType: announcement.houseType || '',
+      price: announcement.priceDay || '200',
+      maxGuests: announcement.maxGuests || '',
+      description: announcement.description || '',
+      title: announcement.title || '',
+      province: announcement.province || '',
+      region: announcement.region || 'CHUI',
+      address: announcement.address || '',
+      images: [
+         'https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      ],
+   }
+   const postAnouncementForm = async (editData) => {
+      dispatch(editAnouncement({ editData, id: announcement.id, toastType }))
    }
 
    const {
@@ -51,27 +45,21 @@ export function ModalProfile({ setModalVisible, dataEdit }) {
       formState: { errors },
       control,
    } = useForm({
+      defaultValues: initialValues,
       resolver: yupResolver(schema),
    })
-   const cencelHandler = () => {
-      setModalVisible(false)
-   }
+
    const onSubmit = (data) => {
       data.images = announcement
       postAnouncementForm(data)
       navigate('/Profile/my-announcement')
    }
 
-   const borderTextArea = announcement ? '1px solid #fff' : '1px solid gray'
    return (
       <>
          <Header login="false" />
-         <GlobalContainer announcement={announcement}>
-            <Formik />
-            <Container
-               onSubmit={handleSubmit(onSubmit)}
-               announcement={announcement}
-            >
+         <GlobalContainer>
+            <Container onSubmit={handleSubmit(onSubmit)}>
                <h2>Hi! Let`s get started listing your place.</h2>
                <p>
                   In this form, we`ll collect some basic and additional
@@ -79,10 +67,8 @@ export function ModalProfile({ setModalVisible, dataEdit }) {
                </p>
                <AddPhotoBlock>
                   <div>
-                     <StyledSpan announcement={announcement}>Image</StyledSpan>
-                     <QuantityForPhoto announcement={announcement}>
-                        Max 4 photo
-                     </QuantityForPhoto>
+                     <StyledSpan>Image</StyledSpan>
+                     <QuantityForPhoto>Max 4 photo</QuantityForPhoto>
                   </div>
                   <div style={{ marginTop: '1.125rem' }}>
                      <Upload
@@ -91,10 +77,10 @@ export function ModalProfile({ setModalVisible, dataEdit }) {
                         setFileNames={setFileNames}
                      />
                      <AddPhotoInfo>
-                        <AddPhotoReview announcement={announcement}>
+                        <AddPhotoReview>
                            Add photos to the review
                         </AddPhotoReview>
-                        <UploadPhotoInfo announcement={announcement}>
+                        <UploadPhotoInfo>
                            it will become more noticeable and even more useful.
                            <br /> You can upload up to 4 photos.
                         </UploadPhotoInfo>
@@ -102,10 +88,8 @@ export function ModalProfile({ setModalVisible, dataEdit }) {
                   </div>
                </AddPhotoBlock>
                <HomeTypeBlock>
-                  <StyledLabel announcement={announcement}>
-                     Home type
-                  </StyledLabel>
-                  <ApartmentAndHouseBlock announcement={announcement}>
+                  <StyledLabel>Home type</StyledLabel>
+                  <ApartmentAndHouseBlock>
                      <div className="checkboxContainer">
                         <Controller
                            name="houseType"
@@ -116,17 +100,12 @@ export function ModalProfile({ setModalVisible, dataEdit }) {
                                  id="apartment"
                                  barsbek="nekrash"
                                  type="radio"
-                                 border="none"
-                                 value="apartment"
+                                 value="APARTMENT"
+                                 checked={field.value === 'APARTMENT'} // Устанавливаем checked в зависимости от значения field.value
                               />
                            )}
                         />
-                        <StyledLabel
-                           htmlFor="apartment"
-                           announcement={announcement}
-                        >
-                           Apartment
-                        </StyledLabel>
+                        <StyledLabel htmlFor="apartment">Apartment</StyledLabel>
                      </div>
                      <div className="checkboxContainer">
                         <Controller
@@ -138,26 +117,19 @@ export function ModalProfile({ setModalVisible, dataEdit }) {
                                  id="house"
                                  barsbek="nekrash"
                                  type="radio"
-                                 value="house"
+                                 value="HOUSE"
+                                 checked={field.value === 'HOUSE'} // Устанавливаем checked в зависимости от значения field.value
                               />
                            )}
                         />
-                        <StyledLabel
-                           htmlFor="house"
-                           announcement={announcement}
-                        >
-                           House
-                        </StyledLabel>
+                        <StyledLabel htmlFor="house">House</StyledLabel>
                      </div>
                   </ApartmentAndHouseBlock>
                   <IsError>{errors.houseType?.message}</IsError>
                </HomeTypeBlock>
                <FilterBlock>
                   <GuestBlock>
-                     <StyledLabel
-                        htmlFor="maxGuests"
-                        announcement={announcement}
-                     >
+                     <StyledLabel htmlFor="maxGuests">
                         Max of Guests
                      </StyledLabel>
                      <InputPriceAndMaxGuest
@@ -166,7 +138,6 @@ export function ModalProfile({ setModalVisible, dataEdit }) {
                         type="number"
                         placeholder="0"
                         barsbek="nekrash"
-                        announcement={announcement}
                         {...register('maxGuests')}
                         error={!!errors.maxGuests}
                         style={{
@@ -174,122 +145,123 @@ export function ModalProfile({ setModalVisible, dataEdit }) {
                               color: '#fff',
                            },
                         }}
+                        defaultValue={initialValues.maxGuests}
                      />
                      <IsError>{errors.maxGuests?.message}</IsError>
                   </GuestBlock>
                   <PriceBlock>
-                     <StyledLabel htmlFor="price" announcement={announcement}>
-                        Price
-                     </StyledLabel>
+                     <StyledLabel htmlFor="price">Price</StyledLabel>
                      <InputPriceAndMaxGuest
                         id="price"
                         size="small"
                         type="number"
                         barsbek="nekrash"
                         placeholder="$ 0"
-                        announcement={announcement}
                         {...register('price')}
                         error={!!errors.price}
+                        defaultValue={initialValues.price}
                      />
                      <IsError>{errors.price?.message}</IsError>
                   </PriceBlock>
                </FilterBlock>
                <TitleBlock>
-                  <StyledLabel htmlFor="title" announcement={announcement}>
-                     Title
-                  </StyledLabel>
+                  <StyledLabel htmlFor="title">Title</StyledLabel>
                   <InputTitle
                      id="title"
                      type="text"
                      size="small"
                      placeholder="Enter a title..."
                      barsbek="nekrash"
-                     announcement={announcement}
                      {...register('title')}
                      error={!!errors.title}
+                     defaultValue={initialValues.title}
                   />
                   <IsError>{errors.title?.message}</IsError>
                </TitleBlock>
                <DescriptionBlock>
-                  <StyledLabel
-                     htmlFor="description"
-                     announcement={announcement}
-                  >
+                  <StyledLabel htmlFor="description">
                      Description of listing
                   </StyledLabel>
                   <StyledTextArea
                      {...register('description')}
                      id="description"
-                     announcement={announcement}
                      placeholder="Enter a description..."
                      style={{
                         border: errors.description
                            ? '1px solid red'
-                           : borderTextArea,
+                           : '1px solid gray',
                      }}
+                     defaultValue={initialValues.description}
                   />
                   <IsError>{errors.description?.message}</IsError>
                </DescriptionBlock>
                <RegionBlock>
-                  <StyledLabel htmlFor="region" announcement={announcement}>
-                     Region
-                  </StyledLabel>
-                  <RegionSelect
+                  <StyledLabel htmlFor="region">Region</StyledLabel>
+                  <Select
                      register={register}
-                     data={data}
+                     data={addRegions}
+                     width="100%"
                      id="region"
                      error={!!errors.region}
-                     announcement={announcement}
                      labelName={
-                        <SelectLabelName>
+                        <SelectLabelName
+                           style={{
+                              display: regionSelected ? 'none' : 'block',
+                           }}
+                        >
                            Please select the region
                         </SelectLabelName>
                      }
+                     onChange={() => setRegionSelected(true)}
+                     defaultValue={initialValues.region}
                   />
                   <IsError>{errors.region?.message}</IsError>
                </RegionBlock>
                <TownBlock>
-                  <StyledLabel htmlFor="province" announcement={announcement}>
-                     Town / Province
-                  </StyledLabel>
+                  <StyledLabel htmlFor="province">Town / Province</StyledLabel>
                   <InputProvinceAndAddres
                      type="text"
                      size="small"
                      id="province"
                      placeholder="Enter the town..."
                      barsbek="nekrash"
-                     announcement={announcement}
                      error={!!errors.province}
                      {...register('province')}
+                     defaultValue={initialValues.province}
                   />
                   <IsError>{errors.province?.message}</IsError>
                </TownBlock>
                <AddressBlock>
-                  <StyledLabel htmlFor="address" announcement={announcement}>
-                     Address
-                  </StyledLabel>
-                  <InputProvinceAndAddres
-                     type="text"
-                     size="small"
-                     id="address"
-                     placeholder="Enter the address..."
-                     barsbek="nekrash"
-                     announcement={announcement}
-                     error={!!errors.address}
-                     {...register('address')}
+                  <StyledLabel htmlFor="address">Address</StyledLabel>
+                  <Controller
+                     name="address"
+                     control={control}
+                     render={({ field }) => (
+                        <InputProvinceAndAddres
+                           type="text"
+                           size="small"
+                           id="address"
+                           placeholder="Enter the address..."
+                           barsbek="nekrash"
+                           error={!!errors.address}
+                           defaultValue={initialValues.address}
+                           {...field.value}
+                        />
+                     )}
                   />
+
+                  <IsError>{errors.address?.message}</IsError>
+               </AddressBlock>
+               <ButtonBlock>
                   <Button
                      variant="contained"
                      bgColor="#DD8A08"
                      color="#fff"
-                     width="16.2rem"
-                     onClick={cencelHandler}
+                     width="12rem"
+                     onClick={() => navigate(-1)}
                   >
                      Cencel
                   </Button>
-                  <IsError>{errors.address?.message}</IsError>
-               </AddressBlock>
-               <ButtonBlock>
                   <SubmitInput type="submit" value="Submit" />
                </ButtonBlock>
             </Container>
@@ -299,23 +271,21 @@ export function ModalProfile({ setModalVisible, dataEdit }) {
    )
 }
 
-const GlobalContainer = styled('div')(({ announcement }) => ({
+const GlobalContainer = styled('div')(() => ({
    width: '100%',
    height: '100%',
    display: 'flex',
    justifyContent: 'center',
    marginTop: '4rem',
-   background: announcement
-      ? 'linear-gradient(274deg, rgba(152,152,152,1) 15%, rgba(0,0,0,1) 100%)'
-      : '#fff',
+   background: '#fff',
 }))
 
-const Container = styled('form')(({ announcement }) => ({
+const Container = styled('form')(() => ({
    display: 'flex',
    flexDirection: 'column',
 
    h2: {
-      color: announcement ? '#fff' : '#363636',
+      color: '#363636',
       fontSize: '1rem',
       fontStyle: 'normal',
       fontWeight: '500',
@@ -326,7 +296,7 @@ const Container = styled('form')(({ announcement }) => ({
 
    p: {
       width: '38.125rem',
-      color: announcement ? '#fff' : '#646464',
+      color: '#646464',
       fontFamily: 'Inter',
       fontSize: '1rem',
       fontStyle: 'normal',
@@ -347,8 +317,8 @@ const AddPhotoBlock = styled('div')(() => ({
    },
 }))
 
-const StyledSpan = styled('span')(({ announcement }) => ({
-   color: announcement ? '#fff' : '#363636',
+const StyledSpan = styled('span')(() => ({
+   color: '#363636',
    marginRight: '1rem',
    fontFamily: 'Inter',
    fontSize: '1rem',
@@ -357,13 +327,13 @@ const StyledSpan = styled('span')(({ announcement }) => ({
    lineheight: 'normal',
 }))
 
-const QuantityForPhoto = styled('span')(({ announcement }) => ({
+const QuantityForPhoto = styled('span')(() => ({
    fontFamily: 'Inter',
    fontSize: '1rem',
    fontStyle: 'normal',
    fontweight: ' 400',
    lineheight: 'normal',
-   color: announcement ? '#fff' : '#A9A9A9',
+   color: '#A9A9A9',
 }))
 
 const AddPhotoInfo = styled('div')(() => ({
@@ -374,13 +344,13 @@ const AddPhotoInfo = styled('div')(() => ({
    marginLeft: '1.25rem',
 }))
 
-const AddPhotoReview = styled('span')(({ announcement }) => ({
-   color: announcement ? '#fff' : '#266BD3',
+const AddPhotoReview = styled('span')(() => ({
+   color: '#266BD3',
    fontWeight: '500',
 }))
 
-const UploadPhotoInfo = styled('span')(({ announcement }) => ({
-   color: announcement ? '#fff' : '#828282',
+const UploadPhotoInfo = styled('span')(() => ({
+   color: '#828282',
    fontSize: '0.875rem',
    fontHeight: '400',
 }))
@@ -391,8 +361,8 @@ const HomeTypeBlock = styled('div')(() => ({
    height: '5.3125rem',
 }))
 
-const StyledLabel = styled('label')(({ announcement }) => ({
-   color: announcement ? '#fff' : ' #363636',
+const StyledLabel = styled('label')(() => ({
+   color: ' #363636',
    fontFamily: 'Inter',
    fontSize: '1rem',
    fontStyle: 'normal',
@@ -469,6 +439,7 @@ const ButtonBlock = styled('div')(() => ({
    display: 'flex',
    justifyContent: ' flex-end',
    marginBottom: '10.63rem',
+   gap: '4rem',
 }))
 
 const SubmitInput = styled('input')(() => ({
@@ -489,63 +460,63 @@ const IsError = styled('span')(() => ({
    color: 'red',
 }))
 
-const StyledTextArea = styled('textarea')(({ announcement }) => ({
+const StyledTextArea = styled('textarea')(() => ({
    width: '100%',
    height: '6.5rem',
    padding: '.625rem 0 0 .625rem',
    borderRadius: '0.125rem',
    resize: 'none',
    overflow: 'hidden',
-   border: announcement ? '1px solid#fff' : '1px solid gray',
+   border: '1px solid gray',
    background: 'rgba(0,0,0,0.0)',
    '#description::placeholder': {
-      color: announcement ? '#fff' : '#000',
+      color: '#000',
    },
 }))
 
-const InputPriceAndMaxGuest = styled(Input)(({ announcement }) => ({
+const InputPriceAndMaxGuest = styled(Input)(() => ({
    width: '15.3125rem',
    height: '2.4375rem',
    padding: '0 0 0.625rem 0',
-   border: announcement ? '1px solid#fff' : '1px solid gray',
+   border: '1px solid gray',
    borderRadius: ' 0.125rem',
    '#guest::placeholder': {
-      color: announcement ? '#fff' : '#000',
+      color: '#000',
    },
    '#price::placeholder': {
-      color: announcement ? '#fff' : '#000',
+      color: '#000',
    },
 }))
-const InputTitle = styled(Input)(({ announcement }) => ({
+const InputTitle = styled(Input)(() => ({
    width: '100%',
    height: '2.4375rem',
-   border: announcement ? '1px solid#fff' : '1px solid gray',
+   border: '1px solid gray',
    borderRadius: ' 0.125rem',
    '#title::placeholder': {
-      color: announcement ? '#fff' : '#000',
+      color: '#000',
    },
 }))
-const InputProvinceAndAddres = styled(Input)(({ announcement }) => ({
+const InputProvinceAndAddres = styled(Input)(() => ({
    width: '100%',
    height: '2.4375rem',
-   border: announcement ? '1px solid#fff' : '1px solid gray',
+   border: '1px solid gray',
 
    '#province::placeholder': {
-      color: announcement ? '#fff' : '#000',
+      color: '#000',
    },
 
    '#address::placeholder': {
-      color: announcement ? '#fff' : '#000',
+      color: '#000',
    },
 }))
-const RegionSelect = styled(Select)(({ announcement }) => ({
-   width: '100%',
-   border: announcement ? '1px solid#fff' : '1px solid gray',
-   '&:hover': {
-      background: 'rgba(0,0,0,0.0)',
-      border: announcement ? '1px solid#fff' : '1px solid gray',
-   },
-   '#region::placeholder': {
-      color: announcement ? '#fff' : '#000',
-   },
-}))
+// const RegionSelect = styled(Select)(() => ({
+//    width: '100%',
+//    border: '1px solid gray',
+//    '&:hover': {
+//       background: 'rgba(0,0,0,0.0)',
+//       border: '1px solid gray',
+//    },
+//    '#region::placeholder': {
+//       color: '#000',
+//    },
+// }))

@@ -77,7 +77,7 @@ export function NameOfHotel({
                   font-size="0.875rem"
                   font-weight="500"
                >
-                  {pages ? 'delete' : 'reject'}
+                  {pages ? 'DELETE' : 'reject'}
                </Button>
 
                {roles === 'user' ? (
@@ -93,7 +93,7 @@ export function NameOfHotel({
                      font-size="0.875rem"
                      font-weight="500"
                   >
-                     edittt
+                     EDIT
                   </Button>
                ) : (
                   <Button
