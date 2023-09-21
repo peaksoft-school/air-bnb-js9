@@ -9,7 +9,6 @@ import { DeleteIcon } from '../../../assets/icons'
 
 export function MyAnnouncement() {
    const { data } = useSelector((state) => state.getannouncement)
-   console.log('dataannouncements: ', data.announcements)
 
    const [sortPrice, setSortPrice] = useState('')
    const [sortRating, setSortRating] = useState('')
