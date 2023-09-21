@@ -30,6 +30,7 @@ export function Cards({
    )
    const [dataa, setData] = useState([])
    const [anchorEl, setAnchorEl] = useState(null)
+   // const [favorites, setFavorites] = useState(true)
    const dispatch = useDispatch()
    const { toastType } = toastSnackbar()
    const { region } = useParams()
@@ -73,7 +74,7 @@ export function Cards({
 
    const toggle = ({ id }) => {
       const newData = data.map((item) => {
-         if (item.id === id) {
+         if (item.id === item.favorite) {
             return { ...item, open: !item.open }
          }
 
@@ -85,11 +86,11 @@ export function Cards({
          dispatch(postLike(id))
          toastType(
             'success',
-            'Announcement  was added from your favorite',
+            'successfyle Announcement  was added from your favorite',
             'success'
          )
       } catch (error) {
-         return toastType('error!!!', error)
+         return toastType('error', error)
       }
       return {}
    }
