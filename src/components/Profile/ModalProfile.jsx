@@ -21,6 +21,7 @@ export function ModalProfile() {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const { announcement } = useSelector((state) => state.annByID)
+   const { images } = useSelector((state) => state.uploadImg)
 
    const initialValues = {
       houseType: announcement.houseType || '',
@@ -31,9 +32,7 @@ export function ModalProfile() {
       province: announcement.province || '',
       region: announcement.region || 'CHUI',
       address: announcement.address || '',
-      images: [
-         'https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      ],
+      images: announcement.images || '',
    }
    const postAnouncementForm = async (editData) => {
       dispatch(editAnouncement({ editData, id: announcement.id, toastType }))
@@ -50,8 +49,9 @@ export function ModalProfile() {
    })
 
    const onSubmit = (data) => {
-      data.images = announcement
+      data.images = images
       postAnouncementForm(data)
+      console.log(data)
       navigate('/Profile/my-announcement')
    }
 

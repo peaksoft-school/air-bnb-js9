@@ -9,6 +9,7 @@ import { deleteAnouncement } from '../../../store/profile/ProfileThunk'
 import { toastSnackbar } from '../snackbar/Snackbar'
 import { PhotoSlider } from '../imageSlide/ImageSlice'
 import { getByIdAnnouncement } from '../../../store/innerPage/InnerPageThunk'
+import { uploadActions } from '../../../store/Upload'
 
 export function ProfileCards({ data, announcement, index, message, ...props }) {
    const dispatch = useDispatch()
@@ -50,6 +51,7 @@ export function ProfileCards({ data, announcement, index, message, ...props }) {
    const navigate = useNavigate()
    const openModal = () => {
       navigate('/Profile/my-announcement/edit')
+      dispatch(uploadActions.resetImages())
    }
 
    return (
@@ -90,7 +92,6 @@ export function ProfileCards({ data, announcement, index, message, ...props }) {
                <Location />
                <Tooltip address={data.address}>
                   {truncateAddress(data.address)}
-                  <h2> {data.id}</h2>
                </Tooltip>
             </LocationCantainerStyle>
             {announcement === 'true' && (

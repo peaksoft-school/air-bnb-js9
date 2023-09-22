@@ -13,7 +13,5 @@ export const deleteAnnouncementbyIdRequest = (id) => {
 }
 
 export const putAnnouncementsRequest = ({ editData, id }) => {
-   console.log('id: ', id)
-   console.log('editData: ', editData)
    return axiosInstance.put(`/api/announcements/${id}`, editData)
 }
