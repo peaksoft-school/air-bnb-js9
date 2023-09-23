@@ -32,7 +32,7 @@ export default function AnnouncementDetailPage() {
    )
    const { houseId } = useParams()
    const dispatch = useDispatch()
-
+   console.log(countRatingDataById)
    useEffect(() => {
       dispatch(feedbackGetByIdRequest())
       dispatch(getByIdRequest(houseId))
@@ -123,8 +123,9 @@ export default function AnnouncementDetailPage() {
                   </div>
                   <div>
                      <RatingChart
-                        countRatingDataById={countRatingDataById}
-                        starValue={countRatingDataById.averageRating}
+                        // countRatingDataById={countRatingDataById}
+                        // starValue={countRatingDataById.averageRating}
+                        starValue="6"
                      />
                      <ButtonForFeedback onClick={leaveFeedbackHandler}>
                         leave feedback

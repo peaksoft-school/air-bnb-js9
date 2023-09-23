@@ -58,7 +58,7 @@ export function MyAnnouncement({ select, announcement }) {
    }
 
    return (
-      <div>
+      <div style={{ border: '2px solid red' }}>
          <Container>
             {select === 'true' ? (
                <div>

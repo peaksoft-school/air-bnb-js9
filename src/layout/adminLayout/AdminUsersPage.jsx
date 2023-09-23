@@ -11,7 +11,7 @@ import {
    getBookings,
 } from '../../store/admin-users/adminUsersThunk'
 
-function AdminUsersPage({ setState }) {
+export function AdminUsersPage({ setState }) {
    const [userData, setUserData] = useState({})
    const [showButton, setShowButton] = useState(false)
    const { toggle } = useSelector((state) => state.application)
@@ -116,4 +116,3 @@ const CardSide = styled('div')(() => ({
 const StyledNavlink = styled(NavLink)(() => ({
    color: '#C4C4C4',
 }))
-export default AdminUsersPage

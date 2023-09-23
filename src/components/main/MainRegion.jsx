@@ -1,6 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { styled } from '@mui/material'
 import { useEffect, React } from 'react'
 import AOS from 'aos'
+import 'aos/dist/aos.css'
 import { Link } from 'react-router-dom'
 import chui from '../../assets/images/chui.png'
 import batken from '../../assets/images/batken.png'
@@ -10,7 +12,6 @@ import talas from '../../assets/images/talas.png'
 import bishkek from '../../assets/images/bishkek.png'
 import osh from '../../assets/images/osh.png'
 import naryn from '../../assets/images/naryn.png'
-import 'aos/dist/aos.css'
 
 export function MainRegion() {
    useEffect(() => {

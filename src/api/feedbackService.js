@@ -1,11 +1,11 @@
 import { axiosInstance } from '../config/axiosInstance'
 
 export const leaveFeedback = (data) => {
-   return axiosInstance.post(`/api/feedbacks/4`, data)
+   return axiosInstance.post(`/api/feedbacks/41`, data)
 }
 
 export const getFeedbackById = (data) => {
-   return axiosInstance.get(`/api/feedbacks/4`, data)
+   return axiosInstance.get(`/api/feedbacks/41`, data)
 }
 
 export const putFeedbackById = (feedbackId, data) => {
@@ -19,5 +19,5 @@ export const likeOrDislike = (feedbackId, likeOrDislike) => {
 }
 
 export const getCountRatingById = (data) => {
-   return axiosInstance.get(`/api/feedbacks/countRating/4`, data)
+   return axiosInstance.get(`/api/feedbacks/countRating/41`, data)
 }

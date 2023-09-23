@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Header } from '../../layout/Header/Header'
 import { Footer } from '../../layout/Footer/Footer'
@@ -33,81 +33,65 @@ export function UserProfile() {
    return (
       <MainContainer>
          <Header profile="true" />
-         <NavContainer>
-            <Navigation>
-               <ButtonStyle type="button" onClick={() => navigate('/')}>
-                  <NavStyle>Main /</NavStyle>
-               </ButtonStyle>
-               <ButtonStyle type="button" onClick={() => navigate('/hotel')}>
-                  <NavStyle>Hotel /</NavStyle>
-               </ButtonStyle>
-               <ButtonStyle type="button" onClick={() => navigate('/naryn')}>
-                  <NavStyle>Naryn /</NavStyle>
-               </ButtonStyle>
-               <ButtonStyle type="button" onClick={() => navigate(`/Profile`)}>
-                  <ProfileStyle>Profile</ProfileStyle>
-               </ButtonStyle>
-            </Navigation>
 
-            <h3>Profile</h3>
-         </NavContainer>
          <ProfileContainer>
-            <ProfileContainerTabs>
-               <Profile
-                  width="100%"
-                  height="30%"
-                  data={userDetailProfile}
-                  logOut={logOut}
-               />
-            </ProfileContainerTabs>
-            <ContainerTabs>
-               <Tabs
-                  announcement={data.announcements}
-                  bookings={data.bookings}
-               />
-            </ContainerTabs>
+            <Navigation>
+               <NavStyle onClick={() => navigate('/')}>Main /</NavStyle>
+               <NavStyle onClick={() => navigate('/hotel')}>Hotel /</NavStyle>
+               <NavStyle onClick={() => navigate('/naryn')}>Naryn /</NavStyle>
+               <ProfileStyle onClick={() => navigate(`/Profile`)}>
+                  Profile
+               </ProfileStyle>
+            </Navigation>
+            <div className="tabs">
+               <ProfileContainerTabs>
+                  <Profile
+                     width="100%"
+                     height="30%"
+                     data={userDetailProfile}
+                     logOut={logOut}
+                  />
+               </ProfileContainerTabs>
+               <ContainerTabs>
+                  <Tabs state="true" />
+               </ContainerTabs>
+            </div>
          </ProfileContainer>
          <Footer />
       </MainContainer>
    )
 }
-const ButtonStyle = styled('button')`
-   cursor: pointer;
-   border: none;
-   background-color: white;
-`
 
 const ProfileContainer = styled('div')`
-   display: flex;
-   justify-content: center;
-   width: 204vh;
+   padding-top: 2rem;
+   width: 100%;
    gap: 3rem;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+
+   .tabs {
+      display: flex;
+      justify-content: space-between;
+   }
 `
 
 const ContainerTabs = styled('div')`
    width: 65%;
-   flex-wrap: wrap;
    height: auto;
 `
 const ProfileContainerTabs = styled('div')`
    height: 1100px;
    width: 25%;
+   margin-left: 6rem;
 `
-const NavContainer = styled('div')`
-   display: flex;
-   flex-direction: column;
-   padding: 22px 100px;
-`
+
 const Navigation = styled('div')`
-   display: flex;
-   justify-content: space-around;
-   padding: 40px 0;
    width: 200px;
-   :nth-child(4) {
-      color: black;
-      font-size: bold;
-      font-weight: 400;
-   }
+   margin-top: 5rem;
+   display: flex;
+   margin-left: 6rem;
+   justify-content: space-around;
 `
 
 const MainContainer = styled('div')`
@@ -120,7 +104,7 @@ const ProfileStyle = styled('p')`
    font-size: 0.875rem;
    font-weight: 400;
 `
-const NavStyle = styled('p')`
+const NavStyle = styled(Link)`
    color: var(--tertiary-light-gray, #c4c4c4);
    font-family: Inter;
    font-size: 0.875rem;

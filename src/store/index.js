@@ -13,6 +13,7 @@ import { DarkModeSlice } from './dark-mode/DarkModeSlice'
 import { ModalSlice } from './ModalSlice'
 import { getAnnouncementByIdSlice } from './getAnnouncement/GetAnnouncementByIdSlice'
 import { favoriteSlice } from './favorite/FavoriteSlice'
+import { announcementsSlice } from './innerPage/InnerPageSlice'
 import { feedbackSlice } from './feedback/feedbackSlice'
 import { uploadSlice } from './Upload'
 
@@ -33,7 +34,8 @@ export const store = configureStore({
       [ModalSlice.name]: ModalSlice.reducer,
       [getAnnouncementByIdSlice.name]: getAnnouncementByIdSlice.reducer,
       [favoriteSlice.name]: favoriteSlice.reducer,
-      [uploadSlice.name]: uploadSlice.reducer,
+      [announcementsSlice.name]: announcementsSlice.reducer,
       [feedbackSlice.name]: feedbackSlice.reducer,
+      [uploadSlice.name]: uploadSlice.reducer,
    },
 })

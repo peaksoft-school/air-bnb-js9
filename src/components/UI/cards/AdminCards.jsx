@@ -8,7 +8,7 @@ import {
    ArrowrightIcon,
    Start1,
 } from '../../../assets/icons'
-import ModalProfile from '../../Profile/ModalProfile'
+import { ModalProfile } from '../../Profile/ModalProfile'
 import { MeatBalls } from '../meat-balls/MeatBalls'
 import { ModalNameHotel } from '../name-hotel/ModalNameHotel'
 import { toastSnackbar } from '../snackbar/Snackbar'
@@ -61,7 +61,6 @@ export function AdminCards({
          return newImages
       })
    }
-
    const handleNextImage = (index) => {
       setCurrentImages((prevImages) => {
          const newImages = [...prevImages]
@@ -72,7 +71,6 @@ export function AdminCards({
          return newImages
       })
    }
-
    const handleMenuOpen = (e, id) => {
       setCurrentEl(e.currentTarget)
       setItemId(id)

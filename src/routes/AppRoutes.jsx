@@ -17,7 +17,7 @@ import {
 import { toastSnackbar } from '../components/UI/snackbar/Snackbar'
 import { Bookings } from '../components/UI/tabs/Bookings'
 import { MyAnnouncement } from '../components/UI/tabs/MyAnnouncement'
-import AdminUsersPage from '../layout/adminLayout/AdminUsersPage'
+import { AdminUsersPage } from '../layout/adminLayout/AdminUsersPage'
 import AnnouncementGetAll from '../components/anouncement/AnnouncementGetAll'
 import { Favorite } from '../components/favorite/Favorite'
 import { UserProfile } from '../components/Profile/Profile'
@@ -25,6 +25,7 @@ import { AllHousing } from '../pages/admin/all-housing/AllHousing'
 import { NotFound } from '../components/UI/404/NotFound'
 import { OnModeration } from '../components/UI/tabs/OnModeration'
 import AnnouncementDetailPage from '../pages/user/AnnouncementDetailPage'
+import { ModalProfile } from '../components/Profile/ModalProfile'
 
 export function AppRoutes() {
    const [currentPage, setCurrentPage] = useState(1)
@@ -67,7 +68,6 @@ export function AppRoutes() {
             currentSize,
          },
       }
-
       dispatch(postRejectApplications(object))
       setTitle('')
    }
@@ -122,6 +122,7 @@ export function AppRoutes() {
             path="/Profile"
             element={<Navigate to="/Profile/my-announcement" />}
          />
+
          <Route path="Profile" element={<UserProfile />}>
             <Route
                index
@@ -129,14 +130,23 @@ export function AppRoutes() {
                element={<Bookings bookings={bookings} onChange="true" />}
             />
             <Route
-               path="my-announcement"
+               path="my-announcement/"
                element={<MyAnnouncement announcement={data} select="true" />}
             />
+
             <Route
                path="on-moderation"
                element={<OnModeration moderation={data} />}
             />
          </Route>
+         <Route
+            path="/Profile/my-announcement/name/:announId/"
+            element={<AnnouncementAdminPage roles="user" pages="user" />}
+         />
+         <Route
+            path="/Profile/my-announcement/edit"
+            element={<ModalProfile />}
+         />
 
          {/* admin */}
          <Route

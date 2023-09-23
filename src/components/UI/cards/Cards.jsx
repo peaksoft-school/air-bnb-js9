@@ -320,6 +320,11 @@ const Container = styled('div')`
    align-items: center;
    flex-direction: column;
    flex-wrap: wrap;
+   justify-content: center;
+   align-items: center;
+   gap: 20px;
+   flex-wrap: wrap;
+   margin-top: 2.5rem;
 `
 const ImageStyleContainer = styled('div')`
    display: 'inline-block';

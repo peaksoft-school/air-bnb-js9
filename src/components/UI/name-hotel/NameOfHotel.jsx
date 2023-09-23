@@ -3,106 +3,72 @@ import { styled } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../button/Button'
 import { ModalNameHotel } from './ModalNameHotel'
-import { axiosInstance } from '../../../config/axiosInstance'
-import { toastSnackbar } from '../snackbar/Snackbar'
-import { getAnnouncementByIdHandler } from '../../../store/getAnnouncement/GetAnnouncementByIdThunk'
-import { ModalDelete } from './ModalDelete'
+// import { ModalProfile } from '../../Profile/ModalProfile'
 
 export function NameOfHotel({
-   roles,
-   pages,
-   buttons,
    dataById,
    openModal,
-   acceptHandler,
-   rejectedCartd,
    openModalHandler,
+   rejectedCartd,
+   acceptHandler,
+   pages,
+   roles,
+   buttons,
+   remove,
+   avatar,
 }) {
-   const [blockedArr, setBlockedArr] = useState({})
-   const { toastType } = toastSnackbar()
    const navigate = useNavigate()
-   const [deleteModal, setDeleteModal] = useState(false)
-   const openDeleteModal = () => {
-      setDeleteModal((prev) => !prev)
+   const [editModalIsOpen, setEditModalIsOpen] = useState(false)
+   const openEditModal = () => {
+      setEditModalIsOpen(true)
+      navigate('/Profile/my-announcement/edit')
    }
-
-   console.log('blockedArr: ', blockedArr)
-   const blockAnnouncementById = async (id) => {
-      try {
-         const response = await axiosInstance.get(
-            `/api/admin/blockedAnnouncementsById?announcementId=${id}`
-         )
-         setBlockedArr(response)
-         toastType('success', response.data.message, response.data.httpStatus)
-      } catch (error) {
-         toastType('error', error.message)
-      }
-   }
-
-   // eslint-disable-next-line consistent-return
-   const deleteAnnouncementById = async (id) => {
-      try {
-         const response = await axiosInstance.delete(`/api/announcements/${id}`)
-         getAnnouncementByIdHandler()
-         console.log('response: ', response)
-         navigate(-1)
-         toastType('success', response.data.message)
-         return response.data
-      } catch (error) {
-         toastType('error', error.message)
-      }
-   }
-
    return (
       <Container>
          <ModalNameHotel
+            remove={remove}
             openModal={openModal}
             openModalHandler={openModalHandler}
             rejectedCartd={rejectedCartd}
          />
-         <ModalDelete
-            openModal={deleteModal}
-            openModalHandler={openDeleteModal}
-            dataById={dataById}
-            deleteAnnouncement={deleteAnnouncementById}
-         />
-         <DescriptionContainer key={dataById.id}>
+         {editModalIsOpen === true ? navigate() : null}
+         <DescriptionContainer key={dataById?.id}>
             <ButtonContainerOne>
-               <div>{dataById.houseType}</div>
-               <div>{dataById.maxGuests} Guests</div>
+               <div>{dataById?.houseType}</div>
+               <div>{dataById?.maxGuests} Guests</div>
             </ButtonContainerOne>
             <NameHotel>
-               <h2>Name Of hotel</h2>
+               <h3>{dataById?.title}</h3>
                <p>
-                  {dataById.address}, {dataById.province}
+                  {dataById?.address} {dataById?.province}
                </p>
             </NameHotel>
 
-            <p className="description">{dataById.description}</p>
+            <p className="description">{dataById?.description}</p>
 
-            <ProfileBlock>
-               <div className="avatar" />
-               {buttons === 'yes' ? (
-                  <NameBlock>
-                     <h4>{dataById.fullName}</h4>
-                     <p>{dataById.email}</p>
-                  </NameBlock>
-               ) : (
-                  <NameBlock>
-                     <h4>{dataById.fullName}</h4>
-                     <p>{dataById.email}</p>
-                  </NameBlock>
-               )}
-            </ProfileBlock>
+            {avatar === true && (
+               <ProfileBlock>
+                  <div className="avatar" />
+                  {buttons === 'yes' ? (
+                     <NameBlock>
+                        <h4>{dataById?.user?.fullName}</h4>
+                        <p>{dataById?.user?.email}</p>
+                     </NameBlock>
+                  ) : (
+                     <NameBlock>
+                        <h4>{dataById?.fullName}</h4>
+                        <p>{dataById?.email}</p>
+                     </NameBlock>
+                  )}
+               </ProfileBlock>
+            )}
          </DescriptionContainer>
          {buttons === 'yes' ? (
             <ContainerButtonTwo>
                <Button
-                  onClick={
-                     pages ? () => openDeleteModal() : () => openModalHandler()
-                  }
+                  onClick={openModalHandler}
                   variant="contained"
-                  width="13.25rem"
+                  width="12.25rem"
                   border-radius=" 0.125rem"
                   border=" 1px solid #DD8A08"
                   bgColor="#fff"
@@ -110,15 +76,15 @@ export function NameOfHotel({
                   color="#DD8A08"
                   font-size="0.875rem"
                   font-weight="500"
-                  hoverbgcolor="#cfbf8e"
-                  hovercolor="#6c470b"
                >
-                  {pages === 'user' ? 'delete' : 'reject'}
+                  {pages ? 'DELETE' : 'reject'}
                </Button>
+
                {roles === 'user' ? (
                   <Button
                      variant="contained"
-                     width="13.25rem"
+                     onClick={openEditModal}
+                     width="12.25rem"
                      border-radius=" 0.125rem"
                      border=" 1px solid #DD8A08"
                      bgColor="#DD8A08"
@@ -127,17 +93,15 @@ export function NameOfHotel({
                      font-size="0.875rem"
                      font-weight="500"
                   >
-                     edit
+                     EDIT
                   </Button>
                ) : (
                   <Button
                      onClick={
-                        pages
-                           ? () => blockAnnouncementById(dataById.id)
-                           : () => acceptHandler(dataById.id)
+                        pages ? 'block' : () => acceptHandler(dataById.id)
                      }
                      variant="contained"
-                     width="13.25rem"
+                     width="12.25rem"
                      border-radius=" 0.125rem"
                      border=" 1px solid #DD8A08"
                      bgColor="#DD8A08"
@@ -146,7 +110,7 @@ export function NameOfHotel({
                      font-size="0.875rem"
                      font-weight="500"
                   >
-                     {pages === 'user' ? 'block' : 'accept'}
+                     {pages ? 'block' : 'accept'}
                   </Button>
                )}
             </ContainerButtonTwo>
@@ -157,7 +121,6 @@ export function NameOfHotel({
 const Container = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
-   marginTop: '-10.5rem',
 }))
 const ButtonContainerOne = styled('div')(() => ({
    display: 'flex',

@@ -1,227 +1,208 @@
-import React, { useEffect, useState } from 'react'
-import { MenuItem, Tooltip, styled } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-   AdminMenu,
-   ArrowleftIcon,
-   ArrowrightIcon,
-   Location,
-   Start1,
-} from '../../../assets/icons/index'
+import React, { useState } from 'react'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { MenuItem, Popover, Tooltip, styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { AdminMenu, Location, Start1 } from '../../../assets/icons/index'
 import { Button } from '../button/Button'
-import {
-   deleteAnouncement,
-   findAnnouncementById,
-} from '../../../store/profile/ProfileThunk'
-import ModalProfile from '../../Profile/ModalProfile'
+import { deleteAnouncement } from '../../../store/profile/ProfileThunk'
 import { toastSnackbar } from '../snackbar/Snackbar'
-import { MeatBalls } from '../meat-balls/MeatBalls'
+import { PhotoSlider } from '../imageSlide/ImageSlice'
+import { getByIdAnnouncement } from '../../../store/innerPage/InnerPageThunk'
+import { uploadActions } from '../../../store/Upload'
 
-export function ProfileCards({ data, announcement, ...props }) {
+export function ProfileCards({ data, announcement, index, message, ...props }) {
    const dispatch = useDispatch()
    const { toastType } = toastSnackbar()
-   const [modalVisible, setModalVisible] = useState(false)
-   const [itemId, setItemId] = useState('')
 
-   const [, setCurrentImages] = useState(
-      Array.isArray(data) ? Array(data.length).fill(0) : []
-   )
-   const { idAnnouncement } = useSelector((state) => state.getannouncement)
-   console.log(idAnnouncement, 'idAnnouncement profileCArd')
-
-   const [dataa, setData] = useState([])
-
-   useEffect(() => {
-      setData(
-         data?.map((img) => {
-            return img.images
-         })
-      )
-   }, [setData])
-
-   const handleNextImage = (index) => {
-      setCurrentImages((prevImages) => {
-         const newImages = [...prevImages]
-         newImages[index] =
-            newImages[index] === dataa.length - 1 ? 0 : newImages[index] + 1
-         return newImages
-      })
-   }
    const truncateTitle = (title) => {
-      const words = title.split(' ')
-      if (words.length > 6) {
-         return `${words.slice(0, 4).join(' ')}...`
+      const words = title?.split(' ')
+      if (words?.length > 4) {
+         return `${words?.slice(0, 4).join(' ')}...`
       }
       return title
    }
 
-   const handlePrevImage = (index) => {
-      setCurrentImages((prevImages) => {
-         const newImages = [...prevImages]
-         newImages[index] =
-            newImages[index] === 0 ? dataa.length - 1 : newImages[index] - 1
-         return newImages
-      })
+   const truncateAddress = (address) => {
+      const words = address?.split(' ')
+      return words?.length > 3 ? `${words.slice(0, 4).join(' ')}...` : address
    }
 
+   const [menuOpen, setMenuOpen] = useState(false)
    const [anchorEl, setAnchorEl] = useState(null)
 
-   const handleMenuOpen = (e, id) => {
-      setAnchorEl(e.currentTarget)
-      setItemId(id)
+   const handleMenuClick = (event, id) => {
+      dispatch(getByIdAnnouncement(id))
+
+      setMenuOpen(true)
+      setAnchorEl(event.currentTarget)
    }
 
    const handleMenuClose = () => {
+      setMenuOpen(false)
       setAnchorEl(null)
    }
 
    const removeAnnouncements = (id) => {
-      try {
-         dispatch(deleteAnouncement(id))
-         handleMenuClose()
-         toastType(
-            'success',
-            'successfully removed your announcement',
-            'success'
-         )
-      } catch (error) {
-         toastType('error!!!', error)
-      }
+      handleMenuClose()
+      dispatch(deleteAnouncement({ id, toastType }))
    }
 
+   const navigate = useNavigate()
    const openModal = () => {
-      setModalVisible(true)
+      navigate('/Profile/my-announcement/edit')
+      dispatch(uploadActions.resetImages())
    }
-   const open = Boolean(anchorEl)
-   const idd = open ? 'simple-popover' : undefined
-
-   useEffect(() => {
-      dispatch(findAnnouncementById(itemId))
-   }, [dispatch, modalVisible])
 
    return (
       <MainContainer>
-         {modalVisible && (
-            <ModalProfile
-               setModalVisible={setModalVisible}
-               itemId={itemId}
-               data={idAnnouncement}
-               handleMenuClose={handleMenuClose}
-            />
-         )}
-         {data.length > 0 ? (
-            data?.map((item, index) => (
-               <MapContainer key={item.id} status={item.status}>
-                  <div>
-                     {item.images.length > 1 && (
-                        <IconsContainer className="ImageNavigation">
-                           <StyledButton onClick={() => handlePrevImage(index)}>
-                              <ArrowleftIcon />
-                           </StyledButton>
-                           <StyledButton onClick={() => handleNextImage(index)}>
-                              <ArrowrightIcon />
-                           </StyledButton>
-                        </IconsContainer>
-                     )}
-                     <ImageContainer>
-                        <StyleImage src={item.images[0]} alt="home" />
-                     </ImageContainer>
-                  </div>
-                  <DayStartContainer onClick={props.dd}>
-                     <DayContainer>
-                        ${item.price}/ <DayStyle>day</DayStyle>{' '}
-                     </DayContainer>
+         <MapContainer key={data.id} status={data.status}>
+            <div>
+               {data.images.images?.length > 1 ? (
+                  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+                  <ImageContainer to={`name/${data.id}`}>
+                     <PhotoSlider
+                        images={data.images}
+                        id={data.id}
+                        index={index}
+                     />
+                  </ImageContainer>
+               ) : (
+                  <ImageContainer to={`name/${data.id}`}>
+                     <StyleImage src={data.images} alt="home" />
+                  </ImageContainer>
+               )}
+            </div>
+            <DayStartContainer onClick={props.dd}>
+               <DayContainer>
+                  ${data.price}/ <DayStyle>day</DayStyle>{' '}
+               </DayContainer>
 
-                     <StartContainer>
-                        <Start1 />
-                        <p>{item.rating}.4</p>
-                     </StartContainer>
-                  </DayStartContainer>
-                  <StyleTitle>
-                     <Tooltip title={item.title}>
-                        {truncateTitle(item.title || item.description)}
-                     </Tooltip>
-                  </StyleTitle>
-                  <LocationCantainerStyle>
-                     <Location />
-                     <p>{item.address}</p>
-                  </LocationCantainerStyle>
-                  {announcement === 'true' && (
-                     <StyledHorizIcon>
-                        <GuestContainer>{item.maxGuests} guests</GuestContainer>
-
+               <StartContainer>
+                  <Start1 />
+                  <p>{data.rating}.4</p>
+               </StartContainer>
+            </DayStartContainer>
+            <StyleTitle>
+               <Tooltip title={data.title}>
+                  <span> {truncateTitle(data.title || data.description)}</span>
+               </Tooltip>
+            </StyleTitle>
+            <LocationCantainerStyle>
+               <Location />
+               <Tooltip address={data.address}>
+                  {truncateAddress(data.address)}
+               </Tooltip>
+            </LocationCantainerStyle>
+            {announcement === 'true' && (
+               <StyledHorizIcon>
+                  <GuestContainer>{data.maxGuests} guests</GuestContainer>
+                  {data.messagesFromAdmin === 'blocked' ? (
+                     <Button
+                        bgColor="rgba(212, 212, 212, 0.40)"
+                        color="#fff"
+                        width="13.2rem"
+                        variant="contained"
+                     >
+                        BLOCKED
+                     </Button>
+                  ) : (
+                     <div>
                         <AdminMenu
-                           style={{ cursor: 'pointer' }}
-                           onClick={(e) => handleMenuOpen(e, item.id)}
+                           onClick={(e) => handleMenuClick(e, data.id)}
                         />
-                        <MeatBalls
-                           anchorEl={anchorEl}
-                           open={open}
-                           close={handleMenuClose}
-                           id={idd}
-                           propsVertical="top"
-                           propsHorizontal="left"
-                           onClick={(e) => handleMenuOpen(e, item.id)}
-                           width="15%"
-                           height="16%"
-                        >
-                           <MenuItem onClick={handleMenuClose}>Cencel</MenuItem>
-                           <MenuItem onClick={() => openModal(item)}>
-                              Edit
-                           </MenuItem>
-                           <MenuItem
-                              onClick={() => removeAnnouncements(itemId)}
+                        {menuOpen === true && (
+                           <StyledPopover
+                              open={menuOpen}
+                              anchorEl={anchorEl}
+                              onClose={handleMenuClose}
+                              anchorOrigin={{
+                                 vertical: 'top',
+                                 horizontal: 'left',
+                              }}
                            >
-                              Delete
-                           </MenuItem>
-                        </MeatBalls>
-                     </StyledHorizIcon>
-                  )}{' '}
-                  {announcement === 'false' && (
-                     <ButtonsContainer>
-                        <div>
-                           <DayStyleTrue>2 guests</DayStyleTrue>
-                           <CheckConainer>
-                              <div>
-                                 <Checkstyle>Check in</Checkstyle>
-                                 <Datestyle>{item.checkIn}</Datestyle>
-                              </div>
-                              <div>
-                                 <Checkstyle>Check out</Checkstyle>
-                                 <Datestyle>{item.checkOut}</Datestyle>
-                              </div>
-                           </CheckConainer>
-                           <Button
-                              bgColor="#DD8A08"
-                              color="#fff"
-                              width="16.2rem"
-                              variant="contained"
-                           >
-                              {' '}
-                              change
-                           </Button>
-                        </div>
-                     </ButtonsContainer>
+                              <StyledMenuItem
+                                 onClick={() => openModal(data.id)}
+                              >
+                                 Edit
+                              </StyledMenuItem>
+                              <StyledMenuItem
+                                 onClick={() => removeAnnouncements(data.id)}
+                              >
+                                 Delete
+                              </StyledMenuItem>
+                           </StyledPopover>
+                        )}{' '}
+                     </div>
                   )}
-               </MapContainer>
-            ))
-         ) : (
-            <h2>No cards yet...</h2>
-         )}
+               </StyledHorizIcon>
+            )}{' '}
+            {announcement === 'false' && (
+               <ButtonsContainer>
+                  <div>
+                     <DayStyleTrue>2 guests</DayStyleTrue>
+                     <CheckConainer>
+                        <div>
+                           <Checkstyle>Check in</Checkstyle>
+                           <Datestyle>{data.checkIn}</Datestyle>
+                        </div>
+                        <div>
+                           <Checkstyle>Check out</Checkstyle>
+                           <Datestyle>{data.checkOut}</Datestyle>
+                        </div>
+                     </CheckConainer>
+                     <Button
+                        bgColor="#DD8A08"
+                        color="#fff"
+                        width="16.2rem"
+                        variant="contained"
+                     >
+                        {' '}
+                        change
+                     </Button>
+                  </div>
+               </ButtonsContainer>
+            )}
+         </MapContainer>
+         {/* )} */}
       </MainContainer>
    )
 }
+const StyledPopover = styled(Popover)(() => ({
+   '& .MuiPaper-root': {
+      animation: 'fadeIn 0.3s ease-in-out',
+      transformOrigin: 'top left',
+      width: '7rem',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'start',
+   },
+   '@keyframes fadeIn': {
+      '0%': {
+         opacity: 0,
+         transform: 'scale(0.8)',
+      },
+      '100%': {
+         opacity: 1,
+         transform: 'scale(1)',
+      },
+   },
+}))
 
+const StyledMenuItem = styled(MenuItem)(() => ({
+   width: '7rem',
+}))
 const Checkstyle = styled('p')`
    color: var(--tertiary-dark-gray, #646464);
    font-size: 0.875rem;
    line-height: 2rem;
 `
-const ImageContainer = styled('div')`
+const ImageContainer = styled(Link)`
    display: flex;
    align-items: center;
    justify-content: center;
-   width: 16.25rem;
+   width: 17rem;
 `
 const Datestyle = styled('p')`
    color: var(--primary-black, #363636);
@@ -253,24 +234,18 @@ const CheckConainer = styled('div')`
 `
 const MainContainer = styled('div')`
    line-height: 2rem;
-   width: 100%;
-   height: 47%;
-   display: flex;
-   flex-wrap: wrap;
-   justify-content: start;
-   gap: 22px;
-   padding-left: 4rem;
+   width: auto;
+   height: auto;
 `
-const IconsContainer = styled('div')``
 
-const MapContainer = styled('div')(() => ({
-   width: '16.25rem',
-   height: '32.rem',
-   borderRadius: '0.6rem 0.5rem 0 0 ',
+const MapContainer = styled('div')(({ message }) => ({
+   width: '17rem',
+   height: '20rem',
    display: 'flex',
    flexDirection: 'column',
+   borderRadius: '15px',
    boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
-
+   bgColor: message ? ' #6c6c6c' : null,
    '.ImageNavigation': {
       display: 'none',
    },
@@ -338,85 +313,23 @@ const ButtonsContainer = styled('section')`
    gap: 2rem;
 `
 
-const StyledButton = styled('button')`
-   width: 2rem;
-   height: 2rem;
-   border-radius: 50%;
-   border: none;
-   background: #828282;
-   :hover {
-      background: #bb7200;
-   }
-
-   :active {
-      background: #f2b75b;
-   }
-`
-
 const StyleImage = styled('img')`
-   width: 16.2rem;
-   height: 10rem;
-   border-radius: '0.6rem 0.5rem 0 0 ';
+   width: 17rem;
+   height: 9rem;
+   border-top-right-radius: 15px;
+   border-top-left-radius: 15px;
 `
 
 const StyleTitle = styled('p')`
    width: 16.4375rem;
    display: flex;
-   margin-left: 2.4rem;
+   margin-left: 1.7rem;
 `
-// const IconButtonStyled = styled(IconButton)(() => ({
-//    padding: '0px',
-//    margin: '0px',
-//    width: ' 40px',
-//    height: ' 40px',
-//    '&.MuiIconButton-root:hover': {
-//       boxShadow: 'none',
-//       backgroundColor: '#ffff',
-//    },
-//    '&.MuiIconButton-root:active': {
-//       boxShadow: 'none',
-//       backgroundColor: '#ffff',
-//    },
-// }))
 
-// const StyledMenu = styled(Menu)(() => ({
-//    '& .MuiPaper-root': {
-//       width: '16%',
-//       height: '22%',
-//       display: 'flex',
-//       alignItems: 'center',
-//       borderRadius: '0.125rem',
-//       background: ' #FFF',
-//       border: ' 1px solid var(--tertiary-light-gray, #C4C4C4)',
-
-//       boxShadow: 'none',
-//    },
-//    position: 'absolute',
-//    top: '8.5rem',
-//    left: ' 23rem',
-//    transform: 'translate(-50%, -50%) ',
-// }))
-
-// const MoreHorizIconStyled = styled(MoreHorizIcon)(() => ({
-//    '&.MuiSvgIcon-root': {
-//       width: '50%',
-//       height: '50%',
-//       '& path:nth-of-type(1)': {
-//          fill: '#C4C4C4',
-//          width: '9rem',
-//       },
-//       '& path:nth-of-type(2)': {
-//          fill: '#C4C4C4',
-//       },
-//       '& path:nth-of-type(3)': {
-//          fill: '#C4C4C4',
-//       },
-//    },
-// }))
 const StyledHorizIcon = styled('div')`
    display: grid;
    grid-template-columns: auto 1fr;
    align-items: center;
-   gap: 5rem;
+   gap: 4rem;
    margin-left: 5%;
 `
