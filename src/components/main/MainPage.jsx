@@ -1,6 +1,7 @@
 import { Checkbox, InputAdornment, styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { useDebounce } from 'use-debounce'
 import mainBackground from '../../assets/images/MainBackground.png'
 import { Header } from '../../layout/header/Header'

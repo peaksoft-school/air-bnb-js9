@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumbs, Link, styled, Typography } from '@mui/material'
-import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import { Breadcrumbs, styled, Typography } from '@mui/material'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { HouseSlidDetail } from '../../components/UI/house-detail/HouseSlidDetail'
 import { NameOfHotel } from '../../components/UI/name-hotel/NameOfHotel'
-import { house, Hotel, booked } from '../../utils/helpers'
+import { house, Hotel } from '../../utils/helpers'
 import Feedback from '../../components/UI/feedback/Feedback'
 import { Booked } from '../../components/UI/booked/Booked'
 import { Favorites } from '../../components/UI/favorites/Favorites'
@@ -13,6 +13,14 @@ import {
    getAnnouncementByIdHandler,
    getAnnouncementFeedbacks,
 } from '../../store/admin/users/getAnnouncement/AnnouncementByIdThunk'
+import {
+   deleteAnnouncement,
+   getByIdAnnouncement,
+} from '../../store/innerPage/InnerPageThunk'
+import { toastSnackbar } from '../../components/UI/snackbar/Snackbar'
+import { Header } from '../../layout/header/Header'
+import { Footer } from '../../layout/footer/Footer'
+import { LeaveFeedback } from '../../components/leave-feedback/LeaveFeeadback'
 import { RatingChart } from '../../components/UI/rating/RatingChart'
 
 export function AnnouncementAdminPage({
@@ -22,22 +30,25 @@ export function AnnouncementAdminPage({
    setTitle,
    acceptHandler,
    rejectedHandler,
+   // AdminAnnouncementById,
+   params,
 }) {
    const [openModal, setOpenModal] = useState(false)
-   const { applicationById, users } = useSelector((state) => state.admin)
-   const { AdminAnnouncementById, feedbacks } = useSelector(
-      (state) => state.announcementById
-   )
+   const [openDelete, setOpenDelete] = useState(false)
    const [dataById, setDataById] = useState({})
-   console.log(users, 'users')
-   console.log(AdminAnnouncementById, 'AdminAnnouncementById')
-   console.log(feedbacks, 'feedbacks')
+   const {
+      applicationById,
+      // , users
+   } = useSelector((state) => state.admin)
+   const { announcement } = useSelector((state) => state.annByID)
+   const {
+      AdminAnnouncementById,
+      // , feedbacks
+   } = useSelector((state) => state.announcementById)
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const params = useParams()
-
-   console.log(params, 'params')
-   console.log(applicationById, 'applicationById')
+   const { announId } = useParams()
+   const { toastType } = toastSnackbar()
 
    useEffect(() => {
       applicationById.map((item) => {
@@ -52,6 +63,7 @@ export function AnnouncementAdminPage({
    useEffect(() => {
       dispatch(getAnnouncementByIdHandler(params.id))
       dispatch(getAnnouncementFeedbacks(params.id))
+      dispatch(getByIdAnnouncement(announId))
    }, [dispatch])
 
    const data = [
@@ -78,6 +90,7 @@ export function AnnouncementAdminPage({
          createdAt: '29-11-2023',
          id: '2',
       },
+
       {
          feedbackUserFullName: 'Aziret Aziretov',
          comment:
@@ -96,21 +109,10 @@ export function AnnouncementAdminPage({
          createdAt: '29-11-2023',
          id: '3',
       },
-      {
-         feedbackUserFullName: 'Emir Duishonaliev',
-         comment:
-            'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-         rating: 5,
-         likeCount: 4,
-         disLikeCount: 1,
-         feedbackUserImage: '',
-         createdAt: '29-11-2023',
-         id: '4',
-      },
    ]
 
    const openModalHandler = () => {
-      setOpenModal((prev) => !prev)
+      setOpenDelete((prev) => !prev)
    }
    const rejectedCartd = () => {
       rejectedHandler(params.cardId)
@@ -121,12 +123,27 @@ export function AnnouncementAdminPage({
       setTitle(e.target.value)
    }
 
-   const applicationByIdImages = applicationById?.map(
-      (item) => item.images.images
-   )
+   const removeAnnouncement = () => {
+      const data = {
+         id: announId,
+         toastType,
+         navigate,
+      }
+      dispatch(deleteAnnouncement(data))
 
-   const images = Array.isArray(applicationByIdImages[0])
-      ? applicationByIdImages[0].map((image, index) => ({
+      openModalHandler()
+   }
+
+   // const toggleFeedback = () => {
+   //    if(feedbackDataByid)
+   // }
+
+   const leaveFeedbackHandler = () => {
+      setOpenModal((prev) => !prev)
+   }
+   const applicationByIdImages = announcement.images?.map((item) => item.images)
+   const images = Array.isArray(applicationByIdImages)
+      ? announcement.images?.map((image, index) => ({
            id: index + 1,
            original: image,
            thumbnail: image,
@@ -146,7 +163,15 @@ export function AnnouncementAdminPage({
                      >
                         Application
                      </button>
-                     / <p className="name">Name</p>
+                     /{' '}
+                     <p
+                        className="name"
+                        style={{
+                           marginLeft: '3rem',
+                        }}
+                     >
+                        Name
+                     </p>
                   </Navigate>
                   <BlockMain>
                      <h2>Name</h2>
@@ -171,13 +196,13 @@ export function AnnouncementAdminPage({
             <Container>
                <MainContainer>
                   <div role="presentation">
-                     <StyledNavlink to="/admin/users/">
+                     <StyledLink to="/admin/users/">
                         Users
-                        <StyledNavlink
+                        <StyledLink
                            to={`/admin/users/${params.userId}/my-announcement`}
                         >
                            / {AdminAnnouncementById.fullName} /{' '}
-                        </StyledNavlink>
+                        </StyledLink>
                         <span
                            style={{
                               fontWeight: '700',
@@ -186,7 +211,7 @@ export function AnnouncementAdminPage({
                         >
                            Name
                         </span>
-                     </StyledNavlink>
+                     </StyledLink>
                   </div>
                   <BlockMain>
                      <h2>Name</h2>
@@ -206,7 +231,7 @@ export function AnnouncementAdminPage({
                   <ContainerFeetback>
                      <div>
                         {data?.map((el) => (
-                           <Feedback data={el} />
+                           <Feedback data={el} key={el.id} />
                         ))}
                      </div>
                      {/* <RatingChart marginLeft="4rem" width="27rem" /> */}
@@ -216,59 +241,90 @@ export function AnnouncementAdminPage({
          )}
       </div>
    ) : (
-      <Container>
-         <MainContainer>
-            <div role="presentation">
-               <Breadcrumbs aria-label="breadcrumb">
-                  <Link underline="hover" color="inherit" href="application">
-                     Main
-                  </Link>
-                  <Link underline="hover" color="inherit" href="application">
-                     Naryn
-                  </Link>
-                  <Link underline="hover" color="inherit" href="application">
-                     Hotel
-                  </Link>
-                  <Link underline="hover" color="inherit" href="application">
-                     Profile
-                  </Link>
-                  <Typography color="text.primary">Name</Typography>
-               </Breadcrumbs>
-            </div>
-            <BlockMain>
-               <h2>Name</h2>
-               <Main>
-                  <HouseSlidDetail images={house} />
-                  <NameOfHotel
-                     pages="users"
-                     roles={roles}
-                     dataById={Hotel}
-                     openModal={openModal}
-                     openModalHandler={openModalHandler}
-                  />
-               </Main>
-            </BlockMain>
-            <h2>Booked</h2>
-            <BookedContainer>
-               <Booked item={booked} />
-            </BookedContainer>
-            <h2>In favorites</h2>
-            <FavoritesContainer>
-               <Favorites item={booked} />
-            </FavoritesContainer>
-            <h2>feedback</h2>
-            <ContainerFeetback>
-               <div>
-                  {data.map((el) => (
-                     <Feedback data={el} />
-                  ))}
+      <div>
+         <Header />
+         <Container>
+            <MainContainer>
+               <div role="presentation">
+                  <BreadcrumbsStyle aria-label="breadcrumb">
+                     <StyledLink onClick={() => navigate('/')}>
+                        Main{' '}
+                     </StyledLink>
+                     <StyledLink>Naryn</StyledLink>
+                     <StyledLink>Hotel</StyledLink>
+                     <StyledLink onClick={() => navigate(-1)}>
+                        Profile
+                     </StyledLink>
+                     <Typography color="text.primary">Name</Typography>
+                  </BreadcrumbsStyle>
                </div>
-               <RatingChart />
-            </ContainerFeetback>
-         </MainContainer>
-      </Container>
+               <BlockMain>
+                  <h2
+                     style={{
+                        marginLeft: '1.4rem',
+                     }}
+                  >
+                     Name
+                  </h2>
+                  <Main>
+                     <HouseSlidDetail images={images} />
+                     <NameOfHotel
+                        dataById={announcement}
+                        remove={removeAnnouncement}
+                        buttons="yes"
+                        pages
+                        roles="user"
+                        hotel={Hotel}
+                        openModal={openDelete}
+                        openModalHandler={openModalHandler}
+                     />
+                  </Main>
+               </BlockMain>
+               <h2>Booked</h2>
+               <BookedContainer>
+                  <Booked item={announcement} />
+               </BookedContainer>
+               <h2>In favorites</h2>
+               <FavoritesContainer>
+                  <Favorites item={announcement} />
+               </FavoritesContainer>
+               <h2>feedback</h2>
+               <ContainerFeetback>
+                  <div
+                     style={{
+                        display: 'flex',
+                     }}
+                  >
+                     <Feedback data={announcement} announcementBooked />
+                     <RatingChart marginLeft="4rem" width="27rem" />
+                  </div>
+                  <LeaveStyle>
+                     <ButtonForFeedback onClick={leaveFeedbackHandler}>
+                        Leave Feedback
+                     </ButtonForFeedback>
+                  </LeaveStyle>
+
+                  {openModal && (
+                     <LeaveFeedback
+                        openModal={openModal}
+                        setOpenModal={setOpenModal}
+                     />
+                  )}
+               </ContainerFeetback>
+            </MainContainer>
+            <Footer />
+         </Container>
+      </div>
    )
 }
+const LeaveStyle = styled('div')`
+   margin-top: 22rem;
+   width: 100%;
+   margin-left: -99rem;
+`
+const BreadcrumbsStyle = styled(Breadcrumbs)`
+   margin-left: 1.3rem;
+`
 const Applications = styled('div')(() => ({
    width: '100%',
    height: '100%',
@@ -279,6 +335,7 @@ const Applications = styled('div')(() => ({
    background: ' #F7F7F7',
    marginTop: '5.1rem',
 }))
+
 const Container = styled('div')(() => ({
    width: '100%',
    height: '100%',
@@ -286,8 +343,7 @@ const Container = styled('div')(() => ({
    flexDirection: 'column',
    gap: '1.87rem',
    background: ' #F7F7F7',
-   marginTop: '5.1rem',
-   paddingTop: '3.1rem',
+   marginTop: '6rem',
    h2: {
       color: ' #000',
       fontFamily: 'Inter',
@@ -300,18 +356,22 @@ const Container = styled('div')(() => ({
 }))
 
 const MainContainer = styled('div')(() => ({
-   width: '100%',
+   width: '90%',
    paddingLeft: '2.5rem',
    display: 'flex',
    flexDirection: 'column',
    gap: '2.5rem',
+   paddingTop: '4rem',
+   marginLeft: '3rem',
 }))
+
 const Main = styled('main')(() => ({
    width: '100%',
    display: 'flex',
-   alignItems: 'center',
+   alignItems: 'start',
    gap: '4.26rem',
 }))
+
 const BlockMain = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
@@ -324,6 +384,7 @@ const ContainerFeetback = styled('div')(() => ({
    justifyContent: 'space-between',
    alignItems: 'flex-start',
 }))
+
 const BookedContainer = styled('div')(() => ({
    // width: '100%',
    display: 'flex',
@@ -337,6 +398,7 @@ const FavoritesContainer = styled('div')(() => ({
    alignItems: 'center',
    gap: '1.87rem',
 }))
+
 const Navigate = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
@@ -361,6 +423,24 @@ const Navigate = styled('div')(() => ({
    },
 }))
 
-const StyledNavlink = styled(NavLink)(() => ({
-   color: '#C4C4C4',
+const StyledLink = styled(Link)(() => ({
+   color: ' var(--tertiary-light-gray, #C4C4C4)',
+   fontFamily: 'Inter',
+   fontSize: ' 0.875rem',
+   fontStyle: 'normal',
+   fontWeight: '400',
+   lineHeight: 'normal',
+}))
+
+const ButtonForFeedback = styled('button')(() => ({
+   padding: '0.5rem 1rem',
+   width: '26.5rem',
+   color: ' #828282',
+   fontFamily: 'Inter',
+   fontSize: '1rem',
+   fontWeight: '500',
+   textTransform: 'uppercase',
+   border: '.0625rem solid#828282',
+   background: 'none ',
+   cursor: 'pointer',
 }))

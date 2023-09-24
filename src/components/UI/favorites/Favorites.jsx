@@ -2,16 +2,18 @@ import { styled } from '@mui/material'
 import React from 'react'
 
 export function Favorites({ item }) {
-   return item.map((item) => (
-      <UserStyle>
+   return (
+      <UserStyle key={item.id}>
          <Section />
          <div>
-            <NameStyle>{item.name}</NameStyle>
-            <EmailStyle>{item.email}</EmailStyle>
-            <EmailStyle>{item.checkout}</EmailStyle>
+            <NameStyle>{item.favoriteByFullName || 'Peaksoft'}</NameStyle>
+            <EmailStyle>
+               {item.favoriteByEmail || 'peaksoft@gmail.com'}
+            </EmailStyle>
+            <EmailStyle>{item.checkOut}</EmailStyle>
          </div>
       </UserStyle>
-   ))
+   )
 }
 const UserStyle = styled('div')`
    display: flex;

@@ -7,7 +7,14 @@ import { useDispatch } from 'react-redux'
 import { Exist, UploadImg } from '../../../assets/icons'
 import { uploadActions } from '../../../store/Upload'
 
-export function Upload({ width, height, maxWidth, setFileNames, fileNames }) {
+export function Upload({
+   width,
+   height,
+   maxWidth,
+   setFileNames,
+   fileNames,
+   // addImageForAnoucement,
+}) {
    const [images, setImages] = useState([])
    const [showCamera, setShowCamera] = useState(true)
    // const [uploadImage, setUploadImage] = useState('')

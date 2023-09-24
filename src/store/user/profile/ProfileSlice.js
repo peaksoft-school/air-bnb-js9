@@ -1,15 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import {
-   deleteAnouncement,
-   filterHouseRequest,
-   findAnnouncementById,
-   getAnnouncement,
-} from './ProfileThunk'
+import { filterHouseRequest, getAnnouncement } from './ProfileThunk'
 
 const initialState = {
    data: {
       announcements: [],
       bookings: [],
+      onModerations: [],
    },
    idAnnouncement: [],
    error: null,
@@ -36,36 +32,16 @@ export const announcementSlice = createSlice({
             state.data = action.payload
             state.data.announcements = action.payload.announcements
             state.data.bookings = action.payload.bookings
+            state.data.onModerations = action.payload.moderations
          })
          .addCase(filterHouseRequest.pending, (state) => {
             state.loading = true
          })
          .addCase(filterHouseRequest.fulfilled, (state, action) => {
             state.loading = false
-            state.data.announcements = action.payload
+            state.data.announcements = action.payload.responses
          })
          .addCase(filterHouseRequest.rejected, (state, action) => {
-            state.loading = false
-            state.error = action.error.message
-         })
-         .addCase(deleteAnouncement.pending, (state) => {
-            state.loading = true
-         })
-         .addCase(deleteAnouncement.fulfilled, (state, action) => {
-            state.loading = false
-            state.data.announcements = action.payload
-         })
-
-         .addCase(deleteAnouncement.rejected, (state, action) => {
-            state.loading = false
-            state.error = action.error.message
-         })
-         .addCase(findAnnouncementById.fulfilled, (state, action) => {
-            state.loading = false
-            state.idAnnouncement = action.payload
-         })
-
-         .addCase(findAnnouncementById.rejected, (state, action) => {
             state.loading = false
             state.error = action.error.message
          })

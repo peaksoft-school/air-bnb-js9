@@ -1,24 +1,16 @@
 import React from 'react'
 import { NavLink, useLocation, useParams } from 'react-router-dom'
 import { styled } from '@mui/material'
+import { useSelector } from 'react-redux'
+// import { OnModeration } from './OnModeration'
+// import { Bookings } from './Bookings'
+// import { MyAnnouncement } from './MyAnnouncement'
 
-const moderation = [
-   {
-      id: 5,
-      title: 'moderation',
-   },
-]
-
-export function Tabs({
-   announcement,
-   bookings,
-   state,
-   showButtonHandler,
-   closeButtonHandler,
-}) {
-   const BookingLength = bookings?.length
-   const announcementLength = announcement?.length
-   const moderationLength = moderation?.lenght
+export function Tabs({ state, showButtonHandler, closeButtonHandler }) {
+   const { data } = useSelector((state) => state.getannouncement)
+   const BookingLength = data.bookings?.length
+   const announcementLength = data.announcements?.length
+   const moderationLength = data.moderations?.length
 
    const location = useLocation()
    const { userId, region, houseId } = useParams()
@@ -31,14 +23,35 @@ export function Tabs({
             >
                <h3>Bookings ({BookingLength})</h3>
             </StyleLink>
+            {BookingLength === 0 ? (
+               <StyleLink to="bookings">
+                  <h3>Bookings </h3>
+               </StyleLink>
+            ) : (
+               <StyleLink to="bookings">
+                  <h3>Bookings ({BookingLength})</h3>
+               </StyleLink>
+            )}
 
-            <StyleLink to="my-announcement">
-               <h3>My announcement ({announcementLength})</h3>
-            </StyleLink>
+            {announcementLength === 0 ? (
+               <StyleLink to="my-announcement">
+                  <h3>My announcement</h3>
+               </StyleLink>
+            ) : (
+               <StyleLink to="my-announcement">
+                  <h3>My announcement ({announcementLength})</h3>
+               </StyleLink>
+            )}
 
-            <StyleLink to="on-moderation">
-               <h3>On moderation ({moderationLength})</h3>
-            </StyleLink>
+            {moderationLength === 0 ? (
+               <StyleLink to="on-moderation">
+                  <h3>On moderation</h3>
+               </StyleLink>
+            ) : (
+               <StyleLink to="on-moderation">
+                  <h3>On moderation ({moderationLength})</h3>
+               </StyleLink>
+            )}
          </StyleHead>
 
          {/* <Routes>
@@ -52,9 +65,13 @@ export function Tabs({
                   <MyAnnouncement announcement={announcement} select="true" />
                }
             />
+         <Routes>
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="my-announcement" element={<MyAnnouncement />} />
+
             <Route
                path="/on-moderation"
-               element={<OnModeration moderation={moderation} />}
+               element={<OnModeration moderation={data.moderations} />}
             />
          </Routes> */}
       </div>
@@ -90,6 +107,7 @@ export function Tabs({
 }
 const StyleHead = styled('div')(() => ({
    width: '96.5%',
+   // width: '95%',
    height: '4.25vh',
    borderBottom: '1px solid #C4C4C4',
    display: 'flex',
@@ -99,12 +117,16 @@ const StyleHead = styled('div')(() => ({
    // marginBottom: '2rem',
 }))
 
-const StyleLink = styled(NavLink)(({ active }) => ({
-   color: active === 'true' ? ' #000' : '#6C6C6C',
+// const StyleLink = styled(NavLink)(({ active }) => ({
+//    color: active === 'true' ? ' #000' : '#6C6C6C',
+// }))
+
+const StyleLink = styled(NavLink)(({ active, isActive }) => ({
+   color: active === 'true' ? '2px solid #000' : '#6C6C6C',
    fontFamily: 'Inter',
    fontSize: '1.125rem',
    fontStyle: 'normal',
-   fontWeight: '400',
+   fontWeight: isActive ? '600' : '400',
    lineHeight: 'normal',
    borderBottom: active === 'true' ? '2px solid #000' : null,
 

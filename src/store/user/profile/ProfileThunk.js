@@ -3,8 +3,6 @@ import {
    deleteAnnouncementbyIdRequest,
    getMyAnnouncement,
    houseSortRequest,
-   // eslint-disable-next-line import/named
-   findannounByIdRequest,
    putAnnouncementsRequest,
 } from '../../../api/ProfileServise/ProfileServise'
 
@@ -13,7 +11,6 @@ export const getAnnouncement = createAsyncThunk(
    async (_, { rejectWithValue }) => {
       try {
          const response = await getMyAnnouncement()
-
          return response.data
       } catch (error) {
          return rejectWithValue(error)
@@ -33,40 +30,37 @@ export const filterHouseRequest = createAsyncThunk(
       }
    }
 )
-export const findAnnouncementById = createAsyncThunk(
-   'find/findAnnouncement',
-   async (id, { rejectWithValue }) => {
-      try {
-         const response = await findannounByIdRequest(id)
-         return response.data
-      } catch (error) {
-         return rejectWithValue
-      }
-   }
-)
 
 export const deleteAnouncement = createAsyncThunk(
    'delete/deleteAnouncement',
-   async (id, { rejectWithValue, dispatch }) => {
+   async ({ id, toastType }, { rejectWithValue, dispatch }) => {
       try {
          const response = await deleteAnnouncementbyIdRequest(id)
-         dispatch(getAnnouncement())
+         dispatch(getAnnouncement(id))
+         toastType(
+            'success',
+            'successfully removed your announcement',
+            'Deleted announcement from your announcement'
+         )
          return response.data
       } catch (error) {
-         return rejectWithValue
+         toastType('error', 'deleted card :(', error.message)
+
+         return rejectWithValue(error.message)
       }
    }
 )
 
 export const editAnouncement = createAsyncThunk(
    'put/putAnouncement',
-   async (data, { rejectWithValue, dispatch }) => {
+   async ({ editData, id, toastType }, { rejectWithValue, dispatch }) => {
       try {
-         const responsePut = await putAnnouncementsRequest(data)
-         dispatch(filterHouseRequest())
-
+         const responsePut = await putAnnouncementsRequest({ editData, id })
+         dispatch(getAnnouncement(editData))
+         toastType('success', 'successfully edited :)', 'message')
          return responsePut
       } catch (error) {
+         toastType('error', 'uppdated :(', error.message)
          return rejectWithValue || 'you make mistakes'
       }
    }

@@ -2,7 +2,8 @@ import React from 'react'
 import { IconButton, styled } from '@mui/material'
 import { ClickHeart2, Heart1 } from '../../../assets/icons/index'
 
-export function ButtonIcon({ onClick, favorite, variant, ...props }) {
+export function ButtonIcon({ open, onClick, favorite, variant, ...props }) {
+   console.log(favorite, 'favoritee')
    return (
       <IconButtonStyle onClick={onClick} variant={variant} props={props}>
          {favorite ? <ClickHeart2 /> : <Heart1 />}

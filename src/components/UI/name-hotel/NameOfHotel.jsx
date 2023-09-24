@@ -20,15 +20,20 @@ export function NameOfHotel({
    acceptHandler,
    rejectedCartd,
    openModalHandler,
+   remove,
+   avatar,
 }) {
-   const [blockedArr, setBlockedArr] = useState({})
-   const { toastType } = toastSnackbar()
    const navigate = useNavigate()
-   const [deleteModal, setDeleteModal] = useState(false)
-   const openDeleteModal = () => {
-      setDeleteModal((prev) => !prev)
-   }
+   const [editModalIsOpen, setEditModalIsOpen] = useState(false)
+   const [blockedArr, setBlockedArr] = useState(null)
    const { region, houseId } = useParams()
+   const { toastType } = toastSnackbar
+
+   const openEditModal = () => {
+      setEditModalIsOpen(true)
+      navigate('/Profile/my-announcement/edit')
+   }
+
    console.log('blockedArr:', blockedArr)
 
    const blockAnnouncementById = async (id) => {
@@ -61,26 +66,32 @@ export function NameOfHotel({
       <Container>
          <ModalNameHotel
             title={title}
+            remove={remove}
             openModal={openModal}
             changeHandler={changeHandler}
             rejectedCartd={rejectedCartd}
             openModalHandler={openModalHandler}
          />
          <ModalDelete
-            openModal={deleteModal}
-            openModalHandler={openDeleteModal}
+            // openModal={deleteModal}
+            // openModalHandler={openDeleteModal}
             dataById={dataById}
             deleteAnnouncement={deleteAnnouncementById}
          />
+         {/* <DescriptionContainer key={dataById?.id}>
+            <ButtonContainerOne>
+               <div>{dataById?.houseType} </div> */}
          <DescriptionContainer key={dataById?.id}>
             <ButtonContainerOne>
-               <div>{dataById?.houseType} </div>
+               <div>{dataById?.houseType}</div>
                <div>{dataById?.maxGuests} Guests</div>
+               {editModalIsOpen === true ? navigate() : null}
             </ButtonContainerOne>
             <NameHotel>
-               <h2>Name Of hotel</h2>
+               <h3>{dataById?.title}</h3>
                <p>
                   {dataById?.address}, {dataById?.province}
+                  {dataById?.address} {dataById?.province}
                </p>
             </NameHotel>
 
@@ -100,15 +111,29 @@ export function NameOfHotel({
                   </NameBlock>
                )}
             </ProfileBlock>
+            {avatar === true && (
+               <ProfileBlock>
+                  <div className="avatar" />
+                  {buttons === 'yes' ? (
+                     <NameBlock>
+                        <h4>{dataById?.user?.fullName}</h4>
+                        <p>{dataById?.user?.email}</p>
+                     </NameBlock>
+                  ) : (
+                     <NameBlock>
+                        <h4>{dataById?.fullName}</h4>
+                        <p>{dataById?.email}</p>
+                     </NameBlock>
+                  )}
+               </ProfileBlock>
+            )}
          </DescriptionContainer>
          {buttons === 'yes' ? (
             <ContainerButtonTwo>
                <Button
-                  onClick={
-                     pages ? () => openDeleteModal() : () => openModalHandler()
-                  }
+                  onClick={openModalHandler}
                   variant="contained"
-                  width="13.25rem"
+                  width="12.25rem"
                   border-radius=" 0.125rem"
                   border=" 1px solid #DD8A08"
                   bgColor="#fff"
@@ -117,12 +142,14 @@ export function NameOfHotel({
                   font-size="0.875rem"
                   font-weight="500"
                >
-                  {pages === 'user' ? 'delete' : 'reject'}
+                  {pages ? 'DELETE' : 'reject'}
                </Button>
+
                {roles === 'user' ? (
                   <Button
                      variant="contained"
-                     width="13.25rem"
+                     onClick={openEditModal}
+                     width="12.25rem"
                      border-radius=" 0.125rem"
                      border=" 1px solid #DD8A08"
                      bgColor="#DD8A08"
@@ -131,7 +158,7 @@ export function NameOfHotel({
                      font-size="0.875rem"
                      font-weight="500"
                   >
-                     edit
+                     EDIT
                   </Button>
                ) : (
                   <Button
@@ -141,7 +168,7 @@ export function NameOfHotel({
                            : () => acceptHandler(dataById.id)
                      }
                      variant="contained"
-                     width="13.25rem"
+                     width="12.25rem"
                      border-radius=" 0.125rem"
                      border=" 1px solid #DD8A08"
                      bgColor="#DD8A08"
@@ -150,7 +177,7 @@ export function NameOfHotel({
                      font-size="0.875rem"
                      font-weight="500"
                   >
-                     {pages === 'user' ? 'block' : 'accept'}
+                     {pages ? 'block' : 'accept'}
                   </Button>
                )}
             </ContainerButtonTwo>
@@ -161,7 +188,6 @@ export function NameOfHotel({
 const Container = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
-   marginTop: '-10.5rem',
 }))
 const ButtonContainerOne = styled('div')(() => ({
    display: 'flex',
