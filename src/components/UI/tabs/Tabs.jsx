@@ -1,15 +1,6 @@
 import React from 'react'
-import {
-   NavLink,
-   Route,
-   Routes,
-   useLocation,
-   useParams,
-} from 'react-router-dom'
+import { NavLink, useLocation, useParams } from 'react-router-dom'
 import { styled } from '@mui/material'
-import { Bookings } from './Bookings'
-import { MyAnnouncement } from './MyAnnouncement'
-import { OnModeration } from './OnModeration'
 
 const moderation = [
    {
@@ -30,12 +21,14 @@ export function Tabs({
    const moderationLength = moderation?.lenght
 
    const location = useLocation()
-   const { userId } = useParams()
-
+   const { userId, region, houseId } = useParams()
+   console.log(userId, 'userId')
    return state === 'true' ? (
       <div>
          <StyleHead>
-            <StyleLink to="bookings">
+            <StyleLink
+               to={`/main/${region}/region/${houseId}/profile/bookings`}
+            >
                <h3>Bookings ({BookingLength})</h3>
             </StyleLink>
 
@@ -48,7 +41,7 @@ export function Tabs({
             </StyleLink>
          </StyleHead>
 
-         <Routes>
+         {/* <Routes>
             <Route
                path="bookings"
                element={<Bookings bookings={bookings} onChange="true" />}
@@ -63,7 +56,7 @@ export function Tabs({
                path="/on-moderation"
                element={<OnModeration moderation={moderation} />}
             />
-         </Routes>
+         </Routes> */}
       </div>
    ) : (
       <div>
@@ -96,7 +89,7 @@ export function Tabs({
    )
 }
 const StyleHead = styled('div')(() => ({
-   width: '90%',
+   width: '96.5%',
    height: '4.25vh',
    borderBottom: '1px solid #C4C4C4',
    display: 'flex',
@@ -107,7 +100,7 @@ const StyleHead = styled('div')(() => ({
 }))
 
 const StyleLink = styled(NavLink)(({ active }) => ({
-   color: active === 'true' ? '2px solid #000' : '#6C6C6C',
+   color: active === 'true' ? ' #000' : '#6C6C6C',
    fontFamily: 'Inter',
    fontSize: '1.125rem',
    fontStyle: 'normal',

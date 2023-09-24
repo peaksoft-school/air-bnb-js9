@@ -10,10 +10,7 @@ export const getAdminUsersCardsId = createAsyncThunk(
       try {
          const response = await getMyAnnouncementRequest(payload)
 
-         console.log(
-            response.data,
-            '    return response.data.announcementResponses'
-         )
+         console.log(' response.data', response.data)
          return response.data.announcementResponses
       } catch (error) {
          return rejectWithValue(error.message)

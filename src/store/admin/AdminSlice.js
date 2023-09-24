@@ -5,16 +5,16 @@ import {
    getAdminApplicationAll,
    getApplicationById,
 } from './application/ApplicationThunk'
-import { getAdminUsersCardsId, getBookings } from './users/usersThunk'
+import { getAdminUsersCardsId, getBookings } from './users/UsersThunk'
 
 const initialState = {
    applications: [],
    applicationsAll: [],
    applicationById: [],
-   users: [],
+   announcements: [],
    bookings: [],
    allHouseData: [],
-   loading: false,
+   loading: true,
    openModal: false,
    toggle: false,
    editCardId: '',
@@ -48,6 +48,13 @@ export const adminSlice = createSlice({
          .addCase(getAdminApplication.pending, (state) => {
             state.loading = true
          })
+         .addCase(getAdminApplication.fulfilled, (state, action) => {
+            state.applications = action?.payload
+            state.loading = false
+         })
+         .addCase(getAdminApplication.rejected, (state) => {
+            state.loading = false
+         })
          .addCase(getAdminApplicationAll.fulfilled, (state, action) => {
             state.applicationsAll = action.payload
             state.loading = false
@@ -56,13 +63,6 @@ export const adminSlice = createSlice({
             state.loading = true
          })
          .addCase(getAdminApplicationAll.rejected, (state) => {
-            state.loading = false
-         })
-         .addCase(getAdminApplication.fulfilled, (state, action) => {
-            state.applications = action?.payload
-            state.loading = false
-         })
-         .addCase(getAdminApplication.rejected, (state) => {
             state.loading = false
          })
          //  get by id application
@@ -78,7 +78,7 @@ export const adminSlice = createSlice({
          })
          // users
          .addCase(getAdminUsersCardsId.fulfilled, (state, action) => {
-            state.users = action?.payload
+            state.announcements = action?.payload
          })
          .addCase(getBookings.fulfilled, (state, action) => {
             state.bookings = action?.payload

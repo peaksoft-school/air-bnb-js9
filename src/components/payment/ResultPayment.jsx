@@ -98,23 +98,25 @@ export function ResultPayment({
    ) : (
       <Container>
          <ContainerPayment>
-            <ContainerDescription styles="book">
-               <h2>Book your trip</h2>
-               <p className="book">
-                  The booking date has been changed, please pay an additional{' '}
-                  {mines} days in the period from {formattedValueChekin} to{' '}
-                  {formattedValueChekout} inclusive.
-               </p>
-            </ContainerDescription>
+            <div>
+               <ContainerDescription styles="book">
+                  <h2>Book your trip</h2>
+                  <p className="book">
+                     The booking date has been changed, please pay an additional{' '}
+                     {mines} days in the period from {formattedValueChekin} to{' '}
+                     {formattedValueChekout} inclusive.
+                  </p>
+               </ContainerDescription>
 
-            <ContainerSum>
-               <Result>
-                  ${price} x {mines} days = $ {result}
-               </Result>
-               <h3 className="total">
-                  Total = <h3>${result}</h3>
-               </h3>
-            </ContainerSum>
+               <ContainerSum>
+                  <Result>
+                     ${price} x {mines} days = $ {result}
+                  </Result>
+                  <h3 className="total">
+                     Total = <h3>${result}</h3>
+                  </h3>
+               </ContainerSum>
+            </div>
 
             <Elements stripe={stripePromise}>
                <ResultPaymentForm
@@ -132,23 +134,23 @@ export function ResultPayment({
 
 const Container = styled('div')(() => ({
    width: '29.625rem',
-   height: ' 31.875rem',
+   height: ' 25.5rem',
    borderRadius: ' 0.125rem',
    background: ' #FFF',
 }))
 const ContainerPayment = styled('div')(() => ({
-   width: '105%',
+   width: '100%',
+   height: '100%',
    padding: '1.25rem',
    borderRadius: ' 0.125rem',
-   backgroundColor: '#fff',
-   display: 'felx',
+   display: 'flex',
    flexDirection: 'column',
    alignItems: 'center',
+   justifyContent: 'space-between',
 }))
 
 const ContainerDescription = styled('div')(({ styles }) => ({
    width: '100%',
-   padding: '1.35rem',
    borderBottom: '1px solid#C4C4C4',
    display: 'flex',
    flexDirection: 'column',

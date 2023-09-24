@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { MenuItem, styled } from '@mui/material'
-import { NavLink, useLocation, useParams } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { AirBNBIcon, SelectionIcon } from '../../assets/icons/index'
 import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
@@ -9,18 +9,20 @@ import { authActions } from '../../store/auth/authSlice'
 export function AdminHeader() {
    const [meatBalls, setMeatBalls] = useState(null)
    const location = useLocation()
-   const { userId, cardId } = useParams()
+   const { userId, cardId, id } = useParams()
    const dispatch = useDispatch()
+   const navigate = useNavigate()
 
    const toggleMeatBalls = (e) => {
       setMeatBalls(e.currentTarget)
    }
+
    const closeMeatBallsHeandler = () => {
       setMeatBalls(null)
    }
 
-   const logoutHnadler = () => {
-      dispatch(authActions.logout())
+   const logoutHandler = () => {
+      dispatch(authActions.logout(navigate))
    }
 
    const open = Boolean(meatBalls)
@@ -35,7 +37,7 @@ export function AdminHeader() {
                   to="/admin/application"
                   active={
                      location.pathname === '/admin/application' ||
-                     location.pathname === `/admin/application/${cardId}`
+                     location.pathname === `/admin/application/Name/${cardId}`
                         ? 'true'
                         : 'false'
                   }
@@ -52,7 +54,7 @@ export function AdminHeader() {
                      location.pathname ===
                         `/admin/users/${userId}/my-announcement` ||
                      location.pathname ===
-                        `/admin/users/${userId}/my-announcement/${userId}=name`
+                        `/admin/users/${userId}/my-announcement/${id}=name`
                         ? 'true'
                         : 'false'
                   }
@@ -87,7 +89,7 @@ export function AdminHeader() {
             height=" 3rem"
             margin="10px 0 0 0"
          >
-            <MenuItem onClick={logoutHnadler}>Log out</MenuItem>
+            <MenuItem onClick={logoutHandler}>Log out</MenuItem>
          </MeatBalls>
       </Header>
    )

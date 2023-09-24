@@ -12,10 +12,10 @@ import { Button } from '../button/Button'
 import {
    deleteAnouncement,
    findAnnouncementById,
-} from '../../../store/profile/ProfileThunk'
-import ModalProfile from '../../Profile/ModalProfile'
+} from '../../../store/user/profile/ProfileThunk'
 import { toastSnackbar } from '../snackbar/Snackbar'
 import { MeatBalls } from '../meat-balls/MeatBalls'
+import { ModalProfile } from '../../../pages/user/announcement-get-all/get-by-id/profile/ModalProfile'
 
 export function ProfileCards({ data, announcement, ...props }) {
    const [modalVisible, setModalVisible] = useState(false)

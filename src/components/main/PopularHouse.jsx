@@ -13,7 +13,6 @@ export function PopularHouse() {
          const response = await axiosInstance.get(
             '/api/announcements/getPopularHouses'
          )
-         console.log(response.data, 'response popular house')
          setHouseData(response.data)
       } catch (error) {
          console.log('error: ', error)
@@ -23,7 +22,7 @@ export function PopularHouse() {
    useEffect(() => {
       getPopularHouse()
    }, [])
-
+   console.log(houseData, 'houseData')
    return (
       <Container darkMode={darkMode}>
          <DescriptionDiv>
@@ -39,7 +38,7 @@ export function PopularHouse() {
          <ImageDiv>
             {houseData.map(({ address, images, rating, title, price }) => {
                return (
-                  <HouseContainer darkMode={darkMode}>
+                  <HouseContainer darkMode={darkMode} key={images}>
                      <ImageStarDiv image={images}>
                         <StarDiv>
                            <Start1 />
@@ -128,7 +127,7 @@ const ImageStarDiv = styled('div')(({ image }) => ({
    height: '30rem',
    display: 'flex',
    justifyContent: 'flex-end',
-   background: `url(${image})`,
+   background: `url(${image[0]})`,
    padding: '27px 28px 0px 0px',
 }))
 

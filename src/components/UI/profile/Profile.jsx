@@ -87,7 +87,7 @@ const LogOut = styled('button')(() => ({
    fontStyle: 'normal',
    fontWeight: '400',
    lineHeight: 'normal',
-   backgroundColor: 'white',
    border: 'none',
    cursor: 'pointer',
+   background: '#f7f7f7',
 }))

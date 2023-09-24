@@ -48,20 +48,7 @@ const StyledDate = styled(DatePicker)(() => ({
          pointerEvents: 'none',
          color: 'gray',
       },
-   // Отключаем прошлые дни для checkin и checkout
-   // '& .MuiPickersDay-day.checkin-disabled, & .MuiPickersDay-day.checkout-disabled':
-   //    {
-   //       pointerEvents: 'none',
-   //       color: 'gray',
-   //    },
 
-   // Отключаем прошлые дни
-   // '& .MuiPickersDay-day.past-day': {
-   //    pointerEvents: 'none',
-   //    color: 'gray',
-   // },
-
-   // Добавляем класс checkin-selected для выбранной даты checkin
    '& .MuiPickersDay-day.checkin-selected': {
       backgroundColor: '#ff7200',
       color: 'white',
@@ -81,13 +68,10 @@ const StyledDate = styled(DatePicker)(() => ({
          textDecoration: 'line-through',
       },
    },
-
-   // Добавляем класс checkout-selected для выбранной даты checkout
    '& .MuiPickersDay-day.checkout-selected': {
-      backgroundColor: '#ff7200', // Оранжевый фон для checkout
+      backgroundColor: '#ff7200',
       color: 'white',
    },
-
    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: 'gray',
    },

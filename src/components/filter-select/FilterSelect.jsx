@@ -7,8 +7,36 @@ export function FilterSelect({
    onChangePopular,
    onChangeHomeType,
    onChangePrice,
+   selectedPopular,
+   selectedHomeType,
+   selectedPrice,
+   selectedRegion,
    region,
 }) {
+   const populars = region === 'Popular' ? region : null
+   const regionsSelect = region === 'Popular' ? null : region
+
+   const selectValue =
+      selectedPopular ||
+      selectedHomeType ||
+      selectedPrice ||
+      selectedRegion === ''
+         ? null
+         : selectedPopular ||
+           selectedHomeType ||
+           selectedPrice ||
+           selectedRegion
+
+   const valuesIn =
+      selectValue === undefined
+         ? null
+         : selectedPopular ||
+           selectedHomeType ||
+           selectedPrice ||
+           selectedRegion
+   console.log(valuesIn, 'valuesIn')
+   console.log(populars, 'populars')
+   console.log(regionsSelect, 'regionsSelect')
    return (
       <Container>
          <div>
@@ -16,7 +44,8 @@ export function FilterSelect({
                labelName="Sort by region:"
                data={regions}
                onChange={onChangeRegions}
-               region={region}
+               defaultValue={regionsSelect}
+               value={valuesIn || regionsSelect}
             />
          </div>
          <div>
@@ -24,6 +53,8 @@ export function FilterSelect({
                labelName="Sort by popularity:"
                data={popular}
                onChange={onChangePopular}
+               defaultValue={populars}
+               value={valuesIn || populars}
             />
          </div>
          <div>

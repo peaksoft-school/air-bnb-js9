@@ -31,38 +31,22 @@ export function MySlider({ background, state, lastestData, apartmentData }) {
 
    const slideImages = [
       {
-         image: state
-            ? imagesData
-               ? imagesData[0]
-               : ''
-            : apartmentData.images,
+         image: state ? imagesData : apartmentData.images,
          alt: 'Photo 1',
          id: 1,
       },
       {
-         image: state
-            ? imagesData
-               ? imagesData[1]
-               : ''
-            : apartmentData.images,
+         image: state ? imagesData : apartmentData.images,
          alt: 'Photo 2',
          id: 2,
       },
       {
-         image: state
-            ? imagesData
-               ? imagesData[2]
-               : ''
-            : apartmentData.images,
+         image: state ? imagesData : apartmentData.images,
          alt: 'Photo 3',
          id: 3,
       },
       {
-         image: state
-            ? imagesData
-               ? imagesData[3]
-               : ''
-            : apartmentData.images,
+         image: state ? imagesData : apartmentData.images,
          alt: 'Photo 4',
          id: 4,
       },

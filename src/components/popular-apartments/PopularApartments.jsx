@@ -12,12 +12,14 @@ export default function PopularApartments({ state, func }) {
    const [lastestData, setLastestData] = useState({})
    const { darkMode } = useSelector((state) => state.darkMode)
 
+   console.log(apartmentData, 'apartmentData')
+   console.log(lastestData, 'lastestData')
+
    const getPopularApartment = async () => {
       try {
          const response = await axiosInstance.get(
             '/api/announcements/getPopularApartment'
          )
-         console.log(response.data, 'response  popular apartments')
          setApartmentData(response.data)
       } catch (error) {
          console.log('error: ', error)
@@ -56,7 +58,7 @@ export default function PopularApartments({ state, func }) {
                dark={dark}
                state={state}
                style={{ marginRight: '7rem', marginBottom: '2rem' }}
-               to="/"
+               to={state === 'true' ? '/main/desc/region' : '/main/asc/region'}
                onClick={func}
             >
                View all
@@ -65,13 +67,7 @@ export default function PopularApartments({ state, func }) {
          <div>
             <BlockHouse>
                <ImageHouse
-                  src={
-                     state
-                        ? lastestData.images
-                           ? lastestData.images[0]
-                           : ''
-                        : apartmentData.images
-                  }
+                  src={state ? lastestData.images : apartmentData.images}
                   alt={apartmentData.title}
                />
                <BlockText>
@@ -85,9 +81,14 @@ export default function PopularApartments({ state, func }) {
                   </BlockAskaLara>
                   <StyledNavlink dark={dark} state={state}>
                      <Location />
-                     {state ? lastestData.address : apartmentData.address}
+                     {state ? lastestData.address : apartmentData.address},{' '}
+                     {/* {state ? lastestData.province : apartmentData.province}  */}
                   </StyledNavlink>
-                  <StyledNavlinkView to="/" dark={dark} state={state}>
+                  <StyledNavlinkView
+                     to={`/main/region/by-id/:${apartmentData.id}`}
+                     dark={dark}
+                     state={state}
+                  >
                      Read more
                   </StyledNavlinkView>
                </BlockText>
@@ -118,18 +119,19 @@ const Container = MUistyled('div')(({ state, conditionDarkMode }) => ({
    },
 }))
 
-const StyledNavlink = MUistyled('p')(({ theme }, dark, state) => ({
+const StyledNavlink = MUistyled('p')(({ theme, dark, state }) => ({
    margin: '0.46rem 0rem 2.16rem 0rem',
-   color: state ? (dark ? '#fff' : '#000') : theme.palette.tertiary.lightgreen,
+   color: state ? dark : theme.palette.tertiary.lightgreen,
    textDecoration: 'none',
 }))
 
-const StyledNavlinkView = MUistyled(NavLink)(({ theme }, dark, state) => ({
+const StyledNavlinkView = MUistyled(NavLink)(({ theme, dark, state }) => ({
    margin: '0.46rem 0rem 2.16rem 0rem',
    color: state ? dark : theme.palette.primary.more,
-   textDecoration: 'underline',
+   textDecoration: 'none',
    '&:hover': {
-      textDecoration: 'none',
+      textDecoration: 'underline',
+      color: theme.palette.primary.more,
    },
 }))
 
@@ -146,14 +148,14 @@ const BlockText = MUistyled('div')({
    flexDirection: 'column',
 })
 
-const Popular = MUistyled('p')(({ theme }, dark, state) => ({
+const Popular = MUistyled('p')(({ theme, dark, state }) => ({
    color: state ? dark : theme.palette.primary.white,
    fontFamily: 'Inter',
    fontWeight: 500,
    fontSize: '1.25rem',
 }))
 
-const SpaOtel = MUistyled('h2')(({ theme }, dark, state) => ({
+const SpaOtel = MUistyled('h2')(({ theme, dark, state }) => ({
    color: state ? dark : theme.palette.primary.white,
    fontSize: '1.1rem',
    lineHeight: '1rem',
@@ -183,7 +185,7 @@ const ImageHouse = MUistyled('img')({
       alignItems: 'center',
    },
 })
-const BlockAskaLara = MUistyled('p')(({ theme }, dark, state) => ({
+const BlockAskaLara = MUistyled('p')(({ theme, dark, state }) => ({
    color: state ? dark : theme.palette.primary.white,
    fontSize: '16px',
    fontWeight: '400',

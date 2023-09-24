@@ -1,8 +1,9 @@
 import { styled } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { SyncLoader } from 'react-spinners'
 import { AdminCards } from '../../../components/UI/cards/admin/AdminCards'
-import { LoadingAirbnb } from '../../../components/UI/loading/LoadingAirbnb'
+// import { LoadingAirbnb } from '../../../components/UI/loading/LoadingAirbnb'
 import { toastSnackbar } from '../../../components/UI/snackbar/Snackbar'
 import {
    deleteAllHousing,
@@ -32,15 +33,26 @@ export function AllHousing() {
    return (
       <Container>
          <AllHousingFilter />
-         <AdminCards
-            data={allHouseData}
-            removeAllHousing={removeAllHousing}
-            padding="1rem 0 0 3rem"
-         />
-         {loading && <LoadingAirbnb />}
+         {loading ? (
+            <LoadingContainer>
+               <SyncLoader color="#DD8A08" size={15} />
+            </LoadingContainer>
+         ) : (
+            <AdminCards
+               data={allHouseData}
+               removeAllHousing={removeAllHousing}
+               padding="1rem 0 0 3rem"
+               imagesClick="no"
+            />
+         )}
       </Container>
    )
 }
 const Container = styled('div')(() => ({
    marginTop: '80px',
+}))
+const LoadingContainer = styled('div')(() => ({
+   width: '100%',
+   display: 'flex',
+   justifyContent: 'center',
 }))

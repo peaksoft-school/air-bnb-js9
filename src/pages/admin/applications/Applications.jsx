@@ -1,8 +1,8 @@
 import { styled, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { SyncLoader } from 'react-spinners'
 import { AdminCards } from '../../../components/UI/cards/admin/AdminCards'
-import { Loading } from '../../../components/UI/loading/Loading'
 import { Paginations } from '../../../components/UI/pagination/Pagination'
 import {
    getAdminApplication,
@@ -13,9 +13,7 @@ export function Applications({
    rejectedHandler,
    setCurrentPage,
    acceptHandler,
-   setCurrenSize,
    currentPage,
-   currentSize,
    removeCard,
    setTitle,
    title,
@@ -23,28 +21,24 @@ export function Applications({
    const { applications, applicationsAll, loading } = useSelector(
       (state) => state.admin
    )
-
-   console.log(applicationsAll, 'applications')
+   console.log(applications, 'applications')
 
    const dispatch = useDispatch()
 
    useEffect(() => {
-      const current = {
-         currentPage,
-         currentSize,
-      }
-      dispatch(getAdminApplication(current))
-      setCurrenSize(18)
+      dispatch(getAdminApplication(currentPage))
    }, [currentPage])
+
    useEffect(() => {
       dispatch(getAdminApplicationAll())
    }, [])
+
    const changeHandler = (e) => {
       setTitle(e.target.value)
    }
    const totalItems = applicationsAll?.length
    const totalPages = Math.ceil(totalItems / 18)
-   console.log(totalPages)
+
    const pagePagination = (value) => {
       setCurrentPage(value)
    }
@@ -56,17 +50,24 @@ export function Applications({
          <>
             {' '}
             <StyleTypography color="text.primary">application</StyleTypography>
-            <AdminCards
-               data={applications}
-               title={title}
-               removeCard={removeCard}
-               imagesClick="click"
-               meatballs="application"
-               acceptHandler={acceptHandler}
-               changeHandler={changeHandler}
-               rejectedHandler={rejectedHandler}
-            />
-            {loading && <Loading />}
+            {loading ? (
+               <LoadingContainer>
+                  <SyncLoader color="#DD8A08" size={15} />
+               </LoadingContainer>
+            ) : (
+               <AdminCards
+                  title={title}
+                  toPath="false"
+                  imagesClick="click"
+                  data={applications}
+                  meatballs="application"
+                  removeCard={removeCard}
+                  padding="1.81rem 2.25rem "
+                  acceptHandler={acceptHandler}
+                  changeHandler={changeHandler}
+                  rejectedHandler={rejectedHandler}
+               />
+            )}
             <ContainerPagination>
                <Paginations count={totalPages} pages={pagePagination} />
             </ContainerPagination>
@@ -97,4 +98,11 @@ const StyleTypography = styled(Typography)(() => ({
    lineHeight: 'normal',
    textTransform: ' uppercase',
    margin: '3.13rem 0rem 0rem 2.25rem',
+}))
+const LoadingContainer = styled('div')(() => ({
+   width: '100%',
+   display: 'flex',
+   justifyContent: 'center',
+   alignItems: 'center',
+   height: '20vh',
 }))

@@ -48,11 +48,11 @@ export const getApplicationById = createAsyncThunk(
 
 export const deleteAdminApplication = createAsyncThunk(
    'application/deleteAdminApplication',
-   async ({ id, toastType, current }, { rejectWithValue, dispatch }) => {
+   async ({ id, toastType, currentPage }, { rejectWithValue, dispatch }) => {
       try {
          const response = await deleteAdminApplicationRequest(id)
 
-         dispatch(getAdminApplication(current))
+         dispatch(getAdminApplication(currentPage))
          toastType(
             'success',
             'Delete card :)',
@@ -69,13 +69,16 @@ export const deleteAdminApplication = createAsyncThunk(
 
 export const postRejectApplications = createAsyncThunk(
    'application/putRejectApplications',
-   async ({ toastType, reject, current }, { rejectWithValue, dispatch }) => {
+   async (
+      { toastType, reject, currentPage, navigate },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          const response = await postRejectApplicationsRequest(reject)
 
          toastType('success', 'Reject :)', 'Moderation successfully passed')
-         dispatch(getAdminApplication(current))
-
+         dispatch(getAdminApplication(currentPage))
+         navigate('/admin/application')
          return response.data
       } catch (error) {
          toastType('error', 'Reject :(', error.message)
@@ -87,15 +90,15 @@ export const postRejectApplications = createAsyncThunk(
 export const postAcceptApplications = createAsyncThunk(
    'application/putRejectApplications',
    async (
-      { id, status, toastType, current },
+      { id, status, toastType, navigate, currentPage },
       { rejectWithValue, dispatch }
    ) => {
       try {
          const response = await postAcceptApplicationsRequest({ id, status })
 
          toastType('success', 'Accepted :)', 'Moderation successfully passed')
-         dispatch(getAdminApplication(current))
-
+         dispatch(getAdminApplication(currentPage))
+         navigate('/admin/application')
          return response.data
       } catch (error) {
          toastType('error', 'Accepted :(', error.message)

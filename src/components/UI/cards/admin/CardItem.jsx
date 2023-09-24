@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { MenuItem, styled, Tooltip } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { truncateText } from '../../../../utils/Functions'
 import { MeatBalls } from '../../meat-balls/MeatBalls'
 
@@ -18,29 +18,43 @@ export function CardItem({
    item,
    image,
    index,
+   itemId,
+   toPath,
+   currentEl,
+   meatballs,
+   removeCard,
    imagesClick,
+   currentImages,
+   acceptHandler,
    handleMenuOpen,
    handleNextImage,
    handlePrevImage,
-   itemId,
-   currentImages,
-   meatballs,
-   currentEl,
-   removeCard,
-   acceptHandler,
    openModalHandler,
    removeAllHousing,
    openModalAllHousing,
    closeMeatBallsHeandler,
 }) {
    const [openButton, setOpenButton] = useState(false)
-   const navigate = useNavigate()
+   const { userId } = useParams()
+   const conditionalImages = image
+      ? item?.images[currentImages[index]]
+      : item?.images?.images[currentImages[index]]
+
+   const images =
+      item.images === 'object' && item.images[currentImages[index]] === 'string'
+         ? 'https://svgsilh.com/svg/158939.svg'
+         : conditionalImages
+
+   const conditionPath =
+      toPath === 'true'
+         ? `/admin/users/${userId}/my-announcement/${item.id}=name`
+         : `/admin/application/Name/${item.id}`
+
    return (
       <MapContainer status="dat">
          <ImageContainer
             onMouseEnter={() => setOpenButton(true)}
             onMouseLeave={() => setOpenButton(false)}
-            imagesClick={imagesClick}
          >
             {openButton === true && item.images.images?.length > 1 && (
                <ArrowContainer imagesClick={imagesClick}>
@@ -51,19 +65,13 @@ export function CardItem({
                   />
                </ArrowContainer>
             )}
-            <img
-               onClick={
-                  imagesClick === 'click'
-                     ? () => navigate(`/admin/application/${item.id}`)
-                     : null
-               }
-               src={
-                  image
-                     ? item.images[currentImages[index]]
-                     : item.images.images[currentImages[index]]
-               }
-               alt={item.title}
-            />
+
+            <ImageBlockLink
+               to={imagesClick === 'click' ? conditionPath : null}
+               imagesClick={imagesClick}
+            >
+               <img src={images} alt={item.title} />
+            </ImageBlockLink>
          </ImageContainer>
 
          <ContainerDescription>
@@ -79,7 +87,7 @@ export function CardItem({
             <ContainerInformation>
                <div className="title">
                   <Tooltip title={item.description}>
-                     <span>{truncateText(item.description, 25)}</span>
+                     <span>{truncateText(item.description, 24)}</span>
                   </Tooltip>
                </div>
                <div className="location">
@@ -167,8 +175,7 @@ const MapContainer = styled('div')((props) => ({
       boxShadow: ' 0px 0px 8px 7px rgba(0, 0, 0, 0.2)',
    },
 }))
-
-const ImageContainer = styled('div')(({ imagesClick }) => ({
+const ImageBlockLink = styled(Link)(({ imagesClick }) => ({
    width: '100%',
    height: ' 8.5rem',
    display: 'flex',
@@ -178,9 +185,16 @@ const ImageContainer = styled('div')(({ imagesClick }) => ({
    img: {
       width: '100%',
       height: ' 8.5rem',
-      cursor: imagesClick === 'click' && 'pointer',
+      cursor: imagesClick === 'click' ? 'pointer' : 'default',
       borderRadius: '0.6rem 0.5rem 0 0 ',
    },
+}))
+const ImageContainer = styled('div')(() => ({
+   width: '100%',
+   height: ' 8.5rem',
+   display: 'flex',
+   justifyContent: 'center',
+   alignItems: 'center',
 }))
 const ArrowContainer = styled('div')(({ imagesClick }) => ({
    position: 'absolute',

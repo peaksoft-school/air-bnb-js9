@@ -9,9 +9,9 @@ import { getAdminUsersCardsIdRequest } from '../../../api/adminUsersServise'
 import {
    getAdminUsersCardsId,
    getBookings,
-} from '../../../store/admin/users/usersThunk'
+} from '../../../store/admin/users/UsersThunk'
 
-function AdminUsersPage() {
+function AdminUsersPage({ setUserIdState }) {
    const [userData, setUserData] = useState({})
    const [showButton, setShowButton] = useState(false)
 
@@ -38,6 +38,7 @@ function AdminUsersPage() {
       getUsersById(userId)
       dispatch(getAdminUsersCardsId(userId))
       dispatch(getBookings(userId))
+      setUserIdState(userId)
    }, [userId])
 
    return (
@@ -58,7 +59,7 @@ function AdminUsersPage() {
             <h3 style={{ marginBottom: '1.40rem', marginTop: '2.5rem' }}>
                {userData.fullName}
             </h3>
-            <div>
+            <div className="profile">
                <Profile
                   data={userData}
                   width="29vw"
@@ -72,8 +73,6 @@ function AdminUsersPage() {
                      bgColor="#DD8A08"
                      color="white"
                      width="350px"
-                     marginTop="2rem"
-                     marginLeft="2.8rem"
                   >
                      block all announcement
                   </Button>
@@ -102,6 +101,14 @@ const Container = styled('div')(() => ({
 
 const UserSide = styled('div')(() => ({
    width: '32%',
+   '.profile': {
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '2.25rem',
+   },
 }))
 
 const CardSide = styled('div')(() => ({

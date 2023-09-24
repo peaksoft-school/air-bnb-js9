@@ -34,11 +34,11 @@ export function ReusableTable() {
    }
 
    const openModalHandler = (id) => {
-      setUserToDeleteId(id) // Установка id выбранного пользователя
+      setUserToDeleteId(id)
       setShowModal(true)
    }
    const closeModalHandler = () => {
-      setUserToDeleteId(null) // Обнуление id выбранного пользователя
+      // setUserToDeleteId(null)
       setShowModal(false)
    }
 
@@ -50,9 +50,10 @@ export function ReusableTable() {
          closeModalHandler()
          toastType('success', 'deleted successfully', 'success')
       } catch (error) {
-         toastType('error', error)
+         toastType('error', error.message)
       }
    }
+
    const getUsersById = (payload) => {
       navigate(`${payload.id}`)
    }
@@ -75,14 +76,14 @@ export function ReusableTable() {
       {
          header: 'Contact',
          key: 'contact',
-         align: 'center',
-         minWidth: '136px',
+         align: 'left',
+         minWidth: '100px',
       },
       {
          header: 'Bookings',
          key: 'bookings',
          align: 'right',
-         minWidth: '20px',
+         minWidth: '5px',
       },
       {
          header: 'Announcement',
@@ -111,7 +112,11 @@ export function ReusableTable() {
                               <StyledTableCell
                                  key={column.key}
                                  align={column.align}
-                                 style={{ minWidth: column.minWidth }}
+                                 style={{
+                                    minWidth: column.minWidth,
+                                    paddingRight:
+                                       column.key === 'action' ? '1rem' : '0',
+                                 }}
                                  sx={
                                     column.header && {
                                        backgroundColor:
@@ -141,16 +146,22 @@ export function ReusableTable() {
                               >
                                  {user.fullName}
                               </StyledTableCell>
-                              <TableCell
-                                 align="center"
+                              <StyledTableCell
+                                 align="left"
                                  onClick={() => getUsersById(user)}
                               >
                                  {user.email}
-                              </TableCell>
-                              <TableCell align="right">
+                              </StyledTableCell>
+                              <TableCell
+                                 align="right"
+                                 sx={{ padding: '0 1.3rem 0 0' }}
+                              >
                                  {user.bookings}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell
+                                 align="right"
+                                 sx={{ padding: '0 2.3rem 0 0' }}
+                              >
                                  {user.announcements}
                               </TableCell>
                               <TableCell align="right">
@@ -175,14 +186,14 @@ export function ReusableTable() {
                open={showModal}
                onClose={closeModalHandler}
                width="22%"
-               height="190px"
+               height="19vh"
                margin="350px 0"
             >
                Are you sure you want to delete this user?
                <ButtonContainer
                   style={{
                      display: 'flex',
-                     marginTop: '50px',
+                     marginTop: '30px',
                   }}
                >
                   <Button onClick={closeModalHandler}>cancel</Button>

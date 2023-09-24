@@ -9,7 +9,10 @@ import Feedback from '../../components/UI/feedback/Feedback'
 import { Booked } from '../../components/UI/booked/Booked'
 import { Favorites } from '../../components/UI/favorites/Favorites'
 import { getApplicationById } from '../../store/admin/application/ApplicationThunk'
-import { getAnnouncementByIdHandler } from '../../store/getAnnouncement/GetAnnouncementByIdThunk'
+import {
+   getAnnouncementByIdHandler,
+   getAnnouncementFeedbacks,
+} from '../../store/admin/users/getAnnouncement/AnnouncementByIdThunk'
 import { RatingChart } from '../../components/UI/rating/RatingChart'
 
 export function AnnouncementAdminPage({
@@ -22,15 +25,33 @@ export function AnnouncementAdminPage({
 }) {
    const [openModal, setOpenModal] = useState(false)
    const { applicationById, users } = useSelector((state) => state.admin)
+   const { AdminAnnouncementById, feedbacks } = useSelector(
+      (state) => state.announcementById
+   )
+   const [dataById, setDataById] = useState({})
+   console.log(users, 'users')
+   console.log(AdminAnnouncementById, 'AdminAnnouncementById')
+   console.log(feedbacks, 'feedbacks')
    const navigate = useNavigate()
    const dispatch = useDispatch()
    const params = useParams()
 
    console.log(params, 'params')
+   console.log(applicationById, 'applicationById')
 
    useEffect(() => {
-      dispatch(getApplicationById(params.id))
+      applicationById.map((item) => {
+         return setDataById(item)
+      })
+   }, [applicationById])
+
+   useEffect(() => {
+      dispatch(getApplicationById(params.cardId))
+   }, [dispatch])
+
+   useEffect(() => {
       dispatch(getAnnouncementByIdHandler(params.id))
+      dispatch(getAnnouncementFeedbacks(params.id))
    }, [dispatch])
 
    const data = [
@@ -86,34 +107,7 @@ export function AnnouncementAdminPage({
          createdAt: '29-11-2023',
          id: '4',
       },
-      {
-         feedbackUserFullName: 'Aziret Aziretov',
-         comment:
-            'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-         rating: 4,
-         likeCount: 5,
-         disLikeCount: 3,
-         feedbackUserImage:
-            'https://ca.slack-edge.com/T023L1WBFLH-U03E00N1USF-0fc4b2f5d54e-512',
-         createdAt: '29-11-2023',
-         id: '5',
-      },
-      {
-         feedbackUserFullName: 'Gulzat Osh',
-         comment:
-            'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-         rating: 2,
-         likeCount: 4,
-         disLikeCount: 2,
-         feedbackUserImage: '',
-         createdAt: '29-11-2023',
-         id: '6',
-      },
    ]
-
-   function backNavigation() {
-      navigate(-1)
-   }
 
    const openModalHandler = () => {
       setOpenModal((prev) => !prev)
@@ -126,9 +120,11 @@ export function AnnouncementAdminPage({
    const changeHandler = (e) => {
       setTitle(e.target.value)
    }
+
    const applicationByIdImages = applicationById?.map(
       (item) => item.images.images
    )
+
    const images = Array.isArray(applicationByIdImages[0])
       ? applicationByIdImages[0].map((image, index) => ({
            id: index + 1,
@@ -145,7 +141,7 @@ export function AnnouncementAdminPage({
                   <Navigate role="presentation">
                      <button
                         className="application"
-                        onClick={() => backNavigation()}
+                        onClick={() => navigate('/admin/application ')}
                         type="button"
                      >
                         Application
@@ -157,10 +153,11 @@ export function AnnouncementAdminPage({
                      <Main>
                         <HouseSlidDetail images={images} />
                         <NameOfHotel
+                           name="name"
                            buttons="yes"
                            title={title}
                            openModal={openModal}
-                           dataById={applicationById}
+                           dataById={dataById}
                            acceptHandler={acceptHandler}
                            rejectedCartd={rejectedCartd}
                            changeHandler={changeHandler}
@@ -179,7 +176,7 @@ export function AnnouncementAdminPage({
                         <StyledNavlink
                            to={`/admin/users/${params.userId}/my-announcement`}
                         >
-                           / {users.fullName} /{' '}
+                           / {AdminAnnouncementById.fullName} /{' '}
                         </StyledNavlink>
                         <span
                            style={{
@@ -198,7 +195,8 @@ export function AnnouncementAdminPage({
                         <NameOfHotel
                            pages={pages}
                            buttons="yes"
-                           dataById={users}
+                           name="user"
+                           dataById={AdminAnnouncementById}
                            openModal={openModal}
                            openModalHandler={openModalHandler}
                         />
@@ -211,7 +209,7 @@ export function AnnouncementAdminPage({
                            <Feedback data={el} />
                         ))}
                      </div>
-                     <RatingChart marginLeft="4rem" width="27rem" />
+                     {/* <RatingChart marginLeft="4rem" width="27rem" /> */}
                   </ContainerFeetback>
                </MainContainer>
             </Container>
@@ -274,7 +272,7 @@ export function AnnouncementAdminPage({
 const Applications = styled('div')(() => ({
    width: '100%',
    height: '100%',
-   padding: '1.5rem 0 4rem 0 ',
+   padding: '5rem 0 4rem 0 ',
    display: 'flex',
    flexDirection: 'column',
    gap: '1.87rem',

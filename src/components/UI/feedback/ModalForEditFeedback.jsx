@@ -7,7 +7,7 @@ import Modal from '../modal/Modal'
 import { TextArea } from '../textarea/TextArea'
 import { Button } from '../button/Button'
 import { putFeedbackById } from '../../../api/feedbackService'
-import { feedbackGetByIdRequest } from '../../../store/feedback/feedbackThunk'
+import { feedbackGetByIdRequest } from '../../../store/user/feedback/feedbackThunk'
 import { toastSnackbar } from '../snackbar/Snackbar'
 
 export function ModalForEditFeedback({
@@ -17,6 +17,9 @@ export function ModalForEditFeedback({
    feedbackImages,
    id,
 }) {
+   const { announcementDataById } = useSelector(
+      (state) => state.announcementGetById
+   )
    const [usersFeedback, setUsersFeedback] = useState(feedbackComment)
    const [fileNames, setFileNames] = useState([feedbackImages])
    const { toastType } = toastSnackbar()
@@ -29,7 +32,7 @@ export function ModalForEditFeedback({
       try {
          const response = await putFeedbackById(id, data)
          toastType('success', 'Successfully updated')
-         dispatch(feedbackGetByIdRequest())
+         dispatch(feedbackGetByIdRequest(announcementDataById.id))
 
          return response.data
       } catch (error) {

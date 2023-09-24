@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { AdminCards } from '../cards/admin/AdminCards'
 import { Select as MuiSelect } from '../select/Select'
-import { filterHouseRequest } from '../../../store/profile/ProfileThunk'
+import { filterHouseRequest } from '../../../store/user/profile/ProfileThunk'
 import { homeTypeProfile, popularProfile, price } from '../../../utils/helpers'
 import { ProfileCards } from '../cards/ProfileCards'
 import { DeleteIcon } from '../../../assets/icons'
@@ -14,7 +14,7 @@ export function MyAnnouncement({ select, announcement }) {
    const [sort, setSort] = useState('')
    const dispatch = useDispatch()
 
-   console.log(announcement, 'announcement ')
+   // console.log(announcement, 'announcement my announcement ')
    const changePriceHandler = (e) => {
       setSortPrice(e.target.value)
    }
@@ -54,7 +54,7 @@ export function MyAnnouncement({ select, announcement }) {
    } else if (sortRating === 'LOW_TO_HIGH') {
       setSortRating('Popular')
    }
-
+   console.log(announcement, 'announcement')
    return (
       <div>
          <Container>
@@ -110,15 +110,14 @@ export function MyAnnouncement({ select, announcement }) {
                   </ContainerCards>
                </div>
             ) : (
-               <div>
+               <div className="cards">
                   <AdminCards
-                     data={announcement}
+                     image
                      page="admin"
-                     image="click"
-                     justifyContent="start"
-                     bgColor="white"
                      toPath="true"
-                     padding="0 0 0 2rem"
+                     imagesClick="click"
+                     data={announcement}
+                     justifyContent="start"
                   />
                </div>
             )}
@@ -129,7 +128,6 @@ export function MyAnnouncement({ select, announcement }) {
 const ContainerSelect = styled('div')`
    display: flex;
    gap: 3rem;
-   margin-left: 4rem;
 `
 
 const SelectContainer = styled('div')`
@@ -141,6 +139,11 @@ const Container = styled('div')`
    padding: 3% 0px;
    width: 100%;
    flex-wrap: wrap;
+   .cards {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+   }
 `
 const ContainerCards = styled('div')`
    padding-top: 2rem;

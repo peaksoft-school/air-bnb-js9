@@ -1,13 +1,13 @@
 import { Avatar, IconButton, MenuItem, Tooltip, styled } from '@mui/material'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Dislike, IconMenu, Like1 } from '../../../assets/icons'
 import { MeatBalls } from '../meat-balls/MeatBalls'
 import { RatingStars } from '../rating/RatingStars'
 import { axiosInstance } from '../../../config/axiosInstance'
 import { ModalForEditFeedback } from './ModalForEditFeedback'
 import { likeOrDislike } from '../../../api/feedbackService'
-import { feedbackGetByIdRequest } from '../../../store/feedback/feedbackThunk'
+import { feedbackGetByIdRequest } from '../../../store/user/feedback/feedbackThunk'
 
 export default function Feedback({ data, announcementBooked }) {
    const {
@@ -21,22 +21,26 @@ export default function Feedback({ data, announcementBooked }) {
       disLikeCount,
       id,
    } = data
-
    const parts = createdAt?.split('-')
    const formattedDate = parts ? `${parts[0]}.${parts[1]}.${parts[2]}` : ''
 
+   const { announcementDataById } = useSelector(
+      (state) => state.announcementGetById
+   )
    const [currentEl, setCurrentEl] = useState(null)
    const [showFullText, setShowFullText] = useState(false)
    const [openModal, setOpenModal] = useState(false)
    const [ratingValue, setRatingValue] = useState(rating)
    const maxLength = 215
    const dispatch = useDispatch()
+
    const truncateText = (text, maxLength) => {
       if (text?.length > maxLength) {
          return `${text.slice(0, maxLength)}...`
       }
       return text
    }
+
    const toggleText = () => {
       if (comment?.length <= maxLength) {
          setShowFullText(false)
@@ -44,7 +48,9 @@ export default function Feedback({ data, announcementBooked }) {
          setShowFullText(!showFullText)
       }
    }
+
    const truncatedText = comment?.substring(0, maxLength)
+
    const toggle = (e) => {
       setCurrentEl(e.currentTarget)
    }
@@ -59,7 +65,7 @@ export default function Feedback({ data, announcementBooked }) {
          const response = await axiosInstance.delete(
             `/api/feedbacks/${feedbackId}`
          )
-         dispatch(feedbackGetByIdRequest())
+         dispatch(feedbackGetByIdRequest(announcementDataById.id))
          return response.data
       } catch (error) {
          console.error(error)
@@ -71,10 +77,10 @@ export default function Feedback({ data, announcementBooked }) {
    }
 
    // eslint-disable-next-line consistent-return
-   const likeHandler = async (like) => {
+   const likeHandler = async (likeDislike) => {
       try {
-         const response = await likeOrDislike(id, like)
-         dispatch(feedbackGetByIdRequest())
+         const response = await likeOrDislike(id, likeDislike)
+         dispatch(feedbackGetByIdRequest(announcementDataById.id))
          return response.data
       } catch (error) {
          console.error(error)
@@ -101,7 +107,10 @@ export default function Feedback({ data, announcementBooked }) {
                            }}
                         >
                            <Tooltip title={feedbackUserFullName}>
-                              {truncateText(feedbackUserFullName, 20)}
+                              <span>
+                                 {' '}
+                                 {truncateText(feedbackUserFullName, 20)}
+                              </span>
                            </Tooltip>
                         </h4>
                      </AvatarAndNameBlock>
@@ -122,7 +131,9 @@ export default function Feedback({ data, announcementBooked }) {
                         <span> {truncatedText}</span>
                      )}
                      <ShowMoreAndLess onClick={toggleText}>
-                        {showFullText ? 'See less' : 'See more'}
+                        {showFullText
+                           ? 'See less'
+                           : comment.length > maxLength && 'See more'}
                      </ShowMoreAndLess>
                   </p>
                </CommentBlock>
@@ -215,7 +226,9 @@ export default function Feedback({ data, announcementBooked }) {
                         <span> {truncatedText}</span>
                      )}
                      <ShowMoreAndLess onClick={toggleText}>
-                        {showFullText ? 'See less' : 'See more'}
+                        {showFullText
+                           ? 'See less'
+                           : comment.length > maxLength && 'See more'}
                      </ShowMoreAndLess>
                   </p>
                </CommentBlock>

@@ -1,9 +1,9 @@
 import { axiosInstance } from '../../config/axiosInstance'
 
 //   application
-export const getAdminApplicationRequest = ({ currentPage, currentSize }) => {
+export const getAdminApplicationRequest = (currentPage) => {
    return axiosInstance.get(
-      `/api/admin/announcementsModeration?currentPage=${currentPage}&pageSize=${currentSize}`
+      `/api/admin/announcementsModeration?currentPage=${currentPage}&pageSize=18`
    )
 }
 export const getAdminApplicationRequestAll = () => {
@@ -13,7 +13,6 @@ export const getAdminApplicationRequestAll = () => {
 }
 
 export const getApplicationByIdRequest = (id) => {
-   console.log(id, 'id service')
    return axiosInstance.get(`/api/admin/applicationById?applicationId=${id}`)
 }
 
@@ -34,7 +33,7 @@ export const postAcceptApplicationsRequest = ({ id, status }) => {
 }
 //   users
 export const getAdminUsersCardsIdRequest = (payload) => {
-   return axiosInstance.get(`/api/users/get/${payload}?value=announcement`)
+   return axiosInstance.get(`/api/users/get/${payload}?value`)
 }
 
 export const getMyAnnouncementRequest = (id) => {

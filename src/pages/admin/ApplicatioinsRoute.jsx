@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
    deleteAdminApplication,
    postAcceptApplications,
@@ -13,22 +13,18 @@ import { AllHousing } from './all-housing/AllHousing'
 
 export function ApplicatioinsRoute({ booleanPage }) {
    const [currentPage, setCurrentPage] = useState(1)
-   const [currentSize, setCurrenSize] = useState(18)
    const [title, setTitle] = useState('')
    const { toastType } = toastSnackbar()
    const dispatch = useDispatch()
-   const params = useParams()
-   console.log(params, 'params')
+   const navigate = useNavigate()
 
    const acceptHandler = (id) => {
       const object = {
          id,
          toastType,
          status: 'accept',
-         current: {
-            currentPage,
-            currentSize,
-         },
+         currentPage,
+         navigate,
       }
       dispatch(postAcceptApplications(object))
    }
@@ -36,15 +32,13 @@ export function ApplicatioinsRoute({ booleanPage }) {
    const rejectedHandler = (id) => {
       const object = {
          toastType,
+         navigate,
          reject: {
             status: 'reject',
             title,
             id,
          },
-         current: {
-            currentPage,
-            currentSize,
-         },
+         currentPage,
       }
 
       dispatch(postRejectApplications(object))
@@ -54,10 +48,7 @@ export function ApplicatioinsRoute({ booleanPage }) {
       const remove = {
          id,
          toastType,
-         current: {
-            currentPage,
-            currentSize,
-         },
+         currentPage,
       }
       dispatch(deleteAdminApplication(remove))
    }
@@ -69,8 +60,6 @@ export function ApplicatioinsRoute({ booleanPage }) {
             setTitle={setTitle}
             removeCard={removeCard}
             currentPage={currentPage}
-            currentSize={currentSize}
-            setCurrenSize={setCurrenSize}
             acceptHandler={acceptHandler}
             setCurrentPage={setCurrentPage}
             rejectedHandler={rejectedHandler}

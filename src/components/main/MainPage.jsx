@@ -6,7 +6,7 @@ import mainBackground from '../../assets/images/MainBackground.png'
 import { Header } from '../../layout/header/Header'
 import { Input } from '../UI/input/Input'
 import { SearchIcon } from '../../assets/icons'
-import { getGlobalSearch } from '../../store/search/searchThunk'
+import { getGlobalSearch } from '../../store/user/search/searchThunk'
 import { SearchResult } from '../UI/search/SearchResult'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }

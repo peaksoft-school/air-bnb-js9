@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Button } from '../button/Button'
 import { ModalNameHotel } from './ModalNameHotel'
 import { axiosInstance } from '../../../config/axiosInstance'
 import { toastSnackbar } from '../snackbar/Snackbar'
-import { getAnnouncementByIdHandler } from '../../../store/getAnnouncement/GetAnnouncementByIdThunk'
+import { getAnnouncementByIdHandler } from '../../../store/admin/users/getAnnouncement/AnnouncementByIdThunk'
 import { ModalDelete } from './ModalDelete'
 
 export function NameOfHotel({
+   name,
    roles,
    title,
    pages,
@@ -27,13 +28,15 @@ export function NameOfHotel({
    const openDeleteModal = () => {
       setDeleteModal((prev) => !prev)
    }
+   const { region, houseId } = useParams()
+   console.log('blockedArr:', blockedArr)
 
-   console.log('blockedArr: ', blockedArr)
    const blockAnnouncementById = async (id) => {
       try {
          const response = await axiosInstance.get(
             `/api/admin/blockedAnnouncementsById?announcementId=${id}`
          )
+         navigate(-1)
          setBlockedArr(response)
          toastType('success', response.data.message, response.data.httpStatus)
       } catch (error) {
@@ -69,31 +72,31 @@ export function NameOfHotel({
             dataById={dataById}
             deleteAnnouncement={deleteAnnouncementById}
          />
-         <DescriptionContainer key={dataById.id}>
+         <DescriptionContainer key={dataById?.id}>
             <ButtonContainerOne>
-               <div>{dataById.houseType}</div>
-               <div>{dataById.maxGuests} Guests</div>
+               <div>{dataById?.houseType} </div>
+               <div>{dataById?.maxGuests} Guests</div>
             </ButtonContainerOne>
             <NameHotel>
                <h2>Name Of hotel</h2>
                <p>
-                  {dataById.address}, {dataById.province}
+                  {dataById?.address}, {dataById?.province}
                </p>
             </NameHotel>
 
-            <p className="description">{dataById.description}</p>
+            <p className="description">{dataById?.description}</p>
 
             <ProfileBlock>
                <div className="avatar" />
-               {buttons === 'yes' ? (
+               {name === 'name' ? (
                   <NameBlock>
-                     <h4>{dataById.fullName}</h4>
-                     <p>{dataById.email}</p>
+                     <h4>{dataById.user?.fullName}</h4>
+                     <p>{dataById.user?.email}</p>
                   </NameBlock>
                ) : (
-                  <NameBlock>
-                     <h4>{dataById.fullName}</h4>
-                     <p>{dataById.email}</p>
+                  <NameBlock to={`/main/${region}/region/${houseId}/profile`}>
+                     <h4>{dataById?.fullName}</h4>
+                     <p>{dataById?.email}</p>
                   </NameBlock>
                )}
             </ProfileBlock>
@@ -113,8 +116,6 @@ export function NameOfHotel({
                   color="#DD8A08"
                   font-size="0.875rem"
                   font-weight="500"
-                  hoverbgcolor="#cfbf8e"
-                  hovercolor="#6c470b"
                >
                   {pages === 'user' ? 'delete' : 'reject'}
                </Button>
@@ -135,8 +136,8 @@ export function NameOfHotel({
                ) : (
                   <Button
                      onClick={
-                        pages
-                           ? () => blockAnnouncementById(dataById.id)
+                        pages === 'user'
+                           ? () => blockAnnouncementById(dataById?.id)
                            : () => acceptHandler(dataById.id)
                      }
                      variant="contained"
@@ -185,6 +186,7 @@ const ButtonContainerOne = styled('div')(() => ({
 const DescriptionContainer = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
+   margin: '5.8rem 0 0 0 ',
    '.description': {
       width: '33.875rem',
       color: 'var(--primary-black, #363636)',
@@ -237,7 +239,7 @@ const ProfileBlock = styled('div')(() => ({
       },
    },
 }))
-const NameBlock = styled('div')(() => ({
+const NameBlock = styled(Link)(() => ({
    display: 'flex',
    flexDirection: 'column',
    h4: {

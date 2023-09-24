@@ -6,7 +6,7 @@ import { Button } from '../UI/button/Button'
 import {
    postBookRequest,
    putBookRequest,
-} from '../../store/payment/PaymentThunk'
+} from '../../store/user/payment/PaymentThunk'
 import { toastSnackbar } from '../UI/snackbar/Snackbar'
 
 export function ResultPaymentForm({
@@ -94,8 +94,6 @@ export function ResultPaymentForm({
 const ContainerFrom = styled('form')(() => ({
    display: 'flex',
    flexDirection: 'column',
-   gap: '0.5rem',
-   margin: '1rem 0 0 0',
    '.block': {
       height: '9vh',
       display: 'flex',

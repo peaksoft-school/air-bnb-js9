@@ -8,6 +8,7 @@ export function Bookings({ bookings, onChange }) {
       <div>
          {onChange === 'true' ? (
             <AdminCards
+               image
                data={bookings}
                page="admin"
                justifyContent="start"

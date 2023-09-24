@@ -16,7 +16,7 @@ import {
    AirBNBIcon,
    SelectionIcon,
 } from '../../assets/icons/index'
-import { getGlobalSearch } from '../../store/search/searchThunk'
+import { getGlobalSearch } from '../../store/user/search/searchThunk'
 import { userRoles } from '../../utils/constants'
 import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
 import { authActions } from '../../store/auth/authSlice'
@@ -24,9 +24,8 @@ import Modal from '../../components/UI/modal/Modal'
 import { DarkModeActions } from '../../store/dark-mode/DarkModeSlice'
 
 export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
-   // const [meatBalls, setMeatBalls] = useState(false)
    const { isAuthorization, email } = useSelector((state) => state.auth)
-
+   const { darkMode } = useSelector((state) => state.darkMode)
    const [userLogin, setUserLogin] = useState(false)
    const [openModal, setOpenModal] = useState(false)
    const [signIn, setSignIn] = useState(false)
@@ -34,6 +33,8 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
    const [isChecked, setIsChecked] = useState(false)
    const [searchText, setSearchText] = useState('')
    const [searchedValue] = useDebounce(searchText, 1000)
+   const [scrollPosition, setScrollPosition] = useState(0)
+   const [showFavorite, setShowFavorite] = useState(false)
    const [location, setLocation] = useState(null)
    const dispatch = useDispatch()
    const navigate = useNavigate()
@@ -71,9 +72,7 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
          }
       }
    }, [location, searchedValue, isChecked])
-   const { darkMode } = useSelector((state) => state.darkMode)
-   const [scrollPosition, setScrollPosition] = useState(0)
-   const [showFavorite, setShowFavorite] = useState(false)
+
    const headerHeight = 5.5
    const threshold = 100
 
@@ -108,10 +107,6 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
          setOpenModal(false)
       }
    }, [isAuthorization])
-
-   // const toggleMeatBalls = () => {
-   //    setMeatBalls(!meatBalls)
-   // }
 
    const logoutHnadler = () => {
       dispatch(authActions.logout())
@@ -181,7 +176,9 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                            leave an ad
                         </StyleLink>
                         {showFavorite && (
-                           <StyledFavorite>FAVORITE(5)</StyledFavorite>
+                           <StyledFavorite to="/main/favotite">
+                              FAVORITE(0)
+                           </StyledFavorite>
                         )}
                         <LogOut>
                            <Avatar
@@ -199,12 +196,14 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                               id={idd}
                               propsVertical="bottom"
                               propsHorizontal="left"
-                              width=" 10rem"
-                              height=" 3rem"
-                              margin="0.7rem 10rem -10rem 0"
+                              width="11.25rem"
+                              height=" 5.5rem"
                            >
+                              <MenuItem onClick={() => navigate('/Prifile')}>
+                                 My profile
+                              </MenuItem>
                               <MenuItem onClick={logoutHnadler}>
-                                 log out
+                                 log out{' '}
                               </MenuItem>
                            </MeatBalls>
                         </LogOut>
@@ -246,8 +245,8 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                </div>
 
                <SearchDiv>
-                  {login === 'true' ? (
-                     <StyleLink to="/main/AddAnouncementForm">
+                  {login === 'false' ? (
+                     <StyleLink login={login} to="/main/AddAnouncementForm">
                         leave an ad
                      </StyleLink>
                   ) : null}
@@ -289,7 +288,9 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                      {isAuthorization ? 'SUBMIT AN AD' : 'JOIN US'}
                   </Button>
                   {favorite === 'true' && (
-                     <FavoriteStyle>Favorite({favoriteLenght})</FavoriteStyle>
+                     <FavoriteStyle to="/main/favotite">
+                        Favorite({favoriteLenght})
+                     </FavoriteStyle>
                   )}
                   {isAuthorization ? (
                      <FavoriteDiv>
@@ -299,36 +300,26 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
                            <SelectionIcon onClick={handleMenuOpen} />
-                           <MeatBalls
-                              anchorEl={currentEl}
-                              open={open}
-                              close={closeMeatBallsHeandler}
-                              id={idd}
-                              propsVertical="bottom"
-                              propsHorizontal="left"
-                              width="11.25rem"
-                              height=" 5.5rem"
-                           >
-                              {profile === 'true' ? (
-                                 <>
-                                    <MenuItem
-                                       onClick={() => navigate('/Prifile')}
-                                    >
-                                       My profile
-                                    </MenuItem>
-                                    <MenuItem onClick={logoutHnadler}>
-                                       log out{' '}
-                                    </MenuItem>
-                                 </>
-                              ) : (
-                                 <Button
-                                    onClick={logoutHnadler}
-                                    variant="outlined"
-                                 >
-                                    log out
-                                 </Button>
-                              )}
-                           </MeatBalls>
+
+                           {profile === 'true' ? (
+                              <MeatBalls
+                                 anchorEl={currentEl}
+                                 open={open}
+                                 close={closeMeatBallsHeandler}
+                                 id={idd}
+                                 propsVertical="bottom"
+                                 propsHorizontal="left"
+                                 width="11.25rem"
+                                 height=" 5.5rem"
+                              >
+                                 <MenuItem onClick={() => navigate('/Prifile')}>
+                                    My profile
+                                 </MenuItem>
+                                 <MenuItem onClick={logoutHnadler}>
+                                    log out{' '}
+                                 </MenuItem>
+                              </MeatBalls>
+                           ) : null}
                         </LogOut>
                      </FavoriteDiv>
                   ) : null}
@@ -338,7 +329,7 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
       </Container>
    )
 }
-const FavoriteStyle = styled('p')`
+const FavoriteStyle = styled(Link)`
    color: #000;
    font-family: Inter;
    font-size: 1rem;
@@ -446,7 +437,7 @@ const LogOut = styled('div')(() => ({
    gap: '0.7rem',
 }))
 
-const StyledFavorite = styled('p')(() => ({
+const StyledFavorite = styled(Link)(() => ({
    width: '100px',
    textDecoration: 'none',
    color: 'var(--primary-white, #FFF)',
