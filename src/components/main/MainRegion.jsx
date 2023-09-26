@@ -4,6 +4,7 @@ import { useEffect, React } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import chui from '../../assets/images/chui.png'
 import batken from '../../assets/images/batken.png'
 import jalalabat from '../../assets/images/jalalAbad.png'
@@ -14,6 +15,7 @@ import osh from '../../assets/images/osh.png'
 import naryn from '../../assets/images/naryn.png'
 
 export function MainRegion() {
+   const { darkMode } = useSelector((state) => state.darkMode)
    useEffect(() => {
       AOS.init({
          duration: 1500,
@@ -23,11 +25,11 @@ export function MainRegion() {
    }, [])
 
    return (
-      <GlobalConteiner>
+      <GlobalConteiner darkMode={darkMode}>
          <MainContainer>
-            <ContainerText>
-               <h3>Regions in kyrgystan </h3>
-               <p>
+            <ContainerText darkMode={darkMode}>
+               <h3 data-aos="fade-right">Regions in kyrgystan </h3>
+               <p data-aos="fade-right">
                   You can visit the site any day and be sure that you will find
                   everything for a great vacation.
                </p>
@@ -143,12 +145,15 @@ export function MainRegion() {
       </GlobalConteiner>
    )
 }
-const GlobalConteiner = styled('div')(() => ({
+const GlobalConteiner = styled('div')(({ darkMode }) => ({
    width: '100%',
    display: 'grid',
    justifyContent: 'center',
    alignItems: 'center',
    padding: '10.62rem  0 10.62rem 0',
+   background: darkMode
+      ? 'linear-gradient(262deg, rgba(152,152,152,1) 15%, rgba(0,0,0,1) 100%)'
+      : '#fff',
 }))
 const MainContainer = styled('div')(() => ({
    width: '100%',
@@ -156,12 +161,12 @@ const MainContainer = styled('div')(() => ({
    flexDirection: 'column',
    gap: '3.75rem',
 }))
-const ContainerText = styled('div')(() => ({
+const ContainerText = styled('div')(({ darkMode }) => ({
    display: 'flex',
    flexDirection: 'column',
    gap: '0.88rem',
    h3: {
-      color: 'var(--primary-black, #363636)',
+      color: darkMode ? '#fff' : 'var(--primary-black, #363636)',
       fontFamily: 'Inter',
       fontSize: ' 1.25rem',
       fontStyle: 'normal',
@@ -170,7 +175,7 @@ const ContainerText = styled('div')(() => ({
       textTransform: 'uppercase',
    },
    p: {
-      color: 'var(--primary-black, #363636)',
+      color: darkMode ? '#fff' : 'var(--primary-black, #363636)',
       fontFamily: 'Inter',
       fontSize: ' 1rem',
       fontStyle: 'normal',

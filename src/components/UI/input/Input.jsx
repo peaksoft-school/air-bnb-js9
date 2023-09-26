@@ -23,7 +23,6 @@ export const Input = forwardRef(
       },
       ref
    ) => {
-      const { darkMode } = useSelector((state) => state.darkMode)
       return (
          <StyledInput
             size={size}
@@ -34,7 +33,6 @@ export const Input = forwardRef(
             error={error}
             checked={checked}
             onChange={onChange}
-            darkMode={darkMode}
             defaultChecked={defaultChecked}
             placeholder={placeholder || 'введите что-нибудь'}
             ref={ref}

@@ -1,13 +1,13 @@
 import { Button as ReusableButton, styled } from '@mui/material'
 
 export function Button({
-   children,
-   variant = 'outlined',
-   disabled,
    type,
    onClick,
-   hoverbgcolor,
+   disabled,
+   children,
    hovercolor,
+   hoverbgcolor,
+   variant = 'outlined',
    ...props
 }) {
    return (
@@ -19,6 +19,7 @@ export function Button({
          hoverbgcolor={hoverbgcolor}
          hovercolor={hovercolor}
          props={props}
+         // {...props}
       >
          {children}
       </ButtonStyled>

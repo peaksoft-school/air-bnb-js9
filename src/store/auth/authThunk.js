@@ -4,18 +4,27 @@ import { STORAGE_KEY } from '../../utils/constants'
 
 export const signInRequest = createAsyncThunk(
    'auth/signIn',
-   async (payload, { rejectWithValue }) => {
+   async ({ values, toastType }, { rejectWithValue }) => {
       try {
-         const response = await signIn(payload)
+         const response = await signIn(values)
 
          localStorage.setItem(
             STORAGE_KEY.AIRBNB_AUTH,
             JSON.stringify(response.data)
          )
-
+         toastType(
+            'success',
+            'Successfully logIn :) ',
+            'Вы только что выполнили вход на наш сайт как Админ'
+         )
          return response.data
       } catch (error) {
-         return rejectWithValue(error.response.data.message)
+         toastType(
+            'error',
+            ' rejected login :(',
+            'sorry for the misunderstanding, try again'
+         )
+         return rejectWithValue(error.message)
       }
    }
 )

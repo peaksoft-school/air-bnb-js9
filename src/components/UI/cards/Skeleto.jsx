@@ -6,38 +6,26 @@ import Skeleton from '@mui/material/Skeleton'
 import { useSelector } from 'react-redux'
 import { styled } from '@mui/material'
 
-const data = [
-   {
-      src: 'https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ',
-      title: 'Don Diablo @ Tomorrowland Main Stage 2019 | Official…',
-      channel: 'Don Diablo',
-      views: '396k views',
-      createdAt: 'a week ago',
-   },
-   {
-      src: 'https://i.ytimg.com/vi/_Uu12zY01ts/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLCpX6Jan2rxrCAZxJYDXppTP4MoQA',
-      title: 'Queen - Greatest Hits',
-      channel: 'Queen Official',
-      views: '40M views',
-      createdAt: '3 years ago',
-      status: 'dates',
-   },
-   {
-      src: 'https://i.ytimg.com/vi/kkLk2XWMBf8/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLB4GZTFu1Ju2EPPPXnhMZtFVvYBaw',
-      title: 'Calvin Harris, Sam Smith - Promises (Official Video)',
-      channel: 'Calvin Harris',
-      views: '130M views',
-      createdAt: '10 months ago',
-   },
-]
-
 function Media() {
-   const isLoading = useSelector((state) => state.global.isLoading)
+   const { search, isLoading } = useSelector((state) => state.global)
 
    return (
-      <SkeletonGrid container wrap="nowrap">
-         {(isLoading ? Array.from(new Array(4)) : data).map((item) => (
-            <Box sx={{ width: 300, marginRight: 0.5, my: 5 }}>
+      <SkeletonGrid container wrap="wrap">
+         {(isLoading
+            ? Array.from(new Array(30)).map((index) => (
+                 <Box
+                    key={`skeleton-${index}`}
+                    sx={{ width: 300, marginRight: 0.5, my: 5 }}
+                 >
+                    hello
+                 </Box>
+              ))
+            : search
+         ).map((item) => (
+            <Box
+               key={item.id || `skeleton-${Math.random()}`}
+               sx={{ width: 300, marginRight: 0.5, my: 5 }}
+            >
                {item ? (
                   <img
                      style={{ width: 300, height: 218 }}
@@ -49,7 +37,7 @@ function Media() {
                )}
 
                {item ? (
-                  <Box>
+                  <Box key={item.id}>
                      <Typography gutterBottom variant="body2">
                         {item.title}
                      </Typography>
@@ -105,7 +93,6 @@ const SkeletonBlock = styled(Box)({
    display: 'flex',
    alignItems: 'center',
    justifyContent: 'space-between',
-   //    gap: '1rem',
 })
 const SkeletonMain = styled(Box)({
    display: 'flex',

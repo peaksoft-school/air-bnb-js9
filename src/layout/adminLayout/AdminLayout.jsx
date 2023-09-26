@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react'
 import { Outlet } from 'react-router'
-import { AdminHeader } from '../Header/AdminHeader'
+import { AdminHeader } from '../header/AdminHeader'
 
 export function AdminLayout() {
    return (

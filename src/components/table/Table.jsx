@@ -34,11 +34,11 @@ export function ReusableTable() {
    }
 
    const openModalHandler = (id) => {
-      setUserToDeleteId(id) // Установка id выбранного пользователя
+      setUserToDeleteId(id)
       setShowModal(true)
    }
    const closeModalHandler = () => {
-      setUserToDeleteId(null) // Обнуление id выбранного пользователя
+      // setUserToDeleteId(null)
       setShowModal(false)
    }
 
@@ -50,9 +50,10 @@ export function ReusableTable() {
          closeModalHandler()
          toastType('success', 'deleted successfully', 'success')
       } catch (error) {
-         toastType('error', error)
+         toastType('error', error.message)
       }
    }
+
    const getUsersById = (payload) => {
       navigate(`${payload.id}`)
    }
@@ -151,10 +152,16 @@ export function ReusableTable() {
                               >
                                  {user.email}
                               </StyledTableCell>
-                              <TableCell align="right">
+                              <TableCell
+                                 align="right"
+                                 sx={{ padding: '0 1.3rem 0 0' }}
+                              >
                                  {user.bookings}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell
+                                 align="right"
+                                 sx={{ padding: '0 2.3rem 0 0' }}
+                              >
                                  {user.announcements}
                               </TableCell>
                               <TableCell align="right">
@@ -179,14 +186,14 @@ export function ReusableTable() {
                open={showModal}
                onClose={closeModalHandler}
                width="22%"
-               height="190px"
+               height="19vh"
                margin="350px 0"
             >
                Are you sure you want to delete this user?
                <ButtonContainer
                   style={{
                      display: 'flex',
-                     marginTop: '50px',
+                     marginTop: '30px',
                   }}
                >
                   <Button onClick={closeModalHandler}>cancel</Button>

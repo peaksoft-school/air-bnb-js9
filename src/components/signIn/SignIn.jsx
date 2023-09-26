@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { InputAdornment, styled } from '@mui/material'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import ClipLoader from 'react-spinners/ClipLoader'
 import { Input } from '../UI/input/Input'
 import { Button } from '../UI/button/Button'
 import { signInRequest } from '../../store/auth/authThunk'
@@ -10,6 +11,7 @@ import { toastSnackbar } from '../UI/snackbar/Snackbar'
 import { HiddenPassword, SeenPassword } from '../../assets/icons'
 
 export function SignIn({ moveToSigninAndSignUp }) {
+   const { isLoading } = useSelector((state) => state.auth)
    const [seePassword, setSeePassword] = useState(false)
    const { toastType } = toastSnackbar()
 
@@ -26,19 +28,7 @@ export function SignIn({ moveToSigninAndSignUp }) {
    const dispatch = useDispatch()
 
    const handleSubmit = (values) => {
-      dispatch(signInRequest(values))
-         .unwrap()
-         .then(() => {
-            toastType(
-               'success',
-               'Successfully logIn as ADMIN',
-               'Вы только что выполнили вход на наш сайт как Админ'
-            )
-         })
-         .catch((error) => {
-            console.log('error: ', error)
-            toastType('error', error.message)
-         })
+      dispatch(signInRequest({ values, toastType }))
    }
 
    return (
@@ -111,7 +101,11 @@ export function SignIn({ moveToSigninAndSignUp }) {
                      color="white"
                      bgColor="#DD8A08"
                   >
-                     SIGN IN
+                     {isLoading ? (
+                        <ClipLoader color="#fff" size={28} />
+                     ) : (
+                        'SIGN IN'
+                     )}
                   </Button>
                </FormStyled>
             )}

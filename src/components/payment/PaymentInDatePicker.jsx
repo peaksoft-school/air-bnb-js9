@@ -5,8 +5,8 @@ import dayjs from 'dayjs'
 import DateePicker from '../UI/date-picker/Date-Picker'
 import { Button } from '../UI/button/Button'
 import { Like } from '../UI/likes/Like'
-import { paymentActions } from '../../store/payment/PaymentSlice'
-import { postFavoriteInPayment } from '../../store/payment/PaymentThunk'
+import { paymentActions } from '../../store/user/payment/PaymentSlice'
+import { postFavoriteInPayment } from '../../store/user/payment/PaymentThunk'
 import { toastSnackbar } from '../UI/snackbar/Snackbar'
 
 export function PaymentInDarePicker({
@@ -110,7 +110,7 @@ export function PaymentInDarePicker({
          {booked ? (
             <ContainerPayment>
                <ContainerDay styles="day">
-                  <h4>${price}</h4>/ <h4 className="day">day</h4>
+                  <p>${price}</p>/ <p className="day">day</p>
                </ContainerDay>
 
                <DatePickerStyle>
@@ -137,7 +137,6 @@ export function PaymentInDarePicker({
                   border="none"
                   color="#F7F7F7"
                   width=" 28.375rem"
-                  marginTop="2.63rem"
                   variant="contained"
                   fontSize=" 0.875rem"
                   bgColor="  #DD8A08"
@@ -174,10 +173,12 @@ export function PaymentInDarePicker({
                         />
                      </BlockDatePicker>
                   </DatePickerStyle>
-                  <p>You have to be signed in to book a listing!</p>
+                  <p className="toBook">
+                     You have to be signed in to book a listing!
+                  </p>
                </ContainerDatePicker>
                <ContainerButton>
-                  <Button
+                  <ButtonBook
                      border="none"
                      color="#F7F7F7"
                      variant="contained"
@@ -191,7 +192,7 @@ export function PaymentInDarePicker({
                      disabled={!valueChekin || !valueChekout}
                   >
                      request to book
-                  </Button>
+                  </ButtonBook>
                   <button type="button" className="iconLike">
                      <Like
                         like={like}
@@ -208,6 +209,7 @@ export function PaymentInDarePicker({
 
 export const ContainerPayment = styled('div')(() => ({
    width: '30.875rem',
+   height: '14.2rem',
    padding: '1.25rem',
    background: ' #fff',
    borderRadius: ' 0.125rem',
@@ -241,12 +243,11 @@ export const DatePickerStyle = styled('div')(() => ({
    gap: '3rem',
 }))
 export const BlockDatePicker = styled('div')(() => ({
-   width: '11.19rem',
+   width: '100%',
    paddingTop: '1.25rem',
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'flex-start',
-   gap: '1.06rem',
 
    '.check': {
       fontWeight: 400,
@@ -262,10 +263,17 @@ const ContainerDatePicker = styled('div')(() => ({
    flexDirection: 'column',
    alignItems: 'center',
    gap: '1rem',
+   '.toBook': {
+      color: ' var(--tertiary-middle-gray, #828282)',
+      fontFamily: 'Inter',
+      fontSize: '0.875rem',
+      fontStyle: 'normal',
+      fontWeight: 400,
+      lineHeight: 'normal',
+   },
 }))
 const ContainerButton = styled('div')(() => ({
-   width: '28rem',
-   margin: '2rem 0 0 0',
+   width: '100%',
    display: 'flex',
    alignItems: 'center',
    justifyContent: 'space-between',
@@ -283,4 +291,15 @@ const ContainerButton = styled('div')(() => ({
       gap: '0.625rem',
       cursor: 'pointer',
    },
+}))
+const ButtonBook = styled(Button)(() => ({
+   border: 'none',
+   color: '#F7F7F7',
+   variant: 'contained',
+   width: ' 23.4375rem',
+   fontSize: ' 0.875rem',
+   bgColor: '  #DD8A08',
+   borderRadius: '0.125rem',
+   padding: ' 0.625rem 1rem',
+   textTransform: 'uppercase',
 }))

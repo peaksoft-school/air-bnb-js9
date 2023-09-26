@@ -12,9 +12,9 @@ import { toastSnackbar } from '../UI/snackbar/Snackbar'
 import {
    countRatingGetByIdRequest,
    feedbackGetByIdRequest,
-} from '../../store/feedback/feedbackThunk'
+} from '../../store/user/feedback/feedbackThunk'
 
-export function LeaveFeedback({ openModal, setOpenModal }) {
+export function LeaveFeedback({ openModal, setOpenModal, announcementId }) {
    const [usersFeedback, setUsersFeedback] = useState('')
    const [fileNames, setFileNames] = useState([])
    const [ratingValue, setRatingValue] = useState('')
@@ -26,13 +26,19 @@ export function LeaveFeedback({ openModal, setOpenModal }) {
 
    const postLeaveFeedback = async (data) => {
       try {
-         const response = await leaveFeedback(data)
-         toastType('success', 'Review successfully submitted')
-         dispatch(feedbackGetByIdRequest())
+         const response = await leaveFeedback({ id: announcementId, data })
+
+         dispatch(feedbackGetByIdRequest(announcementId))
          dispatch(countRatingGetByIdRequest())
+
+         toastType('success', 'Review successfully submitted')
          return response.data
       } catch (error) {
-         toastType('error', 'ERROR! ')
+         toastType(
+            'error',
+            'feedback :( ',
+            'your feedbacks was not sent please try again!!!'
+         )
       }
    }
 
@@ -53,6 +59,7 @@ export function LeaveFeedback({ openModal, setOpenModal }) {
       setUsersFeedback('')
       setFileNames([])
       setRatingValue('')
+      setOpenModal(false)
    }
 
    return (

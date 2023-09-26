@@ -5,5 +5,6 @@ export const getFavorite = () => {
 }
 
 export const postFavorite = (id) => {
+   console.log(id, 'id service')
    return axiosInstance.post(`/api/favorites/${id}`)
 }

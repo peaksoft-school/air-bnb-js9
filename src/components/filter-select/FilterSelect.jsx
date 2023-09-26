@@ -7,8 +7,46 @@ export function FilterSelect({
    onChangePopular,
    onChangeHomeType,
    onChangePrice,
+   selectedPopular,
+   selectedHomeType,
+   selectedPrice,
+   selectedRegion,
    region,
 }) {
+   console.log(region, 'REGION')
+   const populars = region === 'Popular' ? 'Populars' : null
+   const theLatest = region === 'The lastest' ? 'The lastest' : null
+   const houseSelect = region === 'House' ? 'House' : null
+   const regionsSelect =
+      region === 'CHUI' ||
+      region === 'BATKEN' ||
+      region === 'JALAL_ABAD' ||
+      region === 'NARYN' ||
+      region === 'ISSYK_KUL' ||
+      region === 'TALAS' ||
+      region === 'BISHKEK' ||
+      region === 'OSH'
+         ? region
+         : null
+
+   const defaultValuePopular = selectedPopular === '' ? null : selectedPopular
+   const valuesPopular =
+      defaultValuePopular === undefined ? null : selectedPopular
+
+   const defaultValueRegions = selectedRegion === '' ? null : selectedRegion
+   const valuesRegions =
+      defaultValueRegions === undefined ? null : selectedRegion
+
+   const defaultValueHouseType =
+      selectedHomeType === '' ? null : selectedHomeType
+   const valuesHouseType =
+      defaultValueHouseType === undefined ? null : selectedHomeType
+
+   const defaultValuePrice = selectedPrice === '' ? null : selectedPrice
+   const valuesPrice = defaultValuePrice === undefined ? null : selectedPrice
+
+   console.log(populars, 'populars')
+   console.log(regionsSelect, 'regionsSelect')
    return (
       <Container>
          <div>
@@ -16,7 +54,8 @@ export function FilterSelect({
                labelName="Sort by region:"
                data={regions}
                onChange={onChangeRegions}
-               region={region}
+               defaultValue={regionsSelect || valuesRegions}
+               value={regionsSelect || valuesRegions}
             />
          </div>
          <div>
@@ -24,6 +63,8 @@ export function FilterSelect({
                labelName="Sort by popularity:"
                data={popular}
                onChange={onChangePopular}
+               defaultValue={populars || theLatest || valuesPopular}
+               value={populars || theLatest || valuesPopular}
             />
          </div>
          <div>
@@ -31,6 +72,8 @@ export function FilterSelect({
                labelName="Filter by home type:"
                data={homeType}
                onChange={onChangeHomeType}
+               defaultValue={houseSelect || valuesHouseType}
+               value={houseSelect || valuesHouseType}
             />
          </div>
          <div>
@@ -38,6 +81,8 @@ export function FilterSelect({
                labelName="Filter by price:"
                data={userPrice}
                onChange={onChangePrice}
+               defaultValue={valuesPrice}
+               value={valuesPrice}
             />
          </div>
       </Container>

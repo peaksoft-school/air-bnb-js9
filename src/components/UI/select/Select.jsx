@@ -8,6 +8,7 @@ import {
 } from '@mui/material'
 
 export function Select({
+   all,
    data,
    state,
    error,
@@ -16,18 +17,18 @@ export function Select({
    onChange,
    labelName,
    value,
-   region,
+   defaultValue,
+   placeholder,
    ...props
 }) {
-   let dynamicLabel = labelName
-   if (state === 'All') {
-      dynamicLabel = ''
-   }
+   console.log(defaultValue, 'defaultValue')
+   console.log(value, 'VALUE')
+
    return (
       <StyledFormControl sx={{ m: 0, minWidth: 271 }} {...props}>
-         <InputLabel id="filter-label" style={{ color: 'black' }}>
-            {dynamicLabel}
-         </InputLabel>
+         <StyledInputLabel id="filter-label" style={{ color: 'black' }}>
+            <span>{labelName}</span>
+         </StyledInputLabel>
          <MuiSelect
             // error={error}
             {...(register ? register('region') : {})}
@@ -37,10 +38,11 @@ export function Select({
             displayEmpty
             label={labelName}
             value={value}
-            defaultValue={region}
+            defaultValue={defaultValue}
             onClick={toggle}
          >
-            <MenuItem value=" ">All</MenuItem>
+            {/* <MenuItem value=" ">All</MenuItem> */}
+
             {data?.map((item) => (
                <MenuItem key={item.id} value={item.value}>
                   {item.name}
@@ -51,20 +53,39 @@ export function Select({
    )
 }
 
-const StyledFormControl = styled(FormControl)((props) => ({
-   width: props.width || '17rem',
-   height: props.height || '3.5625rem',
-   border: '1px solid #F3F3F3',
+// const StyledFormControl = styled(FormControl)((props) => ({
+//    width: props.width || '17rem',
+//    height: props.height || '3.5625rem',
+//    border: '1px solid #F3F3F3',
 
+//    '&  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+//       // borderColor: 'red',
+//       // border: '1px solid #F3F3F3',
+//       // backgroundColor: 'red',
+//       // border: 'none',
+//       border: '1px solid #F3F3F3',
+//    },
+//    'css-1is9lq1-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root': {
+//       border: '2px solid #F3F3F3',
+//    },
+//    '&:hover': {
+//       backgroundColor: '#F3F3F3',
+//       border: 'none',
+//    },
+// }))
+const StyledFormControl = styled(FormControl)((props) => ({
+   width: props.width || '18rem',
+   height: props.height || '3.5625rem',
    '&  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: 'red',
-      border: '1px solid #F3F3F3',
-   },
-   'css-1is9lq1-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root': {
-      border: '1px solid #F3F3F3',
+      border: '1px solid gray',
    },
    '&:hover': {
       backgroundColor: '#F3F3F3',
-      border: 'none',
    },
+}))
+
+const StyledInputLabel = styled(InputLabel)(() => ({
+   width: '85%',
+   display: 'flex',
+   justifyContent: 'space-between',
 }))

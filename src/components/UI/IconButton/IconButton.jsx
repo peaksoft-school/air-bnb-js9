@@ -3,16 +3,14 @@ import { IconButton, styled } from '@mui/material'
 import { ClickHeart2, Heart1 } from '../../../assets/icons/index'
 
 export function ButtonIcon({ open, onClick, favorite, variant, ...props }) {
-   console.log(favorite, 'favoritee')
    return (
-      <IconButtonStyle onClick={onClick} variant={variant} props={props}>
-         {favorite === true ? (
-            <ClickHeart2 />
-         ) : (
-            <div>
-               <Heart1 />
-            </div>
-         )}
+      <IconButtonStyle
+         onClick={onClick}
+         variant={variant}
+         props={props}
+         favorite={favorite}
+      >
+         {favorite ? <ClickHeart2 /> : <Heart1 />}
       </IconButtonStyle>
    )
 }
@@ -27,7 +25,7 @@ const IconButtonStyle = styled(IconButton)((props) => ({
       alignItems: 'center',
       gap: '10px',
       flexShrink: '0',
-      border: '1px solid  #f7f6f6',
+      border: props.favorite ? '1px solid #DD8A08' : '1px solid  #f7f6f6',
       borderRadius: '2px',
    },
    '&:hover': {

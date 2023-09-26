@@ -3,38 +3,36 @@ import { styled } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { SearchIcon } from '../../../assets/icons'
-import { getSearchAction } from '../../../store/search/searchSlice'
-import { ActionToggleHandelr } from '../../../store/toggle/ToggleSlice'
+import { getSearchAction } from '../../../store/user/search/searchSlice'
 
 export function SearchResult({ search }) {
    const dispatch = useDispatch()
-   const navigationSearch = (province) => {
-      dispatch(getSearchAction.globalSearchHandler(province))
-      dispatch(ActionToggleHandelr.togglePathHandler(province))
+
+   const navigationSearch = (region) => {
+      dispatch(getSearchAction.globalSearchHandler(region))
    }
+
    return (
       <Container>
          {search.map((item) => {
             const toPathProvince =
-               item.province.toUpperCase() === 'JALAL ABAD'
+               item.region.toUpperCase() === 'JALAL ABAD'
                   ? 'JALAL_ABAD'
-                  : item.province.toUpperCase()
+                  : item.region.toUpperCase()
 
             return (
                <MapContainer
-                  to={`/main/${toPathProvince}`}
-                  onClick={() => navigationSearch(item.province)}
+                  to={`/main/${toPathProvince}/region`}
+                  onClick={() => navigationSearch(item.region)}
                   key={item.id}
                >
                   <Block>
                      <ContainerImg>
-                        {item.images.map((item) => {
-                           return item === 'string' ? (
-                              <SearchIcon />
-                           ) : (
-                              <img src={item} alt="#" />
-                           )
-                        })}
+                        {item.images.images === [] ? (
+                           <SearchIcon />
+                        ) : (
+                           <img src={item.images.images[0]} alt="" />
+                        )}
                      </ContainerImg>
                      <p>{item.province}</p>
                   </Block>

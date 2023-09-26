@@ -2,7 +2,7 @@ import { styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Select } from '../../../components/UI/select/Select'
-import { getAllHousing } from '../../../store/admin-all-housing/AllHousingThunk'
+import { getAllHousing } from '../../../store/admin/all-housing/AllHousingThunk'
 import {
    allHousingBooked,
    allHousingPopular,
@@ -23,6 +23,7 @@ export function AllHousingFilter() {
       stateType: false,
       statePrice: false,
    })
+   const dispatch = useDispatch()
 
    const { byBooked, byPopular, byHomeType, byPrice } = filters
    const { stateBooked, statePopular, stateType, statePrice } = toggleStates
@@ -60,17 +61,19 @@ export function AllHousingFilter() {
          toggle: 'statePrice',
       },
    ]
-
-   const dispatch = useDispatch()
+   console.log(byBooked, 'byBooked')
+   console.log(byHomeType, 'byHomeType')
+   console.log(byPopular, 'byPopular')
+   console.log(byPrice, 'byPrice')
    useEffect(() => {
-      const data = {
+      const params = {
          status: byBooked,
          houseType: byHomeType,
          rating: byPopular,
          price: byPrice,
       }
 
-      dispatch(getAllHousing(data))
+      dispatch(getAllHousing(params))
    }, [dispatch, filters])
 
    const onChangeFilter = (filterName, selectedValue) => {

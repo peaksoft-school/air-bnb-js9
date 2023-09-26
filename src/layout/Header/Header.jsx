@@ -16,16 +16,16 @@ import {
    AirBNBIcon,
    SelectionIcon,
 } from '../../assets/icons/index'
-import { getGlobalSearch } from '../../store/search/searchThunk'
+import { getGlobalSearch } from '../../store/user/search/searchThunk'
 import { userRoles } from '../../utils/constants'
 import { MeatBalls } from '../../components/UI/meat-balls/MeatBalls'
 import { authActions } from '../../store/auth/authSlice'
 import Modal from '../../components/UI/modal/Modal'
 import { DarkModeActions } from '../../store/dark-mode/DarkModeSlice'
 
-export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
+export function Header({ login, notFound, favoriteLenght, favorite }) {
    const { isAuthorization, email } = useSelector((state) => state.auth)
-
+   const { darkMode } = useSelector((state) => state.darkMode)
    const [userLogin, setUserLogin] = useState(false)
    const [openModal, setOpenModal] = useState(false)
    const [signIn, setSignIn] = useState(false)
@@ -33,7 +33,23 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
    const [isChecked, setIsChecked] = useState(false)
    const [searchText, setSearchText] = useState('')
    const [searchedValue] = useDebounce(searchText, 1000)
+   const [showFavorite, setShowFavorite] = useState(false)
    const [location, setLocation] = useState(null)
+   const [scrollPosition, setScrollPosition] = useState(0)
+
+   const headerHeight = 5.5
+   const threshold = 100
+   useEffect(() => {
+      const handleScroll = () => {
+         const currentPosition = window.scrollY
+         setScrollPosition(currentPosition)
+         setShowFavorite(currentPosition > threshold)
+      }
+      window.addEventListener('scroll', handleScroll)
+      return () => {
+         window.removeEventListener('scroll', handleScroll)
+      }
+   }, [])
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
@@ -70,25 +86,6 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
          }
       }
    }, [location, searchedValue, isChecked])
-   const { darkMode } = useSelector((state) => state.darkMode)
-   const [scrollPosition, setScrollPosition] = useState(0)
-   const [showFavorite, setShowFavorite] = useState(false)
-   const headerHeight = 5.5
-   const threshold = 100
-
-   useEffect(() => {
-      const handleScroll = () => {
-         const currentPosition = window.scrollY
-         setScrollPosition(currentPosition)
-         setShowFavorite(currentPosition > threshold)
-      }
-
-      window.addEventListener('scroll', handleScroll)
-
-      return () => {
-         window.removeEventListener('scroll', handleScroll)
-      }
-   }, [])
 
    const loginHandler = () => {
       setUserLogin((prev) => !prev)
@@ -107,10 +104,6 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
          setOpenModal(false)
       }
    }, [isAuthorization])
-
-   // const toggleMeatBalls = () => {
-   //    setMeatBalls(!meatBalls)
-   // }
 
    const logoutHnadler = () => {
       dispatch(authActions.logout())
@@ -131,9 +124,7 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
    const handleCheckboxChange = (event) => {
       setIsChecked(event.target.checked)
    }
-   const navProfile = () => {
-      navigate('/Profile/my-announcement')
-   }
+
    const open = Boolean(currentEl)
    const idd = open ? 'simple-popover' : undefined
 
@@ -183,7 +174,9 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                            leave an ad
                         </StyleLink>
                         {showFavorite && (
-                           <StyledFavorite>FAVORITE(5)</StyledFavorite>
+                           <StyledFavorite to="/main/favotite">
+                              FAVORITE({favoriteLenght})
+                           </StyledFavorite>
                         )}
                         <LogOut>
                            <Avatar
@@ -193,7 +186,10 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                            >
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
-                           <SelectionIcon onClick={handleMenuOpen} />
+                           <SelectionIcon
+                              onClick={handleMenuOpen}
+                              style={{ cursor: 'pointer' }}
+                           />
                            <MeatBalls
                               anchorEl={currentEl}
                               open={open}
@@ -201,15 +197,18 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                               id={idd}
                               propsVertical="bottom"
                               propsHorizontal="left"
-                              width=" 10rem"
-                              height=" 6rem"
-                              margin="0.7rem 10rem -10rem 0"
+                              width="11.25rem"
+                              height=" 5.5rem"
                            >
-                              <MenuItem onClick={logoutHnadler}>
-                                 log out
-                              </MenuItem>
-                              <MenuItem onClick={navProfile}>
+                              <MenuItem
+                                 onClick={() =>
+                                    navigate('/main/my-profile/my-announcement')
+                                 }
+                              >
                                  My profile
+                              </MenuItem>
+                              <MenuItem onClick={logoutHnadler}>
+                                 Log out{' '}
                               </MenuItem>
                            </MeatBalls>
                         </LogOut>
@@ -251,37 +250,46 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                </div>
 
                <SearchDiv>
-                  {login === 'true' ? (
-                     <StyleLink to="/main/AddAnouncementForm">
+                  {isAuthorization ? null : (
+                     <StyleLink login={login} to="/main/AddAnouncementForm">
                         leave an ad
                      </StyleLink>
-                  ) : null}
+                  )}
                   <div className="blockCheckbox">
-                     <ChecboxStyled
-                        type="checkbox"
-                        id="search"
-                        checked={isChecked}
-                        onChange={handleCheckboxChange}
+                     <div className="labels">
+                        {' '}
+                        <ChecboxStyled
+                           type="checkbox"
+                           id="search"
+                           checked={isChecked}
+                           onChange={handleCheckboxChange}
+                        />
+                        <StyledLabel htmlFor="search">
+                           Search nearby
+                        </StyledLabel>
+                     </div>
+                     <Input
+                        type="search"
+                        width="30rem"
+                        size="small"
+                        value={searchText}
+                        placeholder="Search"
+                        onChange={onChangeRegions}
+                        InputProps={{
+                           startAdornment: (
+                              <InputAdornment position="start">
+                                 <SearchIcon />
+                              </InputAdornment>
+                           ),
+                        }}
                      />
-                     <StyledLabel htmlFor="search">Search nearby</StyledLabel>
                   </div>
-                  <Input
-                     type="search"
-                     width="30rem"
-                     size="small"
-                     value={searchText}
-                     placeholder="Search"
-                     onChange={onChangeRegions}
-                     InputProps={{
-                        startAdornment: (
-                           <InputAdornment position="start">
-                              <SearchIcon />
-                           </InputAdornment>
-                        ),
-                     }}
-                  />
                   <Button
-                     onClick={openModalHandler}
+                     onClick={
+                        isAuthorization
+                           ? () => navigate('/main/AddAnouncementForm')
+                           : openModalHandler
+                     }
                      variant="contained"
                      width="296px"
                      padding="10px 16px"
@@ -294,16 +302,21 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                      {isAuthorization ? 'SUBMIT AN AD' : 'JOIN US'}
                   </Button>
                   {favorite === 'true' && (
-                     <FavoriteStyle>Favorite({favoriteLenght})</FavoriteStyle>
+                     <FavoriteStyle to="/main/favotite">
+                        Favorite({favoriteLenght})
+                     </FavoriteStyle>
                   )}
                   {isAuthorization ? (
                      <FavoriteDiv>
-                        {/* <StyleLink>leave an ad</StyleLink> */}
                         <LogOut>
                            <Avatar sx={{ bgcolor: '#0298D9' }}>
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
-                           <SelectionIcon onClick={handleMenuOpen} />
+                           <SelectionIcon
+                              onClick={handleMenuOpen}
+                              style={{ cursor: 'pointer' }}
+                           />
+
                            <MeatBalls
                               anchorEl={currentEl}
                               open={open}
@@ -313,26 +326,18 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                               propsHorizontal="left"
                               width="11.25rem"
                               height=" 5.5rem"
+                              margin="0.8rem 10px 0 0"
                            >
-                              {profile === 'true' ? (
-                                 <>
-                                    <MenuItem
-                                       onClick={() => navigate('/Prifile')}
-                                    >
-                                       My profile
-                                    </MenuItem>
-                                    <MenuItem onClick={logoutHnadler}>
-                                       log out{' '}
-                                    </MenuItem>
-                                 </>
-                              ) : (
-                                 <Button
-                                    onClick={logoutHnadler}
-                                    variant="outlined"
-                                 >
-                                    log out
-                                 </Button>
-                              )}
+                              <MenuItem
+                                 onClick={() =>
+                                    navigate('/main/my-profile/my-announcement')
+                                 }
+                              >
+                                 My profile
+                              </MenuItem>
+                              <MenuItem onClick={logoutHnadler}>
+                                 Log out{' '}
+                              </MenuItem>
                            </MeatBalls>
                         </LogOut>
                      </FavoriteDiv>
@@ -343,7 +348,7 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
       </Container>
    )
 }
-const FavoriteStyle = styled('p')`
+const FavoriteStyle = styled(Link)`
    color: #000;
    font-family: Inter;
    font-size: 1rem;
@@ -369,7 +374,6 @@ const StyleHeader = styled('header')((props) => ({
    alignItems: 'center',
    padding: '1rem 6.25rem',
    backdropFilter: props.darkMode ? 'blur(3px)' : '',
-   // background: props.darkMode ? 'rgba(0,0,0,0.3)' : '',
    background:
       props.scrollPosition > props.threshold ? 'rgba(0,0,0,0.6)' : null,
    position: 'fixed',
@@ -426,10 +430,16 @@ const SearchDiv = styled('div')(() => ({
    alignItems: 'center',
    gap: '1.87rem',
    '.blockCheckbox': {
-      width: '18vw',
+      width: '38vw',
       display: 'flex',
+      justifyContent: 'flex-end',
       alignItems: 'center',
-      gap: '0.5rem',
+      gap: '1.87rem',
+      '.labels': {
+         display: 'flex',
+         alignItems: 'center',
+         gap: '0.5rem',
+      },
    },
 }))
 const ChecboxStyled = styled('input')(() => ({
@@ -451,7 +461,7 @@ const LogOut = styled('div')(() => ({
    gap: '0.7rem',
 }))
 
-const StyledFavorite = styled('p')(() => ({
+const StyledFavorite = styled(Link)(() => ({
    width: '100px',
    textDecoration: 'none',
    color: 'var(--primary-white, #FFF)',

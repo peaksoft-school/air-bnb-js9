@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { AdminMenu, Location, Start1 } from '../../../assets/icons/index'
 import { Button } from '../button/Button'
-import { deleteAnouncement } from '../../../store/profile/ProfileThunk'
+import { deleteAnouncement } from '../../../store/user/profile/ProfileThunk'
 import { toastSnackbar } from '../snackbar/Snackbar'
 import { PhotoSlider } from '../imageSlide/ImageSlice'
 import { getByIdAnnouncement } from '../../../store/innerPage/InnerPageThunk'
@@ -54,11 +54,13 @@ export function ProfileCards({ data, announcement, index, message, ...props }) {
       dispatch(uploadActions.resetImages())
    }
 
+   console.log(data, 'data booking card')
+   // const corrected = announcement ? null : <h2>No cards yet...</h2>
    return (
       <MainContainer>
          <MapContainer key={data.id} status={data.status}>
             <div>
-               {data.images.images?.length > 1 ? (
+               {data.images?.length > 1 ? (
                   // eslint-disable-next-line jsx-a11y/no-static-element-interactions
                   <ImageContainer to={`name/${data.id}`}>
                      <PhotoSlider
@@ -84,9 +86,16 @@ export function ProfileCards({ data, announcement, index, message, ...props }) {
                </StartContainer>
             </DayStartContainer>
             <StyleTitle>
-               <Tooltip title={data.title}>
-                  <span> {truncateTitle(data.title || data.description)}</span>
-               </Tooltip>
+               <div>
+                  <Tooltip title={data.description}>
+                     <span> {truncateTitle(data.description)} fjkdjj</span>
+                  </Tooltip>
+               </div>
+               <div>
+                  <Tooltip title={data.title}>
+                     <span> {truncateTitle(data.title)} hellow </span>
+                  </Tooltip>
+               </div>
             </StyleTitle>
             <LocationCantainerStyle>
                <Location />
@@ -202,11 +211,12 @@ const ImageContainer = styled(Link)`
    display: flex;
    align-items: center;
    justify-content: center;
-   width: 17rem;
+   width: 16.25rem;
 `
 const Datestyle = styled('p')`
-   color: var(--primary-black, #363636);
+   color: #000;
    font-family: Roboto;
+   font-weight: 400;
    padding-bottom: 1rem;
    line-height: normal;
 `
@@ -215,7 +225,7 @@ const DayStyleTrue = styled('p')`
    font-size: 1rem;
    font-weight: 400;
    display: flex;
-   padding-left: 2rem;
+   padding-left: 0.75rem;
 `
 const GuestContainer = styled('p')`
    color: #6c6c6c;
@@ -227,23 +237,24 @@ const GuestContainer = styled('p')`
 `
 
 const CheckConainer = styled('div')`
+   width: 100%;
    display: flex;
-   justify-content: center;
-   gap: 3rem;
+   justify-content: space-between;
    line-height: 3rem;
+   padding: 0 0.75rem;
 `
 const MainContainer = styled('div')`
    line-height: 2rem;
-   width: auto;
-   height: auto;
+   width: 16.25rem;
+   height: 26rem;
 `
 
 const MapContainer = styled('div')(({ message }) => ({
-   width: '17rem',
-   height: '20rem',
+   width: '100%',
+   height: '100%',
    display: 'flex',
    flexDirection: 'column',
-   borderRadius: '15px',
+   borderRadius: '0.25rem 0.25rem 0 0 ',
    boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
    bgColor: message ? ' #6c6c6c' : null,
    '.ImageNavigation': {
@@ -282,10 +293,12 @@ const DayContainer = styled('div')`
 `
 
 const DayStartContainer = styled('div')`
+   width: 100%;
+   padding: 1.06rem 0.75rem;
    padding-bottom: 1rem;
    display: flex;
    align-items: center;
-   justify-content: space-around;
+   justify-content: space-between;
 `
 
 const DayStyle = styled('p')`
@@ -301,13 +314,15 @@ const DayStyle = styled('p')`
 const LocationCantainerStyle = styled('section')`
    display: flex;
    align-items: center;
-   margin-left: 2rem;
+   justify-content: flex-start;
+   padding: 0 0 0 0.75rem;
    color: var(--tertiary-middle-gray, #828282);
    font-size: 0.875rem;
    font-weight: 400;
 `
 
 const ButtonsContainer = styled('section')`
+width:100%
    display: flex;
    justify-content: center;
    gap: 2rem;
@@ -321,9 +336,11 @@ const StyleImage = styled('img')`
 `
 
 const StyleTitle = styled('p')`
-   width: 16.4375rem;
+   width: 100%;
    display: flex;
-   margin-left: 1.7rem;
+   /* justify-content: space-between; */
+   justify-content: space-between;
+   padding: 0rem 0.75rem;
 `
 
 const StyledHorizIcon = styled('div')`

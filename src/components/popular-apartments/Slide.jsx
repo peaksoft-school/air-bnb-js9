@@ -1,9 +1,11 @@
 /* eslint-disable no-nested-ternary */
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { styled } from '@mui/material'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 import { useSelector } from 'react-redux'
 import {
@@ -27,42 +29,59 @@ export function MySlider({ background, state, lastestData, apartmentData }) {
       arrows: false,
       afterChange: (index) => setCurrentSlide(index),
    }
-   const imagesData = lastestData.images
+
+   const firstImage =
+      apartmentData.images && apartmentData.images.length > 0
+         ? apartmentData.images[0]
+         : null
+   const secontImage =
+      apartmentData.images && apartmentData.images.length > 0
+         ? apartmentData.images[1]
+         : null
+   const threeImage =
+      apartmentData.images && apartmentData.images.length > 0
+         ? apartmentData.images[2]
+         : null
+   const fhoImage =
+      apartmentData.images && apartmentData.images.length > 0
+         ? apartmentData.images[3]
+         : null
+
+   const latestImageOne =
+      lastestData.images && lastestData.images.length > 0
+         ? lastestData.images[0]
+         : null
+   const latestImageTwo =
+      lastestData.images && lastestData.images.length > 0
+         ? lastestData.images[1]
+         : null
+   const latestImageThee =
+      lastestData.images && lastestData.images.length > 0
+         ? lastestData.images[2]
+         : null
+   const latestImageFho =
+      lastestData.images && lastestData.images.length > 0
+         ? lastestData.images[3]
+         : null
 
    const slideImages = [
       {
-         image: state
-            ? imagesData
-               ? imagesData[0]
-               : ''
-            : apartmentData.images,
+         image: state ? latestImageOne : firstImage,
          alt: 'Photo 1',
          id: 1,
       },
       {
-         image: state
-            ? imagesData
-               ? imagesData[1]
-               : ''
-            : apartmentData.images,
+         image: state ? latestImageTwo : secontImage,
          alt: 'Photo 2',
          id: 2,
       },
       {
-         image: state
-            ? imagesData
-               ? imagesData[2]
-               : ''
-            : apartmentData.images,
+         image: state ? latestImageThee : threeImage,
          alt: 'Photo 3',
          id: 3,
       },
       {
-         image: state
-            ? imagesData
-               ? imagesData[3]
-               : ''
-            : apartmentData.images,
+         image: state ? latestImageFho : fhoImage,
          alt: 'Photo 4',
          id: 4,
       },
@@ -82,27 +101,54 @@ export function MySlider({ background, state, lastestData, apartmentData }) {
          setCurrentSlide(currentSlide + 1)
       }
    }
-
+   useEffect(() => {
+      AOS.init({
+         duration: 1500,
+         easing: 'ease-in-out',
+         once: false,
+      })
+   }, [])
    return (
       <ContainerImg background={background}>
          <Slider {...settings} ref={sliderRef}>
             {slideImages?.map((item) => (
-               <ImgBlock key={item.id}>
+               <ImgBlock
+                  key={item.id}
+                  data-aos="fade-down"
+                  data-aos-easing="linear"
+                  data-aos-duration="1500"
+               >
                   <StyledImg src={item.image} />
                </ImgBlock>
             ))}
          </Slider>
          <Arrows state={state} darkMode={darkMode}>
             {state ? (
-               <ArrowLeftBlack
-                  onClick={goToPrevSlide}
-                  disabled={currentSlide === 0}
-                  color={
-                     currentSlide === 0 || currentSlide === totalSlides - 1
-                        ? '#97C69E'
-                        : 'white'
-                  }
-               />
+               <div>
+                  {darkMode ? (
+                     <CustomArrowLeftDots
+                        onClick={goToPrevSlide}
+                        disabled={currentSlide === 0}
+                        color={
+                           currentSlide === 0 ||
+                           currentSlide === totalSlides - 1
+                              ? '#97C69E'
+                              : 'white'
+                        }
+                     />
+                  ) : (
+                     <ArrowLeftBlack
+                        onClick={goToPrevSlide}
+                        disabled={currentSlide === 0}
+                        color={
+                           currentSlide === 0 ||
+                           currentSlide === totalSlides - 1
+                              ? '#97C69E'
+                              : 'white'
+                        }
+                     />
+                  )}
+               </div>
             ) : (
                <CustomArrowLeftDots
                   onClick={goToPrevSlide}
@@ -128,10 +174,19 @@ export function MySlider({ background, state, lastestData, apartmentData }) {
                /{totalSlides < 10 ? `0${totalSlides}` : totalSlides}
             </p>
             {state ? (
-               <ArrowrightBlack
-                  onClick={goToNextSlide}
-                  disabled={currentSlide === totalSlides - 1}
-               />
+               <div>
+                  {darkMode ? (
+                     <CustomArrowRightDots
+                        onClick={goToNextSlide}
+                        disabled={currentSlide === totalSlides - 1}
+                     />
+                  ) : (
+                     <ArrowrightBlack
+                        onClick={goToNextSlide}
+                        disabled={currentSlide === totalSlides - 1}
+                     />
+                  )}
+               </div>
             ) : (
                <CustomArrowRightDots
                   onClick={goToNextSlide}

@@ -19,37 +19,85 @@ export function Tabs({ state, showButtonHandler, closeButtonHandler }) {
    const moderationLength = data.moderations?.length
 
    const location = useLocation()
-   const { userId } = useParams()
+   const { userId, region, houseId } = useParams()
 
    return state === 'true' ? (
       <div>
          <StyleHead>
             {BookingLength === 0 ? (
-               <StyleLink to="bookings">
+               <StyleLink
+                  to="bookings"
+                  active={
+                     location.pathname ===
+                     `/main/${region}/region/${houseId}/profile/bookings`
+                        ? 'true'
+                        : 'false'
+                  }
+               >
                   <h3>Bookings </h3>
                </StyleLink>
             ) : (
-               <StyleLink to="bookings">
+               <StyleLink
+                  to="bookings"
+                  active={
+                     location.pathname ===
+                     `/main/${region}/region/${houseId}/profile/bookings`
+                        ? 'true'
+                        : 'false'
+                  }
+               >
                   <h3>Bookings ({BookingLength})</h3>
                </StyleLink>
             )}
 
             {announcementLength === 0 ? (
-               <StyleLink to="my-announcement">
+               <StyleLink
+                  to="my-announcement"
+                  active={
+                     location.pathname ===
+                     `/main/${region}/region/${houseId}/profile/my-announcement`
+                        ? 'true'
+                        : 'false'
+                  }
+               >
                   <h3>My announcement</h3>
                </StyleLink>
             ) : (
-               <StyleLink to="my-announcement">
+               <StyleLink
+                  to="my-announcement"
+                  active={
+                     location.pathname ===
+                     `/main/${region}/region/${houseId}/profile/my-announcement`
+                        ? 'true'
+                        : 'false'
+                  }
+               >
                   <h3>My announcement ({announcementLength})</h3>
                </StyleLink>
             )}
 
             {moderationLength === 0 ? (
-               <StyleLink to="on-moderation">
+               <StyleLink
+                  to="on-moderation"
+                  active={
+                     location.pathname ===
+                     `/main/${region}/region/${houseId}/profile/on-moderation`
+                        ? 'true'
+                        : 'false'
+                  }
+               >
                   <h3>On moderation</h3>
                </StyleLink>
             ) : (
-               <StyleLink to="on-moderation">
+               <StyleLink
+                  to="on-moderation"
+                  active={
+                     location.pathname ===
+                     `/main/${region}/region/${houseId}/profile/on-moderation`
+                        ? 'true'
+                        : 'false'
+                  }
+               >
                   <h3>On moderation ({moderationLength})</h3>
                </StyleLink>
             )}
@@ -70,12 +118,12 @@ export function Tabs({ state, showButtonHandler, closeButtonHandler }) {
          <StyleHead>
             <StyleLink
                active={
-                  location.pathname === `/admin/users/${userId}/booking`
+                  location.pathname === `/admin/users/${userId}/bookings`
                      ? 'true'
                      : 'false'
                }
                onClick={closeButtonHandler}
-               to="booking"
+               to="bookings"
             >
                <h3>Bookings</h3>
             </StyleLink>
@@ -107,7 +155,7 @@ const StyleHead = styled('div')(() => ({
 }))
 
 const StyleLink = styled(NavLink)(({ active, isActive }) => ({
-   color: active === 'true' ? '2px solid #000' : '#6C6C6C',
+   color: active === 'true' ? ' #000' : '#6C6C6C',
    fontFamily: 'Inter',
    fontSize: '1.125rem',
    fontStyle: 'normal',
