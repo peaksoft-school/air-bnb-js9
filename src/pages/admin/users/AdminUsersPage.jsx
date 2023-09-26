@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { NavLink, Outlet, useParams } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import { styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { Button } from '../../../components/UI/button/Button'
 import { Profile } from '../../../components/UI/profile/Profile'
-import { Tabs } from '../../../components/UI/tabs/Tabs'
 import { getAdminUsersCardsIdRequest } from '../../../api/adminUsersServise'
 import {
    getAdminUsersCardsId,
    getBookings,
 } from '../../../store/admin/users/UsersThunk'
+import { AdminTabs } from '../../../components/UI/tabs/admin/AdminTabs'
 
 export function AdminUsersPage({ setUserIdState }) {
    const [userData, setUserData] = useState({})
@@ -80,12 +80,11 @@ export function AdminUsersPage({ setUserIdState }) {
             </div>
          </UserSide>
          <CardSide>
-            <Tabs
+            <AdminTabs
                state="false"
                showButtonHandler={showButtonHandler}
                closeButtonHandler={closeButtonHandler}
             />
-            <Outlet />
          </CardSide>
       </Container>
    )

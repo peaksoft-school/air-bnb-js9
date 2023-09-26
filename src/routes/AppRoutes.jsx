@@ -9,7 +9,7 @@ import { ReusableTable } from '../components/table/Table'
 import { AddAnouncementForm } from '../pages/user/add-announcement/Anouncement'
 import { Bookings } from '../components/UI/tabs/Bookings'
 import { MyAnnouncement } from '../components/UI/tabs/MyAnnouncement'
-import AdminUsersPage from '../pages/admin/users/AdminUsersPage'
+import { AdminUsersPage } from '../pages/admin/users/AdminUsersPage'
 import AnnouncementGetAll from '../pages/user/announcement-get-all/AnnouncementGetAll'
 import { UserProfile } from '../pages/user/announcement-get-all/get-by-id/profile/Profile'
 import { NotFound } from '../components/UI/404/NotFound'
@@ -18,15 +18,16 @@ import { ApplicatioinsRoute } from '../pages/admin/ApplicatioinsRoute'
 import { AnnouncementDetailPage } from '../pages/user/announcement-get-all/get-by-id/AnnouncementDetailPage'
 import { AnnouncementAdminPage } from '../pages/admin/AnnouncementAdminPage'
 import { Favorite } from '../pages/user/announcement-get-all/favorite/Favorite'
+import { MyProfile } from '../components/my-profile/MyProfile'
+import { AdminBookings } from '../components/UI/tabs/admin/AdminBookings'
+import { AdminMyAnnouncement } from '../components/UI/tabs/admin/AdminMyAnnouncement'
 
 export function AppRoutes() {
-   const { announcements, bookings } = useSelector((state) => state.admin)
-   console.log('announcements:', announcements)
-   console.log('bookings:', bookings)
+   const [userIdState, setUserIdState] = useState('')
+   // const { announcements, bookings } = useSelector((state) => state.admin)
    const role = useSelector((state) => state.auth.role)
    const { data } = useSelector((state) => state.getannouncement)
-   const [userIdState, setUserIdState] = useState('')
-   // console.log(userIdState, 'userIdState')
+
    const isAllowed = (roles) => {
       return roles.includes(role)
    }
@@ -44,16 +45,45 @@ export function AppRoutes() {
                />
             }
          />
+         {/* add announcement */}
+         <Route
+            path="/main/AddAnouncementForm"
+            element={<AddAnouncementForm />}
+         />
+
+         {/* popular apartment */}
+         <Route
+            path="/main/:houseId/popular-apartment"
+            element={<AnnouncementDetailPage navigateRoute="hotel" />}
+         />
+
+         {/* popular house */}
+         <Route
+            path="/main/:houseId/popular-house"
+            element={<AnnouncementDetailPage navigateRoute="hotel" />}
+         />
+
+         {/* get all cards */}
          <Route path="/main/:region/region" element={<AnnouncementGetAll />} />
          <Route
             path="/main/:region/region/:houseId"
-            element={<AnnouncementDetailPage />}
+            element={<AnnouncementDetailPage navigateRoute="region" />}
          />
-
+         {/* user profile */}
          <Route
             path="/main/:region/region/:houseId/profile/"
             element={<UserProfile />}
          >
+            <Route path="bookings" element={<Bookings onChange="true" />} />
+            <Route
+               path="my-announcement"
+               element={<MyAnnouncement select="true" />}
+            />
+            <Route path="on-moderation" element={<OnModeration />} />
+         </Route>
+
+         {/* my profile */}
+         <Route path="/main/my-profile" element={<MyProfile />}>
             <Route
                path="bookings"
                element={<Bookings bookings={data.bookings} onChange="true" />}
@@ -67,22 +97,21 @@ export function AppRoutes() {
                   />
                }
             />
-            <Route
-               path="on-moderation"
-               element={<OnModeration moderation={announcements} />}
-            />
+            <Route path="on-moderation" element={<OnModeration />} />
          </Route>
 
-         <Route
-            path="/profile"
-            element={<Navigate to="/profile/my-announcement" />}
-         />
-         <Route
-            path="/main/AddAnouncementForm"
-            element={<AddAnouncementForm />}
-         />
-
          <Route path="/main/favotite" element={<Favorite />} />
+         {/* navigate */}
+         <Route
+            path="/main/NARYN/region/5/profile"
+            element={
+               <Navigate to="/main/NARYN/region/5/profile/my-announcement" />
+            }
+         />
+         <Route
+            path="/main/my-profile"
+            element={<Navigate to="/main/my-profile/my-announcement" />}
+         />
          {/* admin */}
          <Route path="/admin" element={<Navigate to="application" />} />
          <Route
@@ -112,25 +141,16 @@ export function AppRoutes() {
             <Route path="users/" element={<ReusableTable />} />
             <Route
                path={`users/${userIdState}/`}
-               element={<Navigate to="booking" />}
+               element={<Navigate to="bookings" />}
             />
             <Route
                path="users/:userId/"
                element={<AdminUsersPage setUserIdState={setUserIdState} />}
             >
-               <Route
-                  index
-                  path="booking"
-                  element={<Bookings bookings={bookings} onChange="true" />}
-               />
+               <Route path="bookings" element={<AdminBookings />} />
                <Route
                   path="my-announcement"
-                  element={
-                     <MyAnnouncement
-                        select="false"
-                        announcement={announcements}
-                     />
-                  }
+                  element={<AdminMyAnnouncement />}
                />
             </Route>
             <Route

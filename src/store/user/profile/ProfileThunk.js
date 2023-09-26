@@ -13,7 +13,7 @@ export const getAnnouncement = createAsyncThunk(
          const response = await getMyAnnouncement()
          return response.data
       } catch (error) {
-         return rejectWithValue(error)
+         return rejectWithValue(error.message)
       }
    }
 )
@@ -26,7 +26,7 @@ export const filterHouseRequest = createAsyncThunk(
 
          return response.data
       } catch (error) {
-         return rejectWithValue
+         return rejectWithValue(error.message)
       }
    }
 )

@@ -6,25 +6,22 @@ import { Header } from '../../../../../layout/header/Header'
 import { Footer } from '../../../../../layout/footer/Footer'
 import { Profile } from '../../../../../components/UI/profile/Profile'
 import { getAnnouncement } from '../../../../../store/user/profile/ProfileThunk'
-import { authActions } from '../../../../../store/auth/authSlice'
 import { Tabs } from '../../../../../components/UI/tabs/Tabs'
 
 export function UserProfile() {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const { region } = useParams()
-
+   const { region, houseId } = useParams()
    const { data } = useSelector((state) => state.getannouncement)
+   const { announcementDataById } = useSelector(
+      (state) => state.announcementGetById
+   )
 
-   const logOut = () => {
-      dispatch(authActions.logout())
-      navigate('/')
-   }
-
+   console.log(announcementDataById, 'announcementDataById profile')
    const userDetailProfile = {
-      photo: data.image,
-      email: data.contact,
-      fullName: data.name,
+      photo: announcementDataById.image,
+      email: announcementDataById.email,
+      fullName: announcementDataById.fullName,
    }
 
    useEffect(() => {
@@ -44,7 +41,10 @@ export function UserProfile() {
             >
                {region} /
             </button>
-            <button type="button" onClick={() => navigate(-1)}>
+            <button
+               type="button"
+               onClick={() => navigate(`/main/${region}/region/${houseId}`)}
+            >
                Hotel
             </button>
             <p> / Profile</p>
@@ -52,17 +52,13 @@ export function UserProfile() {
          <p className="profile">Profile</p>
          <ProfileContainer>
             <ProfileContainerTabs>
-               <Profile
-                  width="100%"
-                  height="30%"
-                  data={userDetailProfile}
-                  logOut={logOut}
-               />
+               <Profile roles="user" data={userDetailProfile} logout="no" />
             </ProfileContainerTabs>
             <ContainerTabs>
                <Tabs
-                  announcement={data.announcements}
+                  state="true"
                   bookings={data.bookings}
+                  announcement={data.announcements}
                />
             </ContainerTabs>
          </ProfileContainer>

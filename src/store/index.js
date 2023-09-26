@@ -8,11 +8,11 @@ import { paymentSlice } from './user/payment/PaymentSlice'
 import { DarkModeSlice } from './dark-mode/DarkModeSlice'
 import { ModalSlice } from './ModalSlice'
 import { favoriteSlice } from './user/favorite/FavoriteSlice'
-// import { getAnnouncementByIdSlice } from './getAnnouncement/GetAnnouncementByIdSlice'
 import { announcementsSlice } from './innerPage/InnerPageSlice'
 import { feedbackSlice } from './user/feedback/feedbackSlice'
 import { uploadSlice } from './Upload'
 import { adminSlice } from './admin/AdminSlice'
+import { getAnnouncementByIdSlice } from './admin/users/getAnnouncement/AnnouncementByIdSlice'
 
 export const store = configureStore({
    reducer: {
@@ -25,7 +25,7 @@ export const store = configureStore({
       [paymentSlice.name]: paymentSlice.reducer,
       [DarkModeSlice.name]: DarkModeSlice.reducer,
       [ModalSlice.name]: ModalSlice.reducer,
-      // [getAnnouncementByIdSlice.name]: getAnnouncementByIdSlice.reducer,
+      [getAnnouncementByIdSlice.name]: getAnnouncementByIdSlice.reducer,
       [favoriteSlice.name]: favoriteSlice.reducer,
       [announcementsSlice.name]: announcementsSlice.reducer,
       [feedbackSlice.name]: feedbackSlice.reducer,

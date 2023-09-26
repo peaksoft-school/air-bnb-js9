@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material'
 import { useDispatch } from 'react-redux'
-import { toastSnackbar } from '../../snackbar/Snackbar'
-import { postFavoriteInCard } from '../../../../store/user/search/searchThunk'
+// import { toastSnackbar } from '../../snackbar/Snackbar'
+import {
+   getAllCards,
+   postFavoriteInCard,
+} from '../../../../store/user/search/searchThunk'
 import { UserCardItem } from './UserCardItem'
 
-export function Cards({ data }) {
+export function Cards({ data, cardParams }) {
    const [currentImages, setCurrentImages] = useState(
       Array.isArray(data) ? Array(data.length).fill(0) : []
    )
    const [dataa, setData] = useState([])
    const dispatch = useDispatch()
-   const { toastType } = toastSnackbar()
+   // const { toastType } = toastSnackbar()
 
    useEffect(() => {
       setData(
@@ -52,9 +55,11 @@ export function Cards({ data }) {
    }
 
    const postFavorite = (id) => {
-      dispatch(postFavoriteInCard({ id, toastType }))
+      console.log(id, 'favorite id')
+      dispatch(postFavoriteInCard({ id, cardParams }))
+      dispatch(getAllCards(cardParams))
    }
-
+   console.log(data, 'data in card ')
    return (
       <Container>
          <MainContainer>

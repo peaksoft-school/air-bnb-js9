@@ -1,5 +1,4 @@
 import * as React from 'react'
-// import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -13,6 +12,10 @@ export default function DateePicker({
    values,
    shouldDisableDate,
 }) {
+   // console.log(value, 'value')
+   // console.log(setValue, 'setValue')
+   // console.log(values, 'values')
+   // console.log(shouldDisableDate, 'shouldDisableDate')
    return (
       <LocalizationProvider dateAdapter={AdapterDayjs}>
          <DemoContainer components={['DatePicker']}>

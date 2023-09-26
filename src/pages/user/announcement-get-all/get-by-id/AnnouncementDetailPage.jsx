@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { styled } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,14 +11,15 @@ import { Payment } from '../../../../components/payment/Payment'
 import { Footer } from '../../../../layout/footer/Footer'
 import { RatingChart } from '../../../../components/UI/rating/RatingChart'
 import { LeaveFeedback } from '../../../../components/leave-feedback/LeaveFeeadback'
-import { getByIdRequest } from '../../../../store/anouncement/AnouncementThunk'
 import {
    countRatingGetByIdRequest,
    feedbackGetByIdRequest,
 } from '../../../../store/user/feedback/feedbackThunk'
+import { getByIdRequest } from '../../../../store/anouncement/AnouncementThunk'
+
 import { uploadActions } from '../../../../store/Upload'
 
-export function AnnouncementDetailPage() {
+export function AnnouncementDetailPage({ navigateRoute }) {
    const [state, setState] = useState(false)
    const [openModal, setOpenModal] = useState(false)
    const [showFullFeedback, setShowFullFeedback] = useState(false)
@@ -28,17 +29,16 @@ export function AnnouncementDetailPage() {
    const { feedbackDataById, countRatingDataById } = useSelector(
       (state) => state.feedback
    )
-   console.log(countRatingDataById, 'countRatingDataById')
-   const { houseId, region } = useParams()
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const { id } = announcementDataById
+   const { region, houseId } = useParams()
+   const { id, booked } = announcementDataById
 
    useEffect(() => {
-      dispatch(feedbackGetByIdRequest(id))
+      dispatch(feedbackGetByIdRequest(houseId))
+      dispatch(countRatingGetByIdRequest(houseId))
       dispatch(getByIdRequest(houseId))
-      dispatch(countRatingGetByIdRequest())
-   }, [dispatch, id, houseId])
+   }, [dispatch, houseId])
 
    const toggleFeedback = () => {
       if (feedbackDataById.length <= 3) {
@@ -57,7 +57,6 @@ export function AnnouncementDetailPage() {
    const toggle = () => {
       setState((prev) => !prev)
    }
-   const { booked } = announcementDataById
 
    const announcementImages = announcementDataById.images?.map((item) => item)
    const images = Array.isArray(announcementImages)
@@ -72,15 +71,25 @@ export function AnnouncementDetailPage() {
       <>
          <Header login="false" />
          <Container>
-            <ContainerNavigate>
-               <button type="button" onClick={() => navigate('/main')}>
-                  Main /
-               </button>
-               <button type="button" onClick={() => navigate(-1)}>
-                  {region}
-               </button>
-               <p> / Hotel</p>
-            </ContainerNavigate>
+            {navigateRoute === 'region' ? (
+               <ContainerNavigate>
+                  <button type="button" onClick={() => navigate('/main')}>
+                     Main /
+                  </button>
+                  <button type="button" onClick={() => navigate(-1)}>
+                     {region}
+                  </button>
+                  <p> / Hotel</p>
+               </ContainerNavigate>
+            ) : (
+               <ContainerNavigate>
+                  <button type="button" onClick={() => navigate('/main')}>
+                     Main
+                  </button>
+                  <p> / Hotel</p>
+               </ContainerNavigate>
+            )}
+
             <HotelInfo>
                <p>Name</p>
                <HotelImgAndNameOfHotel>
@@ -123,24 +132,27 @@ export function AnnouncementDetailPage() {
                            ? feedbackDataById.length > 3 && 'Show less'
                            : feedbackDataById.length > 3 && 'Show more'}
                      </ShowFullFeedbackText>
-                     {booked ? (
+                     {/* {booked ? (
                         <ButtonForFeedback
                            onClick={leaveFeedbackHandler}
                            style={{ width: '39.375rem', marginTop: '2.5rem' }}
                         >
                            leave feedback
                         </ButtonForFeedback>
-                     ) : null}
+                     ) : null} */}
                   </div>
                   <div>
                      <RatingChart
-                        // countRatingDataById={countRatingDataById}
-                        // starValue={countRatingDataById.averageRating}
-                        starValue="6"
+                        countRatingDataById={countRatingDataById}
+                        starValue={countRatingDataById.averageRating}
+                        // starValue="6"
                      />
-                     <ButtonForFeedback onClick={leaveFeedbackHandler}>
-                        leave feedback
-                     </ButtonForFeedback>
+                     {booked ? (
+                        <ButtonForFeedback onClick={leaveFeedbackHandler}>
+                           leave feedback
+                        </ButtonForFeedback>
+                     ) : null}
+
                      {openModal && (
                         <LeaveFeedback
                            onClick={dispatch(uploadActions.resetImages())}
@@ -189,7 +201,7 @@ const ContainerNavigate = styled('div')(() => ({
       cursor: 'pointer',
    },
 }))
-const HotelInfo = styled('p')(() => ({
+const HotelInfo = styled('div')(() => ({
    marginTop: '2.5rem',
    p: {
       color: '#000',

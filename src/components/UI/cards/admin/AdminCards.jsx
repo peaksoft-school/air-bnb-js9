@@ -1,6 +1,7 @@
 import { styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { ModalProfile } from '../../../../pages/user/announcement-get-all/get-by-id/profile/ModalProfile'
+// import { ModalProfile } from '../../../../pages/user
+// /announcement-get-all/get-by-id/profile/ModalProfile'
 import { ModalNameHotel } from '../../name-hotel/ModalNameHotel'
 import { toastSnackbar } from '../../snackbar/Snackbar'
 import { CardItem } from './CardItem'
@@ -25,9 +26,8 @@ export function AdminCards({
    const [itemId, setItemId] = useState('')
    const [dataa, setData] = useState([])
    const [id, setId] = useState(null)
-   const [idAllHousing, setIdAllHousing] = useState('')
-   const [openAllHouseModal, setOpenAllHouseModal] = useState(false)
    const { toastType } = toastSnackbar()
+
    useEffect(() => {
       setData(data?.map((item) => ({ ...item, open: false })))
       setCurrentImages(data?.map(() => 0))
@@ -80,31 +80,12 @@ export function AdminCards({
       }
    }
 
-   const openModalAllHousing = (itemId) => {
-      data?.map((item) => {
-         if (item.id === itemId) {
-            setIdAllHousing(item)
-            return item
-         }
-         return item
-      })
-      setOpenAllHouseModal(true)
-   }
-
    const open = Boolean(currentEl)
    const idd = open ? 'simple-popover' : undefined
 
    return (
       <Container padding={padding}>
          <div className="block">
-            {openAllHouseModal ? (
-               <ModalProfile
-                  data={idAllHousing}
-                  itemId={idAllHousing.id}
-                  setModalVisible={setOpenAllHouseModal}
-                  handleMenuClose={closeMeatBallsHeandler}
-               />
-            ) : null}
             <ModalNameHotel
                openModal={openModal}
                openModalHandler={openModalHandler}
@@ -134,7 +115,6 @@ export function AdminCards({
                      handleNextImage={handleNextImage}
                      removeAllHousing={removeAllHousing}
                      openModalHandler={openModalHandler}
-                     openModalAllHousing={openModalAllHousing}
                      closeMeatBallsHeandler={closeMeatBallsHeandler}
                   />
                ))

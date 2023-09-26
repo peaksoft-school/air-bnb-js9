@@ -1,10 +1,16 @@
 import React from 'react'
-import { NavLink, useLocation, useParams } from 'react-router-dom'
-import { styled } from '@mui/material'
+import {
+   NavLink,
+   Route,
+   Routes,
+   useLocation,
+   useParams,
+} from 'react-router-dom'
 import { useSelector } from 'react-redux'
-// import { OnModeration } from './OnModeration'
-// import { Bookings } from './Bookings'
-// import { MyAnnouncement } from './MyAnnouncement'
+import { styled } from '@mui/material'
+import { OnModeration } from './OnModeration'
+import { Bookings } from './Bookings'
+import { MyAnnouncement } from './MyAnnouncement'
 
 export function Tabs({ state, showButtonHandler, closeButtonHandler }) {
    const { data } = useSelector((state) => state.getannouncement)
@@ -14,57 +20,89 @@ export function Tabs({ state, showButtonHandler, closeButtonHandler }) {
 
    const location = useLocation()
    const { userId, region, houseId } = useParams()
-   console.log(userId, 'userId')
+
    return state === 'true' ? (
       <div>
          <StyleHead>
-            <StyleLink
-               to={`/main/${region}/region/${houseId}/profile/bookings`}
-            >
-               <h3>Bookings ({BookingLength})</h3>
-            </StyleLink>
             {BookingLength === 0 ? (
-               <StyleLink to="bookings">
+               <StyleLink
+                  to="bookings"
+                  active={
+                     location.pathname ===
+                     `/main/${region}/region/${houseId}/profile/bookings`
+                        ? 'true'
+                        : 'false'
+                  }
+               >
                   <h3>Bookings </h3>
                </StyleLink>
             ) : (
-               <StyleLink to="bookings">
+               <StyleLink
+                  to="bookings"
+                  active={
+                     location.pathname ===
+                     `/main/${region}/region/${houseId}/profile/bookings`
+                        ? 'true'
+                        : 'false'
+                  }
+               >
                   <h3>Bookings ({BookingLength})</h3>
                </StyleLink>
             )}
 
             {announcementLength === 0 ? (
-               <StyleLink to="my-announcement">
+               <StyleLink
+                  to="my-announcement"
+                  active={
+                     location.pathname ===
+                     `/main/${region}/region/${houseId}/profile/my-announcement`
+                        ? 'true'
+                        : 'false'
+                  }
+               >
                   <h3>My announcement</h3>
                </StyleLink>
             ) : (
-               <StyleLink to="my-announcement">
+               <StyleLink
+                  to="my-announcement"
+                  active={
+                     location.pathname ===
+                     `/main/${region}/region/${houseId}/profile/my-announcement`
+                        ? 'true'
+                        : 'false'
+                  }
+               >
                   <h3>My announcement ({announcementLength})</h3>
                </StyleLink>
             )}
 
             {moderationLength === 0 ? (
-               <StyleLink to="on-moderation">
+               <StyleLink
+                  to="on-moderation"
+                  active={
+                     location.pathname ===
+                     `/main/${region}/region/${houseId}/profile/on-moderation`
+                        ? 'true'
+                        : 'false'
+                  }
+               >
                   <h3>On moderation</h3>
                </StyleLink>
             ) : (
-               <StyleLink to="on-moderation">
+               <StyleLink
+                  to="on-moderation"
+                  active={
+                     location.pathname ===
+                     `/main/${region}/region/${houseId}/profile/on-moderation`
+                        ? 'true'
+                        : 'false'
+                  }
+               >
                   <h3>On moderation ({moderationLength})</h3>
                </StyleLink>
             )}
          </StyleHead>
 
-         {/* <Routes>
-            <Route
-               path="bookings"
-               element={<Bookings bookings={bookings} onChange="true" />}
-            />
-            <Route
-               path="my-announcement"
-               element={
-                  <MyAnnouncement announcement={announcement} select="true" />
-               }
-            />
          <Routes>
             <Route path="bookings" element={<Bookings />} />
             <Route path="my-announcement" element={<MyAnnouncement />} />
@@ -73,19 +111,19 @@ export function Tabs({ state, showButtonHandler, closeButtonHandler }) {
                path="/on-moderation"
                element={<OnModeration moderation={data.moderations} />}
             />
-         </Routes> */}
+         </Routes>
       </div>
    ) : (
       <div>
          <StyleHead>
             <StyleLink
                active={
-                  location.pathname === `/admin/users/${userId}/booking`
+                  location.pathname === `/admin/users/${userId}/bookings`
                      ? 'true'
                      : 'false'
                }
                onClick={closeButtonHandler}
-               to="booking"
+               to="bookings"
             >
                <h3>Bookings</h3>
             </StyleLink>
@@ -106,8 +144,7 @@ export function Tabs({ state, showButtonHandler, closeButtonHandler }) {
    )
 }
 const StyleHead = styled('div')(() => ({
-   width: '96.5%',
-   // width: '95%',
+   width: '95%',
    height: '4.25vh',
    borderBottom: '1px solid #C4C4C4',
    display: 'flex',
@@ -117,12 +154,8 @@ const StyleHead = styled('div')(() => ({
    // marginBottom: '2rem',
 }))
 
-// const StyleLink = styled(NavLink)(({ active }) => ({
-//    color: active === 'true' ? ' #000' : '#6C6C6C',
-// }))
-
 const StyleLink = styled(NavLink)(({ active, isActive }) => ({
-   color: active === 'true' ? '2px solid #000' : '#6C6C6C',
+   color: active === 'true' ? ' #000' : '#6C6C6C',
    fontFamily: 'Inter',
    fontSize: '1.125rem',
    fontStyle: 'normal',

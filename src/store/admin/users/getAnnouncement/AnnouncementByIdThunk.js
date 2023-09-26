@@ -9,6 +9,7 @@ export const getAnnouncementByIdHandler = createAsyncThunk(
          const response = await axiosInstance.get(
             `/api/admin/getByIdAnnouncements?announcementId=${id}`
          )
+         console.log(response.data, 'userGetById')
 
          return response.data
       } catch (error) {
@@ -24,7 +25,7 @@ export const getAnnouncementFeedbacks = createAsyncThunk(
 
       try {
          const response = await axiosInstance.get(`/api/feedbacks/${id}`)
-         console.log('response: ', response)
+         console.log('response: feedback ', response.data)
 
          return response.data
       } catch (error) {

@@ -1,15 +1,15 @@
 import { styled } from '@mui/material'
 import React, { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Header } from '../../layout/header/Header'
+import { useNavigate } from 'react-router-dom'
 import { Footer } from '../../layout/footer/Footer'
-import { Profile } from '../UI/profile/Profile'
-import { getAnnouncement } from '../../store/user/profile/ProfileThunk'
+import { Header } from '../../layout/header/Header'
 import { authActions } from '../../store/auth/authSlice'
-import { Tabs } from '../UI/tabs/Tabs'
+import { getAnnouncement } from '../../store/user/profile/ProfileThunk'
+import { Profile } from '../UI/profile/Profile'
+import { MyProfileTabs } from './MyProfileTabs'
 
-export function UserProfile() {
+export function MyProfile() {
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
@@ -29,31 +29,21 @@ export function UserProfile() {
    useEffect(() => {
       dispatch(getAnnouncement())
    }, [])
-
    return (
       <MainContainer>
          <Header profile="true" />
 
          <ProfileContainer>
             <Navigation>
-               <NavStyle onClick={() => navigate('/')}>Main /</NavStyle>
-               <NavStyle onClick={() => navigate('/hotel')}>Hotel /</NavStyle>
-               <NavStyle onClick={() => navigate('/naryn')}>Naryn /</NavStyle>
-               <ProfileStyle onClick={() => navigate(`/Profile`)}>
-                  Profile
-               </ProfileStyle>
+               <NavStyle onClick={() => navigate('/main')}>Main </NavStyle>
+               <ProfileStyle>/ My Profile</ProfileStyle>
             </Navigation>
             <div className="tabs">
-               <ProfileContainerTabs>
-                  <Profile
-                     width="100%"
-                     height="30%"
-                     data={userDetailProfile}
-                     logOut={logOut}
-                  />
-               </ProfileContainerTabs>
+               {/* <ProfileContainerTabs> */}
+               <Profile roles="user" data={userDetailProfile} logOut={logOut} />
+               {/* </ProfileContainerTabs> */}
                <ContainerTabs>
-                  <Tabs state="true" />
+                  <MyProfileTabs state="true" />
                </ContainerTabs>
             </div>
          </ProfileContainer>
@@ -63,16 +53,18 @@ export function UserProfile() {
 }
 
 const ProfileContainer = styled('div')`
-   padding-top: 2rem;
    width: 100%;
+   min-height: 100vh;
+   padding-top: 2rem;
    gap: 3rem;
    display: flex;
    flex-direction: column;
-   justify-content: center;
-
+   background: #f7f7f7;
    .tabs {
       display: flex;
       justify-content: space-between;
+      aligin-items: flex-start;
+      padding: 0 0 0 6rem;
    }
 `
 
@@ -80,18 +72,13 @@ const ContainerTabs = styled('div')`
    width: 65%;
    height: auto;
 `
-const ProfileContainerTabs = styled('div')`
-   height: 1100px;
-   width: 25%;
-   margin-left: 6rem;
-`
 
 const Navigation = styled('div')`
    width: 200px;
    margin-top: 5rem;
-   display: flex;
    margin-left: 6rem;
-   justify-content: space-around;
+   display: flex;
+   gap: 0.38rem;
 `
 
 const MainContainer = styled('div')`
@@ -104,11 +91,12 @@ const ProfileStyle = styled('p')`
    font-size: 0.875rem;
    font-weight: 400;
 `
-const NavStyle = styled(Link)`
+const NavStyle = styled('p')`
    color: var(--tertiary-light-gray, #c4c4c4);
    font-family: Inter;
    font-size: 0.875rem;
    font-style: normal;
    font-weight: 400;
    line-height: normal;
+   cursor: pointer;
 `

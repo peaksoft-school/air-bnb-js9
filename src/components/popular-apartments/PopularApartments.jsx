@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { styled as MUistyled } from '@mui/material'
 import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 import { Location } from '../../assets/icons'
 import { MySlider } from './Slide'
 import { axiosInstance } from '../../config/axiosInstance'
@@ -12,7 +14,6 @@ export default function PopularApartments({ state, func }) {
    const [lastestData, setLastestData] = useState({})
    const { darkMode } = useSelector((state) => state.darkMode)
 
-   console.log(apartmentData, 'apartmentData')
    console.log(lastestData, 'lastestData')
 
    const getPopularApartment = async () => {
@@ -43,15 +44,34 @@ export default function PopularApartments({ state, func }) {
       getLastest()
    }, [])
 
+   useEffect(() => {
+      AOS.init({
+         duration: 1500,
+         easing: 'ease-in-out',
+         once: false,
+      })
+   }, [])
+
    const conditionDarkMode = darkMode
       ? 'linear-gradient(262deg, rgba(152,152,152,1) 15%, rgba(0,0,0,1) 100%)'
       : '#fff'
 
    const dark = darkMode ? '#fff' : '#000'
+
+   const firstImage =
+      apartmentData.images && apartmentData.images.length > 0
+         ? apartmentData.images[0]
+         : null
+
+   const latestImage =
+      lastestData.images && lastestData.images.length > 0
+         ? lastestData.images[0]
+         : null
+
    return (
       <Container state={state} conditionDarkMode={conditionDarkMode}>
          <PopularApart>
-            <Popular dark={dark} state={state}>
+            <Popular dark={dark} state={state} data-aos="fade-right">
                {state ? 'THE LASTEST' : 'POPULAR APARTMENTS'}
             </Popular>
             <StyledNavlinkView
@@ -60,6 +80,7 @@ export default function PopularApartments({ state, func }) {
                style={{ marginRight: '7rem', marginBottom: '2rem' }}
                to={state === 'true' ? '/main/desc/region' : '/main/asc/region'}
                onClick={func}
+               data-aos="fade-left"
             >
                View all
             </StyledNavlinkView>
@@ -67,27 +88,36 @@ export default function PopularApartments({ state, func }) {
          <div>
             <BlockHouse>
                <ImageHouse
-                  src={state ? lastestData.images : apartmentData.images}
+                  src={state ? latestImage : firstImage}
                   alt={apartmentData.title}
+                  data-aos="flip-left"
                />
                <BlockText>
-                  <SpaOtel dark={dark} state={state}>
+                  <SpaOtel dark={dark} state={state} data-aos="fade-down-right">
                      {state ? lastestData.title : apartmentData.title}
                   </SpaOtel>
-                  <BlockAskaLara dark={dark} state={state}>
+                  <BlockAskaLara dark={dark} state={state} data-aos="fade-down">
                      {state
                         ? lastestData.description
                         : apartmentData.description}
                   </BlockAskaLara>
-                  <StyledNavlink dark={dark} state={state}>
-                     <Location />
-                     {state ? lastestData.address : apartmentData.address},{' '}
-                     {/* {state ? lastestData.province : apartmentData.province}  */}
-                  </StyledNavlink>
-                  <StyledNavlinkView
-                     to={`/main/region/by-id/:${apartmentData.id}`}
+                  <StyledNavlink
                      dark={dark}
                      state={state}
+                     data-aos="fade-up-right"
+                  >
+                     <Location />
+                     {state ? lastestData.address : apartmentData.address}
+                  </StyledNavlink>
+                  <StyledNavlinkView
+                     to={
+                        state === 'true'
+                           ? `/main/${lastestData.id}/the-lastest`
+                           : `/main/${apartmentData.id}/popular-apartment`
+                     }
+                     dark={dark}
+                     state={state}
+                     data-aos="fade-down-left"
                   >
                      Read more
                   </StyledNavlinkView>

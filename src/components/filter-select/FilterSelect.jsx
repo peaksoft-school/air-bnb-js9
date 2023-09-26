@@ -13,28 +13,38 @@ export function FilterSelect({
    selectedRegion,
    region,
 }) {
-   const populars = region === 'Popular' ? region : null
-   const regionsSelect = region === 'Popular' ? null : region
+   console.log(region, 'REGION')
+   const populars = region === 'Popular' ? 'Populars' : null
+   const theLatest = region === 'The lastest' ? 'The lastest' : null
+   const houseSelect = region === 'House' ? 'House' : null
+   const regionsSelect =
+      region === 'CHUI' ||
+      region === 'BATKEN' ||
+      region === 'JALAL_ABAD' ||
+      region === 'NARYN' ||
+      region === 'ISSYK_KUL' ||
+      region === 'TALAS' ||
+      region === 'BISHKEK' ||
+      region === 'OSH'
+         ? region
+         : null
 
-   const selectValue =
-      selectedPopular ||
-      selectedHomeType ||
-      selectedPrice ||
-      selectedRegion === ''
-         ? null
-         : selectedPopular ||
-           selectedHomeType ||
-           selectedPrice ||
-           selectedRegion
+   const defaultValuePopular = selectedPopular === '' ? null : selectedPopular
+   const valuesPopular =
+      defaultValuePopular === undefined ? null : selectedPopular
 
-   const valuesIn =
-      selectValue === undefined
-         ? null
-         : selectedPopular ||
-           selectedHomeType ||
-           selectedPrice ||
-           selectedRegion
-   console.log(valuesIn, 'valuesIn')
+   const defaultValueRegions = selectedRegion === '' ? null : selectedRegion
+   const valuesRegions =
+      defaultValueRegions === undefined ? null : selectedRegion
+
+   const defaultValueHouseType =
+      selectedHomeType === '' ? null : selectedHomeType
+   const valuesHouseType =
+      defaultValueHouseType === undefined ? null : selectedHomeType
+
+   const defaultValuePrice = selectedPrice === '' ? null : selectedPrice
+   const valuesPrice = defaultValuePrice === undefined ? null : selectedPrice
+
    console.log(populars, 'populars')
    console.log(regionsSelect, 'regionsSelect')
    return (
@@ -44,8 +54,8 @@ export function FilterSelect({
                labelName="Sort by region:"
                data={regions}
                onChange={onChangeRegions}
-               defaultValue={regionsSelect}
-               value={valuesIn || regionsSelect}
+               defaultValue={regionsSelect || valuesRegions}
+               value={regionsSelect || valuesRegions}
             />
          </div>
          <div>
@@ -53,8 +63,8 @@ export function FilterSelect({
                labelName="Sort by popularity:"
                data={popular}
                onChange={onChangePopular}
-               defaultValue={populars}
-               value={valuesIn || populars}
+               defaultValue={populars || theLatest || valuesPopular}
+               value={populars || theLatest || valuesPopular}
             />
          </div>
          <div>
@@ -62,6 +72,8 @@ export function FilterSelect({
                labelName="Filter by home type:"
                data={homeType}
                onChange={onChangeHomeType}
+               defaultValue={houseSelect || valuesHouseType}
+               value={houseSelect || valuesHouseType}
             />
          </div>
          <div>
@@ -69,6 +81,8 @@ export function FilterSelect({
                labelName="Filter by price:"
                data={userPrice}
                onChange={onChangePrice}
+               defaultValue={valuesPrice}
+               value={valuesPrice}
             />
          </div>
       </Container>

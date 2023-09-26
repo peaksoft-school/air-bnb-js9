@@ -23,7 +23,7 @@ import { authActions } from '../../store/auth/authSlice'
 import Modal from '../../components/UI/modal/Modal'
 import { DarkModeActions } from '../../store/dark-mode/DarkModeSlice'
 
-export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
+export function Header({ login, notFound, favoriteLenght, favorite }) {
    const { isAuthorization, email } = useSelector((state) => state.auth)
    const { darkMode } = useSelector((state) => state.darkMode)
    const [userLogin, setUserLogin] = useState(false)
@@ -33,9 +33,23 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
    const [isChecked, setIsChecked] = useState(false)
    const [searchText, setSearchText] = useState('')
    const [searchedValue] = useDebounce(searchText, 1000)
-   const [scrollPosition, setScrollPosition] = useState(0)
    const [showFavorite, setShowFavorite] = useState(false)
    const [location, setLocation] = useState(null)
+   const [scrollPosition, setScrollPosition] = useState(0)
+
+   const headerHeight = 5.5
+   const threshold = 100
+   useEffect(() => {
+      const handleScroll = () => {
+         const currentPosition = window.scrollY
+         setScrollPosition(currentPosition)
+         setShowFavorite(currentPosition > threshold)
+      }
+      window.addEventListener('scroll', handleScroll)
+      return () => {
+         window.removeEventListener('scroll', handleScroll)
+      }
+   }, [])
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
@@ -72,23 +86,6 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
          }
       }
    }, [location, searchedValue, isChecked])
-
-   const headerHeight = 5.5
-   const threshold = 100
-
-   useEffect(() => {
-      const handleScroll = () => {
-         const currentPosition = window.scrollY
-         setScrollPosition(currentPosition)
-         setShowFavorite(currentPosition > threshold)
-      }
-
-      window.addEventListener('scroll', handleScroll)
-
-      return () => {
-         window.removeEventListener('scroll', handleScroll)
-      }
-   }, [])
 
    const loginHandler = () => {
       setUserLogin((prev) => !prev)
@@ -127,9 +124,7 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
    const handleCheckboxChange = (event) => {
       setIsChecked(event.target.checked)
    }
-   const navProfile = () => {
-      navigate('/Profile/my-announcement')
-   }
+
    const open = Boolean(currentEl)
    const idd = open ? 'simple-popover' : undefined
 
@@ -180,7 +175,7 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                         </StyleLink>
                         {showFavorite && (
                            <StyledFavorite to="/main/favotite">
-                              FAVORITE(0)
+                              FAVORITE({favoriteLenght})
                            </StyledFavorite>
                         )}
                         <LogOut>
@@ -191,7 +186,10 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                            >
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
-                           <SelectionIcon onClick={handleMenuOpen} />
+                           <SelectionIcon
+                              onClick={handleMenuOpen}
+                              style={{ cursor: 'pointer' }}
+                           />
                            <MeatBalls
                               anchorEl={currentEl}
                               open={open}
@@ -202,14 +200,15 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                               width="11.25rem"
                               height=" 5.5rem"
                            >
-                              <MenuItem onClick={() => navigate('/Prifile')}>
+                              <MenuItem
+                                 onClick={() =>
+                                    navigate('/main/my-profile/my-announcement')
+                                 }
+                              >
                                  My profile
                               </MenuItem>
                               <MenuItem onClick={logoutHnadler}>
-                                 log out{' '}
-                              </MenuItem>
-                              <MenuItem onClick={navProfile}>
-                                 My profile
+                                 Log out{' '}
                               </MenuItem>
                            </MeatBalls>
                         </LogOut>
@@ -251,37 +250,46 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                </div>
 
                <SearchDiv>
-                  {login === 'false' ? (
+                  {isAuthorization ? null : (
                      <StyleLink login={login} to="/main/AddAnouncementForm">
                         leave an ad
                      </StyleLink>
-                  ) : null}
+                  )}
                   <div className="blockCheckbox">
-                     <ChecboxStyled
-                        type="checkbox"
-                        id="search"
-                        checked={isChecked}
-                        onChange={handleCheckboxChange}
+                     <div className="labels">
+                        {' '}
+                        <ChecboxStyled
+                           type="checkbox"
+                           id="search"
+                           checked={isChecked}
+                           onChange={handleCheckboxChange}
+                        />
+                        <StyledLabel htmlFor="search">
+                           Search nearby
+                        </StyledLabel>
+                     </div>
+                     <Input
+                        type="search"
+                        width="30rem"
+                        size="small"
+                        value={searchText}
+                        placeholder="Search"
+                        onChange={onChangeRegions}
+                        InputProps={{
+                           startAdornment: (
+                              <InputAdornment position="start">
+                                 <SearchIcon />
+                              </InputAdornment>
+                           ),
+                        }}
                      />
-                     <StyledLabel htmlFor="search">Search nearby</StyledLabel>
                   </div>
-                  <Input
-                     type="search"
-                     width="30rem"
-                     size="small"
-                     value={searchText}
-                     placeholder="Search"
-                     onChange={onChangeRegions}
-                     InputProps={{
-                        startAdornment: (
-                           <InputAdornment position="start">
-                              <SearchIcon />
-                           </InputAdornment>
-                        ),
-                     }}
-                  />
                   <Button
-                     onClick={openModalHandler}
+                     onClick={
+                        isAuthorization
+                           ? () => navigate('/main/AddAnouncementForm')
+                           : openModalHandler
+                     }
                      variant="contained"
                      width="296px"
                      padding="10px 16px"
@@ -300,32 +308,37 @@ export function Header({ login, profile, notFound, favoriteLenght, favorite }) {
                   )}
                   {isAuthorization ? (
                      <FavoriteDiv>
-                        {/* <StyleLink>leave an ad</StyleLink> */}
                         <LogOut>
                            <Avatar sx={{ bgcolor: '#0298D9' }}>
                               {userRoles.ADMIN ? email[0].toUpperCase() : 'A'}
                            </Avatar>
-                           <SelectionIcon onClick={handleMenuOpen} />
+                           <SelectionIcon
+                              onClick={handleMenuOpen}
+                              style={{ cursor: 'pointer' }}
+                           />
 
-                           {profile === 'true' ? (
-                              <MeatBalls
-                                 anchorEl={currentEl}
-                                 open={open}
-                                 close={closeMeatBallsHeandler}
-                                 id={idd}
-                                 propsVertical="bottom"
-                                 propsHorizontal="left"
-                                 width="11.25rem"
-                                 height=" 5.5rem"
+                           <MeatBalls
+                              anchorEl={currentEl}
+                              open={open}
+                              close={closeMeatBallsHeandler}
+                              id={idd}
+                              propsVertical="bottom"
+                              propsHorizontal="left"
+                              width="11.25rem"
+                              height=" 5.5rem"
+                              margin="0.8rem 10px 0 0"
+                           >
+                              <MenuItem
+                                 onClick={() =>
+                                    navigate('/main/my-profile/my-announcement')
+                                 }
                               >
-                                 <MenuItem onClick={() => navigate('/Prifile')}>
-                                    My profile
-                                 </MenuItem>
-                                 <MenuItem onClick={logoutHnadler}>
-                                    log out{' '}
-                                 </MenuItem>
-                              </MeatBalls>
-                           ) : null}
+                                 My profile
+                              </MenuItem>
+                              <MenuItem onClick={logoutHnadler}>
+                                 Log out{' '}
+                              </MenuItem>
+                           </MeatBalls>
                         </LogOut>
                      </FavoriteDiv>
                   ) : null}
@@ -361,7 +374,6 @@ const StyleHeader = styled('header')((props) => ({
    alignItems: 'center',
    padding: '1rem 6.25rem',
    backdropFilter: props.darkMode ? 'blur(3px)' : '',
-   // background: props.darkMode ? 'rgba(0,0,0,0.3)' : '',
    background:
       props.scrollPosition > props.threshold ? 'rgba(0,0,0,0.6)' : null,
    position: 'fixed',
@@ -418,10 +430,16 @@ const SearchDiv = styled('div')(() => ({
    alignItems: 'center',
    gap: '1.87rem',
    '.blockCheckbox': {
-      width: '18vw',
+      width: '38vw',
       display: 'flex',
+      justifyContent: 'flex-end',
       alignItems: 'center',
-      gap: '0.5rem',
+      gap: '1.87rem',
+      '.labels': {
+         display: 'flex',
+         alignItems: 'center',
+         gap: '0.5rem',
+      },
    },
 }))
 const ChecboxStyled = styled('input')(() => ({

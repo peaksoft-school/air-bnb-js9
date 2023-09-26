@@ -10,6 +10,7 @@ import {
 } from '../../../../assets/icons/index'
 import { Button } from '../../button/Button'
 import { ButtonIcon } from '../../IconButton/IconButton'
+import { iconNew } from '../../../../utils/helpers'
 
 export function UserCardItem({
    // page,
@@ -36,6 +37,11 @@ export function UserCardItem({
             onMouseEnter={() => setOpenButton(true)}
             onMouseLeave={() => setOpenButton(false)}
          >
+            {item.card && (
+               <ImageNew>
+                  <img src={iconNew} alt="#" />
+               </ImageNew>
+            )}
             {openButton === true && item.images.images?.length > 1 && (
                <ArrowContainer>
                   <StyledArrowleftIcon onClick={() => handlePrevImage(index)} />
@@ -136,6 +142,20 @@ const ContainerInformation = styled('div')(() => ({
    },
 }))
 
+const ImageNew = styled('div')(() => ({
+   width: '100%',
+   height: '50%',
+   position: 'absolute',
+   display: 'flex',
+   justifyContent: 'flex-end',
+   alignItems: 'flex-start',
+   padding: '0 0.4rem 0 0 ',
+   img: {
+      width: '45px',
+      height: '45px',
+      borderRadius: '100%',
+   },
+}))
 const ContainerPrice = styled('div')(() => ({
    width: '100%',
    display: 'flex',
@@ -226,6 +246,20 @@ const MapContainer = styled('div')(({ status, darkMode }) => ({
    '&:hover': {
       opacity: 1,
       boxShadow: '1px -2px 19px -5px rgba(34, 60, 80, 0.37)',
+   },
+   animationName: 'slideInRight',
+   animationDuration: '2s',
+
+   '@keyframes slideInRight': {
+      ' 0%': {
+         opacity: 0,
+         transform: ' translate3d(100%, 0, 0)',
+         visibility: 'visible',
+      },
+      '100%': {
+         opacity: 1,
+         transform: 'none',
+      },
    },
 }))
 

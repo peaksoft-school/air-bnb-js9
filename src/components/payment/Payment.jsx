@@ -73,7 +73,7 @@ export function Payment({
          ) : (
             <ContainerPayment>
                <ContainerDay styles="day">
-                  <p>${price}</p>/ <p className="day">day</p>
+                  <p>${price}/</p> <p className="day">day</p>
                </ContainerDay>
                <DatePickerStyle>
                   <BlockDatePicker>
@@ -90,7 +90,6 @@ export function Payment({
                   color="#F7F7F7"
                   width=" 28.375rem"
                   variant="contained"
-                  marginTop="2.63rem"
                   fontSize=" 0.875rem"
                   bgColor=" #DD8A08"
                   borderRadius="0.125rem"
@@ -150,7 +149,7 @@ export const ContainerDay = styled('div')(({ styles }) => ({
    justifyContent: 'center',
    alignItems: 'center',
    borderBottom: '1px solid #C4C4C4',
-   paddingBottom: '1.25rem',
+   // paddingBottom: '1.25rem',
 
    '.day': {
       color: styles === 'day' ? '#6C6C6C' : '#000',
@@ -174,7 +173,6 @@ export const BlockDatePicker = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'flex-start',
-   gap: '1.06rem',
    paddingTop: '1.25rem',
 
    '.check': {

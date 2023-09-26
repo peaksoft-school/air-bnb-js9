@@ -1,7 +1,8 @@
 import { Checkbox, InputAdornment, styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// eslint-disable-next-line import/no-extraneous-dependencies
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 import { useDebounce } from 'use-debounce'
 import mainBackground from '../../assets/images/MainBackground.png'
 import { Header } from '../../layout/header/Header'
@@ -20,6 +21,14 @@ export function MainPage() {
    const { search } = useSelector((state) => state.global)
    const dispatch = useDispatch()
    const [searchedValue] = useDebounce(searchText, 1000)
+
+   useEffect(() => {
+      AOS.init({
+         duration: 1500,
+         easing: 'ease-in-out',
+         once: false,
+      })
+   }, [])
 
    function getUserLocation() {
       if ('geolocation' in navigator) {

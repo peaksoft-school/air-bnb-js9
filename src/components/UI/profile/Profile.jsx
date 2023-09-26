@@ -1,9 +1,9 @@
 import { Avatar, styled } from '@mui/material'
 import React from 'react'
 
-export function Profile({ data, logOut, ...props }) {
+export function Profile({ data, logOut, roles, logout, ...props }) {
    return (
-      <Container {...props}>
+      <Container {...props} roles={roles}>
          <StyledAvatar
             sx={{ bgcolor: '#266BD3' }}
             alt="photo"
@@ -24,7 +24,7 @@ export function Profile({ data, logOut, ...props }) {
             >
                <p>Name:</p>
                <p>Contact:</p>
-               {logOut && <LogOut onClick={logOut}>Log out</LogOut>}
+               {logout === 'yes' && <LogOut onClick={logOut}>Log out</LogOut>}
             </NameAndContactBlock>
             <NameAndContactBlock
                textAlign="left"
@@ -38,9 +38,11 @@ export function Profile({ data, logOut, ...props }) {
    )
 }
 
-const Container = styled('div')((props) => ({
-   width: props.width || '34.4167vw',
-   height: props.height || '20.9167%',
+const Container = styled('div')(({ roles }) => ({
+   width: roles === 'user' ? ' 23.25rem' : '25.8125rem',
+   height: roles === 'user' ? '17.8125rem' : '15.6875rem',
+   padding:
+      roles === 'user' ? '2.37rem 2.44rem 2.38rem 2.38rem' : '2.37rem 3.69rem ',
    borderRadius: '1rem',
    border: '0.0625rem solid var(--tertiary-light-gray, #c4c4c4)',
    display: 'flex',
@@ -48,8 +50,8 @@ const Container = styled('div')((props) => ({
    justifyContent: 'center',
    alignItems: 'center',
    marginTop: '.625rem',
-   paddingTop: props.paddingTop || '2.37rem',
-   paddingBottom: props.paddingBottom || '3rem',
+   // paddingTop: props.paddingTop || '2.37rem',
+   // paddingBottom: props.paddingBottom || '3rem',
 }))
 
 const StyledAvatar = styled(Avatar)(() => ({
@@ -67,6 +69,7 @@ const UserInfo = styled('div')(() => ({
 const NameAndContactBlock = styled('div')((props) => ({
    display: 'flex',
    flexDirection: 'column',
+   alignItems: 'flex-start',
    gap: '0.94rem',
    cursor: 'pointer',
    width: props.width,

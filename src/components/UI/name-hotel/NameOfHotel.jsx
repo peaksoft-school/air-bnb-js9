@@ -26,6 +26,7 @@ export function NameOfHotel({
    const navigate = useNavigate()
    const [editModalIsOpen, setEditModalIsOpen] = useState(false)
    const [blockedArr, setBlockedArr] = useState(null)
+   const [deleteModal, setDeleteModal] = useState(false)
    const { region, houseId } = useParams()
    const { toastType } = toastSnackbar
 
@@ -34,6 +35,9 @@ export function NameOfHotel({
       navigate('/Profile/my-announcement/edit')
    }
 
+   const openDeleteModal = () => {
+      setDeleteModal((prev) => !prev)
+   }
    console.log('blockedArr:', blockedArr)
 
    const blockAnnouncementById = async (id) => {
@@ -55,10 +59,10 @@ export function NameOfHotel({
          const response = await axiosInstance.delete(`/api/announcements/${id}`)
          getAnnouncementByIdHandler()
          navigate(-1)
-         toastType('success', response.data.message)
+         toastType('success', 'deleted :)', response.data.message)
          return response.data
       } catch (error) {
-         toastType('error', error.message)
+         toastType('error', 'deleted :(', error.message)
       }
    }
 
@@ -73,14 +77,12 @@ export function NameOfHotel({
             openModalHandler={openModalHandler}
          />
          <ModalDelete
-            // openModal={deleteModal}
-            // openModalHandler={openDeleteModal}
+            openModal={deleteModal}
+            openModalHandler={openDeleteModal}
             dataById={dataById}
             deleteAnnouncement={deleteAnnouncementById}
          />
-         {/* <DescriptionContainer key={dataById?.id}>
-            <ButtonContainerOne>
-               <div>{dataById?.houseType} </div> */}
+
          <DescriptionContainer key={dataById?.id}>
             <ButtonContainerOne>
                <div>{dataById?.houseType}</div>
@@ -101,12 +103,12 @@ export function NameOfHotel({
                <div className="avatar" />
                {name === 'name' ? (
                   <NameBlock>
-                     <h4>{dataById.user?.fullName}</h4>
+                     <span>{dataById.user?.fullName}</span>
                      <p>{dataById.user?.email}</p>
                   </NameBlock>
                ) : (
                   <NameBlock to={`/main/${region}/region/${houseId}/profile`}>
-                     <h4>{dataById?.fullName}</h4>
+                     <span>{dataById?.fullName}</span>
                      <p>{dataById?.email}</p>
                   </NameBlock>
                )}
@@ -116,12 +118,12 @@ export function NameOfHotel({
                   <div className="avatar" />
                   {buttons === 'yes' ? (
                      <NameBlock>
-                        <h4>{dataById?.user?.fullName}</h4>
+                        <span>{dataById?.user?.fullName}</span>
                         <p>{dataById?.user?.email}</p>
                      </NameBlock>
                   ) : (
                      <NameBlock>
-                        <h4>{dataById?.fullName}</h4>
+                        <span>{dataById?.fullName}</span>
                         <p>{dataById?.email}</p>
                      </NameBlock>
                   )}
@@ -131,7 +133,11 @@ export function NameOfHotel({
          {buttons === 'yes' ? (
             <ContainerButtonTwo>
                <Button
-                  onClick={openModalHandler}
+                  onClick={
+                     pages === 'user'
+                        ? () => openDeleteModal()
+                        : () => openModalHandler()
+                  }
                   variant="contained"
                   width="12.25rem"
                   border-radius=" 0.125rem"
@@ -142,7 +148,7 @@ export function NameOfHotel({
                   font-size="0.875rem"
                   font-weight="500"
                >
-                  {pages ? 'DELETE' : 'reject'}
+                  {pages === 'user' ? 'DELETE' : 'reject'}
                </Button>
 
                {roles === 'user' ? (
@@ -177,7 +183,7 @@ export function NameOfHotel({
                      font-size="0.875rem"
                      font-weight="500"
                   >
-                     {pages ? 'block' : 'accept'}
+                     {pages === 'user' ? 'block' : 'accept'}
                   </Button>
                )}
             </ContainerButtonTwo>
@@ -212,7 +218,7 @@ const ButtonContainerOne = styled('div')(() => ({
 const DescriptionContainer = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
-   margin: '5.8rem 0 0 0 ',
+   margin: '0rem 0 0 0 ',
    '.description': {
       width: '33.875rem',
       color: 'var(--primary-black, #363636)',
@@ -268,7 +274,7 @@ const ProfileBlock = styled('div')(() => ({
 const NameBlock = styled(Link)(() => ({
    display: 'flex',
    flexDirection: 'column',
-   h4: {
+   span: {
       color: ' #000',
       fontFamily: 'Inter',
       fontSize: '1rem',

@@ -4,10 +4,10 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { HouseSlidDetail } from '../../components/UI/house-detail/HouseSlidDetail'
 import { NameOfHotel } from '../../components/UI/name-hotel/NameOfHotel'
-import { house, Hotel } from '../../utils/helpers'
+import { Hotel } from '../../utils/helpers'
 import Feedback from '../../components/UI/feedback/Feedback'
-import { Booked } from '../../components/UI/booked/Booked'
-import { Favorites } from '../../components/UI/favorites/Favorites'
+// import { Booked } from '../../components/UI/booked/Booked'
+// import { Favorites } from '../../components/UI/favorites/Favorites'
 import { getApplicationById } from '../../store/admin/application/ApplicationThunk'
 import {
    getAnnouncementByIdHandler,
@@ -30,8 +30,6 @@ export function AnnouncementAdminPage({
    setTitle,
    acceptHandler,
    rejectedHandler,
-   // AdminAnnouncementById,
-   params,
 }) {
    const [openModal, setOpenModal] = useState(false)
    const [openDelete, setOpenDelete] = useState(false)
@@ -40,16 +38,16 @@ export function AnnouncementAdminPage({
       applicationById,
       // , users
    } = useSelector((state) => state.admin)
-   const { announcement } = useSelector((state) => state.annByID)
-   const {
-      AdminAnnouncementById,
-      // , feedbacks
-   } = useSelector((state) => state.announcementById)
+   // const { announcement } = useSelector((state) => state.annByID)
+   const { AdminAnnouncementById, feedbacks } = useSelector(
+      (state) => state.announcementById
+   )
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const { announId } = useParams()
+   const { announId, cardId, id, userId } = useParams()
    const { toastType } = toastSnackbar()
-
+   console.log(AdminAnnouncementById, 'AdminAnnouncementById')
+   console.log(feedbacks, 'feedbacks')
    useEffect(() => {
       applicationById.map((item) => {
          return setDataById(item)
@@ -57,65 +55,20 @@ export function AnnouncementAdminPage({
    }, [applicationById])
 
    useEffect(() => {
-      dispatch(getApplicationById(params.cardId))
+      dispatch(getApplicationById(cardId))
    }, [dispatch])
 
    useEffect(() => {
-      dispatch(getAnnouncementByIdHandler(params.id))
-      dispatch(getAnnouncementFeedbacks(params.id))
+      dispatch(getAnnouncementByIdHandler(userId))
+      dispatch(getAnnouncementFeedbacks(id))
       dispatch(getByIdAnnouncement(announId))
    }, [dispatch])
-
-   const data = [
-      {
-         feedbackUserFullName: 'Barsbek Makhmatov',
-         comment:
-            'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-         rating: 2,
-         likeCount: 4,
-         disLikeCount: 2,
-         feedbackUserImage:
-            'https://ca.slack-edge.com/T023L1WBFLH-U04553S5F4Y-b3857864c0e6-512',
-         createdAt: '29-11-2023',
-         id: '1',
-      },
-      {
-         feedbackUserFullName: 'Beku Bekov',
-         comment:
-            'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-         rating: 3,
-         likeCount: 1,
-         disLikeCount: 5,
-         feedbackUserImage: '',
-         createdAt: '29-11-2023',
-         id: '2',
-      },
-
-      {
-         feedbackUserFullName: 'Aziret Aziretov',
-         comment:
-            'Great location, really pleasant and clean rooms, but the thing that makes this such a good place to stay are the staff. All of the people are incredibly helpful and generous with their time and advice. We travelled with two six year olds and lots of luggage and despite the stairs up to the elevator this was one of the nicest places we stayed in the four weeks w.',
-         rating: 4,
-         likeCount: 5,
-         disLikeCount: 3,
-         feedbackUserImage:
-            'https://ca.slack-edge.com/T023L1WBFLH-U03E00N1USF-0fc4b2f5d54e-512',
-         images: [
-            'https://www.diybunker.com/wp-content/uploads/2021/09/home-2-1024x751.jpg',
-            'https://foyr.com/learn/wp-content/uploads/2022/05/family-room-in-a-house-1024x683.jpg',
-            'https://images.livspace-cdn.com/plain/https://jumanji.livspace-cdn.com/magazine/wp-content/uploads/sites/3/2021/10/18115838/modern-house-design.jpg',
-            'https://archello.s3.eu-central-1.amazonaws.com/images/2020/06/20/Contemporary-House-Interior-Design-1.1592613106.9601.jpg',
-         ],
-         createdAt: '29-11-2023',
-         id: '3',
-      },
-   ]
 
    const openModalHandler = () => {
       setOpenDelete((prev) => !prev)
    }
    const rejectedCartd = () => {
-      rejectedHandler(params.cardId)
+      rejectedHandler(cardId)
       setOpenModal(false)
    }
 
@@ -141,15 +94,23 @@ export function AnnouncementAdminPage({
    const leaveFeedbackHandler = () => {
       setOpenModal((prev) => !prev)
    }
-   const applicationByIdImages = announcement.images?.map((item) => item.images)
-   const images = Array.isArray(applicationByIdImages)
-      ? announcement.images?.map((image, index) => ({
+
+   const images = Array.isArray(dataById.images?.images)
+      ? dataById.images.images?.map((image, index) => ({
            id: index + 1,
            original: image,
            thumbnail: image,
         }))
       : []
 
+   const imgaesUsers = Array.isArray(AdminAnnouncementById?.images)
+      ? AdminAnnouncementById.images?.map((image, index) => ({
+           id: index + 1,
+           original: image,
+           thumbnail: image,
+        }))
+      : []
+   console.log(imgaesUsers, 'imgaesUsers')
    return roles === 'admin' ? (
       <div>
          {pages === 'application' ? (
@@ -163,15 +124,7 @@ export function AnnouncementAdminPage({
                      >
                         Application
                      </button>
-                     /{' '}
-                     <p
-                        className="name"
-                        style={{
-                           marginLeft: '3rem',
-                        }}
-                     >
-                        Name
-                     </p>
+                     <p className="name">/ Name</p>
                   </Navigate>
                   <BlockMain>
                      <h2>Name</h2>
@@ -180,6 +133,7 @@ export function AnnouncementAdminPage({
                         <NameOfHotel
                            name="name"
                            buttons="yes"
+                           pages={pages}
                            title={title}
                            openModal={openModal}
                            dataById={dataById}
@@ -199,7 +153,7 @@ export function AnnouncementAdminPage({
                      <StyledLink to="/admin/users/">
                         Users
                         <StyledLink
-                           to={`/admin/users/${params.userId}/my-announcement`}
+                           to={`/admin/users/${userId}/my-announcement`}
                         >
                            / {AdminAnnouncementById.fullName} /{' '}
                         </StyledLink>
@@ -216,7 +170,7 @@ export function AnnouncementAdminPage({
                   <BlockMain>
                      <h2>Name</h2>
                      <Main>
-                        <HouseSlidDetail images={house} />
+                        <HouseSlidDetail images={imgaesUsers} />
                         <NameOfHotel
                            pages={pages}
                            buttons="yes"
@@ -230,7 +184,7 @@ export function AnnouncementAdminPage({
                   <h2>feedback</h2>
                   <ContainerFeetback>
                      <div>
-                        {data?.map((el) => (
+                        {feedbacks?.map((el) => (
                            <Feedback data={el} key={el.id} />
                         ))}
                      </div>
@@ -269,7 +223,7 @@ export function AnnouncementAdminPage({
                   <Main>
                      <HouseSlidDetail images={images} />
                      <NameOfHotel
-                        dataById={announcement}
+                        // dataById={announcement}
                         remove={removeAnnouncement}
                         buttons="yes"
                         pages
@@ -282,11 +236,11 @@ export function AnnouncementAdminPage({
                </BlockMain>
                <h2>Booked</h2>
                <BookedContainer>
-                  <Booked item={announcement} />
+                  {/* <Booked item={announcement} /> */}
                </BookedContainer>
                <h2>In favorites</h2>
                <FavoritesContainer>
-                  <Favorites item={announcement} />
+                  {/* <Favorites item={announcement} /> */}
                </FavoritesContainer>
                <h2>feedback</h2>
                <ContainerFeetback>
@@ -295,7 +249,7 @@ export function AnnouncementAdminPage({
                         display: 'flex',
                      }}
                   >
-                     <Feedback data={announcement} announcementBooked />
+                     {/* <Feedback data={announcement} announcementBooked /> */}
                      <RatingChart marginLeft="4rem" width="27rem" />
                   </div>
                   <LeaveStyle>
@@ -327,23 +281,23 @@ const BreadcrumbsStyle = styled(Breadcrumbs)`
 `
 const Applications = styled('div')(() => ({
    width: '100%',
-   height: '100%',
-   padding: '5rem 0 4rem 0 ',
+   height: '88.8vh',
+   padding: '3rem 0 4rem 0 ',
    display: 'flex',
    flexDirection: 'column',
-   gap: '1.87rem',
    background: ' #F7F7F7',
    marginTop: '5.1rem',
 }))
 
 const Container = styled('div')(() => ({
    width: '100%',
-   height: '100%',
+   height: '100vh',
    display: 'flex',
    flexDirection: 'column',
    gap: '1.87rem',
    background: ' #F7F7F7',
-   marginTop: '6rem',
+   marginTop: '5rem',
+   padding: '2.88rem 0 0 0',
    h2: {
       color: ' #000',
       fontFamily: 'Inter',
@@ -361,8 +315,6 @@ const MainContainer = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
    gap: '2.5rem',
-   paddingTop: '4rem',
-   marginLeft: '3rem',
 }))
 
 const Main = styled('main')(() => ({

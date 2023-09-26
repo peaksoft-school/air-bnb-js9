@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick-theme.css'
 import { styled } from '@mui/material'
 
 const ImgStyle = styled('img')`
-   width: 17rem;
+   width: 16.25rem;
    height: 9rem;
    border-top-right-radius: 15px;
    border-top-left-radius: 15px;
@@ -13,7 +13,7 @@ const ImgStyle = styled('img')`
 
 const SliderContainer = styled('div')`
    position: relative;
-   width: 17rem;
+   width: 16.25rem;
    height: 9rem;
    padding: 0rem;
 `
@@ -49,12 +49,12 @@ const Arrow = styled('div')`
 
 const PrevArrow = styled(Arrow)`
    left: 0;
-   border: 4px solid red;
+   border: 4px solid;
 `
 
 const NextArrow = styled(Arrow)`
    right: 0;
-   border: 2px solid green;
+   border: 2px solid;
 `
 
 export function PhotoSlider({ id, images }) {
@@ -64,8 +64,7 @@ export function PhotoSlider({ id, images }) {
       dots: true,
       infinite: true,
       autoplay: true,
-
-      speed: 500,
+      speed: 300,
       slidesToShow: 1,
       slidesToScroll: 1,
       prevArrow: <PrevArrow>&#8249;</PrevArrow>,

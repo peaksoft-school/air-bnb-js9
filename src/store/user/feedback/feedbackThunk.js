@@ -32,9 +32,9 @@ export const feedbackGetByIdRequest = createAsyncThunk(
 
 export const countRatingGetByIdRequest = createAsyncThunk(
    'feedback/countRating',
-   async (_, { rejectWithValue }) => {
+   async (id, { rejectWithValue }) => {
       try {
-         const response = await getCountRatingById()
+         const response = await getCountRatingById(id)
          return response.data
       } catch (error) {
          return rejectWithValue(error)

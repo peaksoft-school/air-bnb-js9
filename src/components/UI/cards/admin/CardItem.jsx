@@ -31,7 +31,6 @@ export function CardItem({
    handlePrevImage,
    openModalHandler,
    removeAllHousing,
-   openModalAllHousing,
    closeMeatBallsHeandler,
 }) {
    const [openButton, setOpenButton] = useState(false)
@@ -51,7 +50,7 @@ export function CardItem({
          : `/admin/application/Name/${item.id}`
 
    return (
-      <MapContainer status="dat">
+      <MapContainer status="dat" key={item.id}>
          <ImageContainer
             onMouseEnter={() => setOpenButton(true)}
             onMouseLeave={() => setOpenButton(false)}
@@ -127,7 +126,7 @@ export function CardItem({
                      propsVertical="top"
                      propsHorizontal="left"
                      width={meatballs === 'application' ? '15%' : '10%'}
-                     height={meatballs === 'application' ? '16%' : '12%'}
+                     height={meatballs === 'application' ? '16%' : '6.5%'}
                   >
                      {meatballs === 'application' ? (
                         <>
@@ -146,11 +145,6 @@ export function CardItem({
                            {' '}
                            <MenuItem onClick={() => removeAllHousing(itemId)}>
                               Delete
-                           </MenuItem>
-                           <MenuItem
-                              onClick={() => openModalAllHousing(itemId)}
-                           >
-                              Update
                            </MenuItem>
                         </>
                      )}

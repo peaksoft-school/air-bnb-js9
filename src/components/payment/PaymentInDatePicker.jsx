@@ -110,7 +110,7 @@ export function PaymentInDarePicker({
          {booked ? (
             <ContainerPayment>
                <ContainerDay styles="day">
-                  <h4>${price}</h4>/ <h4 className="day">day</h4>
+                  <p>${price}</p>/ <p className="day">day</p>
                </ContainerDay>
 
                <DatePickerStyle>

@@ -23,6 +23,8 @@ function AnnouncementGetAll() {
    const [selectedPopular, setSelectedPopular] = useState('')
    const [selectedRegion, setSelectedRegion] = useState('')
    const [selectedPrice, setSelectedPrice] = useState('')
+
+   const [cardParams, setCardParams] = useState(null)
    // const [page, setPage] = useState(1)
    const dispatch = useDispatch()
    const navigate = useNavigate()
@@ -33,39 +35,35 @@ function AnnouncementGetAll() {
    // }
 
    // const findRegion = regions.find((item) => item.value === region)
-   const popularAndRegion = region === 'asc' ? 'Popular' : region
-   const lastestAndRegion = region === 'desc' ? 'The lastest' : popularAndRegion
-   console.log(lastestAndRegion, 'lastestAndRegion hello ')
+   const popularAndRegion = region === 'asc' ? 'Popular' : ''
+   const lastestAndRegion = region === 'desc' ? 'The lastest' : ''
+   const houseAndRegion = region === 'HOUSE' ? 'House' : ''
 
-   // console.log(popularAndRegion, 'popularApartment')
-   // console.log(lastestAndRegion, 'lastestAndRegion')
-   // lastest
-   // const lastestCondition =
-   //    lastestAndRegion === 'The lastest' ? lastestAndRegion : 'desc'
+   const regionCondition =
+      region === 'CHUI' ||
+      region === 'BATKEN' ||
+      region === 'JALAL_ABAD' ||
+      region === 'NARYN' ||
+      region === 'ISSYK_KUL' ||
+      region === 'TALAS' ||
+      region === 'BISHKEK' ||
+      region === 'OSH'
+         ? region
+         : ''
+   const ascCondition = region === 'asc' ? 'asc' : ''
+   const descCondition = region === 'desc' ? 'desc' : ''
+   const houseCondition = region === 'HOUSE' ? region : ''
 
-   // const regionLastest =
-   //    lastestAndRegion === 'The lastest' ? lastestAndRegion : ''
-   // popular
-   // const regionContition =
-   //    popularAndRegion === 'Popular' ? '' : popularAndRegion
-
-   // const popularCondition =
-   //    popularAndRegion === 'Popular' ? popularAndRegion : region
-   const popularCondition =
-      region === 'asc' || region === 'desc' ? region : region
-   console.log(popularCondition, 'popularCondition')
-   // console.log(regionLastest, 'regionLastest')
-   // console.log(lastestCondition, 'lastestCondition')
-   console.log(popularAndRegion, 'popularAndRegion')
    useEffect(() => {
       // if (region !== findRegion?.value) {
       const params = {
-         region: selectedRegion || popularCondition,
-         rating: selectedPopular || popularCondition,
-         houseType: selectedHomeType,
+         region: selectedRegion || regionCondition,
+         rating: selectedPopular || ascCondition || descCondition,
+         houseType: selectedHomeType || houseCondition,
          price: selectedPrice,
       }
       dispatch(getAllCards(params))
+      setCardParams(params)
       // }
       // dispatch(getPagination(page))
    }, [
@@ -116,11 +114,11 @@ function AnnouncementGetAll() {
       setSelectedPrice('')
    }
 
-   useEffect(() => {
-      if (selectedPopular === 'all') {
-         setSelectedPopular('')
-      }
-   }, [])
+   // useEffect(() => {
+   //    if (selectedPopular === 'all') {
+   //       setSelectedPopular('')
+   //    }
+   // }, [])
 
    // const totalItems = allPagination?.length
    // const totalPages = Math.ceil(totalItems / 16)
@@ -148,14 +146,18 @@ function AnnouncementGetAll() {
                <BreadCrumbs aria-label="breadcrumb" styledark={styledark}>
                   <StyleLink
                      styledark={styledark}
-                     href="/main"
                      onClick={() => navigate('/main')}
                   >
                      Main
                   </StyleLink>
                   <StyledTypography styledark={styledark} color="text.primary">
                      {selectedRegion === ''
-                        ? Object.values(popularAndRegion || lastestAndRegion)
+                        ? Object.values(
+                             popularAndRegion ||
+                                houseAndRegion ||
+                                lastestAndRegion ||
+                                regionCondition
+                          )
                         : selectedRegion}
                   </StyledTypography>
                </BreadCrumbs>
@@ -165,7 +167,12 @@ function AnnouncementGetAll() {
                <Region>
                   <ContainerRegion styledark={styledark}>
                      {selectedRegion === ''
-                        ? Object.values(popularAndRegion || lastestAndRegion)
+                        ? Object.values(
+                             popularAndRegion ||
+                                houseAndRegion ||
+                                lastestAndRegion ||
+                                regionCondition
+                          )
                         : selectedRegion}
                      ({todosLength})
                   </ContainerRegion>
@@ -177,11 +184,16 @@ function AnnouncementGetAll() {
                      onChangePopular={onChangePopular}
                      onChangeHomeType={onChangeHomeType}
                      onChangePrice={onChangePrice}
-                     region={popularAndRegion}
                      selectedRegion={selectedRegion}
                      selectedPopular={selectedPopular}
                      selectedHomeType={selectedHomeType}
                      selectedPrice={selectedPrice}
+                     region={
+                        popularAndRegion ||
+                        lastestAndRegion ||
+                        houseAndRegion ||
+                        regionCondition
+                     }
                   />
                </div>
             </FilterContainer>
@@ -227,7 +239,7 @@ function AnnouncementGetAll() {
                   <Skeleto />
                </div>
             ) : (
-               <Cards data={search} />
+               <Cards data={search} cardParams={cardParams} />
             )}
          </div>
          {/* <ContainerPagination>
@@ -266,9 +278,23 @@ const BreadCrumbs = styled(Breadcrumbs)(({ styledark }) => ({
 const FilterContainer = styled('div')({
    display: 'flex',
    justifyContent: 'space-between',
-   // flexWrap: 'wrap',
    marginLeft: '3.1rem',
    width: '90%',
+
+   animationName: 'fadeInLeft',
+   animationDuration: '1s',
+   animationFillMode: 'both',
+
+   '@keyframes fadeInLeft ': {
+      '0%': {
+         opacity: 0,
+         transform: 'translate3d(-100%, 0, 0)',
+      },
+      '100%': {
+         opacity: 1,
+         transform: 'none',
+      },
+   },
 })
 
 const ContainerSelect = styled('div')`

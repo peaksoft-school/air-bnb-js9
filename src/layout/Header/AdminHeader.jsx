@@ -22,7 +22,8 @@ export function AdminHeader() {
    }
 
    const logoutHandler = () => {
-      dispatch(authActions.logout(navigate))
+      dispatch(authActions.logout())
+      navigate('/main')
    }
 
    const open = Boolean(meatBalls)

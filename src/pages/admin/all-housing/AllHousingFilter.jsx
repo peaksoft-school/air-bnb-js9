@@ -12,10 +12,10 @@ import {
 
 export function AllHousingFilter() {
    const [filters, setFilters] = useState({
-      byBooked: 'all',
-      byPopular: 'all',
-      byHomeType: 'all',
-      byPrice: 'all',
+      byBooked: '',
+      byPopular: '',
+      byHomeType: '',
+      byPrice: '',
    })
    const [toggleStates, setToggleStates] = useState({
       stateBooked: false,
@@ -61,7 +61,10 @@ export function AllHousingFilter() {
          toggle: 'statePrice',
       },
    ]
-
+   console.log(byBooked, 'byBooked')
+   console.log(byHomeType, 'byHomeType')
+   console.log(byPopular, 'byPopular')
+   console.log(byPrice, 'byPrice')
    useEffect(() => {
       const params = {
          status: byBooked,

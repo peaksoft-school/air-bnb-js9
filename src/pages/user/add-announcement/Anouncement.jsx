@@ -176,15 +176,14 @@ export function AddAnouncementForm() {
                      <StyledLabel htmlFor="maxGuests" styledark={styledark}>
                         Max of Guests
                      </StyledLabel>
-                     <Input
+                     <InputPriceAndMaxGuest
                         {...register('maxGuests')}
                         size="small"
                         type="number"
-                        placeholder="    0"
-                        width="15.3125rem"
-                        height="2.4375rem"
+                        placeholder="0"
                         id="guest"
-                        padding="0 0 0.625rem 0"
+                        // padding="0 0 0.625rem 0"
+                        styledark={styledark}
                         error={!!errors.maxGuests}
                      />
                      <IsError>{errors.maxGuests?.message}</IsError>
@@ -193,14 +192,13 @@ export function AddAnouncementForm() {
                      <StyledLabel htmlFor="price" styledark={styledark}>
                         Price
                      </StyledLabel>
-                     <Input
+                     <InputPriceAndMaxGuest
                         {...register('price')}
                         size="small"
                         type="number"
-                        placeholder="    $ 0"
-                        width="15.3125rem"
-                        height="2.4375rem"
+                        placeholder="$ 0"
                         id="price"
+                        styledark={styledark}
                         error={!!errors.price}
                      />
                      <IsError>{errors.price?.message}</IsError>
@@ -504,6 +502,23 @@ const InputProvinceAndAddres = styled(Input)(({ styledark }) => ({
    },
 
    '#address::placeholder': {
+      color: styledark.color00,
+   },
+}))
+const InputPriceAndMaxGuest = styled(Input)(({ styledark }) => ({
+   width: '15.3125rem',
+   height: '2.6rem',
+   padding: '0 0 0.625rem 0',
+   border: styledark.border,
+   borderRadius: ' 0.125rem',
+
+   '&:foucused': {
+      backgroundColor: '#fff',
+   },
+   '#guest::placeholder': {
+      color: styledark.color00,
+   },
+   '#price::placeholder': {
       color: styledark.color00,
    },
 }))

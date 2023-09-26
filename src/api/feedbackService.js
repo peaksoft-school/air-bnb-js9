@@ -19,6 +19,6 @@ export const likeOrDislike = (feedbackId, likeOrDislike) => {
    )
 }
 
-export const getCountRatingById = (data) => {
-   return axiosInstance.get(`/api/feedbacks/countRating/34 `, data)
+export const getCountRatingById = (id) => {
+   return axiosInstance.get(`/api/feedbacks/countRating/${id} `)
 }

@@ -59,6 +59,7 @@ export function LeaveFeedback({ openModal, setOpenModal, announcementId }) {
       setUsersFeedback('')
       setFileNames([])
       setRatingValue('')
+      setOpenModal(false)
    }
 
    return (

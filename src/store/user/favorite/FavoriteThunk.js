@@ -9,7 +9,7 @@ export const getAllFavorites = createAsyncThunk(
 
          return response.data
       } catch (error) {
-         return rejectWithValue(error)
+         return rejectWithValue(error.message)
       }
    }
 )
@@ -26,7 +26,7 @@ export const postLike = createAsyncThunk(
          return response.data
       } catch (error) {
          toastType('error', 'favorite :(', 'nod like')
-         return rejectWithValue(error)
+         return rejectWithValue(error.message)
       }
    }
 )

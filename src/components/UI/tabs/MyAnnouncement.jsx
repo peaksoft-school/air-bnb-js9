@@ -16,7 +16,6 @@ export function MyAnnouncement() {
 
    const dispatch = useDispatch()
 
-   // console.log(announcement, 'announcement my announcement ')
    const changePriceHandler = (e) => {
       setSortPrice(e.target.value)
    }
@@ -33,7 +32,7 @@ export function MyAnnouncement() {
          price: sortPrice,
          rating: sortRating,
       }
-      if (sort || sortPrice || sortRating) {
+      if ((sort, sortPrice, sortRating)) {
          dispatch(filterHouseRequest(params))
       }
    }, [sortPrice, sortRating, sort, dispatch])
@@ -58,6 +57,20 @@ export function MyAnnouncement() {
    } else if (sortRating === 'LOW_TO_HIGH') {
       setSortRating('Popular')
    }
+
+   const ht = sort !== 'all' && sort !== ''
+   const rt = sortRating !== 'all' && sortRating !== ''
+   const pc = sortPrice !== 'all' && sortPrice !== ''
+
+   const defaultValuePopular = sortRating === '' ? null : sortRating
+   const valuesPopular = defaultValuePopular === undefined ? null : sortRating
+
+   const defaultValueHouseType = sort === '' ? null : sort
+   const valuesHouseType = defaultValueHouseType === undefined ? null : sort
+
+   const defaultValuePrice = sortPrice === '' ? null : sortPrice
+   const valuesPrice = defaultValuePrice === undefined ? null : sortPrice
+
    return (
       <div>
          {data?.announcements?.lenght === 0 ? (
@@ -67,30 +80,36 @@ export function MyAnnouncement() {
                <div className="block">
                   <SelectContainer>
                      <MuiSelect
-                        labelName="sort  house type"
+                        labelName="sort house type"
                         data={homeTypeProfile}
                         onChange={onChangeHomeType}
+                        defaultValue={valuesHouseType}
+                        value={valuesHouseType}
                      />
                      <MuiSelect
                         labelName="sort by price"
                         data={price}
                         onChange={changePriceHandler}
+                        defaultValue={valuesPrice}
+                        value={valuesPrice}
                      />
                      <MuiSelect
                         labelName="sort by rating"
                         data={popularProfile}
                         onChange={changeRatingHandler}
+                        defaultValue={valuesPopular}
+                        value={valuesPopular}
                      />
                   </SelectContainer>
                   <ContainerSelect>
-                     {sort && (
+                     {ht && (
                         <SelectStyle>
                            <DeleteIcon onClick={() => clearSort('houseType')} />
                            {sort}
                         </SelectStyle>
                      )}
 
-                     {sortPrice && (
+                     {pc && (
                         <SelectStyle>
                            <DeleteIcon onClick={() => clearSort('price')} />{' '}
                            {sortPrice === 'HIGH_TO_LOW'
@@ -98,13 +117,15 @@ export function MyAnnouncement() {
                               : 'LOW TO HIGH'}
                         </SelectStyle>
                      )}
-                     {sortRating && (
+
+                     {rt && (
                         <SelectStyle>
                            <DeleteIcon onClick={() => clearSort('rating')} />{' '}
                            {sortRating}
                         </SelectStyle>
                      )}
-                     {sort || sortPrice || sortRating ? (
+
+                     {ht || pc || rt ? (
                         <StyledMenuItem onClick={clearAllFilters}>
                            Clear all
                         </StyledMenuItem>
@@ -123,19 +144,6 @@ export function MyAnnouncement() {
                      })}
                   </ContainerCards>
                </div>
-
-               {/* : (
-               <div className="cards">
-                  <AdminCards
-                     image
-                     page="admin"
-                     toPath="true"
-                     imagesClick="click"
-                     data={announcement}
-                     justifyContent="start"
-                  />
-               </div>
-            )} */}
             </Container>
          )}
       </div>
@@ -157,7 +165,6 @@ const NoCard = styled('div')`
 
 const ContainerSelect = styled('div')`
    display: flex;
-   gap: 3rem;
    justify-content: start;
    gap: 0.94rem;
 `
@@ -171,12 +178,6 @@ const SelectContainer = styled('div')`
 const Container = styled('div')`
    padding: 3% 0px;
    width: 100%;
-   flex-wrap: wrap;
-   .cards {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-   }
    flex-direction: column;
    justify-content: start;
 `

@@ -32,17 +32,17 @@ export const getGlobalSearch = createAsyncThunk(
 
 export const postFavoriteInCard = createAsyncThunk(
    'global/postFavoriteInCard',
-   async ({ id, toastType, page }, { rejectWithValue, dispatch }) => {
+   async ({ id, cardParams }, { rejectWithValue, dispatch }) => {
       try {
+         console.log(id, 'favorite thunk')
          const response = await postFavorite(id)
 
          dispatch(getGlobalSearch())
-         dispatch(getPagination(page))
-         toastType('success', 'favorite :)', 'response like')
+         dispatch(getPagination())
+         dispatch(getAllCards(cardParams))
 
          return response.data.announcementResponses
       } catch (error) {
-         toastType('error', 'favorite :(', 'nod like')
          return rejectWithValue(error?.response.message)
       }
    }

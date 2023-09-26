@@ -28,8 +28,8 @@ export function MainRegion() {
       <GlobalConteiner darkMode={darkMode}>
          <MainContainer>
             <ContainerText darkMode={darkMode}>
-               <h3>Regions in kyrgystan </h3>
-               <p>
+               <h3 data-aos="fade-right">Regions in kyrgystan </h3>
+               <p data-aos="fade-right">
                   You can visit the site any day and be sure that you will find
                   everything for a great vacation.
                </p>
