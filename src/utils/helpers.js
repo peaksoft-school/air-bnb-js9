@@ -275,14 +275,14 @@ export const allHousingBooked = [
 
 export const allHousingPopular = [
    { id: 'option19', name: 'All', value: 'all' },
-   { id: 'option16', name: 'Popular', value: 'asc' },
-   { id: 'option17', name: 'The lastest', value: 'desc' },
+   { id: 'option16', name: 'Popular', value: 'Popular' },
+   { id: 'option17', name: 'The lastest', value: 'The lastest' },
 ]
 
 export const allPrice = [
    { id: 'option20', name: 'All', value: 'all' },
-   { id: 'option12', name: 'Low to high', value: 'asc' },
-   { id: 'option13', name: 'High to low', value: 'desc' },
+   { id: 'option12', name: 'Low to high', value: 'Low to high' },
+   { id: 'option13', name: 'High to low', value: 'High to low' },
 ]
 
 export const addRegions = [

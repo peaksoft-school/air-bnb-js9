@@ -128,6 +128,7 @@ export function Header({ login, notFound, favoriteLenght, favorite }) {
    const open = Boolean(currentEl)
    const idd = open ? 'simple-popover' : undefined
 
+   const favorites = favoriteLenght === undefined ? 0 : favoriteLenght
    return (
       <Container>
          {openModal ? (
@@ -175,7 +176,7 @@ export function Header({ login, notFound, favoriteLenght, favorite }) {
                         </StyleLink>
                         {showFavorite && (
                            <StyledFavorite to="/main/favotite">
-                              FAVORITE({favoriteLenght})
+                              FAVORITE({favorites})
                            </StyledFavorite>
                         )}
                         <LogOut>
@@ -303,7 +304,7 @@ export function Header({ login, notFound, favoriteLenght, favorite }) {
                   </Button>
                   {favorite === 'true' && (
                      <FavoriteStyle to="/main/favotite">
-                        Favorite({favoriteLenght})
+                        Favorite({favorites})
                      </FavoriteStyle>
                   )}
                   {isAuthorization ? (

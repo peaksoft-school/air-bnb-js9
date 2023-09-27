@@ -35,12 +35,14 @@ export function CardItem({
 }) {
    const [openButton, setOpenButton] = useState(false)
    const { userId } = useParams()
+   console.log(item, 'card item images')
+
    const conditionalImages = image
       ? item?.images[currentImages[index]]
       : item?.images?.images[currentImages[index]]
 
    const images =
-      item.images === 'object' && item.images[currentImages[index]] === 'string'
+      item?.images[currentImages[index]] === 'string'
          ? 'https://svgsilh.com/svg/158939.svg'
          : conditionalImages
 

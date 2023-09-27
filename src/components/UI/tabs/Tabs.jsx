@@ -106,11 +106,7 @@ export function Tabs({ state, showButtonHandler, closeButtonHandler }) {
          <Routes>
             <Route path="bookings" element={<Bookings />} />
             <Route path="my-announcement" element={<MyAnnouncement />} />
-
-            <Route
-               path="/on-moderation"
-               element={<OnModeration moderation={data.moderations} />}
-            />
+            <Route path="on-moderation" element={<OnModeration />} />
          </Routes>
       </div>
    ) : (
