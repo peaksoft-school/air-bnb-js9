@@ -21,7 +21,6 @@ export function Applications({
    const { applications, applicationsAll, loading } = useSelector(
       (state) => state.admin
    )
-   console.log(applications, 'applications')
 
    const dispatch = useDispatch()
 

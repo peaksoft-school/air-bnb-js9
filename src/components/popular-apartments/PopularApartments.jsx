@@ -14,8 +14,6 @@ export default function PopularApartments({ state, func }) {
    const [lastestData, setLastestData] = useState({})
    const { darkMode } = useSelector((state) => state.darkMode)
 
-   console.log(lastestData, 'lastestData')
-
    const getPopularApartment = async () => {
       try {
          const response = await axiosInstance.get(

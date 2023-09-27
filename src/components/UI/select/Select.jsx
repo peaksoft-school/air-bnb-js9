@@ -21,9 +21,6 @@ export function Select({
    placeholder,
    ...props
 }) {
-   console.log(defaultValue, 'defaultValue')
-   console.log(value, 'VALUE')
-
    return (
       <StyledFormControl sx={{ m: 0, minWidth: 271 }} {...props}>
          <StyledInputLabel id="filter-label" style={{ color: 'black' }}>

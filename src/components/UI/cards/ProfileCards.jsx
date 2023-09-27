@@ -322,7 +322,7 @@ const LocationCantainerStyle = styled('section')`
 `
 
 const ButtonsContainer = styled('section')`
-width:100%
+   width: 100%;
    display: flex;
    justify-content: center;
    gap: 2rem;

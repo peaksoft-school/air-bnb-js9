@@ -1,8 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
-import { getGlobalSearch, getAllCards } from './searchThunk'
-
-// import { getAllPagination, getPagination } from './getAllPaginationThunk'
+import { getGlobalSearch, getAllCards, getAllPagination } from './searchThunk'
 
 const initialState = {
    search: [],
@@ -43,12 +41,12 @@ export const getGlobalSearchSlice = createSlice({
          .addCase(getAllCards.rejected, (state) => {
             state.isLoading = false
          })
-      // .addCase(getPagination.fulfilled, (state, action) => {
-      //    state.search = action.payload
-      // })
-      // .addCase(getAllPagination.fulfilled, (state, action) => {
-      //    state.allPagination = action.payload
-      // })
+         // .addCase(getPagination.fulfilled, (state, action) => {
+         //    state.search = action.payload
+         // })
+         .addCase(getAllPagination.fulfilled, (state, action) => {
+            state.allPagination = action.payload
+         })
    },
 })
 

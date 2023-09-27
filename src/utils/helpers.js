@@ -23,8 +23,8 @@ export const regions = [
 
 export const popular = [
    { id: 'option34', name: 'All', value: 'all' },
-   { id: 'option8', name: 'Popular', value: 'desc' },
-   { id: 'option9', name: 'The latest', value: 'asc' },
+   { id: 'option8', name: 'Popular', value: 'Popular' },
+   { id: 'option9', name: 'The latest', value: 'The latest' },
 ]
 
 export const homeType = [
@@ -53,8 +53,8 @@ export const price = [
 
 export const userPrice = [
    { id: 'option34', name: 'All', value: 'all' },
-   { id: 'option12', name: 'Low to high', value: 'asc' },
-   { id: 'option13', name: 'High to low', value: 'desc' },
+   { id: 'option12', name: 'Low to high', value: 'Low to high' },
+   { id: 'option13', name: 'High to low', value: 'High to low' },
 ]
 
 export const popularHouse = [

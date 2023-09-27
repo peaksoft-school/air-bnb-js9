@@ -8,35 +8,34 @@ import { FilterSelect } from '../../../components/filter-select/FilterSelect'
 import { Cards } from '../../../components/UI/cards/user/Cards'
 import Skeleto from '../../../components/UI/cards/Skeleto'
 import { XIcon } from '../../../components/UI/icon/XIcon'
-import { getAllCards } from '../../../store/user/search/searchThunk'
-// import { Paginations } from '../../../components/UI/pagination/Pagination'
-// import {
-//    getAllPagination,
-//    getPagination,
-// } from '../../../store/user/search/getAllPaginationThunk'
-// import { regions } from '../../../utils/helpers'
+import {
+   getAllCards,
+   getAllPagination,
+} from '../../../store/user/search/searchThunk'
+import { Paginations } from '../../../components/UI/pagination/Pagination'
 
 function AnnouncementGetAll() {
-   const { search, isLoading } = useSelector((state) => state.global)
+   const { search, allPagination, isLoading } = useSelector(
+      (state) => state.global
+   )
    const { darkMode } = useSelector((state) => state.darkMode)
    const [selectedHomeType, setSelectedHomeType] = useState('')
    const [selectedPopular, setSelectedPopular] = useState('')
    const [selectedRegion, setSelectedRegion] = useState('')
    const [selectedPrice, setSelectedPrice] = useState('')
-
    const [cardParams, setCardParams] = useState(null)
-   // const [page, setPage] = useState(1)
+   const [page, setPage] = useState(1)
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const { region } = useParams()
 
-   // const pagePagination = (value) => {
-   //    setPage(value)
-   // }
+   const pagePagination = (value) => {
+      console.log(value, 'page value')
+      setPage(value)
+   }
 
-   // const findRegion = regions.find((item) => item.value === region)
-   const popularAndRegion = region === 'asc' ? 'Popular' : ''
-   const lastestAndRegion = region === 'desc' ? 'The lastest' : ''
+   const popularAndRegion = region === 'Popular' ? 'Popular' : ''
+   const lastestAndRegion = region === 'The lastest' ? 'The lastest' : ''
    const houseAndRegion = region === 'HOUSE' ? 'House' : ''
 
    const regionCondition =
@@ -50,32 +49,43 @@ function AnnouncementGetAll() {
       region === 'OSH'
          ? region
          : ''
-   const ascCondition = region === 'asc' ? 'asc' : ''
-   const descCondition = region === 'desc' ? 'desc' : ''
+   const ascCondition = region === 'asc' ? 'Popular' : ''
+   const descCondition = region === 'desc' ? 'The lastest' : ''
    const houseCondition = region === 'HOUSE' ? region : ''
 
+   const conditionSelectedRegion =
+      selectedRegion === 'all' ? '' : selectedRegion
+
+   const conditionSelectedPopular =
+      selectedPopular === 'all' ? '' : selectedPopular
+
+   const conditionSelectedHouseType =
+      selectedHomeType === 'all' ? '' : selectedHomeType
+
+   const conditionSelectedPrice = selectedPrice === 'all' ? '' : selectedPrice
    useEffect(() => {
-      // if (region !== findRegion?.value) {
       const params = {
-         region: selectedRegion || regionCondition,
-         rating: selectedPopular || ascCondition || descCondition,
-         houseType: selectedHomeType || houseCondition,
-         price: selectedPrice,
+         region: conditionSelectedRegion || regionCondition,
+         rating: conditionSelectedPopular || ascCondition || descCondition,
+         houseType: conditionSelectedHouseType || houseCondition,
+         price: conditionSelectedPrice,
+         currentPage: page,
+         pageSize: 16,
       }
       dispatch(getAllCards(params))
       setCardParams(params)
-      // }
-      // dispatch(getPagination(page))
    }, [
+      page,
       dispatch,
       selectedPrice,
       selectedRegion,
       selectedPopular,
       selectedHomeType,
    ])
-   // useEffect(() => {
-   //    dispatch(getAllPagination())
-   // }, [dispatch])
+
+   useEffect(() => {
+      dispatch(getAllPagination(page))
+   }, [page])
 
    const todosLength = search.length
 
@@ -114,15 +124,8 @@ function AnnouncementGetAll() {
       setSelectedPrice('')
    }
 
-   // useEffect(() => {
-   //    if (selectedPopular === 'all') {
-   //       setSelectedPopular('')
-   //    }
-   // }, [])
-
-   // const totalItems = allPagination?.length
-   // const totalPages = Math.ceil(totalItems / 16)
-
+   const totalItems = allPagination?.length
+   const totalPages = Math.ceil(totalItems / 1)
    const styledark = {
       color64: darkMode ? '#fff' : '#646464',
       color00: darkMode ? '#fff' : '#000',
@@ -209,8 +212,7 @@ function AnnouncementGetAll() {
                {pp && (
                   <SelectStyle>
                      <XIcon onClick={() => clearSort('popular')} />
-                     {(selectedPopular === 'asc' && 'The latest') ||
-                        (selectedPopular === 'desc' && 'Popular')}
+                     {selectedPopular}
                   </SelectStyle>
                )}
 
@@ -224,8 +226,7 @@ function AnnouncementGetAll() {
                {pr && (
                   <SelectStyle>
                      <XIcon onClick={() => clearSort('price')} />
-                     {(selectedPrice === 'asc' && 'Low to high') ||
-                        (selectedPrice === 'desc' && 'High to low')}
+                     {selectedPrice}
                   </SelectStyle>
                )}
 
@@ -242,9 +243,9 @@ function AnnouncementGetAll() {
                <Cards data={search} cardParams={cardParams} />
             )}
          </div>
-         {/* <ContainerPagination>
+         <ContainerPagination>
             <Paginations count={totalPages} pages={pagePagination} />
-         </ContainerPagination> */}
+         </ContainerPagination>
       </WrapperContainer>
    )
 }
@@ -255,13 +256,13 @@ const WrapperContainer = styled('div')(({ styledark }) => ({
    background: styledark.background,
 }))
 
-// const ContainerPagination = styled('div')(() => ({
-//    width: '100%',
-//    height: '10vh',
-//    display: 'flex',
-//    justifyContent: 'center',
-//    marginTop: '20px',
-// }))
+const ContainerPagination = styled('div')(() => ({
+   width: '100%',
+   height: '10vh',
+   display: 'flex',
+   justifyContent: 'center',
+   marginTop: '20px',
+}))
 
 const ContainerRegion = styled('div')(({ styledark }) => ({
    color: styledark.color00,
@@ -341,6 +342,7 @@ const SelectStyle = styled('div')(() => ({
 const StyleLink = styled(Link)(({ styledark }) => ({
    color: styledark.color64,
    textDecoration: 'none',
+   cursor: 'pointer',
 }))
 const StyledTypography = styled('p')(({ styledark }) => ({
    color: styledark.color00,
