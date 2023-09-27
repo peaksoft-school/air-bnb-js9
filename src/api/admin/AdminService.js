@@ -45,18 +45,10 @@ export const getBookingsRequest = (id) => {
 }
 
 //    all-housing
-export const getAllHousingRequest = ({ status, houseType, rating, price }) => {
-   if (
-      status === 'all' ||
-      houseType === 'all' ||
-      rating === 'all' ||
-      price === 'all'
-   ) {
-      return axiosInstance.get(`/api/announcements/announcements-filter`)
-   }
-   return axiosInstance.get(
-      `/api/announcements/announcements-filter?status=${status}&houseType=${houseType}&rating=${rating}&price=${price}`
-   )
+export const getAllHousingRequest = (params) => {
+   return axiosInstance.get('/api/announcements/announcements-filter', {
+      params,
+   })
 }
 
 export const deleteAllHousingRequest = (id) => {

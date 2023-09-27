@@ -2,7 +2,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { styled } from '@mui/material'
 import React, { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Input } from '../../../components/UI/input/Input'
 import { Select } from '../../../components/UI/select/Select'
@@ -22,7 +22,6 @@ export function AddAnouncementForm() {
    const { isAuthorization } = useSelector((state) => state.auth)
    const { darkMode } = useSelector((state) => state.darkMode)
    const { images } = useSelector((state) => state.uploadImg)
-   const { region, houseId } = useParams()
    const { toastType } = toastSnackbar()
    const navigate = useNavigate()
 
@@ -30,7 +29,7 @@ export function AddAnouncementForm() {
       try {
          const response = await addAnouncement(payload)
          toastType('success', 'Ad added successfully!', response.data.message)
-         navigate(`/main/${region}/region/${houseId}/profile`)
+         navigate(`/main/my-profile/my-announcement`)
          return response.data
       } catch (error) {
          if (!isAuthorization) {
@@ -182,7 +181,6 @@ export function AddAnouncementForm() {
                         type="number"
                         placeholder="0"
                         id="guest"
-                        // padding="0 0 0.625rem 0"
                         styledark={styledark}
                         error={!!errors.maxGuests}
                      />

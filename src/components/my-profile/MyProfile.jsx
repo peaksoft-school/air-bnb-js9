@@ -43,7 +43,7 @@ export function MyProfile() {
                <Profile roles="user" data={userDetailProfile} logOut={logOut} />
                {/* </ProfileContainerTabs> */}
                <ContainerTabs>
-                  <MyProfileTabs state="true" />
+                  <MyProfileTabs />
                </ContainerTabs>
             </div>
          </ProfileContainer>

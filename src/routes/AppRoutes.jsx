@@ -26,7 +26,7 @@ export function AppRoutes() {
    const [userIdState, setUserIdState] = useState('')
    // const { announcements, bookings } = useSelector((state) => state.admin)
    const role = useSelector((state) => state.auth.role)
-   const { data } = useSelector((state) => state.getannouncement)
+   // const { data } = useSelector((state) => state.getannouncement)
 
    const isAllowed = (roles) => {
       return roles.includes(role)
@@ -62,6 +62,11 @@ export function AppRoutes() {
             path="/main/:houseId/popular-house"
             element={<AnnouncementDetailPage navigateRoute="hotel" />}
          />
+         {/* The lastest */}
+         <Route
+            path="/main/:houseId/the-lastest"
+            element={<AnnouncementDetailPage navigateRoute="hotel" />}
+         />
 
          {/* get all cards */}
          <Route path="/main/:region/region" element={<AnnouncementGetAll />} />
@@ -74,29 +79,18 @@ export function AppRoutes() {
             path="/main/:region/region/:houseId/profile/"
             element={<UserProfile />}
          >
-            <Route path="bookings" element={<Bookings onChange="true" />} />
-            <Route
-               path="my-announcement"
-               element={<MyAnnouncement select="true" />}
-            />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="my-announcement" element={<MyAnnouncement />} />
             <Route path="on-moderation" element={<OnModeration />} />
          </Route>
-
+         <Route
+            path="/main/:region/region/:houseId/profile/my-announcement/name/:announId"
+            element={<AnnouncementAdminPage roles="user" />}
+         />
          {/* my profile */}
          <Route path="/main/my-profile" element={<MyProfile />}>
-            <Route
-               path="bookings"
-               element={<Bookings bookings={data.bookings} onChange="true" />}
-            />
-            <Route
-               path="my-announcement"
-               element={
-                  <MyAnnouncement
-                     announcement={data.announcements}
-                     select="true"
-                  />
-               }
-            />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="my-announcement" element={<MyAnnouncement />} />
             <Route path="on-moderation" element={<OnModeration />} />
          </Route>
 

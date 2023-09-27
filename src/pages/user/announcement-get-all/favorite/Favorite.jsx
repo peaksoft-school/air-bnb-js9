@@ -47,7 +47,7 @@ export function Favorite() {
                   <NavigateStyle onClick={() => navigate('/main')}>
                      Main
                   </NavigateStyle>
-                  <p onClick={() => navigate('/favorites')}>/ Favorite</p>
+                  <p>/ Favorite</p>
                </LinkContainer>
                <h2>Favorite({favoriteLenght})</h2>
             </NavContainer>

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumbs, styled, Typography } from '@mui/material'
+import { styled } from '@mui/material'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { HouseSlidDetail } from '../../components/UI/house-detail/HouseSlidDetail'
 import { NameOfHotel } from '../../components/UI/name-hotel/NameOfHotel'
-import { Hotel } from '../../utils/helpers'
+// import { Hotel } from '../../utils/helpers'
 import Feedback from '../../components/UI/feedback/Feedback'
-// import { Booked } from '../../components/UI/booked/Booked'
-// import { Favorites } from '../../components/UI/favorites/Favorites'
+import { Booked } from '../../components/UI/booked/Booked'
+import { Favorites } from '../../components/UI/favorites/Favorites'
 import { getApplicationById } from '../../store/admin/application/ApplicationThunk'
 import {
    getAnnouncementByIdHandler,
@@ -38,16 +38,15 @@ export function AnnouncementAdminPage({
       applicationById,
       // , users
    } = useSelector((state) => state.admin)
-   // const { announcement } = useSelector((state) => state.annByID)
+   const { announcement } = useSelector((state) => state.annByID)
    const { AdminAnnouncementById, feedbacks } = useSelector(
       (state) => state.announcementById
    )
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const { announId, cardId, id, userId } = useParams()
+   const { announId, region, cardId, userId, houseId } = useParams()
    const { toastType } = toastSnackbar()
-   console.log(AdminAnnouncementById, 'AdminAnnouncementById')
-   console.log(feedbacks, 'feedbacks')
+
    useEffect(() => {
       applicationById.map((item) => {
          return setDataById(item)
@@ -60,13 +59,14 @@ export function AnnouncementAdminPage({
 
    useEffect(() => {
       dispatch(getAnnouncementByIdHandler(userId))
-      dispatch(getAnnouncementFeedbacks(id))
+      dispatch(getAnnouncementFeedbacks(userId))
       dispatch(getByIdAnnouncement(announId))
    }, [dispatch])
 
    const openModalHandler = () => {
       setOpenDelete((prev) => !prev)
    }
+
    const rejectedCartd = () => {
       rejectedHandler(cardId)
       setOpenModal(false)
@@ -188,7 +188,7 @@ export function AnnouncementAdminPage({
                            <Feedback data={el} key={el.id} />
                         ))}
                      </div>
-                     {/* <RatingChart marginLeft="4rem" width="27rem" /> */}
+                     <RatingChart marginLeft="4rem" width="27rem" />
                   </ContainerFeetback>
                </MainContainer>
             </Container>
@@ -199,36 +199,52 @@ export function AnnouncementAdminPage({
          <Header />
          <Container>
             <MainContainer>
-               <div role="presentation">
-                  <BreadcrumbsStyle aria-label="breadcrumb">
-                     <StyledLink onClick={() => navigate('/')}>
-                        Main{' '}
-                     </StyledLink>
-                     <StyledLink>Naryn</StyledLink>
-                     <StyledLink>Hotel</StyledLink>
-                     <StyledLink onClick={() => navigate(-1)}>
-                        Profile
-                     </StyledLink>
-                     <Typography color="text.primary">Name</Typography>
-                  </BreadcrumbsStyle>
-               </div>
-               <BlockMain>
-                  <h2
-                     style={{
-                        marginLeft: '1.4rem',
-                     }}
+               <Navigate role="presentation">
+                  <button
+                     className="application"
+                     onClick={() => navigate('/main ')}
+                     type="button"
                   >
-                     Name
-                  </h2>
+                     Main
+                  </button>
+                  <button
+                     className="application"
+                     onClick={() => navigate(`/main/${region}/region`)}
+                     type="button"
+                  >
+                     / {region}
+                  </button>
+                  <button
+                     className="application"
+                     onClick={() =>
+                        navigate(`/main/${region}/region/${houseId}`)
+                     }
+                     type="button"
+                  >
+                     / Hotel
+                  </button>
+                  <button
+                     className="application"
+                     onClick={() =>
+                        navigate(`/main/${region}/region/${houseId}/profile`)
+                     }
+                     type="button"
+                  >
+                     / Profile
+                  </button>
+                  <p className="name">/ Name</p>
+               </Navigate>
+               <BlockMain>
+                  <h2>Name</h2>
                   <Main>
                      <HouseSlidDetail images={images} />
                      <NameOfHotel
-                        // dataById={announcement}
+                        dataById={announcement}
                         remove={removeAnnouncement}
                         buttons="yes"
                         pages
                         roles="user"
-                        hotel={Hotel}
+                        // hotel={Hotel}
                         openModal={openDelete}
                         openModalHandler={openModalHandler}
                      />
@@ -236,11 +252,11 @@ export function AnnouncementAdminPage({
                </BlockMain>
                <h2>Booked</h2>
                <BookedContainer>
-                  {/* <Booked item={announcement} /> */}
+                  <Booked item={announcement} />
                </BookedContainer>
                <h2>In favorites</h2>
                <FavoritesContainer>
-                  {/* <Favorites item={announcement} /> */}
+                  <Favorites item={announcement} />
                </FavoritesContainer>
                <h2>feedback</h2>
                <ContainerFeetback>
@@ -249,7 +265,7 @@ export function AnnouncementAdminPage({
                         display: 'flex',
                      }}
                   >
-                     {/* <Feedback data={announcement} announcementBooked /> */}
+                     <Feedback data={announcement} announcementBooked />
                      <RatingChart marginLeft="4rem" width="27rem" />
                   </div>
                   <LeaveStyle>
@@ -276,9 +292,7 @@ const LeaveStyle = styled('div')`
    width: 100%;
    margin-left: -99rem;
 `
-const BreadcrumbsStyle = styled(Breadcrumbs)`
-   margin-left: 1.3rem;
-`
+
 const Applications = styled('div')(() => ({
    width: '100%',
    height: '88.8vh',

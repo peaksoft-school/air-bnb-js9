@@ -1,11 +1,14 @@
 import React from 'react'
 import { styled } from '@mui/material'
+import { useSelector } from 'react-redux'
 import { ProfileCards } from '../cards/ProfileCards'
 
-export function OnModeration({ moderation }) {
+export function OnModeration() {
+   const { data } = useSelector((state) => state.getannouncement)
+
    return (
       <ModerationContainer>
-         {moderation?.map((item) => {
+         {data.moderations?.map((item) => {
             return (
                <div key={item.id}>
                   <ProfileCards data={item} announcement="true" />

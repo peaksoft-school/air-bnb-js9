@@ -61,16 +61,18 @@ export function AllHousingFilter() {
          toggle: 'statePrice',
       },
    ]
-   console.log(byBooked, 'byBooked')
-   console.log(byHomeType, 'byHomeType')
-   console.log(byPopular, 'byPopular')
-   console.log(byPrice, 'byPrice')
+
+   const conditionByBooked = byBooked === 'all' ? '' : byBooked
+   const conditionByHomeType = byHomeType === 'all' ? '' : byHomeType
+   const conditionByPopular = byPopular === 'all' ? '' : byPopular
+   const conditionByPrice = byPrice === 'all' ? '' : byPrice
+
    useEffect(() => {
       const params = {
-         status: byBooked,
-         houseType: byHomeType,
-         rating: byPopular,
-         price: byPrice,
+         status: conditionByBooked,
+         houseType: conditionByHomeType,
+         rating: conditionByPopular,
+         price: conditionByPrice,
       }
 
       dispatch(getAllHousing(params))
