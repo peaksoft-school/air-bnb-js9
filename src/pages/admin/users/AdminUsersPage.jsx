@@ -8,7 +8,7 @@ import { getAdminUsersCardsIdRequest } from '../../../api/adminUsersServise'
 import {
    getAdminUsersCardsId,
    getBookings,
-} from '../../../store/admin/users/UsersThunk'
+} from '../../../store/admin/users/usersThunk'
 import { AdminTabs } from '../../../components/UI/tabs/admin/AdminTabs'
 
 export function AdminUsersPage({ setUserIdState }) {

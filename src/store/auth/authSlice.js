@@ -37,7 +37,6 @@ export const authSlice = createSlice({
          state.isLoading = false
          state.token = ''
          state.email = ''
-
          return localStorage.clear()
       },
    },

@@ -5,7 +5,7 @@ import {
    getAdminApplicationAll,
    getApplicationById,
 } from './application/ApplicationThunk'
-import { getAdminUsersCardsId, getBookings } from './users/UsersThunk'
+import { getAdminUsersCardsId, getBookings } from './users/usersThunk'
 
 const initialState = {
    applications: [],

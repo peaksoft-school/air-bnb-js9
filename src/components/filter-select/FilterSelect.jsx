@@ -13,7 +13,6 @@ export function FilterSelect({
    selectedRegion,
    region,
 }) {
-   console.log(region, 'REGION')
    const populars = region === 'Popular' ? 'Populars' : null
    const theLatest = region === 'The lastest' ? 'The lastest' : null
    const houseSelect = region === 'House' ? 'House' : null
@@ -45,8 +44,6 @@ export function FilterSelect({
    const defaultValuePrice = selectedPrice === '' ? null : selectedPrice
    const valuesPrice = defaultValuePrice === undefined ? null : selectedPrice
 
-   console.log(populars, 'populars')
-   console.log(regionsSelect, 'regionsSelect')
    return (
       <Container>
          <div>
