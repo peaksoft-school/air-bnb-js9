@@ -13,16 +13,17 @@
       "ecmaVersion": "latest",
       "sourceType": "module"
    },
-   "plugins": ["react", "react-hooks"],
+   "plugins": ["react", "react-hooks", "prettier"],
    "rules": {
+      "jsx-a11y/click-events-have-key-events": "off",
+      "react/prop-types": "off",
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "react/jsx-props-no-spreading": "off",
       "react/react-in-jsx-scope": "off",
       "import/prefer-default-export": "off",
       "no-shadow": "off",
-      "react-hooks/exhaustive-deps": "off",
-      "react-hooks/rules-of-hooks": "error",
-      "react/function-component-definition": "off",
+      "no-param-reassign": "off",
+      "jsx-a11y/no-noninteractive-element-interactions": "off",
       "max-len": [
          "error",
          {

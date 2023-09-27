@@ -1,49 +1,87 @@
 {
-  "name": "air-bnb-js9",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "eslint": "^8.44.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "prettier": "^2.8.8"
-  }
+   "name": "air-bnb-js9",
+   "version": "0.1.0",
+   "private": true,
+   "dependencies": {
+      "@date-io/dayjs": "^2.16.0",
+      "@emotion/react": "^11.11.1",
+      "@emotion/styled": "^11.11.0",
+      "@firebase/app": "^0.9.15",
+      "@firebase/auth": "^1.1.0",
+      "@hookform/resolvers": "^3.1.1",
+      "@mui/icons-material": "^5.14.8",
+      "@mui/material": "^5.14.4",
+      "@mui/styled-engine-sc": "^5.12.0",
+      "@mui/x-date-pickers": "^6.9.2",
+      "@react-firebase/auth": "^0.2.10",
+      "@reduxjs/toolkit": "^1.9.5",
+      "@stripe/react-stripe-js": "^2.1.1",
+      "@stripe/stripe-js": "^1.54.1",
+      "aos": "^2.3.4",
+      "axios": "^1.4.0",
+      "body-parser": "^1.20.2",
+      "cors": "^2.8.5",
+      "dayjs": "^1.11.9",
+      "express": "^4.18.2",
+      "firebase": "^10.1.0",
+      "flowbite-react": "^0.5.0",
+      "formik": "^2.4.2",
+      "json-server": "^0.17.3",
+      "react": "^18.2.0",
+      "react-datepicker": "^4.15.0",
+      "react-dom": "^18.0.0",
+      "react-dropzone": "^14.2.3",
+      "react-geolocation": "^1.0.4",
+      "react-hook-form": "^7.45.2",
+      "react-image-gallery": "^1.2.12",
+      "react-redux": "^8.1.2",
+      "react-router-dom": "^6.15.0",
+      "react-scripts": "^5.0.1",
+      "react-slick": "^0.29.0",
+      "react-spinners": "^0.13.8",
+      "react-toastify": "^9.1.3",
+      "slick-carousel": "^1.8.1",
+      "stripe": "^13.2.0",
+      "styled-component": "^2.8.0",
+      "use-debounce": "^9.0.4",
+      "web-vitals": "^2.1.4",
+      "yup": "^1.2.0"
+   },
+   "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject"
+   },
+   "eslintConfig": {
+      "extends": [
+         "react-app",
+         "react-app/jest"
+      ]
+   },
+   "browserslist": {
+      "production": [
+         ">0.2%",
+         "not dead",
+         "not op_mini all"
+      ],
+      "development": [
+         "last 1 chrome version",
+         "last 1 firefox version",
+         "last 1 safari version"
+      ]
+   },
+   "devDependencies": {
+      "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+      "eslint": "^8.44.0",
+      "eslint-config-airbnb": "^19.0.4",
+      "eslint-config-prettier": "^8.8.0",
+      "eslint-plugin-import": "^2.27.5",
+      "eslint-plugin-jsx-a11y": "^6.7.1",
+      "eslint-plugin-prettier": "^4.2.1",
+      "eslint-plugin-react": "^7.32.2",
+      "eslint-plugin-react-hooks": "^4.6.0",
+      "json-server": "^0.17.3",
+      "prettier": "^2.8.8"
+   }
 }
